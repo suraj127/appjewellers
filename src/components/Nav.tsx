@@ -18,11 +18,12 @@ export function Nav() {
     let lastY = window.scrollY;
     const onScroll = () => {
       const currentY = window.scrollY;
-      setScrolled(currentY > 40);
-      if (currentY > lastY && currentY > 120) {
+      const isSubpage = window.location.pathname !== "/";
+      setScrolled(isSubpage || currentY > 140);
+      if (currentY > lastY && currentY > 220) {
         setVisible(false); // Hide bar on scroll down deep
       } else {
-        setVisible(true); // Show bar on scroll up or near top
+        setVisible(true); // Show bar on scroll up
       }
       lastY = currentY;
     };
@@ -88,15 +89,19 @@ export function Nav() {
               ))}
             </ul>
 
-            {/* CENTERED VIBRANT LOGO — ALWAYS VISIBLE */}
+            {/* CENTERED BRAND LOGO — REVEALS ONLY WHEN SCROLLED PAST HERO */}
             <a
               href="/"
-              className="flex items-center justify-center transition-transform duration-500 hover:scale-105 pointer-events-auto px-2"
+              className={`flex items-center justify-center transition-all duration-500 ease-in-out ${
+                scrolled
+                  ? "opacity-100 scale-100 translate-y-0 max-w-[160px] sm:max-w-[220px] pointer-events-auto px-2"
+                  : "opacity-0 scale-75 -translate-y-3 max-w-0 pointer-events-none overflow-hidden"
+              }`}
             >
               <img
                 src={logoImg}
                 alt="A.P.P. Jewellers Logo"
-                className="h-10 sm:h-14 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.5)] drop-shadow-[0_4px_12px_rgba(212,175,55,0.4)]"
+                className="h-9 sm:h-14 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.5)]"
               />
             </a>
 
