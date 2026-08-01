@@ -82,7 +82,7 @@ export function Collections() {
   const exclusiveItems = PRODUCTS.filter((p) => p.isExclusive);
 
   return (
-    <section id="collections" className="relative px-3 sm:px-6 py-14 sm:py-32">
+    <section id="collections" className="relative px-3 sm:px-6 py-14 sm:py-32 bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border-y border-gold/40 shadow-2xl">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <SectionHead
@@ -159,7 +159,7 @@ export function Collections() {
 
 export function SchemeTeaser() {
   return (
-    <section className="relative px-6 py-24 bg-gradient-to-r from-[#3b080c] via-[#210406] to-onyx border-y border-gold/40">
+    <section className="relative px-6 py-24 bg-onyx border-y border-border/60">
       <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="max-w-2xl text-left">
           <span className="eyebrow">A.P.P. Gold Purchase Plan</span>
@@ -568,7 +568,7 @@ export function InstaReels() {
   ];
 
   return (
-    <section id="instagram-reels" className="relative px-3 sm:px-6 py-14 sm:py-28 bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border-y border-gold/40 shadow-2xl">
+    <section id="instagram-reels" className="relative px-3 sm:px-6 py-14 sm:py-28 bg-onyx border-y border-border/60 shadow-xl">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <SectionHead
