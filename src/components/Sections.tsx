@@ -471,130 +471,57 @@ function ReelCard({
     caption: string;
     views: string;
     likes: string;
-    videoUrl?: string;
-    poster: string;
   };
   index: number;
 }) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    if (videoRef.current) {
-      videoRef.current.pause();
-      videoRef.current.currentTime = 0;
-    }
-  };
-
   return (
-    <Reveal delay={index * 140}>
-      <div
-        className="group relative flex flex-col justify-between bg-[#140305] border border-gold/40 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-gold hover:shadow-[0_0_35px_rgba(212,175,55,0.4)]"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {/* Video / Reel Viewport */}
-        <div className="relative w-full aspect-[9/16] bg-black overflow-hidden cursor-pointer">
-          {/* Cover Poster Image */}
-          <img
-            src={reel.poster}
-            alt={reel.title}
-            className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${
-              isHovered ? "opacity-0" : "opacity-100"
-            }`}
-          />
-
-          {/* Autoplay HTML5 Video on Hover */}
-          <video
-            ref={videoRef}
-            src={reel.videoUrl || "https://assets.mixkit.co/videos/preview/mixkit-hand-holding-a-gold-ring-41559-large.mp4"}
-            poster={reel.poster}
-            loop
-            muted={isMuted}
-            playsInline
-            className={`absolute inset-0 size-full object-cover transition-opacity duration-700 ${
-              isHovered ? "opacity-100 scale-105" : "opacity-0 scale-100"
-            }`}
-          />
-
-          {/* Dark luxury gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/30 pointer-events-none" />
-
-          {/* Top Reel Badges */}
-          <div className="absolute top-4 inset-x-4 flex items-center justify-between z-10">
-            <div className="flex items-center gap-2 glass-panel px-3 py-1.5 rounded-full border border-gold/40 shadow-lg">
-              <span className={`size-2 rounded-full ${isHovered ? "bg-emerald-400 animate-ping" : "bg-gold"}`} />
-              <span className="text-[0.58rem] uppercase tracking-widest text-amber-200 font-bold">
-                {isHovered ? "PLAYING LIVE" : "HOVER TO AUTO-PLAY"}
-              </span>
+    <Reveal delay={index * 150}>
+      <div className="group relative bg-[#140305] border border-gold/40 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-gold">
+        {/* Top Instagram Profile Header */}
+        <div className="p-3 bg-onyx border-b border-gold/30 flex items-center justify-between z-10">
+          <div className="flex items-center gap-2">
+            <div className="size-7 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] p-[1.5px] shrink-0">
+              <div className="size-full rounded-full bg-onyx flex items-center justify-center text-[0.45rem] font-bold text-gold">
+                APP
+              </div>
             </div>
-
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsMuted(!isMuted);
-              }}
-              className="glass-panel p-2 rounded-full text-gold hover:text-white transition-colors"
-            >
-              {isMuted ? "🔇" : "🔊"}
-            </button>
-          </div>
-
-          {/* Center Play Button Overlay (Fades out on hover) */}
-          <div
-            className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-500 ${
-              isHovered ? "opacity-0 scale-90" : "opacity-100 scale-100"
-            }`}
-          >
-            <div className="size-16 rounded-full bg-gold/20 border-2 border-gold flex items-center justify-center backdrop-blur-md shadow-[0_0_20px_rgba(212,175,55,0.6)]">
-              <span className="text-gold text-2xl ml-1">▶</span>
+            <div className="text-left overflow-hidden">
+              <p className="text-[0.62rem] text-gold font-bold tracking-wider leading-none truncate">
+                @appjewellers ☑
+              </p>
+              <p className="text-[0.52rem] text-muted-foreground truncate">Sarafa Market, New Delhi</p>
             </div>
           </div>
-
-          {/* Bottom Video Meta Overlay */}
-          <div className="absolute bottom-2 sm:bottom-4 inset-x-2 sm:inset-x-4 z-10 text-left">
-            <div className="flex items-center gap-1.5 mb-1">
-              <span className="bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white text-[0.48rem] sm:text-[0.55rem] font-bold uppercase tracking-widest px-1.5 sm:px-2 py-0.5 rounded-full">
-                Reel
-              </span>
-              <span className="text-[0.55rem] sm:text-[0.62rem] text-gold font-semibold tracking-wider truncate">
-                @appjewellers
-              </span>
-              <span className="text-amber-400 text-[0.65rem] sm:text-xs">☑</span>
-            </div>
-            <p className="font-display text-xs sm:text-lg text-white font-bold leading-snug drop-shadow-md line-clamp-1 sm:line-clamp-2">
-              {reel.title}
-            </p>
-            <div className="flex items-center gap-2 sm:gap-4 mt-1 sm:mt-2 text-[0.55rem] sm:text-[0.6rem] text-amber-200/90 font-medium">
-              <span>👁 {reel.views}</span>
-              <span>❤️ {reel.likes}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Card Footer Action */}
-        <div className="p-2 sm:p-4 bg-[#1a0406] border-t border-gold/30 flex items-center justify-between gap-2">
-          <p className="text-[0.55rem] sm:text-[0.62rem] text-muted-foreground font-light line-clamp-1">
-            {reel.caption}
-          </p>
           <a
             href={reel.url}
             target="_blank"
             rel="noreferrer"
-            className="shine-sweep shrink-0 rounded bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-2.5 sm:px-4 py-1.5 sm:py-2 text-[0.52rem] sm:text-[0.6rem] uppercase tracking-widest text-white font-bold hover:opacity-90 transition-opacity"
+            className="shrink-0 text-[0.55rem] uppercase tracking-widest text-white bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-2.5 py-1 rounded font-bold hover:opacity-90 transition-opacity"
           >
-            Watch
+            Watch ↗
           </a>
+        </div>
+
+        {/* Official Live Instagram Reel Embed Frame */}
+        <div className="relative w-full h-[460px] sm:h-[500px] bg-black">
+          <iframe
+            src={`https://www.instagram.com/reel/${reel.id}/embed/`}
+            title={reel.title}
+            className="w-full h-full border-0 rounded-b-none"
+            scrolling="no"
+            allowTransparency
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+          />
+        </div>
+
+        {/* Reel Title Footer */}
+        <div className="p-3 bg-[#1a0406] border-t border-gold/30 text-left">
+          <p className="text-xs font-bold text-amber-200 line-clamp-1">
+            {reel.title}
+          </p>
+          <p className="mt-1 text-[0.62rem] text-muted-foreground font-light line-clamp-1">
+            {reel.caption}
+          </p>
         </div>
       </div>
     </Reveal>
