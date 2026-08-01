@@ -230,8 +230,25 @@ function DetailedCollectionsPage() {
   return (
     <>
       <Nav />
-      <main className="px-4 sm:px-8 pb-32 pt-36 bg-background text-foreground min-h-screen">
+      <main className="px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
         <div className="mx-auto max-w-7xl">
+          {/* Live Gold Rate & Store Trust Banner in Gap */}
+          <div className="mb-3 p-2 rounded bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/40 flex items-center justify-between text-[0.58rem] sm:text-xs text-amber-200 shadow-md">
+            <div className="flex items-center gap-2 truncate">
+              <span className="bg-gold text-primary-foreground font-bold px-1.5 py-0.5 rounded text-[0.5rem] uppercase tracking-wider shrink-0">
+                LIVE STORE
+              </span>
+              <span className="truncate">
+                Today's 22K Gold Rate: <strong className="text-white">₹7,380/g</strong> | 100% BIS Hallmarked | Sarafa Market, Delhi
+              </span>
+            </div>
+            <a
+              href="tel:09015155615"
+              className="shrink-0 text-[0.55rem] uppercase tracking-wider text-gold font-bold underline ml-2"
+            >
+              Call Us
+            </a>
+          </div>
           {/* SLEEK MINIMAL HEADER WITH ROYAL BURGUNDY RED GRADIENT */}
           <div className="bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/50 rounded-lg p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
             {/* Search Input */}
@@ -362,12 +379,26 @@ function DetailedCollectionsPage() {
                       className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded overflow-hidden shadow"
                     >
                       <div className="relative block h-36 w-full overflow-hidden bg-black/40">
+                        {/* 1st Picture */}
                         <img
                           src={product.image}
                           alt={product.name}
                           loading="lazy"
-                          className="absolute inset-0 size-full object-cover transition-transform group-hover:scale-105"
+                          className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
+                            product.hoverImage && product.hoverImage !== product.image
+                              ? "group-hover:opacity-0 group-hover:scale-105"
+                              : "group-hover:scale-110 group-hover:brightness-110"
+                          }`}
                         />
+                        {/* 2nd Picture on hover */}
+                        {product.hoverImage && product.hoverImage !== product.image && (
+                          <img
+                            src={product.hoverImage}
+                            alt={`${product.name} alternate view`}
+                            loading="lazy"
+                            className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-100"
+                          />
+                        )}
                         <div className="absolute top-1.5 left-1.5">
                           {product.purity && (
                             <span className="glass-panel text-gold font-bold text-[0.48rem] uppercase tracking-wider px-1.5 py-0.5 rounded shadow">
@@ -583,10 +614,14 @@ function DetailedCollectionsPage() {
                             src={product.image}
                             alt={product.name}
                             loading="lazy"
-                            className="absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-0"
+                            className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
+                              product.hoverImage && product.hoverImage !== product.image
+                                ? "group-hover:opacity-0 group-hover:scale-105"
+                                : "group-hover:scale-110 group-hover:brightness-110"
+                            }`}
                           />
                           {/* 2nd Picture on hover */}
-                          {product.hoverImage && (
+                          {product.hoverImage && product.hoverImage !== product.image && (
                             <img
                               src={product.hoverImage}
                               alt={`${product.name} alternate view`}
