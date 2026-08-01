@@ -186,13 +186,14 @@ export function SchemeTeaser() {
 
 export function Signature() {
   return (
-    <section id="signature" className="relative overflow-hidden bg-onyx px-6 py-32 sm:py-40">
-      <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
+    <section id="signature" className="relative overflow-hidden bg-gradient-to-r from-[#4a0810] via-[#210406] to-onyx px-3 sm:px-6 py-14 sm:py-32 border-y border-gold/40 shadow-2xl">
+      <div className="mx-auto grid grid-cols-2 gap-3 sm:gap-16 items-center max-w-7xl">
+        {/* IMAGE ON LEFT ON MOBILE & DESKTOP */}
         <Reveal>
           <div className="relative">
             <div
               aria-hidden
-              className="absolute -inset-10 opacity-60"
+              className="absolute -inset-10 opacity-60 pointer-events-none"
               style={{ boxShadow: "var(--shadow-glow)" }}
             />
             <img
@@ -201,51 +202,49 @@ export function Signature() {
               loading="lazy"
               width={900}
               height={1100}
-              className="float-slow relative w-full rounded-sm object-cover"
+              className="float-slow relative w-full h-44 sm:h-[30rem] rounded-sm object-cover border border-gold/50 shadow-2xl"
             />
           </div>
         </Reveal>
 
+        {/* DETAILS ON RIGHT ON MOBILE & DESKTOP */}
         <Reveal delay={160}>
           <div>
-            <p className="eyebrow">Piece No. 001 — Signature</p>
-            <h2 className="mt-6 font-display text-[clamp(2.2rem,5vw,4rem)] leading-[1.03]">
+            <p className="eyebrow text-[0.5rem] sm:text-xs">Piece No. 001 — Signature</p>
+            <h2 className="mt-1 sm:mt-4 font-display text-base sm:text-4xl leading-tight font-bold text-amber-200">
               The <span className="italic shimmer-text">Chandra</span> Suite
             </h2>
-            <p className="mt-6 max-w-lg text-sm font-light leading-relaxed text-muted-foreground">
-              A crescent of Burmese rubies framed by 412 brilliant-cut diamonds.
-              Rotate it, inspect each stone at microscopic zoom, and view it under
-              daylight, showroom, warm or studio lighting.
+            <p className="mt-1 sm:mt-4 text-[0.68rem] sm:text-sm font-light leading-relaxed text-muted-foreground line-clamp-2 sm:line-clamp-none">
+              A crescent of Burmese rubies framed by 412 brilliant-cut diamonds. Certified 22K gold hallmarked purity with lifetime polish guarantee.
             </p>
 
-            <dl className="mt-10 grid grid-cols-1 gap-x-10 gap-y-4 sm:grid-cols-2">
+            <dl className="mt-3 sm:mt-8 grid grid-cols-2 gap-2 sm:gap-6">
               {SIGNATURE_SPECS.map(([k, v]) => (
-                <div key={k} className="border-b border-border/60 pb-3">
-                  <dt className="text-[0.58rem] uppercase tracking-[0.3em] text-muted-foreground">
+                <div key={k} className="border-b border-gold/30 pb-1.5 sm:pb-3">
+                  <dt className="text-[0.48rem] sm:text-[0.58rem] uppercase tracking-wider text-gold font-medium">
                     {k}
                   </dt>
-                  <dd className="mt-1.5 font-display text-lg">{v}</dd>
+                  <dd className="mt-0.5 font-display text-xs sm:text-lg text-white font-semibold truncate">{v}</dd>
                 </div>
               ))}
             </dl>
 
-            <div className="mt-10 flex flex-wrap items-center gap-6">
+            <div className="mt-4 sm:mt-8 flex flex-wrap items-center gap-2 sm:gap-4">
               <Link
                 to="/piece/$slug"
                 params={{ slug: "chandra-suite" }}
-                className="shine-sweep rounded-sm border border-gold/60 px-8 py-4 text-[0.65rem] uppercase tracking-[0.32em] text-gold transition-colors duration-500 hover:bg-gold hover:text-primary-foreground"
+                className="shine-sweep rounded-sm bg-gold px-3 sm:px-6 py-1.5 sm:py-3 text-[0.52rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
               >
-                Full specification
+                Inspect Piece
               </Link>
               <Link
                 to="/appointment"
                 search={{ piece: "The Chandra Suite" }}
-                className="text-[0.65rem] uppercase tracking-[0.32em] text-foreground/80 underline-offset-8 transition-colors duration-500 hover:text-gold hover:underline"
+                className="text-[0.52rem] sm:text-[0.65rem] uppercase tracking-widest text-gold underline font-semibold"
               >
-                Enquire privately
+                Enquire
               </Link>
             </div>
-
           </div>
         </Reveal>
       </div>
@@ -253,48 +252,60 @@ export function Signature() {
   );
 }
 
-
-
 export function Maison() {
   return (
-    <section id="maison" className="relative overflow-hidden">
-      <div className="relative h-[34rem]">
-        <img
-          src={craftImg}
-          alt="Master goldsmith setting stones by hand at A.P.P. Jewellers atelier bench"
-          loading="lazy"
-          width={1400}
-          height={900}
-          className="absolute inset-0 size-full object-cover"
-        />
-        <div className="absolute inset-0" style={{ background: "var(--gradient-veil)" }} />
-        <div className="relative z-10 flex h-full items-center justify-center px-6">
+    <section id="maison" className="relative overflow-hidden bg-gradient-to-r from-[#3b080c] via-[#210406] to-[#3b080c] py-12 sm:py-24 border-y border-gold/40">
+      <div className="mx-auto max-w-7xl px-3 sm:px-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-16 items-center">
+          {/* ARTISTRY IMAGE ON LEFT */}
           <Reveal>
-            <div className="max-w-2xl text-center">
-              <p className="eyebrow">A.P.P. Jewellers Atelier</p>
-              <h2 className="mt-6 font-display text-[clamp(2rem,5vw,3.6rem)] leading-[1.05]">
+            <div className="relative overflow-hidden rounded border border-gold/40 shadow-2xl h-44 sm:h-96">
+              <img
+                src={craftImg}
+                alt="Master goldsmith setting stones by hand at A.P.P. Jewellers"
+                loading="lazy"
+                className="size-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            </div>
+          </Reveal>
+
+          {/* ARTISTRY DETAILS ON RIGHT */}
+          <Reveal delay={150}>
+            <div className="text-left">
+              <span className="eyebrow text-[0.52rem] sm:text-xs">A.P.P. Jewellers Atelier</span>
+              <h2 className="mt-1 sm:mt-4 font-display text-base sm:text-4xl text-amber-100 font-bold leading-tight">
                 Generations of Mastery & Pure Artistry
               </h2>
-              <p className="mt-6 text-sm font-light leading-relaxed text-muted-foreground">
-                From hand-drawn sketches to micro-pavé stone setting, every masterpiece is created under expert care at A.P.P. Jewellers. Each piece is hallmarked and certified before reaching your hands.
+              <p className="mt-1.5 sm:mt-4 text-[0.68rem] sm:text-sm font-light leading-relaxed text-muted-foreground">
+                From hand-drawn sketches to micro-pavé stone setting, every ornament is handcrafted at our Sarafa Market workshop. 100% BIS hallmarked gold & certified diamonds guaranteed.
               </p>
+
+              <div className="mt-4 sm:mt-8 flex flex-wrap gap-2 sm:gap-4">
+                <Link
+                  to="/appointment"
+                  className="shine-sweep rounded-sm bg-gold px-3 sm:px-6 py-1.5 sm:py-3 text-[0.52rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
+                >
+                  Book Store Visit
+                </Link>
+              </div>
             </div>
           </Reveal>
         </div>
-      </div>
 
-      <div className="border-y border-border/60 px-6 py-16">
-        <div className="mx-auto grid max-w-7xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {TRUST.map(([k, v], i) => (
-            <Reveal key={v} delay={i * 100}>
-              <div className="text-center">
-                <p className="font-display text-3xl text-gold">{k}</p>
-                <p className="mt-2 text-[0.6rem] uppercase tracking-[0.3em] text-muted-foreground">
-                  {v}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+        <div className="mt-10 sm:mt-16 border-t border-gold/30 pt-8 sm:pt-12">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {TRUST.map(([k, v], i) => (
+              <Reveal key={v} delay={i * 100}>
+                <div className="text-center p-2 rounded bg-onyx/60 border border-gold/20">
+                  <p className="font-display text-xl sm:text-3xl text-gold font-bold">{k}</p>
+                  <p className="mt-1 text-[0.52rem] sm:text-[0.6rem] uppercase tracking-widest text-muted-foreground font-medium">
+                    {v}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -476,7 +487,7 @@ function ReelCard({
 }) {
   return (
     <Reveal delay={index * 150}>
-      <div className="group relative bg-[#140305] border border-gold/40 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-gold">
+      <div className="w-[280px] sm:w-[340px] shrink-0 snap-center group relative bg-[#140305] border border-gold/40 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-gold">
         {/* Top Instagram Profile Header */}
         <div className="p-3 bg-onyx border-b border-gold/30 flex items-center justify-between z-10">
           <div className="flex items-center gap-2">
@@ -503,7 +514,7 @@ function ReelCard({
         </div>
 
         {/* Official Live Instagram Reel Embed Frame */}
-        <div className="relative w-full h-[460px] sm:h-[500px] bg-black">
+        <div className="relative w-full h-[440px] sm:h-[480px] bg-black">
           <iframe
             src={`https://www.instagram.com/reel/${reel.id}/embed/`}
             title={reel.title}
@@ -537,8 +548,6 @@ export function InstaReels() {
       caption: "Behind the bench: Hand-setting Burmese rubies & natural Basra pearls at A.P.P. Jewellers salon.",
       views: "48.2K views",
       likes: "5.4K likes",
-      poster: bridalImg,
-      videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hand-holding-a-gold-ring-41559-large.mp4",
     },
     {
       id: "DaiDDMbzAMf",
@@ -547,8 +556,6 @@ export function InstaReels() {
       caption: "Sculpting Goddess Lakshmi temple motifs in pure 22K BIS Hallmarked gold.",
       views: "62.9K views",
       likes: "8.1K likes",
-      poster: craftImg,
-      videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-diamond-ring-41558-large.mp4",
     },
     {
       id: "DaSKnYpzgg_",
@@ -557,35 +564,34 @@ export function InstaReels() {
       caption: "Exquisite craftsmanship live from our Sarafa Market, New Seelampur showroom.",
       views: "94.1K views",
       likes: "12.3K likes",
-      poster: ringsImg,
-      videoUrl: "https://assets.mixkit.co/videos/preview/mixkit-macro-shot-of-a-diamond-ring-41560-large.mp4",
     },
   ];
 
   return (
-    <section id="instagram-reels" className="relative px-6 py-28 bg-gradient-to-b from-onyx via-[#1a0406] to-onyx border-t border-gold/30">
+    <section id="instagram-reels" className="relative px-3 sm:px-6 py-14 sm:py-28 bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border-y border-gold/40 shadow-2xl">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <SectionHead
             eyebrow="Live Store Videos"
             title="See How Our Gold & Kundan Jewellery is Made"
-            copy="Hover or tap any video below to watch real jewellery making, Kundan setting, and bridal reveals directly from our Sarafa Market shop."
+            copy="Swipe or scroll horizontally to watch real live Instagram Reels of Kundan setting, gold polishing, and bridal reveals directly from our Sarafa Market shop."
           />
         </Reveal>
 
-        <div className="mt-8 sm:mt-16 grid grid-cols-2 gap-3 sm:gap-8 lg:grid-cols-3">
+        {/* Horizontal Scrollable Carousel for Reels */}
+        <div className="mt-8 sm:mt-16 flex overflow-x-auto no-scrollbar gap-4 sm:gap-8 pb-4 snap-x">
           {reels.map((reel, index) => (
             <ReelCard key={reel.id} reel={reel} index={index} />
           ))}
         </div>
 
         <Reveal delay={200}>
-          <div className="mt-16 text-center">
+          <div className="mt-10 sm:mt-16 text-center">
             <a
               href="https://www.instagram.com/"
               target="_blank"
               rel="noreferrer"
-              className="shine-sweep inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-10 py-4 text-xs uppercase tracking-[0.32em] text-white font-bold shadow-2xl transition-transform hover:scale-105"
+              className="shine-sweep inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-8 sm:px-10 py-3.5 sm:py-4 text-xs uppercase tracking-[0.32em] text-white font-bold shadow-2xl transition-transform hover:scale-105"
             >
               Follow Us on Instagram →
             </a>
