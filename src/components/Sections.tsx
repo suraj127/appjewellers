@@ -504,17 +504,6 @@ export function StoreLocation() {
             </div>
           </Reveal>
         </div>
-
-        <Reveal delay={280}>
-          <div className="mt-10 sm:mt-14 text-center">
-            <Link
-              to="/appointment"
-              className="shine-sweep inline-block rounded bg-gold/15 border border-gold/50 px-8 py-3.5 text-xs uppercase tracking-[0.28em] text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow-xl"
-            >
-              Book Private Viewing →
-            </Link>
-          </div>
-        </Reveal>
       </div>
     </section>
   );
