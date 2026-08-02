@@ -1184,7 +1184,7 @@ function DetailedCollectionsPage() {
           className="shine-sweep group relative size-14 sm:size-16 rounded-full bg-black p-1 border-2 border-gold/80 shadow-[0_10px_30px_rgba(212,175,55,0.5)] hover:scale-110 hover:border-gold transition-all duration-300 backdrop-blur-md flex items-center justify-center overflow-hidden"
         >
           <img
-            src="/assets/catalogue_icon.jpg"
+            src="/assets/catalogue_icon.png"
             alt="Catalogue"
             className="size-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
           />
