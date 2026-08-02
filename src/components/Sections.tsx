@@ -330,22 +330,25 @@ export function Collections() {
 
 export function SchemeTeaser() {
   return (
-    <section className="relative px-6 py-24 bg-onyx border-y border-border/60">
-      <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-8">
+    <section className="relative px-4 sm:px-6 py-16 sm:py-24 bg-[#100204] border-y border-gold/30 shadow-2xl overflow-hidden">
+      {/* Ambient Glow Backdrop */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gradient-to-r from-rose-900/20 via-gold/15 to-amber-900/20 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative z-10 mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="max-w-2xl text-left">
-          <span className="eyebrow">A.P.P. Gold Purchase Plan</span>
-          <h2 className="mt-3 font-display text-3xl sm:text-4xl text-amber-200">
+          <span className="eyebrow text-[0.55rem] sm:text-xs">A.P.P. Gold Purchase Plan</span>
+          <h2 className="mt-3 font-display text-2xl sm:text-4xl font-bold text-amber-200">
             SwarnaNidhi <span className="italic shimmer-text">Gold Savings Scheme</span>
           </h2>
-          <p className="mt-3 text-sm text-muted-foreground font-light leading-relaxed">
+          <p className="mt-3 text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
             Pay 8 monthly installments and enjoy up to 100% store bonus & net customer profits up to ₹42,000! Calculate your returns with our interactive scheme calculator.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full md:w-auto z-10">
           <Link
             to="/scheme"
-            className="shine-sweep rounded-sm bg-gold px-8 py-4 text-xs uppercase tracking-[0.3em] text-primary-foreground font-bold text-center hover:opacity-90 transition-opacity shadow-lg"
+            className="shine-sweep rounded-sm bg-gold px-8 py-4 text-xs uppercase tracking-[0.3em] text-primary-foreground font-bold text-center hover:opacity-90 transition-opacity shadow-xl"
           >
             Calculate Scheme Earnings
           </Link>
