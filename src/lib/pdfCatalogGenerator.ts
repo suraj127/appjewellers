@@ -13,10 +13,10 @@ export interface CatalogPdfOptions {
   storeAddress?: string;
 }
 
-// Convert image URL to Base64 data URL via HTML Canvas
-async function loadImageAsDataUrl(url: string): Promise<string | null> {
+// Convert image URL to Base64 JPEG data URL with solid background
+// This eliminates ALL PNG alpha channel artifacts (black lines/stripes) in PDF renderers
+async function loadImageAsDataUrl(url: string, bgColor: string = "#ffffff"): Promise<string | null> {
   return new Promise((resolve) => {
-    // Resolve relative paths with origin if running in browser
     let fullUrl = url;
     if (typeof window !== "undefined" && url.startsWith("/")) {
       fullUrl = window.location.origin + url;
@@ -27,12 +27,22 @@ async function loadImageAsDataUrl(url: string): Promise<string | null> {
     img.onload = () => {
       try {
         const canvas = document.createElement("canvas");
-        canvas.width = img.naturalWidth || 400;
-        canvas.height = img.naturalHeight || 400;
+        const w = img.naturalWidth || 400;
+        const h = img.naturalHeight || 400;
+        canvas.width = w;
+        canvas.height = h;
         const ctx = canvas.getContext("2d");
         if (!ctx) return resolve(null);
-        ctx.drawImage(img, 0, 0);
-        const dataUrl = canvas.toDataURL("image/png", 0.9);
+
+        // Fill solid background matching destination PDF area
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, w, h);
+
+        // Draw image over solid background
+        ctx.drawImage(img, 0, 0, w, h);
+
+        // Export as JPEG to avoid alpha mask line artifacts in jsPDF
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.95);
         resolve(dataUrl);
       } catch {
         resolve(null);
@@ -52,15 +62,16 @@ export async function generateCatalogPdf(
     subtitle = "Exquisite 22K Gold & Solitaire Diamond Collection",
     categoryFilter = "ALL",
     includeGoldRate = true,
-    goldRate22k = "₹7,380 / gram",
-    goldRate24k = "₹8,050 / gram",
+    goldRate22k = "Rs. 7,380 / gram",
+    goldRate24k = "Rs. 8,050 / gram",
     storePhone = "090151 55615",
     whatsappNumber = "+91 90151 55615",
     storeAddress = "Sarafa Market, New Delhi - 110006",
   } = options;
 
-  onProgress?.("Loading store branding & logo...");
-  const logoDataUrl = await loadImageAsDataUrl("/logo-transparent.png");
+  onProgress?.("Loading store logo & branding...");
+  // Load logo composited on dark burgundy (#3b060d) background to eliminate black lines
+  const darkLogoDataUrl = await loadImageAsDataUrl("/logo-transparent.png", "#3b060d");
 
   // Create A4 PDF (Portrait, 210mm x 297mm)
   const doc = new jsPDF({
@@ -73,7 +84,7 @@ export async function generateCatalogPdf(
   const pageHeight = 297;
   const margin = 12;
 
-  // Pre-load images for all products
+  // Pre-load images for all products composited on light parchment background
   onProgress?.("Loading high-definition product images...");
   const imageMap = new Map<string, string | null>();
 
@@ -81,7 +92,7 @@ export async function generateCatalogPdf(
     const p = products[i];
     onProgress?.(`Processing image ${i + 1} of ${products.length}: ${p.name}`);
     if (p.image) {
-      const dataUrl = await loadImageAsDataUrl(p.image);
+      const dataUrl = await loadImageAsDataUrl(p.image, "#f5f2eb");
       imageMap.set(p.slug, dataUrl);
     }
   }
@@ -96,16 +107,16 @@ export async function generateCatalogPdf(
   const totalProductPages = Math.ceil(products.length / itemsPerPage);
   const totalPages = startProductPage + totalProductPages;
 
-  onProgress?.("Formatting cover page with store logo & gold rate...");
+  onProgress?.("Formatting cover page with store logo & gold rates...");
 
   // ==========================================
   // PAGE 1: LUXURY COVER PAGE (Burgundy & Gold)
   // ==========================================
-  doc.setFillColor(59, 6, 13); // Royal Burgundy
+  doc.setFillColor(59, 6, 13); // Royal Burgundy #3b060d
   doc.rect(0, 0, pageWidth, pageHeight, "F");
 
   // Double Gold Borders
-  doc.setDrawColor(212, 175, 55); // Gold
+  doc.setDrawColor(212, 175, 55); // Gold #d4af37
   doc.setLineWidth(1);
   doc.rect(margin, margin, pageWidth - margin * 2, pageHeight - margin * 2);
   doc.setLineWidth(0.3);
@@ -113,10 +124,10 @@ export async function generateCatalogPdf(
 
   let y = 22;
 
-  // Store Logo Branding (Centered)
-  if (logoDataUrl) {
+  // Store Logo Branding (Seamlessly blended JPEG, NO black lines)
+  if (darkLogoDataUrl) {
     try {
-      doc.addImage(logoDataUrl, "PNG", (pageWidth - 32) / 2, y, 32, 32);
+      doc.addImage(darkLogoDataUrl, "JPEG", (pageWidth - 32) / 2, y, 32, 32);
       y += 35;
     } catch {
       y += 10;
@@ -174,22 +185,29 @@ export async function generateCatalogPdf(
   doc.setFont("helvetica", "bold");
   doc.text(`Category Scope: ${categoryFilter.toUpperCase()} · ${products.length} Certified Pieces`, pageWidth / 2, boxY, { align: "center" });
 
-  // Live Store Gold Rate Banner (Formatted cleanly to prevent cut-off)
+  // Live Store Gold Rate Banner (Centered & 100% inside container)
   y += 56;
   if (includeGoldRate) {
+    const boxWidth = 170;
+    const boxX = (pageWidth - boxWidth) / 2; // 20mm
     doc.setFillColor(75, 12, 22);
     doc.setDrawColor(212, 175, 55);
     doc.setLineWidth(0.4);
-    doc.roundedRect(margin + 15, y, pageWidth - margin * 2 - 30, 22, 2, 2, "FD");
+    doc.roundedRect(boxX, y, boxWidth, 22, 2, 2, "FD");
 
     doc.setFontSize(8.5);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(212, 175, 55);
     doc.text("TODAY'S STORE GOLD RATES (SARAFA MARKET, NEW DELHI)", pageWidth / 2, y + 7, { align: "center" });
 
-    doc.setFontSize(9);
+    // Format clean ASCII text to avoid unicode rupee symbol clipping
+    const rate22Text = goldRate22k.includes("Rs.") ? goldRate22k : `Rs. ${goldRate22k.replace(/[^0-9,]/g, "")} / gram`;
+    const rate24Text = goldRate24k.includes("Rs.") ? goldRate24k : `Rs. ${goldRate24k.replace(/[^0-9,]/g, "")} / gram`;
+
+    doc.setFontSize(8);
+    doc.setFont("helvetica", "normal");
     doc.setTextColor(255, 255, 255);
-    doc.text(`22K Hallmarked Gold: ${goldRate22k}   |   24K Pure Gold: ${goldRate24k}`, pageWidth / 2, y + 15, { align: "center" });
+    doc.text(`22K Hallmarked Gold: ${rate22Text}   |   24K Pure Gold: ${rate24Text}`, pageWidth / 2, y + 15, { align: "center" });
   }
 
   // Trust Badges
@@ -254,16 +272,16 @@ export async function generateCatalogPdf(
   doc.setFillColor(212, 175, 55);
   doc.rect(0, 20, pageWidth, 1.2, "F");
 
-  if (logoDataUrl) {
+  if (darkLogoDataUrl) {
     try {
-      doc.addImage(logoDataUrl, "PNG", margin, 2.5, 15, 15);
+      doc.addImage(darkLogoDataUrl, "JPEG", margin, 2.5, 15, 15);
     } catch {}
   }
 
   doc.setTextColor(255, 215, 0);
   doc.setFontSize(10.5);
   doc.setFont("helvetica", "bold");
-  doc.text("A.P.P. JEWELLERS — SARAFA MARKET, NEW DELHI", logoDataUrl ? margin + 18 : margin, 12);
+  doc.text("A.P.P. JEWELLERS — SARAFA MARKET, NEW DELHI", darkLogoDataUrl ? margin + 18 : margin, 12);
   doc.setFontSize(8);
   doc.setTextColor(235, 215, 175);
   doc.text("HALLMARK CERTIFICATION & BUYER GUARANTEE", pageWidth - margin, 12, { align: "right" });
@@ -364,16 +382,16 @@ export async function generateCatalogPdf(
   doc.setFillColor(212, 175, 55);
   doc.rect(0, 20, pageWidth, 1.2, "F");
 
-  if (logoDataUrl) {
+  if (darkLogoDataUrl) {
     try {
-      doc.addImage(logoDataUrl, "PNG", margin, 2.5, 15, 15);
+      doc.addImage(darkLogoDataUrl, "JPEG", margin, 2.5, 15, 15);
     } catch {}
   }
 
   doc.setTextColor(255, 215, 0);
   doc.setFontSize(10.5);
   doc.setFont("helvetica", "bold");
-  doc.text("A.P.P. JEWELLERS — CATALOGUE INDEX DIRECTORY", logoDataUrl ? margin + 18 : margin, 12);
+  doc.text("A.P.P. JEWELLERS — CATALOGUE INDEX DIRECTORY", darkLogoDataUrl ? margin + 18 : margin, 12);
   doc.setFontSize(8);
   doc.setTextColor(235, 215, 175);
   doc.text("PAGE 3 OF CATALOGUE", pageWidth - margin, 12, { align: "right" });
@@ -432,13 +450,11 @@ export async function generateCatalogPdf(
     doc.setFont("helvetica", "bold");
     doc.setTextColor(59, 6, 13);
 
-    // Clean Item Code (Truncate cleanly if long)
     const cleanSlug = p.slug.toUpperCase().replace("APP-ITEM-", "#");
     doc.text(cleanSlug.substring(0, 16), colX.code, indexY + 3);
 
     doc.setFont("helvetica", "normal");
     doc.setTextColor(30, 30, 30);
-    // Truncate product name if long
     const cleanName = p.name.length > 42 ? `${p.name.substring(0, 40)}...` : p.name;
     doc.text(cleanName, colX.name, indexY + 3);
 
@@ -488,16 +504,16 @@ export async function generateCatalogPdf(
     doc.setFillColor(212, 175, 55);
     doc.rect(0, 18, pageWidth, 1.2, "F");
 
-    if (logoDataUrl) {
+    if (darkLogoDataUrl) {
       try {
-        doc.addImage(logoDataUrl, "PNG", margin, 2, 14, 14);
+        doc.addImage(darkLogoDataUrl, "JPEG", margin, 2, 14, 14);
       } catch {}
     }
 
     doc.setTextColor(255, 215, 0);
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
-    doc.text("A.P.P. JEWELLERS · SARAFA MARKET COLLECTION DIRECTORY", logoDataUrl ? margin + 16 : margin, 11.5);
+    doc.text("A.P.P. JEWELLERS · SARAFA MARKET COLLECTION DIRECTORY", darkLogoDataUrl ? margin + 16 : margin, 11.5);
     doc.setTextColor(235, 215, 175);
     doc.setFontSize(8);
     doc.text(`PAGE ${currentPageNum} OF ${totalPages}`, pageWidth - margin, 11.5, { align: "right" });
@@ -526,11 +542,11 @@ export async function generateCatalogPdf(
       doc.setLineWidth(0.3);
       doc.roundedRect(imgBoxX, imgBoxY, imgBoxSize, imgBoxSize, 2, 2, "FD");
 
-      // Insert Loaded Base64 Image or Gold Placeholder
+      // Insert Loaded Base64 Image
       const base64Img = imageMap.get(p.slug);
       if (base64Img) {
         try {
-          doc.addImage(base64Img, "PNG", imgBoxX + 2, imgBoxY + 2, imgBoxSize - 4, imgBoxSize - 4);
+          doc.addImage(base64Img, "JPEG", imgBoxX + 2, imgBoxY + 2, imgBoxSize - 4, imgBoxSize - 4);
         } catch {
           // Fallback box
           doc.setFillColor(59, 6, 13);
@@ -557,7 +573,7 @@ export async function generateCatalogPdf(
       doc.setFont("helvetica", "bold");
       doc.text(p.purity ? p.purity.toUpperCase() : "22K BIS HALLMARKED", imgBoxX + imgBoxSize / 2, imgBoxY + imgBoxSize + 10, { align: "center" });
 
-      // Code / Ref Tag under Purity (Formatted cleanly to prevent cut-off!)
+      // Code / Ref Tag under Purity
       const formattedCode = p.slug.toUpperCase().replace("APP-ITEM-", "ITEM #");
       doc.setFillColor(240, 235, 220);
       doc.roundedRect(imgBoxX, imgBoxY + imgBoxSize + 15, imgBoxSize, 8, 1, 1, "F");
@@ -593,7 +609,7 @@ export async function generateCatalogPdf(
       const splitTag = doc.splitTextToSize(p.tagline || p.story || "", maxDetailsWidth);
       doc.text(splitTag, detailsX, dY);
 
-      // Specifications Table Box (Calculated layout to fit without overlap)
+      // Specifications Table Box
       dY += (splitTag.length * 3.8) + 2;
       doc.setFillColor(250, 247, 240);
       doc.setDrawColor(230, 215, 180);
@@ -612,7 +628,6 @@ export async function generateCatalogPdf(
 
       specY += 6.5;
 
-      // Two columns inside specs box
       const col1X = detailsX + 4;
       const col2X = detailsX + 58;
 
@@ -664,7 +679,7 @@ export async function generateCatalogPdf(
       doc.setTextColor(40, 40, 40);
       doc.text("Sarafa Market", col2X + 16, specY);
 
-      // Price on Request & Direct WhatsApp Action Button (Clean centered text without overlap)
+      // Price on Request & Direct WhatsApp Action Button
       dY += 35;
       doc.setFillColor(59, 6, 13);
       doc.setDrawColor(212, 175, 55);
@@ -706,9 +721,9 @@ export async function generateCatalogPdf(
 
   let finalY = 25;
 
-  if (logoDataUrl) {
+  if (darkLogoDataUrl) {
     try {
-      doc.addImage(logoDataUrl, "PNG", (pageWidth - 28) / 2, finalY, 28, 28);
+      doc.addImage(darkLogoDataUrl, "JPEG", (pageWidth - 28) / 2, finalY, 28, 28);
       finalY += 32;
     } catch {
       finalY += 10;
