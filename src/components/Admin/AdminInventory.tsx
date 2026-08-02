@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { getAllProducts, addOrUpdateProduct, deleteProductBySlug } from "@/data/storeState";
+import { getAllProducts, addOrUpdateProduct, deleteProductBySlug, bulkAddProducts, clearCustomProducts } from "@/data/storeState";
 import type { Product } from "@/data/products";
+import { parseExcelFile, parseExcelRowsToProducts } from "@/lib/excelImporter";
+import { EXCEL_STOCK_RAW_ROWS } from "@/data/excelStockData";
 import { toast } from "sonner";
 
 export function AdminInventory() {
@@ -25,7 +27,8 @@ export function AdminInventory() {
     (p) =>
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.category.toLowerCase().includes(search.toLowerCase()) ||
-      p.metal.toLowerCase().includes(search.toLowerCase())
+      p.metal.toLowerCase().includes(search.toLowerCase()) ||
+      p.slug.toLowerCase().includes(search.toLowerCase())
   );
 
   const resetForm = () => {
@@ -70,7 +73,54 @@ export function AdminInventory() {
     }
   };
 
-  // Automatic HD Image Compressor (Compresses 5-6MB camera photos down to ~150-250KB crisp HD WebP/JPEG)
+  // Excel Upload Import Handler
+  const handleImportExcelFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    try {
+      toast.loading(`Reading "${file.name}"...`);
+      const newProds = await parseExcelFile(file);
+      if (newProds.length === 0) {
+        toast.dismiss();
+        toast.error("No valid stock rows found in Excel file.");
+        return;
+      }
+      const updated = bulkAddProducts(newProds);
+      setProducts(updated);
+      toast.dismiss();
+      toast.success(`Successfully imported ${newProds.length} items from Excel!`);
+    } catch (err) {
+      console.error("Excel import error:", err);
+      toast.dismiss();
+      toast.error("Failed to parse Excel file. Please check file format.");
+    } finally {
+      e.target.value = "";
+    }
+  };
+
+  // Preset 1-Click Import Handler for ExcelGOLD STOCK LIST.xlsx
+  const handleImportDefaultExcelStock = () => {
+    try {
+      const newProds = parseExcelRowsToProducts(EXCEL_STOCK_RAW_ROWS);
+      const updated = bulkAddProducts(newProds);
+      setProducts(updated);
+      toast.success(`Imported ${newProds.length} items from "ExcelGOLD STOCK LIST.xlsx"!`);
+    } catch (err) {
+      console.error("Default Excel stock import error:", err);
+      toast.error("Failed to import stock list.");
+    }
+  };
+
+  const handleResetImportedStock = () => {
+    if (confirm("Reset custom imported stock items back to default collection?")) {
+      const updated = clearCustomProducts();
+      setProducts(updated);
+      toast.success("Imported stock items reset.");
+    }
+  };
+
+  // Automatic HD Image Compressor
   const compressAndSetImage = (file: File, isHover: boolean) => {
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -100,12 +150,13 @@ export function AdminInventory() {
         const ctx = canvas.getContext("2d");
         if (ctx) {
           ctx.drawImage(img, 0, 0, width, height);
-          const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.82);
+          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.82);
           if (isHover) {
-            setHoverImage(compressedDataUrl);
+            setHoverImage(compressedBase64);
           } else {
-            setPrimaryImage(compressedDataUrl);
+            setPrimaryImage(compressedBase64);
           }
+          toast.success(`Photo compressed & attached (${Math.round(compressedBase64.length / 1024)} KB)`);
         }
       };
       img.src = event.target?.result as string;
@@ -113,28 +164,12 @@ export function AdminInventory() {
     reader.readAsDataURL(file);
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, isHover = false) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      compressAndSetImage(file, isHover);
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim()) {
-      toast.error("Please enter an ornament name.");
-      return;
-    }
-    if (!primaryImage.trim()) {
-      toast.error("Please provide or upload a primary ornament image.");
-      return;
-    }
+    if (!name.trim()) return toast.error("Please enter an ornament name.");
+    if (!primaryImage) return toast.error("Please upload or provide an ornament photo.");
 
-    const slug = editingProduct
-      ? editingProduct.slug
-      : name.toLowerCase().replace(/[^a-z0-9]+/g, "-") + "-" + Math.floor(1000 + Math.random() * 9000);
-
+    const slug = editingProduct?.slug || `custom-${Date.now()}`;
     const newProd: Product = {
       slug,
       name,
@@ -142,11 +177,27 @@ export function AdminInventory() {
       metal,
       purity,
       collection,
+      eyebrow: `${collection} · A.P.P. Jewellers`,
       image: primaryImage,
       hoverImage: hoverImage || primaryImage,
-      tagline: tagline || `${purity} Handcrafted ${category}`,
-      story: story || `Exquisite handcrafted ${name} made with ${purity} purity gold at our Sarafa Market workshop.`,
+      tagline: tagline || `${purity} ${metal} ${category} from A.P.P. Jewellers.`,
+      story: story || `Exclusive handcrafted ${name} available at Sarafa Market showroom.`,
+      priceOnRequest: true,
       isExclusive,
+      materials: [
+        ["Metal Base", metal],
+        ["Purity Grade", purity],
+      ],
+      craftsmanship: [
+        ["Artisan Hours", "80 Hours"],
+        ["Technique", "Hand-Forged Karigar Atelier"],
+      ],
+      dimensions: [["Guarantee", "100% BIS Hallmarked"]],
+      certificate: [
+        ["BIS Hallmark", purity],
+        ["Assay Lab", "BIS-Recognised, Delhi"],
+      ],
+      atelierNotes: ["Individually inspected and certified."],
     };
 
     const updated = addOrUpdateProduct(newProd);
@@ -159,21 +210,62 @@ export function AdminInventory() {
   return (
     <div className="bg-onyx/90 border border-gold/30 rounded-lg p-6 sm:p-8 space-y-6 shadow-2xl text-left">
       {/* Top Header Bar */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gold/30 pb-4">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 border-b border-gold/30 pb-4">
         <div>
           <h2 className="font-display text-xl sm:text-2xl text-gold font-bold uppercase tracking-wider">
             Store Inventory Manager ({products.length} Items)
           </h2>
           <p className="text-xs text-muted-foreground mt-1">
-            Add new gold & diamond ornaments, upload photos, edit descriptions or manage exclusivity.
+            Add new gold & diamond ornaments, import Excel stock lists, edit details or manage store catalog.
           </p>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
+          {/* Excel Upload File Input */}
+          <label className="shine-sweep bg-emerald-950/80 text-emerald-300 border border-emerald-500/60 font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded transition-all hover:bg-emerald-900 cursor-pointer flex items-center gap-1.5 shadow">
+            <span>📄</span> Import Excel (.xlsx)
+            <input
+              type="file"
+              accept=".xlsx, .xls, .csv"
+              onChange={handleImportExcelFile}
+              className="hidden"
+            />
+          </label>
+
+          {/* Quick 1-Click Import for ExcelGOLD STOCK LIST.xlsx */}
+          <button
+            type="button"
+            onClick={handleImportDefaultExcelStock}
+            className="shine-sweep bg-amber-950/80 text-amber-300 border border-gold/60 font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded transition-all hover:bg-amber-900 cursor-pointer flex items-center gap-1.5 shadow"
+          >
+            <span>📊</span> Import Stock List (117 Items)
+          </button>
+
+          <button
+            type="button"
+            onClick={handleOpenAdd}
+            className="shine-sweep bg-gold text-primary-foreground font-bold text-xs uppercase tracking-widest px-5 py-2.5 rounded transition-all hover:opacity-90 cursor-pointer flex items-center gap-1.5 shadow"
+          >
+            <span>✨</span> Add Ornament
+          </button>
+        </div>
+      </div>
+
+      {/* Excel Import Info Banner */}
+      <div className="p-3 rounded bg-gradient-to-r from-[#4a0810]/40 via-onyx to-[#4a0810]/40 border border-gold/30 flex items-center justify-between text-xs text-amber-200">
+        <div className="flex items-center gap-2">
+          <span className="bg-gold text-primary-foreground font-bold px-1.5 py-0.5 rounded text-[0.5rem] uppercase tracking-wider">
+            EXCEL AUTO-IMPORT
+          </span>
+          <span className="text-[0.68rem]">
+            Upload any stock Excel file (like <strong className="text-white">ExcelGOLD STOCK LIST.xlsx</strong>) to auto-extract Gross Weight, Net Weight, Purity %, Category & Item codes without images.
+          </span>
         </div>
         <button
           type="button"
-          onClick={handleOpenAdd}
-          className="shine-sweep bg-gold text-primary-foreground font-bold text-xs uppercase tracking-widest px-6 py-3 rounded transition-all hover:opacity-90 cursor-pointer flex items-center gap-2"
+          onClick={handleResetImportedStock}
+          className="text-[0.6rem] text-gold underline hover:text-white uppercase font-bold shrink-0 ml-2"
         >
-          <span>✨</span> Add New Ornament
+          Reset Stock
         </button>
       </div>
 
@@ -181,7 +273,7 @@ export function AdminInventory() {
       <div className="flex items-center gap-4">
         <input
           type="text"
-          placeholder="Search by ornament name, category (Rings, Bangles...) or metal..."
+          placeholder="Search by ornament name, PID code (e.g. GBN1, GLB1), category or metal..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full bg-background border border-gold/30 rounded px-4 py-2.5 text-xs text-foreground placeholder:text-muted-foreground outline-none focus:border-gold"
@@ -194,10 +286,10 @@ export function AdminInventory() {
           <thead className="bg-black/60 text-gold uppercase tracking-widest text-[0.6rem] border-b border-gold/20">
             <tr>
               <th className="p-3">Photo</th>
-              <th className="p-3">Ornament Name</th>
+              <th className="p-3">Ornament Name & Code</th>
               <th className="p-3">Category</th>
               <th className="p-3">Metal & Purity</th>
-              <th className="p-3">Exclusive</th>
+              <th className="p-3">Specifications</th>
               <th className="p-3 text-right">Actions</th>
             </tr>
           </thead>
@@ -221,13 +313,12 @@ export function AdminInventory() {
                   <span className="block text-[0.65rem] text-gold">{p.purity}</span>
                 </td>
                 <td className="p-3">
-                  {p.isExclusive ? (
-                    <span className="bg-gold/20 text-gold border border-gold/50 px-2 py-0.5 rounded text-[0.55rem] uppercase font-bold">
-                      ★ Featured
-                    </span>
-                  ) : (
-                    <span className="text-muted-foreground text-[0.6rem]">Standard</span>
-                  )}
+                  <span className="text-[0.65rem] text-white/80 block">
+                    {p.materials?.[2]?.[0]}: <strong className="text-amber-200">{p.materials?.[2]?.[1]}</strong>
+                  </span>
+                  <span className="text-[0.6rem] text-muted-foreground block">
+                    {p.materials?.[3]?.[0]}: {p.materials?.[3]?.[1]}
+                  </span>
                 </td>
                 <td className="p-3 text-right space-x-2">
                   <button
@@ -258,78 +349,60 @@ export function AdminInventory() {
         </table>
       </div>
 
-      {/* ADD / EDIT ORNAMENT MODAL */}
+      {/* Edit / Add Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-onyx border border-gold/50 rounded-lg p-6 sm:p-8 max-w-2xl w-full my-8 text-left space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar">
-            <div className="flex items-center justify-between border-b border-gold/30 pb-3">
-              <h3 className="font-display text-lg text-gold font-bold uppercase tracking-wider">
-                {editingProduct ? "Edit Ornament Details" : "Add New Gold / Diamond Ornament"}
-              </h3>
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(false)}
-                className="text-muted-foreground hover:text-white text-lg font-bold"
-              >
-                ✕
-              </button>
-            </div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="relative w-full max-w-2xl bg-onyx border border-gold/50 rounded-lg p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-gold text-xl"
+            >
+              ✕
+            </button>
+            <h3 className="font-display text-xl text-gold font-bold uppercase tracking-wider mb-6">
+              {editingProduct ? "Edit Store Ornament" : "Add New Store Ornament"}
+            </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-5 text-xs">
-              {/* Name */}
-              <div>
-                <label className="text-gold uppercase tracking-wider font-semibold block mb-1">
-                  Ornament Name *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Royal Kundan Peacock Necklace"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-foreground outline-none focus:border-gold"
-                />
-              </div>
-
-              {/* Category & Metal & Purity */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-gold uppercase tracking-wider font-semibold block mb-1">Category *</label>
+                  <label className="block text-gold mb-1 font-semibold">Ornament Name *</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Royal 22K Kundan Choker"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-white outline-none focus:border-gold"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gold mb-1 font-semibold">Category *</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-foreground outline-none focus:border-gold"
+                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-white outline-none focus:border-gold"
                   >
-                    {[
-                      "Rings",
-                      "Bangles",
-                      "Earrings",
-                      "Jhumka",
-                      "Necklace",
-                      "Haram",
-                      "Pendant",
-                      "Bridal Set",
-                      "Mangalsutra",
-                      "Gold Coin",
-                      "Chain",
-                      "Kada",
-                    ].map((c) => (
-                      <option key={c} value={c} className="bg-background text-foreground">
-                        {c}
+                    {["RINGS", "BANGLES", "BRACELETS", "EARRINGS", "JHUMKA", "NECKLACE", "HARAM", "CHAIN", "GOLD COIN", "STUDS", "ANKLETS", "BRIDAL SET", "MANGALSUTRA"].map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
                       </option>
                     ))}
                   </select>
                 </div>
+              </div>
 
+              <div className="grid sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="text-gold uppercase tracking-wider font-semibold block mb-1">Metal *</label>
+                  <label className="block text-gold mb-1 font-semibold">Metal *</label>
                   <select
                     value={metal}
                     onChange={(e) => setMetal(e.target.value)}
-                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-foreground outline-none focus:border-gold"
+                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-white outline-none focus:border-gold"
                   >
-                    {["Gold", "Diamond", "Platinum", "Silver", "Gemstone"].map((m) => (
-                      <option key={m} value={m} className="bg-background text-foreground">
+                    {["GOLD", "DIAMOND", "PLATINUM", "SILVER", "GEMSTONE"].map((m) => (
+                      <option key={m} value={m}>
                         {m}
                       </option>
                     ))}
@@ -337,145 +410,101 @@ export function AdminInventory() {
                 </div>
 
                 <div>
-                  <label className="text-gold uppercase tracking-wider font-semibold block mb-1">Purity Grade *</label>
+                  <label className="block text-gold mb-1 font-semibold">Purity Grade *</label>
                   <select
                     value={purity}
                     onChange={(e) => setPurity(e.target.value)}
-                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-foreground outline-none focus:border-gold"
+                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-white outline-none focus:border-gold"
                   >
-                    {["24K Gold", "22K Gold", "20K Gold", "18K Gold", "14K Gold", "VVS Diamond", "925 Silver"].map((p) => (
-                      <option key={p} value={p} className="bg-background text-foreground">
-                        {p}
+                    {["24 CARAT", "22 CARAT", "20 CARAT", "18 CARAT"].map((pur) => (
+                      <option key={pur} value={pur}>
+                        {pur}
                       </option>
                     ))}
                   </select>
                 </div>
-              </div>
 
-              {/* Primary Image Upload & Preview */}
-              <div className="border border-gold/30 p-4 rounded bg-black/40 space-y-3">
-                <label className="text-gold uppercase tracking-wider font-semibold block">
-                  Primary Ornament Photo *
-                </label>
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  {primaryImage ? (
-                    <img
-                      src={primaryImage}
-                      alt="Primary preview"
-                      className="size-20 object-cover rounded border border-gold/50 bg-black"
-                    />
-                  ) : (
-                    <div className="size-20 rounded border border-dashed border-gold/40 flex items-center justify-center text-[0.6rem] text-muted-foreground text-center p-1">
-                      No Photo Selected
-                    </div>
-                  )}
-
-                  <div className="space-y-2 w-full">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleFileUpload(e, false)}
-                      className="block w-full text-[0.65rem] text-muted-foreground file:mr-3 file:py-1.5 file:px-3 file:rounded file:border file:border-gold/40 file:bg-gold/10 file:text-gold file:font-semibold hover:file:bg-gold/20 cursor-pointer"
-                    />
-                    <div className="text-[0.6rem] text-muted-foreground">OR enter photo URL link below:</div>
-                    <input
-                      type="text"
-                      placeholder="https://example.com/ornament.jpg"
-                      value={primaryImage}
-                      onChange={(e) => setPrimaryImage(e.target.value)}
-                      className="w-full bg-background border border-gold/20 rounded px-3 py-1.5 text-foreground outline-none focus:border-gold text-[0.65rem]"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-gold mb-1 font-semibold">Collection Name</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Heritage Kundan"
+                    value={collection}
+                    onChange={(e) => setCollection(e.target.value)}
+                    className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-white outline-none focus:border-gold"
+                  />
                 </div>
               </div>
 
-              {/* Hover Image Upload & Preview */}
-              <div className="border border-gold/20 p-4 rounded bg-black/40 space-y-3">
-                <label className="text-amber-200 uppercase tracking-wider font-semibold block">
-                  Secondary Alternate / Hover Photo (Optional)
+              {/* Photo Upload Box */}
+              <div className="p-4 rounded border border-gold/30 bg-black/40 space-y-3">
+                <label className="block text-gold font-semibold uppercase tracking-wider text-[0.68rem]">
+                  Ornament Photo (Auto Compress & Optimize) *
                 </label>
-                <div className="flex flex-col sm:flex-row items-center gap-4">
-                  {hoverImage ? (
-                    <img
-                      src={hoverImage}
-                      alt="Hover preview"
-                      className="size-20 object-cover rounded border border-gold/50 bg-black"
-                    />
-                  ) : (
-                    <div className="size-20 rounded border border-dashed border-gold/30 flex items-center justify-center text-[0.6rem] text-muted-foreground text-center p-1">
-                      Same as Primary
-                    </div>
-                  )}
-
-                  <div className="space-y-2 w-full">
+                <div className="grid sm:grid-cols-2 gap-4 items-center">
+                  <div>
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => handleFileUpload(e, true)}
-                      className="block w-full text-[0.65rem] text-muted-foreground file:mr-3 file:py-1.5 file:px-3 file:rounded file:border file:border-gold/40 file:bg-gold/10 file:text-gold file:font-semibold hover:file:bg-gold/20 cursor-pointer"
+                      onChange={(e) => e.target.files?.[0] && compressAndSetImage(e.target.files[0], false)}
+                      className="text-xs text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-gold file:text-primary-foreground hover:file:opacity-90 cursor-pointer"
                     />
-                    <input
-                      type="text"
-                      placeholder="Secondary angle photo URL (Optional)"
-                      value={hoverImage}
-                      onChange={(e) => setHoverImage(e.target.value)}
-                      className="w-full bg-background border border-gold/20 rounded px-3 py-1.5 text-foreground outline-none focus:border-gold text-[0.65rem]"
-                    />
+                    <p className="text-[0.6rem] text-muted-foreground mt-1">
+                      Upload camera photo or image file. Automatically compressed to high-res.
+                    </p>
                   </div>
+
+                  {primaryImage && (
+                    <div className="flex items-center gap-3">
+                      <img
+                        src={primaryImage}
+                        alt="Preview"
+                        className="size-16 object-cover rounded border border-gold/50"
+                      />
+                      <span className="text-[0.6rem] text-emerald-400 font-bold">Photo Attached ✓</span>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Tagline & Story */}
               <div>
-                <label className="text-gold uppercase tracking-wider font-semibold block mb-1">Tagline</label>
+                <label className="block text-gold mb-1 font-semibold">Tagline / Short Summary</label>
                 <input
                   type="text"
-                  placeholder="e.g. Certified 22K Gold hallmarked with Burmese Rubies"
+                  placeholder="e.g. Certified 22K Gold handcrafted by master goldsmiths."
                   value={tagline}
                   onChange={(e) => setTagline(e.target.value)}
-                  className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-foreground outline-none focus:border-gold"
+                  className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-white outline-none focus:border-gold"
                 />
               </div>
 
-              <div>
-                <label className="text-gold uppercase tracking-wider font-semibold block mb-1">Craft Story / Description</label>
-                <textarea
-                  rows={3}
-                  placeholder="Describe craftsmanship details, stones, or polish..."
-                  value={story}
-                  onChange={(e) => setStory(e.target.value)}
-                  className="w-full bg-background border border-gold/30 rounded px-3 py-2 text-foreground outline-none focus:border-gold"
-                />
-              </div>
-
-              {/* Exclusive Checkbox */}
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex items-center gap-2 pt-2">
                 <input
                   type="checkbox"
-                  id="isExclusive"
+                  id="exclusiveCheck"
                   checked={isExclusive}
                   onChange={(e) => setIsExclusive(e.target.checked)}
-                  className="size-4 accent-gold cursor-pointer"
+                  className="accent-gold size-4"
                 />
-                <label htmlFor="isExclusive" className="text-gold font-semibold tracking-wide cursor-pointer">
-                  Feature in Homepage Exclusive Showcase Carousel ★
+                <label htmlFor="exclusiveCheck" className="text-white text-xs font-semibold">
+                  Mark as Exclusive / Featured Piece
                 </label>
               </div>
 
-              {/* Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-gold/20">
+              <div className="flex justify-end gap-3 pt-4 border-t border-gold/20">
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-5 py-2.5 rounded border border-border text-muted-foreground hover:text-white uppercase tracking-wider text-[0.65rem]"
+                  className="px-5 py-2.5 text-xs text-muted-foreground uppercase tracking-widest hover:text-white"
                 >
                   Cancel
                 </button>
                 <button
-                  type="submit"
-                  className="shine-sweep bg-gold text-primary-foreground font-bold px-6 py-2.5 rounded uppercase tracking-wider text-[0.65rem]"
+                  type="button"
+                  onClick={handleSubmit}
+                  className="shine-sweep bg-gold text-primary-foreground font-bold text-xs uppercase tracking-widest px-6 py-2.5 rounded hover:opacity-90"
                 >
-                  {editingProduct ? "Save Changes" : "Publish Ornament to Site"}
+                  {editingProduct ? "Save Changes" : "Publish Ornament"}
                 </button>
               </div>
             </form>

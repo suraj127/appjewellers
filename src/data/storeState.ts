@@ -108,7 +108,31 @@ export function getAllProducts(): Product[] {
   return [...customProds, ...activeBase];
 }
 
+export function bulkAddProducts(newProducts: Product[]): Product[] {
+  const existingCustom = getCustomProducts();
+  const existingSlugs = new Set(existingCustom.map((p) => p.slug));
+
+  const filteredNew = newProducts.filter((p) => !existingSlugs.has(p.slug));
+  const updatedCustom = [...filteredNew, ...existingCustom];
+
+  if (typeof window !== "undefined") {
+    localStorage.setItem(CUSTOM_PRODUCTS_KEY, JSON.stringify(updatedCustom));
+    window.dispatchEvent(new Event("app_inventory_updated"));
+  }
+  return getAllProducts();
+}
+
+export function clearCustomProducts(): Product[] {
+
+  if (typeof window !== "undefined") {
+    localStorage.removeItem(CUSTOM_PRODUCTS_KEY);
+    window.dispatchEvent(new Event("app_inventory_updated"));
+  }
+  return getAllProducts();
+}
+
 export function addOrUpdateProduct(product: Product): Product[] {
+
   const existingCustom = getCustomProducts();
   const index = existingCustom.findIndex((p) => p.slug === product.slug);
 
@@ -126,6 +150,8 @@ export function addOrUpdateProduct(product: Product): Product[] {
   }
   return getAllProducts();
 }
+
+
 
 export function deleteProductBySlug(slug: string): Product[] {
   const customProds = getCustomProducts();
