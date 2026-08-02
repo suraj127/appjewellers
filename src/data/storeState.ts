@@ -1,4 +1,8 @@
 import { PRODUCTS, type Product } from "./products";
+import { EXCEL_STOCK_RAW_ROWS } from "./excelStockData";
+import { parseExcelRowsToProducts } from "@/lib/excelImporter";
+
+const DEFAULT_EXCEL_PRODUCTS = parseExcelRowsToProducts(EXCEL_STOCK_RAW_ROWS);
 
 export interface GoldRates {
   rate24k: number;
@@ -104,7 +108,12 @@ export function getAllProducts(): Product[] {
   const deletedSlugs = getDeletedSlugs();
   const customProds = getCustomProducts();
 
-  const activeBase = PRODUCTS.filter((p) => !deletedSlugs.includes(p.slug));
+  const customSlugSet = new Set(customProds.map((p) => p.slug));
+  const baseCombined = [...PRODUCTS, ...DEFAULT_EXCEL_PRODUCTS].filter(
+    (p) => !customSlugSet.has(p.slug)
+  );
+
+  const activeBase = baseCombined.filter((p) => !deletedSlugs.includes(p.slug));
   return [...customProds, ...activeBase];
 }
 
