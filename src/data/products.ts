@@ -3294,9 +3294,7 @@ export function getExclusiveProducts() {
 }
 
 export const BOUTIQUES = [
-  "A.P.P. Jewellers — Sarafa Market, New Seelampur, New Delhi",
-  "A.P.P. Jewellers — Private VIP Salon, New Delhi",
-  "Video consultation — Anywhere in India & Overseas",
+  "A.P.P. Jewellers — Shop No. D-155, Sarafa Market, New Seelampur, New Delhi",
 ] as const;
 
 export const TIME_SLOTS = [
