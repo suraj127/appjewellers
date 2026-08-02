@@ -7,8 +7,7 @@ import { PRODUCTS, CATEGORY_GROUPS, type Product } from "@/data/products";
 import { getAllProducts } from "@/data/storeState";
 import bridalBannerImg from "@/assets/coll-bridal.jpg";
 import craftImg from "@/assets/craft.jpg";
-
-
+import catalogueIconImg from "@/assets/catalogue_icon.png";
 
 import { CatalogPdfModal } from "@/components/CatalogPdfModal";
 
@@ -881,13 +880,17 @@ function DetailedCollectionsPage() {
                           </div>
 
                           <div className="mt-3 sm:mt-5 pt-2 sm:pt-3 border-t border-border/50">
-                            <button
-                              type="button"
-                              onClick={() => setInquiryProduct(product)}
-                              className="shine-sweep w-full rounded bg-[#e8e2d5]/10 border border-gold/50 px-2 sm:px-4 py-1.5 sm:py-2.5 text-[0.55rem] sm:text-[0.62rem] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-gold font-bold text-center transition-all duration-300 hover:bg-gold hover:text-primary-foreground"
+                            <a
+                              href={`https://wa.me/919015155615?text=${encodeURIComponent(
+                                `Hi A.P.P. Jewellers, I would like to get a price quote and details for "${product.name}" (Category: ${product.category}, Purity: ${product.purity}) from your collection directory.`
+                              )}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="shine-sweep w-full rounded bg-[#e8e2d5]/10 border border-gold/50 px-2 sm:px-4 py-1.5 sm:py-2.5 text-[0.55rem] sm:text-[0.62rem] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-gold font-bold text-center transition-all duration-300 hover:bg-gold hover:text-primary-foreground flex items-center justify-center gap-1.5"
                             >
-                              PRICE ON REQUEST
-                            </button>
+                              <WhatsAppIcon className="size-3.5 text-emerald-400 shrink-0" />
+                              <span>PRICE ON REQUEST</span>
+                            </a>
                           </div>
                         </div>
                       </div>
@@ -1184,12 +1187,26 @@ function DetailedCollectionsPage() {
           className="shine-sweep group relative size-14 sm:size-16 rounded-full bg-black p-1 border-2 border-gold/80 shadow-[0_10px_30px_rgba(212,175,55,0.5)] hover:scale-110 hover:border-gold transition-all duration-300 backdrop-blur-md flex items-center justify-center overflow-hidden"
         >
           <img
-            src="/assets/catalogue_icon.png"
-            alt="Catalogue"
+            src={catalogueIconImg}
+            alt="Catalogue PDF"
             className="size-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
           />
         </button>
       </div>
+
+      {/* QUICK INQUIRY MODAL */}
+      {inquiryProduct && (
+        <QuickInquiryModal
+          product={inquiryProduct}
+          onClose={() => setInquiryProduct(null)}
+        />
+      )}
+
+      {/* CATALOGUE PDF MODAL */}
+      <CatalogPdfModal
+        isOpen={isCatalogPdfModalOpen}
+        onClose={() => setIsCatalogPdfModalOpen(false)}
+      />
 
       <Footer />
     </>
