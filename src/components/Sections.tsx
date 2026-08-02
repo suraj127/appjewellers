@@ -356,20 +356,75 @@ export function SchemeTeaser() {
 }
 
 export function Signature() {
+  const [activeAngle, setActiveAngle] = useState<number>(0);
+
+  const angles = [
+    { src: bridalImg, label: "Full Suite", tag: "22K Kundan" },
+    { src: "/assets/chandra/macro.jpg", label: "Macro Rubies", tag: "10x Close-up" },
+    { src: "/assets/chandra/f12.jpg", label: "3D Profile", tag: "GIA Diamonds" },
+  ];
+
+  // Auto crossfade loop every 3.8 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveAngle((prev) => (prev + 1) % angles.length);
+    }, 3800);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section id="signature" className="relative overflow-hidden bg-gradient-to-r from-[#210406] via-[#3b080c] to-[#210406] py-12 sm:py-24 border-y border-gold/40 shadow-2xl">
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-16 items-center">
-          {/* FEATURED IMAGE ON LEFT */}
+          {/* FEATURED IMAGE WITH MINIMAL MULTI-ANGLE CROSSFADE TRANSITION */}
           <Reveal>
-            <div className="relative overflow-hidden rounded-lg border border-gold/40 shadow-2xl h-72 sm:h-[420px]">
-              <img
-                src={bridalImg}
-                alt="Chandra ruby and diamond bridal necklace in 22K gold"
-                loading="lazy"
-                className="size-full object-cover hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+            <div className="relative overflow-hidden rounded-lg border border-gold/40 shadow-2xl h-72 sm:h-[420px] group bg-black">
+              {angles.map((ang, i) => (
+                <img
+                  key={ang.label}
+                  src={ang.src}
+                  alt={`Chandra Suite - ${ang.label}`}
+                  className={`absolute inset-0 size-full object-cover transition-all duration-1000 ease-in-out ${
+                    i === activeAngle
+                      ? "opacity-100 scale-105 filter brightness-105"
+                      : "opacity-0 scale-100 filter brightness-90"
+                  }`}
+                />
+              ))}
+
+              {/* Ambient Radial & Edge Shadow Overlays */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none" />
+
+              {/* Top Angle Badge */}
+              <div className="absolute top-3 left-3 z-10">
+                <span className="glass-panel text-gold font-bold text-[0.52rem] sm:text-xs uppercase tracking-widest px-2.5 py-1 rounded shadow-lg border border-gold/40 flex items-center gap-1.5">
+                  <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
+                  {angles[activeAngle].tag}
+                </span>
+              </div>
+
+              {/* Interactive Angle Switcher Pills at Bottom */}
+              <div className="absolute bottom-3 left-3 right-3 z-10 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5">
+                  {angles.map((ang, idx) => (
+                    <button
+                      key={ang.label}
+                      type="button"
+                      onClick={() => setActiveAngle(idx)}
+                      className={`px-2.5 py-1 rounded text-[0.52rem] uppercase tracking-wider font-bold transition-all border ${
+                        idx === activeAngle
+                          ? "bg-gold text-primary-foreground border-gold shadow-lg scale-105"
+                          : "bg-black/60 text-muted-foreground border-gold/30 hover:text-gold hover:border-gold/60 backdrop-blur-md"
+                      }`}
+                    >
+                      {ang.label}
+                    </button>
+                  ))}
+                </div>
+                <span className="text-[0.5rem] uppercase tracking-widest text-gold/80 font-mono hidden sm:inline-block">
+                  Auto-Transitioning
+                </span>
+              </div>
             </div>
           </Reveal>
 
