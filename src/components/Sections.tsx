@@ -640,113 +640,50 @@ function ReelCard({
 }
 
 export function InstaReels() {
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
-
-  const reels = [
-    {
-      id: "DamjhYBzNMe",
-      title: "Royal Kundan Choker & Pearl Bridal Reveal",
-      url: "https://www.instagram.com/reel/DamjhYBzNMe/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-      caption: "Behind the bench: Hand-setting Burmese rubies & natural Basra pearls at A.P.P. Jewellers salon.",
-      views: "48.2K views",
-      likes: "5.4K likes",
-    },
-    {
-      id: "DaiDDMbzAMf",
-      title: "22K Antique Gold Haram & Kasu Mala Craftsmanship",
-      url: "https://www.instagram.com/reel/DaiDDMbzAMf/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-      caption: "Sculpting Goddess Lakshmi temple motifs in pure 22K BIS Hallmarked gold.",
-      views: "62.9K views",
-      likes: "8.1K likes",
-    },
-    {
-      id: "DaSKnYpzgg_",
-      title: "Solitaire Diamond & Kundan Jewellery Showcase",
-      url: "https://www.instagram.com/reel/DaSKnYpzgg_/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
-      caption: "Exquisite craftsmanship live from our Sarafa Market, New Seelampur showroom.",
-      views: "94.1K views",
-      likes: "12.3K likes",
-    },
-  ];
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: -340, behavior: "smooth" });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 340, behavior: "smooth" });
-    }
-  };
-
   return (
-    <section id="instagram-reels" className="relative px-3 sm:px-6 py-16 sm:py-28 bg-[#100204] border-y border-gold/30 shadow-2xl overflow-hidden">
+    <section id="instagram-reels" className="relative px-4 sm:px-6 py-16 sm:py-24 bg-[#100204] border-y border-gold/30 shadow-2xl overflow-hidden text-center">
       {/* Ambient Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gradient-to-r from-rose-900/15 via-gold/10 to-amber-900/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[500px] bg-gradient-to-r from-rose-900/20 via-gold/15 to-amber-900/20 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-4xl">
         <Reveal>
-          <div className="mx-auto max-w-2xl text-center">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-[0.6rem] uppercase tracking-[0.3em] font-bold mb-3">
-              <span className="size-2 rounded-full bg-rose-500 animate-ping" />
-              Official Instagram Feed
+          <div className="flex flex-col items-center justify-center text-center">
+            {/* Instagram Profile Avatar Badge */}
+            <div className="relative mb-4">
+              <div className="p-1 rounded-full bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] shadow-xl">
+                <img
+                  src={logoImg}
+                  alt="@appjewellers Instagram"
+                  className="size-16 sm:size-20 rounded-full object-cover bg-black p-1 border-2 border-black"
+                />
+              </div>
+              <span className="absolute bottom-0 right-0 bg-blue-500 text-white rounded-full p-1 border-2 border-black text-[0.6rem] shadow">
+                ✓
+              </span>
             </div>
-            <h2 className="font-display text-[clamp(2.1rem,5vw,3.8rem)] leading-[1.05] text-amber-100">
-              Artistry in <span className="italic shimmer-text">Motion</span>
-            </h2>
-            <p className="mt-4 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground">
-              Direct from our Sarafa Market atelier: Watch Kundan stone-setting, 22K gold hallmarking, and real bridal customer reveals.
+
+            <p className="text-[0.62rem] uppercase tracking-[0.35em] text-gold font-bold mb-2">
+              Official Instagram Feed
             </p>
-            <div className="rule-gold mx-auto mt-8 w-36" />
-          </div>
-        </Reveal>
+            <h2 className="font-display text-2xl sm:text-5xl font-bold text-amber-100 leading-tight">
+              Follow <span className="italic shimmer-text">@appjewellers</span>
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm font-light text-muted-foreground max-w-lg leading-relaxed">
+              Stay updated with daily 22K gold rate announcements, real bridal customer reveals, Kundan craftsmanship videos, and exclusive new arrivals directly from Sarafa Market.
+            </p>
 
-        {/* Desktop Carousel Controls & Reel Gallery */}
-        <div className="relative mt-10 sm:mt-16">
-          {/* Scroll Control Arrows */}
-          <button
-            type="button"
-            onClick={scrollLeft}
-            aria-label="Scroll Reels Left"
-            className="absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 z-20 size-11 rounded-full bg-onyx/90 border border-gold/40 text-gold flex items-center justify-center shadow-2xl hover:bg-gold hover:text-primary-foreground transition-all duration-300 backdrop-blur-md hidden sm:flex"
-          >
-            ←
-          </button>
-          <button
-            type="button"
-            onClick={scrollRight}
-            aria-label="Scroll Reels Right"
-            className="absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 z-20 size-11 rounded-full bg-onyx/90 border border-gold/40 text-gold flex items-center justify-center shadow-2xl hover:bg-gold hover:text-primary-foreground transition-all duration-300 backdrop-blur-md hidden sm:flex"
-          >
-            →
-          </button>
+            <div className="rule-gold mx-auto my-6 w-32" />
 
-          {/* Reel Grid / Scroll Container */}
-          <div
-            ref={scrollContainerRef}
-            className="flex overflow-x-auto no-scrollbar gap-5 sm:gap-8 pb-4 snap-x sm:justify-center"
-          >
-            {reels.map((reel, index) => (
-              <ReelCard key={reel.id} reel={reel} index={index} />
-            ))}
-          </div>
-        </div>
-
-        {/* Instagram Follow Call to Action */}
-        <Reveal delay={200}>
-          <div className="mt-12 sm:mt-16 text-center flex flex-col items-center gap-3">
             <a
               href="https://www.instagram.com/"
               target="_blank"
               rel="noreferrer"
-              className="shine-sweep inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-8 sm:px-12 py-3.5 sm:py-4 text-xs uppercase tracking-[0.32em] text-white font-bold shadow-2xl transition-transform hover:scale-105"
+              className="shine-sweep inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-8 sm:px-12 py-3.5 sm:py-4 text-xs uppercase tracking-[0.32em] text-white font-bold shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-rose-900/50"
             >
               <span>Follow @appjewellers on Instagram</span>
               <span>→</span>
             </a>
-            <p className="text-[0.62rem] text-muted-foreground uppercase tracking-widest font-medium">
+            <p className="mt-3 text-[0.58rem] sm:text-xs text-muted-foreground uppercase tracking-widest font-medium">
               Join 50,000+ Patrons & Jewellery Lovers
             </p>
           </div>
