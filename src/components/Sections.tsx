@@ -446,133 +446,75 @@ export function Maison() {
 
 export function StoreLocation() {
   return (
-    <section id="store-info" className="relative px-3 sm:px-6 py-16 sm:py-36 bg-onyx/80 border-t border-gold/20">
-      <div className="mx-auto max-w-7xl">
+    <section id="our-guarantees" className="relative px-4 sm:px-6 py-16 sm:py-28 bg-[#120305] border-t border-gold/30">
+      <div className="mx-auto max-w-6xl">
         <Reveal>
-          <SectionHead
-            eyebrow="Visit Our Flagship Store"
-            title="A.P.P. Jewellers — Sarafa Market"
-            copy="Experience our complete collection of 22K BIS hallmarked gold, certified solitaires, Kundan bridal suites, and handcrafted ornaments in person."
-          />
+          <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
+            <span className="eyebrow text-[0.55rem] sm:text-xs">Our Guarantees</span>
+            <h2 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-amber-100">
+              Purity, Authenticity <span className="italic shimmer-text">& Trust</span>
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground">
+              At A.P.P. Jewellers, every piece of gold and diamond jewellery is crafted with unyielding dedication to purity, traditional artistry, and certification.
+            </p>
+            <div className="rule-gold mx-auto mt-6 w-32" />
+          </div>
         </Reveal>
 
-        {/* Side-by-Side 2-Column Grid on Mobile and Desktop */}
-        <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:gap-10 items-stretch">
-          <Reveal>
-            <div className="glass-panel rounded-sm p-4 sm:p-10 flex flex-col justify-between h-full border-gold/30">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
+          <Reveal delay={100}>
+            <div className="glass-panel rounded-lg p-6 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
-                <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-4 mb-4 sm:mb-6">
-                  <img
-                    src={logoImg}
-                    alt="A.P.P. Jewellers"
-                    className="h-10 sm:h-16 w-auto object-contain filter drop-shadow-[0_4px_12px_rgba(212,175,55,0.3)]"
-                  />
-                  <div>
-                    <h3 className="font-display text-base sm:text-2xl tracking-wider text-gold font-semibold leading-tight">A.P.P. JEWELLERS</h3>
-                    <p className="text-[0.48rem] sm:text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground mt-0.5">Sarafa Market · Delhi</p>
-                  </div>
-                </div>
-
-                <div className="space-y-4 text-xs sm:text-sm font-light text-muted-foreground">
-                  <div className="border-b border-border/60 pb-3">
-                    <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.25em] text-gold font-medium">Showroom Address</p>
-                    <p className="mt-1 text-foreground font-normal leading-relaxed text-xs sm:text-base">
-                      Shop No. D-155, Sarafa Market, New Seelampur Phase II, Delhi 110053
-                    </p>
-                  </div>
-
-                  <div className="border-b border-border/60 pb-3">
-                    <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.25em] text-gold font-medium">Direct Telephone</p>
-                    <a
-                      href="tel:09015155615"
-                      className="mt-1 inline-block font-display text-sm sm:text-2xl text-gold hover:text-white transition-colors font-semibold"
-                    >
-                      📞 090151 55615
-                    </a>
-                  </div>
-
-                  <div>
-                    <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.25em] text-gold font-medium">Showroom Hours</p>
-                    <p className="mt-0.5 text-foreground text-xs sm:text-sm">Daily: 11:00 AM – 8:30 PM</p>
-                    <p className="text-[0.55rem] sm:text-xs text-muted-foreground mt-0.5">Walk-ins & Appointments</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 sm:mt-10 flex flex-col gap-2">
-                <a
-                  href="tel:09015155615"
-                  className="shine-sweep w-full rounded-sm bg-gold px-3 sm:px-6 py-2.5 sm:py-3.5 text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-primary-foreground font-semibold text-center hover:opacity-90 transition-opacity"
-                >
-                  📞 Call Store
-                </a>
-                <a
-                  href="https://wa.me/919015155615"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full rounded-sm border border-emerald-500/60 bg-transparent px-3 sm:px-6 py-2.5 sm:py-3.5 text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-emerald-400 font-semibold text-center hover:bg-emerald-500/10 transition-colors"
-                >
-                  💬 WhatsApp
-                </a>
-                <a
-                  href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full rounded-sm border border-border px-3 sm:px-6 py-2 sm:py-3 text-[0.52rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground text-center hover:border-gold/60 hover:text-gold transition-colors"
-                >
-                  📍 Google Maps
-                </a>
+                <span className="text-gold font-display text-2xl font-bold">01</span>
+                <h3 className="mt-3 font-display text-lg sm:text-xl text-foreground font-semibold">
+                  100% BIS Hallmarked Gold
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                  Certified 22K (916) and 18K gold hallmark purity stamped on every single piece.
+                </p>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={160}>
-            <div className="glass-panel rounded-sm p-4 sm:p-10 flex flex-col justify-between h-full border-gold/30">
+            <div className="glass-panel rounded-lg p-6 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
-                <p className="eyebrow text-[0.52rem] sm:text-xs">Our Guarantees</p>
-                <h3 className="mt-2 sm:mt-4 font-display text-lg sm:text-3xl leading-tight">Purity & Trust</h3>
-                <p className="mt-2 sm:mt-4 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground">
-                  Crafted with unyielding dedication to purity, traditional artistry, and certification.
+                <span className="text-gold font-display text-2xl font-bold">02</span>
+                <h3 className="mt-3 font-display text-lg sm:text-xl text-foreground font-semibold">
+                  Certified Diamond Solitaires
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                  GIA & IGI certified natural diamonds cut for exceptional light performance and clarity.
                 </p>
-
-                <div className="mt-4 sm:mt-8 space-y-3 sm:space-y-4">
-                  <div className="flex items-start gap-2.5 sm:gap-4">
-                    <span className="text-gold font-display text-base sm:text-xl font-bold">01</span>
-                    <div>
-                      <h4 className="font-display text-xs sm:text-lg text-foreground font-medium">100% BIS Hallmarked</h4>
-                      <p className="text-[0.55rem] sm:text-xs text-muted-foreground font-light leading-snug">Certified 22K (916) and 18K purity.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-2.5 sm:gap-4">
-                    <span className="text-gold font-display text-base sm:text-xl font-bold">02</span>
-                    <div>
-                      <h4 className="font-display text-xs sm:text-lg text-foreground font-medium">GIA Certified Diamonds</h4>
-                      <p className="text-[0.55rem] sm:text-xs text-muted-foreground font-light leading-snug">Natural solitaire diamond stones.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-2.5 sm:gap-4">
-                    <span className="text-gold font-display text-base sm:text-xl font-bold">03</span>
-                    <div>
-                      <h4 className="font-display text-xs sm:text-lg text-foreground font-medium">Bespoke Bridal Design</h4>
-                      <p className="text-[0.55rem] sm:text-xs text-muted-foreground font-light leading-snug">Personalized Kundan & temple suites.</p>
-                    </div>
-                  </div>
-                </div>
               </div>
+            </div>
+          </Reveal>
 
-              <div className="mt-6 sm:mt-10 border-t border-border/60 pt-4 sm:pt-6 text-center">
-                <Link
-                  to="/appointment"
-                  className="shine-sweep inline-block rounded bg-gold/15 border border-gold/50 px-3 sm:px-6 py-2 sm:py-3 text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.25em] text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow"
-                >
-                  Book Private Viewing →
-                </Link>
+          <Reveal delay={220}>
+            <div className="glass-panel rounded-lg p-6 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
+              <div>
+                <span className="text-gold font-display text-2xl font-bold">03</span>
+                <h3 className="mt-3 font-display text-lg sm:text-xl text-foreground font-semibold">
+                  Bespoke Bridal Design
+                </h3>
+                <p className="mt-2 text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
+                  Personalized Kundan, Meenakari, and antique temple suites created to your exact vision.
+                </p>
               </div>
             </div>
           </Reveal>
         </div>
+
+        <Reveal delay={280}>
+          <div className="mt-10 sm:mt-14 text-center">
+            <Link
+              to="/appointment"
+              className="shine-sweep inline-block rounded bg-gold/15 border border-gold/50 px-8 py-3.5 text-xs uppercase tracking-[0.28em] text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow-xl"
+            >
+              Book Private Viewing →
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
