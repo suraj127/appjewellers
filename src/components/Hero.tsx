@@ -80,8 +80,8 @@ export function Hero() {
           style={{ animationDelay: "380ms" }}
         >
           Royal Gold & Diamond Artistry
-          <span className="block italic shimmer-text mt-1 text-amber-200">
-            14K · 18K · 22K BIS Hallmarked Jewellery
+          <span className="block italic shimmer-text mt-1.5 text-amber-200">
+            Where Heritage Meets Luxury
           </span>
         </h1>
 
