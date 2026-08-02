@@ -397,13 +397,6 @@ export function Signature() {
               {/* Ambient Vignette & Shadow Overlays */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none" />
 
-              {/* Top Luxury Badge */}
-              <div className="absolute top-3.5 left-3.5 z-10">
-                <span className="glass-panel text-gold font-bold text-[0.52rem] sm:text-xs uppercase tracking-widest px-3 py-1 rounded shadow-lg border border-gold/40 flex items-center gap-1.5">
-                  <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
-                  22K BIS Hallmarked · Signature Suite
-                </span>
-              </div>
             </div>
           </Reveal>
 
