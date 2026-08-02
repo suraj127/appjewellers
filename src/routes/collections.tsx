@@ -24,6 +24,72 @@ export const Route = createFileRoute("/collections")({
   component: DetailedCollectionsPage,
 });
 
+// Interactive Product Image with Mobile Tap & Desktop Hover support + Dot Indicators
+function ProductHoverImage({
+  image,
+  hoverImage,
+  alt,
+  className = "",
+}: {
+  image: string;
+  hoverImage?: string;
+  alt: string;
+  className?: string;
+}) {
+  const [showSecond, setShowSecond] = useState(false);
+  const hasSecondImage = Boolean(hoverImage && hoverImage !== image);
+
+  return (
+    <div
+      className={`relative size-full overflow-hidden select-none cursor-pointer ${className}`}
+      onTouchStart={() => {
+        if (hasSecondImage) {
+          setShowSecond((prev) => !prev);
+        }
+      }}
+      onMouseEnter={() => {
+        if (hasSecondImage) setShowSecond(true);
+      }}
+      onMouseLeave={() => {
+        if (hasSecondImage) setShowSecond(false);
+      }}
+    >
+      <img
+        src={image}
+        alt={alt}
+        loading="lazy"
+        className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
+          hasSecondImage && showSecond ? "opacity-0 scale-105" : "opacity-100 scale-100"
+        }`}
+      />
+      {hasSecondImage && (
+        <img
+          src={hoverImage}
+          alt={`${alt} alternate view`}
+          loading="lazy"
+          className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
+            showSecond ? "opacity-100 scale-105" : "opacity-0 scale-100"
+          }`}
+        />
+      )}
+      {hasSecondImage && (
+        <div className="absolute bottom-2 inset-x-0 z-10 flex items-center justify-center gap-1.5 pointer-events-none">
+          <span
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              !showSecond ? "w-3 bg-gold" : "w-1.5 bg-white/40"
+            }`}
+          />
+          <span
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              showSecond ? "w-3 bg-gold" : "w-1.5 bg-white/40"
+            }`}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 // Quick Inquiry Modal Component
 function QuickInquiryModal({
   product,
@@ -379,26 +445,11 @@ function DetailedCollectionsPage() {
                       className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded overflow-hidden shadow"
                     >
                       <div className="relative block h-36 w-full overflow-hidden bg-black/40">
-                        {/* 1st Picture */}
-                        <img
-                          src={product.image}
+                        <ProductHoverImage
+                          image={product.image}
+                          hoverImage={product.hoverImage}
                           alt={product.name}
-                          loading="lazy"
-                          className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
-                            product.hoverImage && product.hoverImage !== product.image
-                              ? "group-hover:opacity-0 group-hover:scale-105"
-                              : "group-hover:scale-110 group-hover:brightness-110"
-                          }`}
                         />
-                        {/* 2nd Picture on hover */}
-                        {product.hoverImage && product.hoverImage !== product.image && (
-                          <img
-                            src={product.hoverImage}
-                            alt={`${product.name} alternate view`}
-                            loading="lazy"
-                            className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-100"
-                          />
-                        )}
                         <div className="absolute top-1.5 left-1.5">
                           {product.purity && (
                             <span className="glass-panel text-gold font-bold text-[0.48rem] uppercase tracking-wider px-1.5 py-0.5 rounded shadow">
@@ -609,28 +660,13 @@ function DetailedCollectionsPage() {
                       <div className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded-sm overflow-hidden lift transition-all duration-500 hover:border-gold/60">
                         {/* Image Box - Compact height on mobile */}
                         <div className="relative block h-40 sm:h-72 w-full overflow-hidden bg-black/40">
-                          {/* 1st Picture */}
-                          <img
-                            src={product.image}
+                          <ProductHoverImage
+                            image={product.image}
+                            hoverImage={product.hoverImage}
                             alt={product.name}
-                            loading="lazy"
-                            className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
-                              product.hoverImage && product.hoverImage !== product.image
-                                ? "group-hover:opacity-0 group-hover:scale-105"
-                                : "group-hover:scale-110 group-hover:brightness-110"
-                            }`}
                           />
-                          {/* 2nd Picture on hover */}
-                          {product.hoverImage && product.hoverImage !== product.image && (
-                            <img
-                              src={product.hoverImage}
-                              alt={`${product.name} alternate view`}
-                              loading="lazy"
-                              className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-100"
-                            />
-                          )}
 
-                          <div className="absolute inset-0 bg-gradient-to-t from-onyx/90 via-transparent to-transparent opacity-80" />
+                          <div className="absolute inset-0 bg-gradient-to-t from-onyx/90 via-transparent to-transparent opacity-80 pointer-events-none" />
 
                           {/* Top Left Badges */}
                           <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex flex-col gap-1">

@@ -78,6 +78,71 @@ function SectionHead({
   );
 }
 
+function ProductHoverImage({
+  image,
+  hoverImage,
+  alt,
+  className = "",
+}: {
+  image: string;
+  hoverImage?: string;
+  alt: string;
+  className?: string;
+}) {
+  const [showSecond, setShowSecond] = useState(false);
+  const hasSecondImage = Boolean(hoverImage && hoverImage !== image);
+
+  return (
+    <div
+      className={`relative size-full overflow-hidden select-none ${className}`}
+      onTouchStart={() => {
+        if (hasSecondImage) {
+          setShowSecond((prev) => !prev);
+        }
+      }}
+      onMouseEnter={() => {
+        if (hasSecondImage) setShowSecond(true);
+      }}
+      onMouseLeave={() => {
+        if (hasSecondImage) setShowSecond(false);
+      }}
+    >
+      <img
+        src={image}
+        alt={alt}
+        loading="lazy"
+        className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
+          hasSecondImage && showSecond ? "opacity-0 scale-105" : "opacity-100 scale-100"
+        }`}
+      />
+      {hasSecondImage && (
+        <img
+          src={hoverImage}
+          alt={`${alt} alternate view`}
+          loading="lazy"
+          className={`absolute inset-0 size-full object-cover transition-all duration-700 ease-in-out ${
+            showSecond ? "opacity-100 scale-105" : "opacity-0 scale-100"
+          }`}
+        />
+      )}
+      {hasSecondImage && (
+        <div className="absolute bottom-2 inset-x-0 z-10 flex items-center justify-center gap-1.5 pointer-events-none">
+          <span
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              !showSecond ? "w-3 bg-gold" : "w-1.5 bg-white/40"
+            }`}
+          />
+          <span
+            className={`h-1.5 rounded-full transition-all duration-300 ${
+              showSecond ? "w-3 bg-gold" : "w-1.5 bg-white/40"
+            }`}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Collections() {
   const exclusiveItems = PRODUCTS.filter((p) => p.isExclusive);
 
@@ -101,27 +166,12 @@ export function Collections() {
                 params={{ slug: item.slug }}
                 className="lift shine-sweep group relative block h-[18rem] sm:h-[28rem] overflow-hidden rounded-sm border border-border/80 bg-onyx"
               >
-                <img
-                  src={item.image}
+                <ProductHoverImage
+                  image={item.image}
+                  hoverImage={item.hoverImage}
                   alt={item.name}
-                  loading="lazy"
-                  width={900}
-                  height={1100}
-                  className="absolute inset-0 size-full object-cover transition-all duration-[1200ms] group-hover:scale-110 group-hover:opacity-0"
-                  style={{ transitionTimingFunction: "var(--ease-luxe)" }}
                 />
-                {item.hoverImage && (
-                  <img
-                    src={item.hoverImage}
-                    alt={`${item.name} alternate view`}
-                    loading="lazy"
-                    width={900}
-                    height={1100}
-                    className="absolute inset-0 size-full object-cover opacity-0 transition-all duration-[1200ms] group-hover:scale-110 group-hover:opacity-100"
-                    style={{ transitionTimingFunction: "var(--ease-luxe)" }}
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-onyx via-onyx/30 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-95" />
+                <div className="absolute inset-0 bg-gradient-to-t from-onyx via-onyx/30 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-95 pointer-events-none" />
 
                 <div className="absolute inset-x-0 bottom-0 p-3 sm:p-6 text-center">
                   <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.2em] sm:tracking-[0.34em] text-gold font-medium truncate">
