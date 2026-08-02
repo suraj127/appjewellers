@@ -480,83 +480,27 @@ function DetailedCollectionsPage() {
         )}
 
         <div className="relative z-10 mx-auto max-w-7xl">
-          {/* Live Gold Rate & Store Trust Banner */}
-          <div className="mb-3 p-2.5 rounded-lg bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-[0.58rem] sm:text-xs text-amber-200 shadow-md text-center sm:text-left">
-            <div className="flex items-center gap-2 truncate">
-              <span className="bg-gold text-primary-foreground font-bold px-1.5 py-0.5 rounded text-[0.5rem] uppercase tracking-wider shrink-0">
-                LIVE STORE
-              </span>
-              <span className="truncate">
-                Today's 22K Gold Rate: <strong className="text-white">₹7,380/g</strong> | 100% BIS Hallmarked | Sarafa Market, Delhi
-              </span>
-            </div>
-            <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-center">
-              <button
-                type="button"
-                onClick={() => setIsCatalogPdfModalOpen(true)}
-                className="shine-sweep w-full sm:w-auto rounded bg-gradient-to-r from-gold via-amber-300 to-gold text-primary-foreground font-bold px-3 py-1.5 text-[0.58rem] sm:text-xs uppercase tracking-widest shadow hover:brightness-110 flex items-center justify-center gap-1 transition-all"
-              >
-                <CrownIcon className="size-3 text-primary-foreground" /> Download Catalogue PDF
-              </button>
-            </div>
-          </div>
-
-          {/* SEARCH & CATEGORY BAR */}
-          <div className="bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/50 rounded-lg p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
+          {/* CLEAN SEARCH BAR */}
+          <div className="bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/50 rounded-lg p-3 sm:p-4 shadow-2xl">
             {/* Search Input */}
-            <div className="relative flex items-center w-full md:max-w-md">
-              <SearchIcon className="absolute left-3.5 size-4 text-gold" />
+            <div className="relative flex items-center w-full">
+              <SearchIcon className="absolute left-4 size-4.5 text-gold" />
               <input
                 type="text"
                 placeholder="Search rings, bangles, haram, kundan..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-onyx/90 border border-gold/40 focus:border-gold rounded-full pl-10 pr-9 py-2 text-xs text-foreground placeholder:text-muted-foreground/70 outline-none transition-all shadow-inner"
+                className="w-full bg-onyx/90 border border-gold/40 focus:border-gold rounded-full pl-11 pr-10 py-2.5 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground/70 outline-none transition-all shadow-inner"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 text-xs text-gold hover:text-white"
+                  className="absolute right-4 text-xs text-gold hover:text-white"
                 >
-                  <CloseIcon className="size-3.5" />
+                  <CloseIcon className="size-4" />
                 </button>
               )}
-            </div>
-
-            {/* Horizontally Scrollable Category Pills */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto py-1 max-w-full">
-              {MEGA_NAV_ITEMS.map((item) => {
-                const isActive =
-                  activeCategory === item.id ||
-                  (item.id === "GOLD" && activeMetal === "GOLD") ||
-                  (item.id === "DIAMOND" && activeMetal === "DIAMOND");
-                const IconComp = item.IconComponent;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => {
-                      setActiveCategory(item.id);
-                      if (item.id === "GOLD") setActiveMetal("GOLD");
-                      if (item.id === "DIAMOND") setActiveMetal("DIAMOND");
-                      if (item.id === "ALL") {
-                        setActiveCategory("ALL");
-                        setActiveMetal("ALL");
-                        setActivePurity("ALL");
-                      }
-                    }}
-                    className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.65rem] sm:text-[0.68rem] font-bold uppercase tracking-wider transition-all border ${
-                      isActive
-                        ? "bg-gold text-primary-foreground border-gold shadow-md"
-                        : "bg-onyx/80 text-amber-100/80 border-gold/40 hover:border-gold hover:text-gold"
-                    }`}
-                  >
-                    <IconComp className={`size-3.5 ${isActive ? "text-primary-foreground" : "text-gold"}`} />
-                    <span>{item.label}</span>
-                  </button>
-                );
-              })}
             </div>
           </div>
 
@@ -1219,6 +1163,18 @@ function DetailedCollectionsPage() {
 
 
 
+
+      {/* FLOATING CATALOGUE DOWNLOAD BUTTON */}
+      <div className="fixed bottom-6 left-6 z-40">
+        <button
+          type="button"
+          onClick={() => setIsCatalogPdfModalOpen(true)}
+          className="shine-sweep group flex items-center gap-2.5 rounded-full bg-gradient-to-r from-gold via-amber-300 to-gold px-4 sm:px-6 py-3 text-primary-foreground font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-[0_10px_30px_rgba(212,175,55,0.45)] hover:scale-105 transition-all duration-300 border border-amber-200/60"
+        >
+          <CrownIcon className="size-4 text-primary-foreground group-hover:rotate-12 transition-transform" />
+          <span>Download Catalogue</span>
+        </button>
+      </div>
 
       <Footer />
     </>
