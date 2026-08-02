@@ -480,6 +480,21 @@ function DetailedCollectionsPage() {
         )}
 
         <div className="relative z-10 mx-auto max-w-7xl">
+          {/* PREMIUM COLLECTION LUXURY HEADER */}
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/40 text-gold text-[0.58rem] sm:text-xs font-bold uppercase tracking-[0.35em] mb-2 sm:mb-3 shadow-lg">
+              <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
+              Sarafa Market Atelier · Estd. 1998
+            </div>
+            <h1 className="font-display text-2xl sm:text-5xl font-bold text-amber-100 tracking-wide leading-tight">
+              Our <span className="italic shimmer-text font-serif">Premium Collection</span>
+            </h1>
+            <p className="mt-2 text-xs sm:text-sm font-light text-muted-foreground max-w-lg mx-auto leading-relaxed">
+              Handcrafted 22K BIS Hallmarked Gold, Certified Solitaire Diamonds & Royal Kundan Masterpieces.
+            </p>
+            <div className="rule-gold mx-auto mt-3 sm:mt-4 w-28 sm:w-36" />
+          </div>
+
           {/* CLEAN SEARCH BAR */}
           <div className="bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/50 rounded-lg p-3 sm:p-4 shadow-2xl">
             {/* Search Input */}
