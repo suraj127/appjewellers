@@ -12,6 +12,22 @@ import craftImg from "@/assets/craft.jpg";
 
 import { CatalogPdfModal } from "@/components/CatalogPdfModal";
 
+/* ── 3D Orbit Background Constants ─────────────────────────────── */
+const ORBIT_COUNT = 22;
+const ORBIT_FRAMES = Array.from(
+  { length: ORBIT_COUNT },
+  (_, i) => `/assets/chandra/f${String(i + 1).padStart(2, "0")}.jpg`
+);
+const MACRO_FRAME = "/assets/chandra/macro.jpg";
+
+function clamp(v: number, min: number, max: number) {
+  return Math.min(Math.max(v, min), max);
+}
+function smoothstep(edge0: number, edge1: number, x: number) {
+  const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
 
 const title = "Collections — A.P.P. Jewellers, Sarafa Market, New Delhi";
 const description =
@@ -251,6 +267,45 @@ function DetailedCollectionsPage() {
   // State
   const [allProducts, setAllProducts] = useState<Product[]>(getAllProducts());
 
+  // 3D Orbit Background state & scroll tracking
+  const mainRef = useRef<HTMLElement | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [orbitReady, setOrbitReady] = useState(false);
+
+  useEffect(() => {
+    let loaded = 0;
+    const total = ORBIT_COUNT + 1;
+    [...ORBIT_FRAMES, MACRO_FRAME].forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => { loaded++; if (loaded >= total) setOrbitReady(true); };
+      img.onerror = () => { loaded++; if (loaded >= total) setOrbitReady(true); };
+    });
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (!mainRef.current) return;
+      const rect = mainRef.current.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      if (scrollable <= 0) return;
+      const raw = -rect.top / scrollable;
+      setScrollProgress(clamp(raw, 0, 1));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Orbit frame calculations
+  const orbitProgress = smoothstep(0.02, 0.90, scrollProgress);
+  const floatFrame = orbitProgress * (ORBIT_COUNT - 1);
+  const activeIdx = Math.min(Math.floor(floatFrame), ORBIT_COUNT - 2);
+  const blend = floatFrame - activeIdx;
+  const macroBlend = smoothstep(0.82, 0.92, scrollProgress);
+  const footerFadeOut = 1 - smoothstep(0.88, 0.98, scrollProgress);
+  const zoomScale = 1.0 + orbitProgress * 0.15;
+
   useEffect(() => {
     const syncInventory = () => setAllProducts(getAllProducts());
     syncInventory();
@@ -268,9 +323,9 @@ function DetailedCollectionsPage() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("BEST_MATCHES");
 
-  const [megaMenuTab, setMegaMenuTab] = useState<string | null>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [mobileFilterOpen, setMobileFilterOpen] = useState<boolean>(false);
+  const [mobileTab, setMobileTab] = useState<"category" | "metal" | "purity" | "price" | "sort">("category");
 
   const [inquiryProduct, setInquiryProduct] = useState<Product | null>(null);
   const [isCatalogPdfModalOpen, setIsCatalogPdfModalOpen] = useState<boolean>(false);
@@ -318,7 +373,7 @@ function DetailedCollectionsPage() {
   }, [allProducts, activeCategory, activeMetal, activePurity, activePriceRange, searchQuery, sortBy]);
 
   // Lazy Loading / Infinite Scroll State for High-Performance Rendering
-  const BATCH_SIZE = 12;
+  const BATCH_SIZE = 24;
   const [displayLimit, setDisplayLimit] = useState<number>(BATCH_SIZE);
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -362,10 +417,71 @@ function DetailedCollectionsPage() {
   return (
     <>
       <Nav />
-      <main className="page-enter px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
-        <div className="mx-auto max-w-7xl">
-          {/* Live Gold Rate & Store Trust Banner in Gap */}
-          <div className="mb-3 p-2 rounded bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/40 flex items-center justify-between text-[0.58rem] sm:text-xs text-amber-200 shadow-md">
+      <main ref={mainRef} className="relative page-enter px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
+        {/* ══════════════════════════════════════════════════════════ */}
+        {/*  3D ORBIT BACKGROUND LAYER (Fixed & Fades Out at Footer)  */}
+        {/* ══════════════════════════════════════════════════════════ */}
+        {footerFadeOut > 0.005 && (
+          <div
+            className="fixed inset-0 pointer-events-none z-0 overflow-hidden will-change-transform"
+            style={{ transform: `scale(${zoomScale})` }}
+          >
+              {orbitReady && ORBIT_FRAMES.map((src, i) => {
+                let opacity = 0;
+                if (i === activeIdx) opacity = 1 - blend;
+                else if (i === activeIdx + 1) opacity = blend;
+                opacity *= (1 - macroBlend) * footerFadeOut;
+                if (opacity < 0.005) return null;
+
+                return (
+                  <img
+                    key={src}
+                    src={src}
+                    alt=""
+                    aria-hidden
+                    className="absolute inset-0 w-full h-full select-none"
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center 40%",
+                      opacity: opacity * 0.28,
+                      filter: "brightness(0.65) contrast(1.1) saturate(0.85)",
+                    }}
+                    draggable={false}
+                  />
+                );
+              })}
+
+              {/* Macro close-up frame */}
+              {macroBlend > 0.01 && (
+                <img
+                  src={MACRO_FRAME}
+                  alt=""
+                  aria-hidden
+                  className="absolute inset-0 w-full h-full select-none"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center center",
+                    opacity: macroBlend * footerFadeOut * 0.28,
+                    filter: "brightness(0.65) contrast(1.1) saturate(0.85)",
+                  }}
+                  draggable={false}
+                />
+              )}
+
+              {/* Dark Radial Gradient Overlay */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "radial-gradient(ellipse 130% 90% at 50% 50%, rgba(10,2,3,0.7) 0%, rgba(10,2,3,0.88) 60%, rgba(10,2,3,0.95) 100%)",
+                  opacity: footerFadeOut,
+                }}
+              />
+          </div>
+        )}
+
+        <div className="relative z-10 mx-auto max-w-7xl">
+          {/* Live Gold Rate & Store Trust Banner */}
+          <div className="mb-3 p-2.5 rounded-lg bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-[0.58rem] sm:text-xs text-amber-200 shadow-md text-center sm:text-left">
             <div className="flex items-center gap-2 truncate">
               <span className="bg-gold text-primary-foreground font-bold px-1.5 py-0.5 rounded text-[0.5rem] uppercase tracking-wider shrink-0">
                 LIVE STORE
@@ -374,24 +490,18 @@ function DetailedCollectionsPage() {
                 Today's 22K Gold Rate: <strong className="text-white">₹7,380/g</strong> | 100% BIS Hallmarked | Sarafa Market, Delhi
               </span>
             </div>
-            <div className="flex items-center gap-2 shrink-0 ml-2">
+            <div className="flex items-center gap-2 shrink-0 w-full sm:w-auto justify-center">
               <button
                 type="button"
                 onClick={() => setIsCatalogPdfModalOpen(true)}
-                className="shine-sweep rounded bg-gradient-to-r from-gold via-amber-300 to-gold text-primary-foreground font-bold px-2.5 py-1 text-[0.58rem] sm:text-xs uppercase tracking-widest shadow hover:brightness-110 flex items-center gap-1 transition-all"
+                className="shine-sweep w-full sm:w-auto rounded bg-gradient-to-r from-gold via-amber-300 to-gold text-primary-foreground font-bold px-3 py-1.5 text-[0.58rem] sm:text-xs uppercase tracking-widest shadow hover:brightness-110 flex items-center justify-center gap-1 transition-all"
               >
-                <CrownIcon className="size-3.5 text-primary-foreground" /> Download Catalogue (PDF)
+                <CrownIcon className="size-3 text-primary-foreground" /> Download Catalogue PDF
               </button>
-              <a
-                href="tel:09015155615"
-                className="shrink-0 text-[0.55rem] uppercase tracking-wider text-gold font-bold underline hidden sm:inline-block"
-              >
-                Call Us
-              </a>
             </div>
-
           </div>
-          {/* SLEEK MINIMAL HEADER WITH ROYAL BURGUNDY RED GRADIENT */}
+
+          {/* SEARCH & CATEGORY BAR */}
           <div className="bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/50 rounded-lg p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
             {/* Search Input */}
             <div className="relative flex items-center w-full md:max-w-md">
@@ -414,7 +524,7 @@ function DetailedCollectionsPage() {
               )}
             </div>
 
-            {/* Single-Row Horizontally Scrollable Category Pills (Hidden Native Scrollbar) */}
+            {/* Horizontally Scrollable Category Pills */}
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto py-1 max-w-full">
               {MEGA_NAV_ITEMS.map((item) => {
                 const isActive =
@@ -436,7 +546,7 @@ function DetailedCollectionsPage() {
                         setActivePurity("ALL");
                       }
                     }}
-                    className={`shrink-0 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[0.68rem] font-bold uppercase tracking-wider transition-all border ${
+                    className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[0.65rem] sm:text-[0.68rem] font-bold uppercase tracking-wider transition-all border ${
                       isActive
                         ? "bg-gold text-primary-foreground border-gold shadow-md"
                         : "bg-onyx/80 text-amber-100/80 border-gold/40 hover:border-gold hover:text-gold"
@@ -450,133 +560,114 @@ function DetailedCollectionsPage() {
             </div>
           </div>
 
-          {/* MOBILE SPLIT LAYOUT MATCHING USER REFERENCE SCREENSHOT (Left Vertical Rail + Right 2-Col Grid) */}
-          <div className="lg:hidden mt-4 flex gap-2 min-h-screen">
-            {/* Left Vertical Category Rail */}
-            <aside className="w-20 sm:w-24 shrink-0 bg-onyx/95 border-r border-gold/30 flex flex-col gap-1.5 p-1 max-h-[calc(100vh-100px)] sticky top-20 overflow-y-auto z-20 rounded-r-md">
-              <p className="text-[0.52rem] uppercase tracking-widest text-gold font-bold text-center py-1 border-b border-gold/20">
-                Categories
-              </p>
-              {[
-                { label: "All", cat: "ALL", Icon: SparklesIcon },
-                { label: "22K Gold", cat: "GOLD", metal: "GOLD", Icon: CrownIcon },
-                { label: "Solitaire", cat: "DIAMOND", metal: "DIAMOND", Icon: DiamondIcon },
-                { label: "Rings", cat: "RINGS", Icon: RingIcon },
-                { label: "Bangles", cat: "BANGLES", Icon: RingIcon },
-                { label: "Earrings", cat: "EARRINGS", Icon: EarringIcon },
-                { label: "Jhumka", cat: "JHUMKA", Icon: EarringIcon },
-                { label: "Necklace", cat: "NECKLACE", Icon: NecklaceIcon },
-                { label: "Haram", cat: "HARAM", Icon: NecklaceIcon },
-                { label: "Bridal", cat: "BRIDAL SET", Icon: CrownIcon },
-                { label: "Gold Coins", cat: "GOLD COIN", Icon: CoinIcon },
-              ].map((item) => {
-                const isActive = activeCategory === item.cat;
-                const IconComp = item.Icon;
-                return (
-                  <button
-                    key={item.label}
-                    type="button"
-                    onClick={() => {
-                      setActiveCategory(item.cat);
-                      if (item.metal) setActiveMetal(item.metal);
-                    }}
-                    className={`flex flex-col items-center text-center p-2 rounded transition-all ${
-                      isActive
-                        ? "bg-gold/20 border-l-4 border-gold text-gold font-bold shadow-md"
-                        : "text-muted-foreground hover:text-foreground hover:bg-onyx"
-                    }`}
-                  >
-                    <IconComp className={`size-4 ${isActive ? "text-gold" : "text-muted-foreground"}`} />
-                    <span className="text-[0.55rem] uppercase tracking-wider font-semibold mt-1 leading-tight">
-                      {item.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </aside>
+          {/* MOBILE CONTROL BAR & PRODUCT GRID (Full-Width 2-Col Grid on Mobile) */}
+          <div className="lg:hidden mt-4">
+            {/* Mobile Filter & Sort Control Bar */}
+            <div className="flex items-center justify-between gap-2 p-2.5 rounded-md bg-onyx/90 border border-gold/40 mb-3 shadow-lg">
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(true)}
+                className="shine-sweep flex items-center gap-1.5 px-3 py-1.5 rounded bg-gold/20 border border-gold text-gold font-bold text-[0.62rem] uppercase tracking-wider shadow"
+              >
+                <span>⚙️ Filter Facets</span>
+                {(activeCategory !== "ALL" || activeMetal !== "ALL" || activePurity !== "ALL") && (
+                  <span className="size-2 rounded-full bg-gold animate-pulse" />
+                )}
+              </button>
 
-            {/* Right Product Grid for Mobile */}
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between mb-3 px-1">
-                <p className="text-[0.62rem] uppercase tracking-widest text-gold font-bold">
-                  Showing {visibleProducts.length} of {filteredProducts.length} Items
-                </p>
+              <div className="flex items-center gap-2">
+                <span className="text-[0.58rem] text-gold font-semibold uppercase tracking-wider">
+                  {visibleProducts.length} Items
+                </span>
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-background border border-gold/40 rounded px-2 py-0.5 text-[0.6rem] text-gold font-bold outline-none"
+                  className="bg-background border border-gold/40 rounded px-2 py-1 text-[0.58rem] text-gold font-bold outline-none"
                 >
                   <option value="BEST_MATCHES">Sort: Matches</option>
                   <option value="NEWEST">Sort: Newest</option>
                   <option value="PURITY">Sort: Purity</option>
                 </select>
               </div>
+            </div>
 
-              <div className="grid grid-cols-2 gap-2">
-                {visibleProducts.map((product, idx) => {
-
-                  const isWishlisted = wishlist.includes(product.slug);
-                  return (
-                    <div
-                      key={product.slug}
-                      className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded overflow-hidden shadow"
-                    >
-                      <div className="relative block h-36 w-full overflow-hidden bg-black/40">
-                        <ProductHoverImage
-                          image={product.image}
-                          hoverImage={product.hoverImage}
-                          alt={product.name}
+            {/* Mobile Product Grid - Full Width 2 Columns */}
+            <div className="grid grid-cols-2 gap-2.5">
+              {visibleProducts.map((product, idx) => {
+                const isWishlisted = wishlist.includes(product.slug);
+                return (
+                  <div
+                    key={product.slug}
+                    className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded-sm overflow-hidden shadow-lg"
+                  >
+                    <div className="relative block h-44 w-full overflow-hidden bg-black/40">
+                      <ProductHoverImage
+                        image={product.image}
+                        hoverImage={product.hoverImage}
+                        alt={product.name}
+                      />
+                      <div className="absolute top-1.5 left-1.5">
+                        {product.purity && (
+                          <span className="glass-panel text-gold font-bold text-[0.5rem] uppercase tracking-wider px-1.5 py-0.5 rounded shadow">
+                            {product.purity}
+                          </span>
+                        )}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => toggleWishlist(product.slug)}
+                        className="absolute top-1.5 right-1.5 glass-panel p-1 rounded-full"
+                      >
+                        <HeartIcon
+                          filled={isWishlisted}
+                          className={`size-3.5 ${isWishlisted ? "text-rose-500" : "text-gold/80"}`}
                         />
-                        <div className="absolute top-1.5 left-1.5">
-                          {product.purity && (
-                            <span className="glass-panel text-gold font-bold text-[0.48rem] uppercase tracking-wider px-1.5 py-0.5 rounded shadow">
-                              {product.purity}
-                            </span>
-                          )}
-                        </div>
+                      </button>
+                    </div>
+
+                    <div className="p-2.5 flex flex-col justify-between flex-1 text-center">
+                      <div>
+                        <p className="text-[0.52rem] uppercase tracking-wider text-gold font-medium truncate">
+                          {product.category} · {product.metal}
+                        </p>
+                        <h3 className="mt-0.5 font-display text-xs text-foreground font-semibold leading-snug line-clamp-1">
+                          {product.name}
+                        </h3>
+                      </div>
+
+                      <div className="mt-2.5 pt-2 border-t border-border/40">
                         <button
                           type="button"
-                          onClick={() => toggleWishlist(product.slug)}
-                          className="absolute top-1.5 right-1.5 glass-panel p-1 rounded-full"
+                          onClick={() => setInquiryProduct(product)}
+                          className="shine-sweep w-full rounded bg-gold/15 border border-gold/50 py-1.5 text-[0.55rem] uppercase tracking-widest text-gold font-bold text-center"
                         >
-                          <HeartIcon
-                            filled={isWishlisted}
-                            className={`size-3 ${isWishlisted ? "text-rose-500" : "text-gold/80"}`}
-                          />
+                          PRICE ON REQUEST
                         </button>
                       </div>
-
-                      <div className="p-2 flex flex-col justify-between flex-1 text-center">
-                        <div>
-                          <p className="text-[0.5rem] uppercase tracking-wider text-gold font-medium truncate">
-                            {product.category}
-                          </p>
-                          <h3 className="mt-0.5 font-display text-xs text-foreground font-semibold leading-tight line-clamp-1">
-                            {product.name}
-                          </h3>
-                        </div>
-
-                        <div className="mt-2 pt-1 border-t border-border/40">
-                          <button
-                            type="button"
-                            onClick={() => setInquiryProduct(product)}
-                            className="shine-sweep w-full rounded bg-gold/15 border border-gold/50 py-1 text-[0.52rem] uppercase tracking-widest text-gold font-bold text-center"
-                          >
-                            INQUIRE
-                          </button>
-                        </div>
-                      </div>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
             </div>
+
+            {/* Mobile Load More Button / Sentinel */}
+            {hasMore && (
+              <div className="mt-6 flex flex-col items-center justify-center gap-3 py-4">
+                <button
+                  type="button"
+                  onClick={() => setDisplayLimit((prev) => prev + 12)}
+                  className="shine-sweep rounded-full bg-gold/20 border border-gold px-8 py-3 text-xs uppercase tracking-[0.25em] text-gold font-bold shadow-lg hover:bg-gold hover:text-primary-foreground transition-all"
+                >
+                  Load More Articles ({visibleProducts.length} of {filteredProducts.length})
+                </button>
+              </div>
+            )}
           </div>
 
           {/* DESKTOP CONTENT AREA: Left Facet Filter Sidebar + Right Product Grid */}
-          <div className="hidden lg:grid mt-8 gap-6 lg:grid-cols-[260px_1fr]">
+          <div className="hidden lg:grid mt-8 gap-6 lg:grid-cols-[270px_1fr] items-start">
             {/* Left Filter Sidebar with Floating Sticky Scroll */}
-            <aside className="bg-onyx/90 border border-gold/40 rounded-lg p-5 space-y-6 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto no-scrollbar shadow-2xl">
+            <aside className="bg-onyx/90 border border-gold/40 rounded-lg p-5 space-y-6 sticky top-24 self-start max-h-[calc(100vh-7rem)] overflow-y-auto no-scrollbar shadow-2xl backdrop-blur-md">
               <div className="flex items-center justify-between border-b border-gold/30 pb-3">
                 <div>
                   <h3 className="font-display text-base text-gold font-bold uppercase tracking-wider">
@@ -622,36 +713,7 @@ function DetailedCollectionsPage() {
                 </button>
               </div>
 
-              {/* Price Range / Budget Facet */}
 
-              <div>
-                <h4 className="text-[0.7rem] uppercase tracking-[0.2em] text-foreground font-semibold mb-2">
-                  Budget / Price Tier
-                </h4>
-                <ul className="space-y-1 text-xs text-muted-foreground">
-                  {[
-                    { id: "ALL", label: "All Prices" },
-                    { id: "UNDER_25K", label: "Under ₹25,000" },
-                    { id: "25K_50K", label: "₹25,000 – ₹50,000" },
-                    { id: "50K_100K", label: "₹50,000 – ₹1,00,000" },
-                    { id: "ABOVE_100K", label: "Above ₹1,00,000" },
-                  ].map((pr) => (
-                    <li key={pr.id}>
-                      <button
-                        type="button"
-                        onClick={() => setActivePriceRange(pr.id)}
-                        className={`text-left w-full text-[0.65rem] uppercase tracking-wider py-1.5 px-2 rounded transition-colors ${
-                          activePriceRange === pr.id
-                            ? "bg-gold/20 text-gold font-bold border-l-2 border-gold"
-                            : "hover:text-foreground hover:bg-background/40"
-                        }`}
-                      >
-                        {pr.label}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </div>
 
               {/* Category Facet */}
               <div className="border-t border-border/50 pt-4">
@@ -928,22 +990,231 @@ function DetailedCollectionsPage() {
         </div>
       </main>
 
-      {/* Quick Inquiry Modal */}
-      {inquiryProduct && (
-        <QuickInquiryModal
-          product={inquiryProduct}
-          onClose={() => setInquiryProduct(null)}
-        />
-      )}
+      {/* LUXURY 2-COLUMN TABBED MOBILE FILTER DRAWER */}
+      {mobileFilterOpen && (
+        <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/85 backdrop-blur-md animate-fadeIn lg:hidden">
+          <div className="bg-[#120305] border-t border-gold/50 rounded-t-2xl flex flex-col h-[80vh] max-h-[620px] shadow-2xl overflow-hidden text-foreground">
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gold/30 bg-onyx/90">
+              <div>
+                <h3 className="font-display text-base text-gold font-bold uppercase tracking-wider flex items-center gap-2">
+                  <span>Refine Collection</span>
+                  {(activeCategory !== "ALL" || activeMetal !== "ALL" || activePurity !== "ALL") && (
+                    <span className="text-[0.55rem] bg-gold text-primary-foreground font-bold px-2 py-0.5 rounded-full uppercase tracking-widest">
+                      Active Filters
+                    </span>
+                  )}
+                </h3>
+                <p className="text-[0.6rem] text-muted-foreground mt-0.5">
+                  Showing {filteredProducts.length} certified items
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="size-8 rounded-full bg-gold/10 border border-gold/40 text-gold flex items-center justify-center font-bold text-sm hover:bg-gold hover:text-primary-foreground transition-colors"
+              >
+                ✕
+              </button>
+            </div>
 
-      {/* Catalogue PDF Generator Modal */}
-      {isCatalogPdfModalOpen && (
-        <CatalogPdfModal
-          allProducts={allProducts}
-          currentFilteredProducts={filteredProducts}
-          activeCategory={activeCategory}
-          onClose={() => setIsCatalogPdfModalOpen(false)}
-        />
+            {/* 2-Column Master-Detail Body */}
+            <div className="flex-1 flex overflow-hidden">
+              {/* Left Tab Rail (35% Width) */}
+              <div className="w-[35%] bg-onyx/60 border-r border-gold/20 flex flex-col overflow-y-auto">
+                {[
+                  { id: "category", label: "Category", active: activeCategory !== "ALL" },
+                  { id: "metal", label: "Metal / Gem", active: activeMetal !== "ALL" },
+                  { id: "purity", label: "Purity Grade", active: activePurity !== "ALL" },
+                  { id: "sort", label: "Sort By", active: sortBy !== "BEST_MATCHES" },
+                ].map((tab) => {
+                  const isSelected = mobileTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setMobileTab(tab.id as any)}
+                      className={`p-3.5 text-left border-b border-gold/10 text-xs font-semibold uppercase tracking-wider transition-all flex items-center justify-between ${
+                        isSelected
+                          ? "bg-[#38090d] text-gold border-l-4 border-l-gold font-bold shadow-md"
+                          : "text-muted-foreground hover:text-foreground hover:bg-onyx/40"
+                      }`}
+                    >
+                      <span className="truncate">{tab.label}</span>
+                      {tab.active && (
+                        <span className="size-2 rounded-full bg-gold shrink-0 ml-1" />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Right Options Panel (65% Width) */}
+              <div className="w-[65%] p-4 overflow-y-auto bg-background/50">
+                {/* TAB 1: CATEGORIES */}
+                {mobileTab === "category" && (
+                  <div className="space-y-2">
+                    <p className="text-[0.58rem] uppercase tracking-widest text-gold font-bold mb-3">
+                      Select Jewellery Type
+                    </p>
+                    {[
+                      { label: "All Categories", val: "ALL" },
+                      { label: "Rings & Bands", val: "RINGS" },
+                      { label: "Bangles & Kadas", val: "BANGLES" },
+                      { label: "Earrings & Studs", val: "EARRINGS" },
+                      { label: "Jhumkas", val: "JHUMKA" },
+                      { label: "Necklaces & Sets", val: "NECKLACE" },
+                      { label: "Bridal Haram", val: "HARAM" },
+                      { label: "Pendants", val: "PENDANT" },
+                      { label: "Bridal Suites", val: "BRIDAL SET" },
+                      { label: "Mangalsutra", val: "MANGALSUTRA" },
+                      { label: "22K Gold Coins", val: "GOLD COIN" },
+                      { label: "Chains", val: "CHAIN" },
+                    ].map((item) => {
+                      const isSelected = activeCategory === item.val;
+                      return (
+                        <button
+                          key={item.val}
+                          type="button"
+                          onClick={() => setActiveCategory(item.val)}
+                          className={`w-full p-2.5 rounded text-left text-xs font-medium transition-all flex items-center justify-between border ${
+                            isSelected
+                              ? "bg-gold/20 text-gold border-gold font-bold shadow"
+                              : "bg-onyx/40 border-border/40 text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <span>{item.label}</span>
+                          {isSelected && <span className="text-gold font-bold">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* TAB 2: METAL & GEMSTONE */}
+                {mobileTab === "metal" && (
+                  <div className="space-y-2">
+                    <p className="text-[0.58rem] uppercase tracking-widest text-gold font-bold mb-3">
+                      Select Precious Metal / Gem
+                    </p>
+                    {[
+                      { label: "All Metals & Gems", val: "ALL" },
+                      { label: "22K / 18K Yellow Gold", val: "GOLD" },
+                      { label: "GIA / IGI Solitaire Diamond", val: "DIAMOND" },
+                      { label: "Pure Platinum 950", val: "PLATINUM" },
+                      { label: "Fine Sterling Silver 925", val: "SILVER" },
+                    ].map((item) => {
+                      const isSelected = activeMetal === item.val;
+                      return (
+                        <button
+                          key={item.val}
+                          type="button"
+                          onClick={() => setActiveMetal(item.val)}
+                          className={`w-full p-2.5 rounded text-left text-xs font-medium transition-all flex items-center justify-between border ${
+                            isSelected
+                              ? "bg-gold/20 text-gold border-gold font-bold shadow"
+                              : "bg-onyx/40 border-border/40 text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <span>{item.label}</span>
+                          {isSelected && <span className="text-gold font-bold">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* TAB 3: PURITY GRADE */}
+                {mobileTab === "purity" && (
+                  <div className="space-y-2">
+                    <p className="text-[0.58rem] uppercase tracking-widest text-gold font-bold mb-3">
+                      Select Hallmark Purity Grade
+                    </p>
+                    {[
+                      { label: "All Purity Grades", val: "ALL" },
+                      { label: "24 Carat (999 Pure)", val: "24 CARAT" },
+                      { label: "22 Carat (916 BIS Hallmark)", val: "22 CARAT" },
+                      { label: "20 Carat", val: "20 CARAT" },
+                      { label: "18 Carat (750 Hallmark)", val: "18 CARAT" },
+                    ].map((item) => {
+                      const isSelected = activePurity === item.val;
+                      return (
+                        <button
+                          key={item.val}
+                          type="button"
+                          onClick={() => setActivePurity(item.val)}
+                          className={`w-full p-2.5 rounded text-left text-xs font-medium transition-all flex items-center justify-between border ${
+                            isSelected
+                              ? "bg-gold/20 text-gold border-gold font-bold shadow"
+                              : "bg-onyx/40 border-border/40 text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <span>{item.label}</span>
+                          {isSelected && <span className="text-gold font-bold">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* TAB 4: SORT BY */}
+                {mobileTab === "sort" && (
+                  <div className="space-y-2">
+                    <p className="text-[0.58rem] uppercase tracking-widest text-gold font-bold mb-3">
+                      Sort Products By
+                    </p>
+                    {[
+                      { label: "Best Matches (Default)", val: "BEST_MATCHES" },
+                      { label: "Newest Collection Additions", val: "NEWEST" },
+                      { label: "Highest Gold Purity Grade", val: "PURITY" },
+                    ].map((item) => {
+                      const isSelected = sortBy === item.val;
+                      return (
+                        <button
+                          key={item.val}
+                          type="button"
+                          onClick={() => setSortBy(item.val)}
+                          className={`w-full p-2.5 rounded text-left text-xs font-medium transition-all flex items-center justify-between border ${
+                            isSelected
+                              ? "bg-gold/20 text-gold border-gold font-bold shadow"
+                              : "bg-onyx/40 border-border/40 text-muted-foreground hover:text-foreground"
+                          }`}
+                        >
+                          <span>{item.label}</span>
+                          {isSelected && <span className="text-gold font-bold">✓</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Bottom Fixed Action Bar */}
+            <div className="p-3 border-t border-gold/30 bg-onyx flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveCategory("ALL");
+                  setActiveMetal("ALL");
+                  setActivePurity("ALL");
+                  setSortBy("BEST_MATCHES");
+                  setSearchQuery("");
+                }}
+                className="w-1/3 py-3 rounded border border-gold/40 text-gold text-[0.62rem] uppercase tracking-widest font-bold text-center hover:bg-gold/10"
+              >
+                Clear All
+              </button>
+              <button
+                type="button"
+                onClick={() => setMobileFilterOpen(false)}
+                className="shine-sweep w-2/3 py-3 rounded bg-gradient-to-r from-gold via-amber-300 to-gold text-primary-foreground text-[0.62rem] uppercase tracking-[0.2em] font-extrabold shadow-xl text-center"
+              >
+                Show {filteredProducts.length} Items →
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
 

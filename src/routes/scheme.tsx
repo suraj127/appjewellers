@@ -25,18 +25,18 @@ function SchemePage() {
   return (
     <>
       <Nav />
-      <main className="page-enter px-6 pb-32 pt-40">
+      <main className="page-enter px-3 sm:px-6 pb-20 sm:pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
         <div className="mx-auto max-w-7xl">
           <Reveal>
             <div className="text-center">
-              <p className="eyebrow">Gold Purchase Scheme · A.P.P. Jewellers</p>
-              <h1 className="mt-4 font-display text-[clamp(2.2rem,5vw,4rem)] leading-[1.05]">
+              <p className="eyebrow text-[0.55rem] sm:text-xs">Gold Purchase Scheme · A.P.P. Jewellers</p>
+              <h1 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-amber-100">
                 SwarnaNidhi <span className="italic shimmer-text">Gold Savings Plan</span>
               </h1>
-              <p className="mt-4 max-w-xl mx-auto text-sm font-light leading-relaxed text-muted-foreground">
+              <p className="mt-3 max-w-xl mx-auto text-xs sm:text-sm font-light leading-relaxed text-muted-foreground px-2">
                 Plan your gold & diamond purchases systematically with monthly installments and receive maximum net profit and guaranteed store bonuses upon maturity.
               </p>
-              <div className="rule-gold mx-auto mt-8 w-40" />
+              <div className="rule-gold mx-auto mt-6 w-32" />
             </div>
           </Reveal>
 

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "./Reveal";
 import ringsImg from "@/assets/coll-rings.jpg";
@@ -145,12 +145,131 @@ function ProductHoverImage({
   );
 }
 
+/* ── 3D Orbit Background Constants ─────────────────────────────── */
+const ORBIT_COUNT = 22;
+const ORBIT_FRAMES = Array.from(
+  { length: ORBIT_COUNT },
+  (_, i) => `/assets/chandra/f${String(i + 1).padStart(2, "0")}.jpg`
+);
+const MACRO_FRAME = "/assets/chandra/macro.jpg";
+
+function clamp(v: number, min: number, max: number) {
+  return Math.min(Math.max(v, min), max);
+}
+function smoothstep(edge0: number, edge1: number, x: number) {
+  const t = clamp((x - edge0) / (edge1 - edge0), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
 export function Collections() {
   const exclusiveItems = PRODUCTS.filter((p) => p.isExclusive);
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [orbitReady, setOrbitReady] = useState(false);
+
+  // Preload orbit frames
+  useEffect(() => {
+    let loaded = 0;
+    const total = ORBIT_COUNT + 1;
+    [...ORBIT_FRAMES, MACRO_FRAME].forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => { loaded++; if (loaded >= total) setOrbitReady(true); };
+      img.onerror = () => { loaded++; if (loaded >= total) setOrbitReady(true); };
+    });
+  }, []);
+
+  // Track scroll progress through this section
+  useEffect(() => {
+    const onScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const sectionH = rect.height;
+      const viewH = window.innerHeight;
+      // Progress: 0 when section top hits viewport bottom, 1 when section bottom hits viewport top
+      const raw = (viewH - rect.top) / (sectionH + viewH);
+      setScrollProgress(clamp(raw, 0, 1));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Orbit calculations
+  const orbitProgress = smoothstep(0.05, 0.95, scrollProgress);
+  const floatFrame = orbitProgress * (ORBIT_COUNT - 1);
+  const activeIdx = Math.min(Math.floor(floatFrame), ORBIT_COUNT - 2);
+  const blend = floatFrame - activeIdx;
+  const macroBlend = smoothstep(0.85, 0.98, scrollProgress);
+  const zoomScale = 1.0 + orbitProgress * 0.12;
 
   return (
-    <section id="collections" className="relative px-3 sm:px-6 py-14 sm:py-32 bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border-y border-gold/40 shadow-2xl">
-      <div className="mx-auto max-w-7xl">
+    <section
+      id="collections"
+      ref={sectionRef}
+      className="relative px-3 sm:px-6 py-14 sm:py-32 border-y border-gold/40 shadow-2xl overflow-hidden"
+      style={{ background: "#210406" }}
+    >
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/*  3D ORBIT BACKGROUND LAYER                               */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      <div
+        className="absolute inset-0 pointer-events-none will-change-transform"
+        style={{ transform: `scale(${zoomScale})` }}
+      >
+        {orbitReady && ORBIT_FRAMES.map((src, i) => {
+          let opacity = 0;
+          if (i === activeIdx) opacity = 1 - blend;
+          else if (i === activeIdx + 1) opacity = blend;
+          opacity *= (1 - macroBlend);
+          if (opacity < 0.005) return null;
+
+          return (
+            <img
+              key={src}
+              src={src}
+              alt=""
+              aria-hidden
+              className="absolute inset-0 w-full h-full select-none"
+              style={{
+                objectFit: "cover",
+                objectPosition: "center 40%",
+                opacity: opacity * 0.35,
+                filter: "brightness(0.6) contrast(1.1) saturate(0.8)",
+              }}
+              draggable={false}
+            />
+          );
+        })}
+
+        {/* Macro close-up at end */}
+        {macroBlend > 0.01 && (
+          <img
+            src={MACRO_FRAME}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full select-none"
+            style={{
+              objectFit: "cover",
+              objectPosition: "center center",
+              opacity: macroBlend * 0.35,
+              filter: "brightness(0.6) contrast(1.1) saturate(0.8)",
+            }}
+            draggable={false}
+          />
+        )}
+      </div>
+
+      {/* ── Dark overlay to keep cards readable ──────────────────── */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse 120% 80% at 50% 50%, rgba(33,4,6,0.65) 0%, rgba(33,4,6,0.85) 50%, rgba(74,8,16,0.92) 100%)",
+        }}
+      />
+
+      {/* ── Foreground content (unchanged) ───────────────────────── */}
+      <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
           <SectionHead
             eyebrow="Special Gold & Diamond Collection"
@@ -327,7 +446,7 @@ export function Maison() {
 
 export function StoreLocation() {
   return (
-    <section id="store-info" className="relative px-6 py-28 sm:py-36 bg-onyx/80 border-t border-gold/20">
+    <section id="store-info" className="relative px-3 sm:px-6 py-16 sm:py-36 bg-onyx/80 border-t border-gold/20">
       <div className="mx-auto max-w-7xl">
         <Reveal>
           <SectionHead
@@ -337,52 +456,53 @@ export function StoreLocation() {
           />
         </Reveal>
 
-        <div className="mt-16 grid gap-10 lg:grid-cols-2 items-stretch">
+        {/* Side-by-Side 2-Column Grid on Mobile and Desktop */}
+        <div className="mt-10 sm:mt-16 grid grid-cols-2 gap-3 sm:gap-10 items-stretch">
           <Reveal>
-            <div className="glass-panel rounded-sm p-8 sm:p-10 flex flex-col justify-between h-full border-gold/30">
+            <div className="glass-panel rounded-sm p-4 sm:p-10 flex flex-col justify-between h-full border-gold/30">
               <div>
-                <div className="flex items-center gap-4 mb-6">
+                <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-4 mb-4 sm:mb-6">
                   <img
                     src={logoImg}
                     alt="A.P.P. Jewellers"
-                    className="h-16 w-auto object-contain filter drop-shadow-[0_4px_12px_rgba(212,175,55,0.3)]"
+                    className="h-10 sm:h-16 w-auto object-contain filter drop-shadow-[0_4px_12px_rgba(212,175,55,0.3)]"
                   />
                   <div>
-                    <h3 className="font-display text-2xl tracking-wider text-gold font-semibold">A.P.P. JEWELLERS</h3>
-                    <p className="text-[0.6rem] uppercase tracking-[0.28em] text-muted-foreground">Sarafa Market · New Seelampur</p>
+                    <h3 className="font-display text-base sm:text-2xl tracking-wider text-gold font-semibold leading-tight">A.P.P. JEWELLERS</h3>
+                    <p className="text-[0.48rem] sm:text-[0.6rem] uppercase tracking-[0.2em] text-muted-foreground mt-0.5">Sarafa Market · Delhi</p>
                   </div>
                 </div>
 
-                <div className="space-y-6 text-sm font-light text-muted-foreground">
-                  <div className="border-b border-border/60 pb-4">
-                    <p className="text-[0.6rem] uppercase tracking-[0.3em] text-gold font-medium">Showroom Address</p>
-                    <p className="mt-2 text-foreground font-normal leading-relaxed text-base">
-                      Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Seelampur, Seelampur, New Delhi, Delhi, 110053
+                <div className="space-y-4 text-xs sm:text-sm font-light text-muted-foreground">
+                  <div className="border-b border-border/60 pb-3">
+                    <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.25em] text-gold font-medium">Showroom Address</p>
+                    <p className="mt-1 text-foreground font-normal leading-relaxed text-xs sm:text-base">
+                      Shop No. D-155, Sarafa Market, New Seelampur Phase II, Delhi 110053
                     </p>
                   </div>
 
-                  <div className="border-b border-border/60 pb-4">
-                    <p className="text-[0.6rem] uppercase tracking-[0.3em] text-gold font-medium">Direct Telephone & Inquiries</p>
+                  <div className="border-b border-border/60 pb-3">
+                    <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.25em] text-gold font-medium">Direct Telephone</p>
                     <a
                       href="tel:09015155615"
-                      className="mt-2 inline-block font-display text-2xl text-gold hover:text-white transition-colors font-semibold"
+                      className="mt-1 inline-block font-display text-sm sm:text-2xl text-gold hover:text-white transition-colors font-semibold"
                     >
                       📞 090151 55615
                     </a>
                   </div>
 
                   <div>
-                    <p className="text-[0.6rem] uppercase tracking-[0.3em] text-gold font-medium">Showroom Hours</p>
-                    <p className="mt-1 text-foreground">Monday – Sunday: 11:00 AM – 8:30 PM</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">Walk-ins welcome & Private VIP appointments available</p>
+                    <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.25em] text-gold font-medium">Showroom Hours</p>
+                    <p className="mt-0.5 text-foreground text-xs sm:text-sm">Daily: 11:00 AM – 8:30 PM</p>
+                    <p className="text-[0.55rem] sm:text-xs text-muted-foreground mt-0.5">Walk-ins & Appointments</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-10 flex flex-wrap gap-4">
+              <div className="mt-6 sm:mt-10 flex flex-col gap-2">
                 <a
                   href="tel:09015155615"
-                  className="shine-sweep flex-1 rounded-sm bg-gold px-6 py-3.5 text-[0.65rem] uppercase tracking-[0.3em] text-primary-foreground font-semibold text-center transition-opacity hover:opacity-90 min-w-[140px]"
+                  className="shine-sweep w-full rounded-sm bg-gold px-3 sm:px-6 py-2.5 sm:py-3.5 text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-primary-foreground font-semibold text-center hover:opacity-90 transition-opacity"
                 >
                   📞 Call Store
                 </a>
@@ -390,7 +510,7 @@ export function StoreLocation() {
                   href="https://wa.me/919015155615"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 rounded-sm border border-emerald-500/60 bg-transparent px-6 py-3.5 text-[0.65rem] uppercase tracking-[0.3em] text-emerald-400 font-semibold text-center transition-colors hover:bg-emerald-500/10 hover:border-emerald-400 min-w-[140px]"
+                  className="w-full rounded-sm border border-emerald-500/60 bg-transparent px-3 sm:px-6 py-2.5 sm:py-3.5 text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-emerald-400 font-semibold text-center hover:bg-emerald-500/10 transition-colors"
                 >
                   💬 WhatsApp
                 </a>
@@ -398,57 +518,57 @@ export function StoreLocation() {
                   href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full rounded-sm border border-border px-6 py-3 text-[0.65rem] uppercase tracking-[0.3em] text-muted-foreground text-center transition-colors hover:border-gold/60 hover:text-gold"
+                  className="w-full rounded-sm border border-border px-3 sm:px-6 py-2 sm:py-3 text-[0.52rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground text-center hover:border-gold/60 hover:text-gold transition-colors"
                 >
-                  📍 Open Directions on Google Maps
+                  📍 Google Maps
                 </a>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={160}>
-            <div className="glass-panel rounded-sm p-8 sm:p-10 flex flex-col justify-between h-full border-gold/30">
+            <div className="glass-panel rounded-sm p-4 sm:p-10 flex flex-col justify-between h-full border-gold/30">
               <div>
-                <p className="eyebrow">Our Guarantees</p>
-                <h3 className="mt-4 font-display text-3xl">Purity, Authenticity & Trust</h3>
-                <p className="mt-4 text-sm font-light leading-relaxed text-muted-foreground">
-                  At A.P.P. Jewellers, every piece of gold and diamond jewellery is crafted with unyielding dedication to purity, traditional artistry, and modern certification.
+                <p className="eyebrow text-[0.52rem] sm:text-xs">Our Guarantees</p>
+                <h3 className="mt-2 sm:mt-4 font-display text-lg sm:text-3xl leading-tight">Purity & Trust</h3>
+                <p className="mt-2 sm:mt-4 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground">
+                  Crafted with unyielding dedication to purity, traditional artistry, and certification.
                 </p>
 
-                <div className="mt-8 space-y-4">
-                  <div className="flex items-start gap-4">
-                    <span className="text-gold font-display text-xl">01</span>
+                <div className="mt-4 sm:mt-8 space-y-3 sm:space-y-4">
+                  <div className="flex items-start gap-2.5 sm:gap-4">
+                    <span className="text-gold font-display text-base sm:text-xl font-bold">01</span>
                     <div>
-                      <h4 className="font-display text-lg text-foreground">100% BIS Hallmarked Gold</h4>
-                      <p className="text-xs text-muted-foreground font-light">Certified 22K (916) and 18K gold hallmark purity on every piece.</p>
+                      <h4 className="font-display text-xs sm:text-lg text-foreground font-medium">100% BIS Hallmarked</h4>
+                      <p className="text-[0.55rem] sm:text-xs text-muted-foreground font-light leading-snug">Certified 22K (916) and 18K purity.</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <span className="text-gold font-display text-xl">02</span>
+                  <div className="flex items-start gap-2.5 sm:gap-4">
+                    <span className="text-gold font-display text-base sm:text-xl font-bold">02</span>
                     <div>
-                      <h4 className="font-display text-lg text-foreground">Certified Diamond Solitaires</h4>
-                      <p className="text-xs text-muted-foreground font-light">GIA & IGI certified natural diamonds cut for exceptional light performance.</p>
+                      <h4 className="font-display text-xs sm:text-lg text-foreground font-medium">GIA Certified Diamonds</h4>
+                      <p className="text-[0.55rem] sm:text-xs text-muted-foreground font-light leading-snug">Natural solitaire diamond stones.</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-4">
-                    <span className="text-gold font-display text-xl">03</span>
+                  <div className="flex items-start gap-2.5 sm:gap-4">
+                    <span className="text-gold font-display text-base sm:text-xl font-bold">03</span>
                     <div>
-                      <h4 className="font-display text-lg text-foreground">Bespoke Bridal & Custom Design</h4>
-                      <p className="text-xs text-muted-foreground font-light">Personalized Kundan, Meenakari, and antique temple suites created to your exact vision.</p>
+                      <h4 className="font-display text-xs sm:text-lg text-foreground font-medium">Bespoke Bridal Design</h4>
+                      <p className="text-[0.55rem] sm:text-xs text-muted-foreground font-light leading-snug">Personalized Kundan & temple suites.</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-10 border-t border-border/60 pt-6 text-center">
-                <a
-                  href="/appointment"
-                  className="inline-block text-[0.65rem] uppercase tracking-[0.3em] text-gold underline-offset-8 transition-colors hover:underline font-medium"
+              <div className="mt-6 sm:mt-10 border-t border-border/60 pt-4 sm:pt-6 text-center">
+                <Link
+                  to="/appointment"
+                  className="shine-sweep inline-block rounded bg-gold/15 border border-gold/50 px-3 sm:px-6 py-2 sm:py-3 text-[0.55rem] sm:text-[0.65rem] uppercase tracking-[0.25em] text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow"
                 >
-                  Schedule a VIP Private Consultation →
-                </a>
+                  Book Private Viewing →
+                </Link>
               </div>
             </div>
           </Reveal>
@@ -460,23 +580,35 @@ export function StoreLocation() {
 
 export function Appointment() {
   return (
-    <section id="appointment" className="px-6 py-32 sm:py-40">
-      <div className="mx-auto max-w-3xl">
+    <section id="appointment" className="px-3 sm:px-6 py-16 sm:py-24 bg-gradient-to-r from-[#210406] via-[#3b080c] to-[#210406] border-y border-gold/40 shadow-2xl">
+      <div className="mx-auto max-w-4xl text-center">
         <Reveal>
-          <div className="text-center">
-            <p className="eyebrow">Private Viewing</p>
-            <h2 className="mt-6 font-display text-[clamp(2.1rem,5vw,3.8rem)] leading-[1.05]">
+          <div>
+            <span className="eyebrow text-[0.55rem] sm:text-xs">Private Showroom Experience</span>
+            <h2 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-amber-100">
               Sit with the pieces, <span className="italic shimmer-text">privately</span>
             </h2>
-            <p className="mt-6 text-sm font-light leading-relaxed text-muted-foreground">
-              Book your private consultation at our showroom or a live video session with our master gemmologist.
+            <p className="mt-4 text-xs sm:text-base font-light leading-relaxed text-muted-foreground max-w-2xl mx-auto">
+              Schedule a dedicated private consultation at our Sarafa Market salon or a live video session with our master gemmologist.
             </p>
-            <div className="rule-gold mx-auto mt-10 w-40" />
+            <div className="rule-gold mx-auto mt-6 w-32" />
           </div>
         </Reveal>
+
         <Reveal delay={140}>
-          <div className="mt-14">
-            <AppointmentForm />
+          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/appointment"
+              className="shine-sweep rounded-sm bg-gold px-8 sm:px-12 py-4 text-xs sm:text-sm uppercase tracking-[0.32em] text-primary-foreground font-bold hover:scale-105 transition-transform shadow-2xl"
+            >
+              Book Store Visit →
+            </Link>
+            <a
+              href="tel:09015155615"
+              className="rounded-sm border border-gold/60 px-6 sm:px-8 py-4 text-xs sm:text-sm uppercase tracking-[0.3em] text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-colors"
+            >
+              📞 Call Showroom Directly
+            </a>
           </div>
         </Reveal>
       </div>
@@ -499,51 +631,75 @@ function ReelCard({
   index: number;
 }) {
   return (
-    <Reveal delay={index * 150}>
-      <div className="w-[280px] sm:w-[340px] shrink-0 snap-center group relative bg-[#140305] border border-gold/40 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-gold">
-        {/* Top Instagram Profile Header */}
-        <div className="p-3 bg-onyx border-b border-gold/30 flex items-center justify-between z-10">
-          <div className="flex items-center gap-2">
-            <div className="size-7 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] p-[1.5px] shrink-0">
-              <div className="size-full rounded-full bg-onyx flex items-center justify-center text-[0.45rem] font-bold text-gold">
+    <Reveal delay={index * 120}>
+      <div className="w-[300px] sm:w-[360px] shrink-0 snap-center group relative bg-[#0e0204] border border-gold/30 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 hover:border-gold hover:shadow-[0_0_30px_rgba(212,175,55,0.25)] flex flex-col justify-between">
+        
+        {/* Top Meta Instagram Profile Header */}
+        <div className="p-3 bg-gradient-to-r from-onyx via-[#1a0406] to-onyx border-b border-gold/20 flex items-center justify-between z-10">
+          <div className="flex items-center gap-2.5 min-w-0">
+            {/* Meta Story Ring */}
+            <div className="size-8 rounded-full bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] p-[2px] shrink-0 animate-pulse">
+              <div className="size-full rounded-full bg-onyx flex items-center justify-center text-[0.5rem] font-bold text-amber-200">
                 APP
               </div>
             </div>
-            <div className="text-left overflow-hidden">
-              <p className="text-[0.62rem] text-gold font-bold tracking-wider leading-none truncate">
-                @appjewellers ☑
-              </p>
-              <p className="text-[0.52rem] text-muted-foreground truncate">Sarafa Market, New Delhi</p>
+            <div className="text-left min-w-0">
+              <div className="flex items-center gap-1">
+                <p className="text-[0.68rem] text-white font-bold tracking-wider truncate">
+                  appjewellers
+                </p>
+                {/* Meta Verified Badge Icon */}
+                <svg className="size-3 text-sky-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm-1.9 14.7l-3.8-3.8 1.4-1.4 2.4 2.4 6-6 1.4 1.4-7.4 7.4z"/>
+                </svg>
+              </div>
+              <p className="text-[0.55rem] text-gold/80 truncate font-medium">Sarafa Market, Delhi · Original Reel</p>
             </div>
           </div>
+
           <a
             href={reel.url}
             target="_blank"
             rel="noreferrer"
-            className="shrink-0 text-[0.55rem] uppercase tracking-widest text-white bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-2.5 py-1 rounded font-bold hover:opacity-90 transition-opacity"
+            className="shrink-0 text-[0.58rem] uppercase tracking-wider text-white bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-3 py-1 rounded-full font-bold hover:brightness-110 transition-all shadow-md flex items-center gap-1"
           >
-            Watch ↗
+            <span>Watch</span> <span>↗</span>
           </a>
         </div>
 
-        {/* Official Live Instagram Reel Embed Frame */}
-        <div className="relative w-full h-[440px] sm:h-[480px] bg-black">
+        {/* 9:16 Video Canvas / Iframe */}
+        <div className="relative w-full h-[460px] sm:h-[500px] bg-black overflow-hidden">
           <iframe
             src={`https://www.instagram.com/reel/${reel.id}/embed/`}
             title={reel.title}
-            className="w-full h-full border-0 rounded-b-none"
+            className="w-full h-full border-0"
             scrolling="no"
-            allowTransparency
             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
           />
         </div>
 
-        {/* Reel Title Footer */}
-        <div className="p-3 bg-[#1a0406] border-t border-gold/30 text-left">
-          <p className="text-xs font-bold text-amber-200 line-clamp-1">
+        {/* Bottom Metadata & Social Proof Bar */}
+        <div className="p-3.5 bg-gradient-to-b from-[#180306] to-[#0d0103] border-t border-gold/25 text-left space-y-2">
+          <div className="flex items-center justify-between text-[0.62rem] text-gold/90 font-medium">
+            <span className="flex items-center gap-1">
+              <svg className="size-3.5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+              <strong>{reel.views}</strong>
+            </span>
+            <span className="flex items-center gap-1 text-rose-400 font-semibold">
+              <svg className="size-3.5 fill-rose-500" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+              {reel.likes}
+            </span>
+          </div>
+
+          <p className="text-xs font-bold text-amber-100 leading-snug line-clamp-1">
             {reel.title}
           </p>
-          <p className="mt-1 text-[0.62rem] text-muted-foreground font-light line-clamp-1">
+          <p className="text-[0.62rem] text-muted-foreground font-light line-clamp-2 leading-relaxed">
             {reel.caption}
           </p>
         </div>
@@ -553,6 +709,8 @@ function ReelCard({
 }
 
 export function InstaReels() {
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+
   const reels = [
     {
       id: "DamjhYBzNMe",
@@ -580,34 +738,86 @@ export function InstaReels() {
     },
   ];
 
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -340, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 340, behavior: "smooth" });
+    }
+  };
+
   return (
-    <section id="instagram-reels" className="relative px-3 sm:px-6 py-14 sm:py-28 bg-onyx border-y border-border/60 shadow-xl">
-      <div className="mx-auto max-w-7xl">
+    <section id="instagram-reels" className="relative px-3 sm:px-6 py-16 sm:py-28 bg-[#100204] border-y border-gold/30 shadow-2xl overflow-hidden">
+      {/* Ambient Glow Backdrop */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gradient-to-r from-rose-900/15 via-gold/10 to-amber-900/15 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
-          <SectionHead
-            eyebrow="Live Store Videos"
-            title="See How Our Gold & Kundan Jewellery is Made"
-            copy="Swipe or scroll horizontally to watch real live Instagram Reels of Kundan setting, gold polishing, and bridal reveals directly from our Sarafa Market shop."
-          />
+          <div className="mx-auto max-w-2xl text-center">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-[0.6rem] uppercase tracking-[0.3em] font-bold mb-3">
+              <span className="size-2 rounded-full bg-rose-500 animate-ping" />
+              Official Instagram Feed
+            </div>
+            <h2 className="font-display text-[clamp(2.1rem,5vw,3.8rem)] leading-[1.05] text-amber-100">
+              Artistry in <span className="italic shimmer-text">Motion</span>
+            </h2>
+            <p className="mt-4 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground">
+              Direct from our Sarafa Market atelier: Watch Kundan stone-setting, 22K gold hallmarking, and real bridal customer reveals.
+            </p>
+            <div className="rule-gold mx-auto mt-8 w-36" />
+          </div>
         </Reveal>
 
-        {/* Horizontal Scrollable Carousel for Reels */}
-        <div className="mt-8 sm:mt-16 flex overflow-x-auto no-scrollbar gap-4 sm:gap-8 pb-4 snap-x">
-          {reels.map((reel, index) => (
-            <ReelCard key={reel.id} reel={reel} index={index} />
-          ))}
+        {/* Desktop Carousel Controls & Reel Gallery */}
+        <div className="relative mt-10 sm:mt-16">
+          {/* Scroll Control Arrows */}
+          <button
+            type="button"
+            onClick={scrollLeft}
+            aria-label="Scroll Reels Left"
+            className="absolute -left-4 sm:-left-6 top-1/2 -translate-y-1/2 z-20 size-11 rounded-full bg-onyx/90 border border-gold/40 text-gold flex items-center justify-center shadow-2xl hover:bg-gold hover:text-primary-foreground transition-all duration-300 backdrop-blur-md hidden sm:flex"
+          >
+            ←
+          </button>
+          <button
+            type="button"
+            onClick={scrollRight}
+            aria-label="Scroll Reels Right"
+            className="absolute -right-4 sm:-right-6 top-1/2 -translate-y-1/2 z-20 size-11 rounded-full bg-onyx/90 border border-gold/40 text-gold flex items-center justify-center shadow-2xl hover:bg-gold hover:text-primary-foreground transition-all duration-300 backdrop-blur-md hidden sm:flex"
+          >
+            →
+          </button>
+
+          {/* Reel Grid / Scroll Container */}
+          <div
+            ref={scrollContainerRef}
+            className="flex overflow-x-auto no-scrollbar gap-5 sm:gap-8 pb-4 snap-x sm:justify-center"
+          >
+            {reels.map((reel, index) => (
+              <ReelCard key={reel.id} reel={reel} index={index} />
+            ))}
+          </div>
         </div>
 
+        {/* Instagram Follow Call to Action */}
         <Reveal delay={200}>
-          <div className="mt-10 sm:mt-16 text-center">
+          <div className="mt-12 sm:mt-16 text-center flex flex-col items-center gap-3">
             <a
               href="https://www.instagram.com/"
               target="_blank"
               rel="noreferrer"
-              className="shine-sweep inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-8 sm:px-10 py-3.5 sm:py-4 text-xs uppercase tracking-[0.32em] text-white font-bold shadow-2xl transition-transform hover:scale-105"
+              className="shine-sweep inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] px-8 sm:px-12 py-3.5 sm:py-4 text-xs uppercase tracking-[0.32em] text-white font-bold shadow-2xl transition-transform hover:scale-105"
             >
-              Follow Us on Instagram →
+              <span>Follow @appjewellers on Instagram</span>
+              <span>→</span>
             </a>
+            <p className="text-[0.62rem] text-muted-foreground uppercase tracking-widest font-medium">
+              Join 50,000+ Patrons & Jewellery Lovers
+            </p>
           </div>
         </Reveal>
       </div>
@@ -616,88 +826,124 @@ export function InstaReels() {
 }
 
 export function Footer() {
-  const cols = [
-    ["Jewellery Types", ["Necklaces & Chains", "Rings & Bands", "Bangles & Kadas", "Bridal Sets", "Real Diamonds"]],
-    ["Our Services", ["Custom Design Jewellery", "Monthly Gold Plan", "Book Store Visit", "Cleaning & Repair"]],
-    ["About Our Shop", ["Sarafa Market Shop", "Gold Purity Guarantee", "Our Craftsmanship", "Contact Us"]],
-  ] as const;
-
   return (
-    <footer className="bg-onyx px-4 sm:px-6 pb-10 pt-12 sm:pt-20 border-t border-gold/30">
-      <div className="mx-auto max-w-7xl">
-        {/* CENTERED BRAND LOGO & ADDRESS IN FOOTER */}
-        <div className="flex flex-col items-center justify-center text-center mb-10 sm:mb-16">
-          <img
-            src={logoImg}
-            alt="A.P.P. Jewellers Brand Logo"
-            className="h-16 sm:h-28 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.4)] mb-3"
-          />
-          <p className="text-[0.58rem] sm:text-[0.62rem] uppercase tracking-[0.25em] sm:tracking-[0.38em] text-gold font-medium max-w-xl px-2 leading-relaxed">
-            Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Seelampur, Seelampur, New Delhi, Delhi, 110053
-          </p>
+    <footer className="bg-[#0a0203] px-4 sm:px-8 pb-8 pt-12 sm:pt-20 border-t border-gold/30 text-left relative overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-gold/5 blur-3xl pointer-events-none rounded-full" />
 
-          {/* Quick Mobile Contact Action Buttons */}
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
+      <div className="relative z-10 mx-auto max-w-7xl">
+        {/* BRAND HEADER & STORE BADGE */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-10 border-b border-gold/20">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+            <img
+              src={logoImg}
+              alt="A.P.P. Jewellers Logo"
+              className="h-16 sm:h-20 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.35)]"
+            />
+            <p className="mt-2 text-[0.62rem] sm:text-xs uppercase tracking-[0.3em] text-gold font-medium">
+              Purity · Artistry · Heritage
+            </p>
+          </div>
+
+          {/* Quick Action Badges */}
+          <div className="flex flex-wrap items-center justify-center gap-3">
             <a
               href="tel:09015155615"
-              className="shine-sweep inline-flex items-center gap-2 rounded bg-gold/10 border border-gold/60 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-colors shadow"
+              className="shine-sweep inline-flex items-center gap-2 rounded bg-gold/15 border border-gold/50 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow"
             >
-              <PhoneIcon className="size-3.5" /> Call 090151 55615
+              <PhoneIcon className="size-3.5" /> Call Store
             </a>
             <a
               href="https://wa.me/919015155615"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded bg-transparent border border-emerald-500/60 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-emerald-400 font-bold hover:bg-emerald-500/10 hover:border-emerald-400 transition-colors shadow"
+              className="inline-flex items-center gap-2 rounded bg-emerald-500/10 border border-emerald-500/50 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-emerald-400 font-bold hover:bg-emerald-500/20 transition-all shadow"
             >
-              <WhatsAppIcon className="size-3.5" /> WhatsApp Inquiry
+              <WhatsAppIcon className="size-3.5" /> WhatsApp Chat
+            </a>
+            <a
+              href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 rounded bg-onyx border border-border/70 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-muted-foreground hover:text-gold hover:border-gold/60 transition-all"
+            >
+              <span>📍 Directions</span>
             </a>
           </div>
         </div>
 
-        {/* 2-Column Grid on Mobile, 4-Column Grid on Desktop */}
-        <div className="grid grid-cols-2 gap-6 sm:gap-12 md:grid-cols-4 text-left">
-          <div className="col-span-2 sm:col-span-1">
-            <p className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.32em] text-gold font-bold">
-              A.P.P. Jewellers
+        {/* STREAMLINED 4-COLUMN FOOTER NAVIGATION */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 text-left border-b border-gold/20">
+          {/* Col 1: Collections */}
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
+              Fine Collections
             </p>
-            <p className="mt-3 text-xs font-light leading-relaxed text-muted-foreground">
-              Your trusted destination for 22K BIS Hallmarked gold, certified solitaires, and exquisite Kundan bridal suites in Sarafa Market, New Seelampur, New Delhi.
-            </p>
+            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
+              <li><Link to="/collections" className="hover:text-gold transition-colors">Solitaire Diamonds</Link></li>
+              <li><Link to="/collections" className="hover:text-gold transition-colors">Kundan Bridal Sets</Link></li>
+              <li><Link to="/collections" className="hover:text-gold transition-colors">22K Gold Bangles & Kadas</Link></li>
+              <li><Link to="/collections" className="hover:text-gold transition-colors">Temple Jewellery & Haram</Link></li>
+              <li><Link to="/scheme" className="hover:text-gold transition-colors">SwarnaNidhi Gold Scheme</Link></li>
+            </ul>
           </div>
 
-          {cols.map(([title, items]) => (
-            <div key={title}>
-              <p className="text-[0.58rem] sm:text-[0.6rem] uppercase tracking-[0.32em] text-gold font-bold">
-                {title}
-              </p>
-              <ul className="mt-3 sm:mt-5 space-y-2 sm:space-y-3">
-                {items.map((i) => (
-                  <li key={i}>
-                    <a
-                      href="#top"
-                      className="text-[0.7rem] sm:text-xs font-light text-muted-foreground transition-colors duration-300 hover:text-gold"
-                    >
-                      {i}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+          {/* Col 2: Services */}
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
+              Showroom Services
+            </p>
+            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
+              <li><Link to="/appointment" className="hover:text-gold transition-colors">Book Private Consultation</Link></li>
+              <li><Link to="/piece/$slug" params={{ slug: "lumiere-solitaire" }} className="hover:text-gold transition-colors">Virtual Try-On Experience</Link></li>
+              <li><a href="#collections" className="hover:text-gold transition-colors">Live Gold & Silver Rates</a></li>
+              <li><a href="#maison" className="hover:text-gold transition-colors">Bespoke Bench Craftsmanship</a></li>
+            </ul>
+          </div>
+
+          {/* Col 3: Purity & Trust */}
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
+              Purity & Trust
+            </p>
+            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
+              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> BIS 100% Hallmarked 22K Gold</li>
+              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> GIA & IGI Certified Solitaires</li>
+              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> 100% Lifetime Exchange</li>
+              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> Fully Insured Transit</li>
+            </ul>
+          </div>
+
+          {/* Col 4: Showroom Info */}
+          <div>
+            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
+              Showroom Location
+            </p>
+            <div className="space-y-2 text-xs text-muted-foreground font-light leading-relaxed">
+              <p className="text-white font-medium">A.P.P. Jewellers</p>
+              <p>Shop No. D-155, Sarafa Market, New Seelampur Phase II, Delhi 110053</p>
+              <p className="text-gold/90 font-medium pt-1">Open Daily: 11:00 AM – 8:30 PM</p>
+              <p className="text-muted-foreground">Phone: 090151 55615</p>
             </div>
-          ))}
+          </div>
         </div>
 
-        <div className="rule-gold mt-10 sm:mt-16" />
-        <p className="mt-6 sm:mt-8 text-center text-[0.55rem] sm:text-[0.58rem] uppercase tracking-[0.25em] sm:tracking-[0.3em] text-muted-foreground leading-relaxed px-2 flex items-center justify-center gap-2 flex-wrap">
-          <span>© 2026 A.P.P. Jewellers · Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Delhi 110053 · Phone: 090151 55615 · BIS Hallmarked 22K Gold & Certified Diamonds</span>
-          <a
-            href="/admin"
-            title="A.P.P. Owner Portal"
-            className="text-[0.65rem] opacity-30 hover:opacity-100 transition-opacity text-gold"
-          >
-            🔒
-          </a>
-        </p>
+        {/* COPYRIGHT BAR */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.58rem] uppercase tracking-widest text-muted-foreground">
+          <p>© 2026 A.P.P. Jewellers · All Rights Reserved.</p>
+          <div className="flex items-center gap-4">
+            <span className="text-gold/60">BIS 916 HALLMARK</span>
+            <span>·</span>
+            <span className="text-gold/60">GIA CERTIFIED</span>
+            <a
+              href="/admin"
+              title="Owner Portal Login"
+              className="text-[0.65rem] opacity-30 hover:opacity-100 transition-opacity text-gold ml-2"
+            >
+              🔒
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );
