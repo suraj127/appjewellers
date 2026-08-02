@@ -414,54 +414,8 @@ function DetailedCollectionsPage() {
   }, [hasMore, isLoadingMore]);
 
 
-  const [pageLoading, setPageLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setPageLoading(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
-      {/* 3-SECOND FULL PAGE LUXURY LOADER */}
-      {pageLoading && (
-        <div className="fixed inset-0 z-[100] bg-[#0a0203] flex flex-col items-center justify-center text-center p-6 transition-opacity duration-700 animate-fadeIn">
-          {/* Ambient Glow Backdrop */}
-          <div className="absolute size-[500px] bg-gradient-to-r from-rose-900/30 via-gold/20 to-amber-900/30 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 flex flex-col items-center gap-6">
-            {/* Spinning Gold Halo Ring with Brand Crest Logo */}
-            <div className="relative size-28 sm:size-36 flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full border-2 border-gold/20 border-t-gold animate-spin shadow-[0_0_25px_rgba(212,175,55,0.4)]" />
-              <div className="absolute inset-2 rounded-full border border-gold/40 border-b-amber-300 animate-spin [animation-duration:4s]" />
-              <img
-                src={logoImg}
-                alt="A.P.P. Jewellers"
-                className="size-16 sm:size-20 object-contain animate-pulse filter brightness-110 drop-shadow-[0_0_15px_rgba(255,215,0,0.5)]"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <span className="eyebrow text-[0.6rem] sm:text-xs tracking-[0.4em] text-gold uppercase font-semibold">
-                Sarafa Market Atelier
-              </span>
-              <h2 className="font-display text-2xl sm:text-4xl text-amber-100 font-bold tracking-wider">
-                A.P.P. <span className="italic shimmer-text font-serif">Jewellers</span>
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground font-light tracking-widest uppercase">
-                Curating Fine Gold & Solitaire Collections...
-              </p>
-            </div>
-
-            {/* Live Animated 3-Second Gold Progress Bar */}
-            <div className="w-56 sm:w-72 h-1 bg-onyx/90 rounded-full overflow-hidden border border-gold/40 shadow-inner">
-              <div className="h-full bg-gradient-to-r from-gold via-amber-300 to-gold animate-progress-3s shadow-[0_0_10px_rgba(255,215,0,0.8)]" />
-            </div>
-          </div>
-        </div>
-      )}
 
       <Nav />
       <main ref={mainRef} className="relative page-enter px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
