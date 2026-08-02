@@ -125,11 +125,7 @@ export function KarigarProcessSection() {
 
         {/* Top Header Badge */}
         <div className="absolute top-6 left-6 sm:top-10 sm:left-12 z-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/40 text-gold text-[0.58rem] sm:text-xs font-bold uppercase tracking-[0.3em] shadow-lg">
-            <span className="size-2 rounded-full bg-rose-500 animate-ping" />
-            Sarafa Atelier BENCHWORK
-          </div>
-          <h2 className="mt-2 font-display text-xl sm:text-3xl text-amber-100 font-bold tracking-wider">
+          <h2 className="font-display text-xl sm:text-3xl text-amber-100 font-bold tracking-wider">
             Art of the <span className="italic shimmer-text">Karigar</span>
           </h2>
         </div>
