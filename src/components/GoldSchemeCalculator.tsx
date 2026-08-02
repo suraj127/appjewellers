@@ -42,48 +42,66 @@ export function GoldSchemeCalculator() {
 
       {/* Auto-Calculation Controls */}
       <div className="bg-onyx/90 border border-gold/30 rounded-md p-6 mb-8">
-        <h3 className="text-gold font-display text-xl mb-4 font-semibold">
-          Auto-Calculate Your Gold Scheme Earnings
-        </h3>
-
-        <div className="grid gap-6 md:grid-cols-2 items-center">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
-            <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
-              Select or Enter Monthly Installment (₹)
-            </label>
-            <div className="flex items-center gap-3">
-              <span className="text-gold font-display text-2xl font-bold">₹</span>
-              <input
-                type="number"
-                min={500}
-                step={500}
-                value={monthlyAmount}
-                onChange={(e) => setMonthlyAmount(Math.max(500, Number(e.target.value) || 0))}
-                className="w-full bg-background border border-gold/50 rounded px-4 py-3 text-lg font-bold text-gold focus:outline-none focus:border-gold"
-              />
-            </div>
+            <h3 className="text-gold font-display text-xl font-semibold">
+              Scroll & Auto-Calculate Gold Scheme Earnings
+            </h3>
+            <p className="text-xs text-muted-foreground font-light mt-1">
+              Drag the scroll bar below to select your monthly installment amount from ₹1,000 to ₹50,000.
+            </p>
           </div>
 
-          <div>
-            <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">
-              Quick Presets
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {presetAmounts.map((amt) => (
-                <button
-                  key={amt}
-                  type="button"
-                  onClick={() => setMonthlyAmount(amt)}
-                  className={`px-3 py-1.5 rounded text-xs font-semibold tracking-wider transition-colors ${
-                    monthlyAmount === amt
-                      ? "bg-gold text-primary-foreground border border-gold font-bold shadow-md"
-                      : "bg-onyx border border-border text-muted-foreground hover:border-gold hover:text-gold"
-                  }`}
-                >
-                  ₹{amt.toLocaleString("en-IN")}
-                </button>
-              ))}
-            </div>
+          <div className="flex items-center gap-3 bg-[#4a0810] border-2 border-gold/60 px-5 py-2.5 rounded shadow-lg self-start md:self-auto">
+            <span className="text-gold font-display text-2xl font-bold">₹</span>
+            <input
+              type="number"
+              min={1000}
+              max={50000}
+              step={500}
+              value={monthlyAmount}
+              onChange={(e) => setMonthlyAmount(Math.max(1000, Math.min(50000, Number(e.target.value) || 0)))}
+              className="w-32 bg-transparent text-2xl font-bold text-amber-200 focus:outline-none text-right"
+            />
+            <span className="text-xs uppercase tracking-widest text-gold/90 font-semibold">/ month</span>
+          </div>
+        </div>
+
+        {/* Scroll Bar Track */}
+        <div className="space-y-4 bg-black/40 p-5 rounded-lg border border-gold/30">
+          <div className="flex items-center justify-between text-xs uppercase tracking-widest text-gold font-bold mb-1">
+            <span>Scroll Bar (Drag to adjust installment)</span>
+            <span className="text-amber-200 text-sm font-bold">
+              ₹{monthlyAmount.toLocaleString("en-IN")} / mo
+            </span>
+          </div>
+
+          <input
+            type="range"
+            min={1000}
+            max={50000}
+            step={500}
+            value={monthlyAmount}
+            onChange={(e) => setMonthlyAmount(Number(e.target.value))}
+            className="w-full h-4 bg-[#210406] rounded-lg appearance-none cursor-pointer accent-gold border border-gold/60 shadow-inner focus:outline-none"
+          />
+
+          {/* Quick Clickable Markers on the Scroll Bar */}
+          <div className="flex justify-between items-center text-[0.65rem] sm:text-xs font-semibold text-muted-foreground pt-1 flex-wrap gap-1">
+            {[1000, 3000, 5000, 6000, 10000, 15000, 20000, 30000, 50000].map((amt) => (
+              <button
+                key={amt}
+                type="button"
+                onClick={() => setMonthlyAmount(amt)}
+                className={`px-2 py-1 rounded transition-all ${
+                  monthlyAmount === amt
+                    ? "bg-gold text-primary-foreground font-extrabold shadow scale-105"
+                    : "hover:text-gold hover:bg-gold/10"
+                }`}
+              >
+                ₹{amt >= 1000 ? `${amt / 1000}k` : amt}
+              </button>
+            ))}
           </div>
         </div>
 
