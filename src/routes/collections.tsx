@@ -465,7 +465,66 @@ function DetailedCollectionsPage() {
 
       <Nav />
       <main ref={mainRef} className="relative page-enter px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
+        {/* ══════════════════════════════════════════════════════════ */}
+        {/*  3D ORBIT BACKGROUND LAYER (Fixed & Fades Out at Footer)  */}
+        {/* ══════════════════════════════════════════════════════════ */}
+        {footerFadeOut > 0.005 && (
+          <div
+            className="fixed inset-0 pointer-events-none z-0 overflow-hidden will-change-transform"
+            style={{ transform: `scale(${zoomScale})` }}
+          >
+              {orbitReady && ORBIT_FRAMES.map((src, i) => {
+                let opacity = 0;
+                if (i === activeIdx) opacity = 1 - blend;
+                else if (i === activeIdx + 1) opacity = blend;
+                opacity *= (1 - macroBlend) * footerFadeOut;
+                if (opacity < 0.005) return null;
 
+                return (
+                  <img
+                    key={src}
+                    src={src}
+                    alt=""
+                    aria-hidden
+                    className="absolute inset-0 w-full h-full select-none"
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center 40%",
+                      opacity: opacity * 0.28,
+                      filter: "brightness(0.65) contrast(1.1) saturate(0.85)",
+                    }}
+                    draggable={false}
+                  />
+                );
+              })}
+
+              {/* Macro close-up frame */}
+              {macroBlend > 0.01 && (
+                <img
+                  src={MACRO_FRAME}
+                  alt=""
+                  aria-hidden
+                  className="absolute inset-0 w-full h-full select-none"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center center",
+                    opacity: macroBlend * footerFadeOut * 0.28,
+                    filter: "brightness(0.65) contrast(1.1) saturate(0.85)",
+                  }}
+                  draggable={false}
+                />
+              )}
+
+              {/* Dark Radial Gradient Overlay */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "radial-gradient(ellipse 130% 90% at 50% 50%, rgba(10,2,3,0.7) 0%, rgba(10,2,3,0.88) 60%, rgba(10,2,3,0.95) 100%)",
+                  opacity: footerFadeOut,
+                }}
+              />
+          </div>
+        )}
 
         <div className="relative z-10 mx-auto max-w-7xl">
           {/* PREMIUM COLLECTION LUXURY HEADER */}

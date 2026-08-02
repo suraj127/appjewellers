@@ -163,110 +163,14 @@ function smoothstep(edge0: number, edge1: number, x: number) {
 
 export function Collections() {
   const exclusiveItems = PRODUCTS.filter((p) => p.isExclusive);
-  const sectionRef = useRef<HTMLDivElement | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [orbitReady, setOrbitReady] = useState(false);
-
-  // Preload orbit frames
-  useEffect(() => {
-    let loaded = 0;
-    const total = ORBIT_COUNT + 1;
-    [...ORBIT_FRAMES, MACRO_FRAME].forEach((src) => {
-      const img = new Image();
-      img.src = src;
-      img.onload = () => { loaded++; if (loaded >= total) setOrbitReady(true); };
-      img.onerror = () => { loaded++; if (loaded >= total) setOrbitReady(true); };
-    });
-  }, []);
-
-  // Track scroll progress through this section
-  useEffect(() => {
-    const onScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const sectionH = rect.height;
-      const viewH = window.innerHeight;
-      // Progress: 0 when section top hits viewport bottom, 1 when section bottom hits viewport top
-      const raw = (viewH - rect.top) / (sectionH + viewH);
-      setScrollProgress(clamp(raw, 0, 1));
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Orbit calculations
-  const orbitProgress = smoothstep(0.05, 0.95, scrollProgress);
-  const floatFrame = orbitProgress * (ORBIT_COUNT - 1);
-  const activeIdx = Math.min(Math.floor(floatFrame), ORBIT_COUNT - 2);
-  const blend = floatFrame - activeIdx;
-  const macroBlend = smoothstep(0.85, 0.98, scrollProgress);
-  const zoomScale = 1.0 + orbitProgress * 0.12;
 
   return (
     <section
       id="collections"
-      ref={sectionRef}
-      className="relative px-3 sm:px-6 py-14 sm:py-32 border-y border-gold/40 shadow-2xl overflow-hidden"
-      style={{ background: "#210406" }}
+      className="relative px-3 sm:px-6 py-14 sm:py-32 bg-[#100204] border-y border-gold/40 shadow-2xl overflow-hidden"
     >
-      {/* ══════════════════════════════════════════════════════════ */}
-      {/*  3D ORBIT BACKGROUND LAYER                               */}
-      {/* ══════════════════════════════════════════════════════════ */}
-      <div
-        className="absolute inset-0 pointer-events-none will-change-transform"
-        style={{ transform: `scale(${zoomScale})` }}
-      >
-        {orbitReady && ORBIT_FRAMES.map((src, i) => {
-          let opacity = 0;
-          if (i === activeIdx) opacity = 1 - blend;
-          else if (i === activeIdx + 1) opacity = blend;
-          opacity *= (1 - macroBlend);
-          if (opacity < 0.005) return null;
-
-          return (
-            <img
-              key={src}
-              src={src}
-              alt=""
-              aria-hidden
-              className="absolute inset-0 w-full h-full select-none"
-              style={{
-                objectFit: "cover",
-                objectPosition: "center 40%",
-                opacity: opacity * 0.35,
-                filter: "brightness(0.6) contrast(1.1) saturate(0.8)",
-              }}
-              draggable={false}
-            />
-          );
-        })}
-
-        {/* Macro close-up at end */}
-        {macroBlend > 0.01 && (
-          <img
-            src={MACRO_FRAME}
-            alt=""
-            aria-hidden
-            className="absolute inset-0 w-full h-full select-none"
-            style={{
-              objectFit: "cover",
-              objectPosition: "center center",
-              opacity: macroBlend * 0.35,
-              filter: "brightness(0.6) contrast(1.1) saturate(0.8)",
-            }}
-            draggable={false}
-          />
-        )}
-      </div>
-
-      {/* ── Dark overlay to keep cards readable ──────────────────── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: "radial-gradient(ellipse 120% 80% at 50% 50%, rgba(33,4,6,0.65) 0%, rgba(33,4,6,0.85) 50%, rgba(74,8,16,0.92) 100%)",
-        }}
-      />
+      {/* Ambient Glow Backdrop */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gradient-to-r from-rose-900/20 via-gold/15 to-amber-900/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* ── Foreground content (unchanged) ───────────────────────── */}
       <div className="relative z-10 mx-auto max-w-7xl">
