@@ -10,6 +10,8 @@ import logoImg from "@/assets/logo.png";
 import { PRODUCTS } from "@/data/products";
 import { AppointmentForm } from "./AppointmentForm";
 import { PhoneIcon, WhatsAppIcon } from "./LuxuryIcons";
+import { KarigarProcessSection } from "./KarigarProcessSection";
+
 
 const COLLECTIONS = [
   {
@@ -300,44 +302,16 @@ export function Signature() {
 
 export function Maison() {
   return (
-    <section id="maison" className="relative overflow-hidden bg-gradient-to-r from-[#3b080c] via-[#210406] to-[#3b080c] py-12 sm:py-24 border-y border-gold/40 shadow-2xl">
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-16 items-center">
-          {/* ARTISTRY IMAGE ON LEFT */}
-          <Reveal>
-            <div className="relative overflow-hidden rounded-lg border border-gold/40 shadow-2xl h-72 sm:h-[420px]">
-              <img
-                src={craftImg}
-                alt="Master Karigar melting raw gold in crucible and finalizing handcrafted jewellery"
-                loading="lazy"
-                className="size-full object-cover hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-            </div>
-          </Reveal>
-
-          {/* ARTISTRY DETAILS ON RIGHT */}
-          <Reveal delay={150}>
-            <div className="text-left">
-              <span className="eyebrow text-[0.55rem] sm:text-xs">A.P.P. Karigar</span>
-              <h2 className="mt-2 sm:mt-4 font-display text-2xl sm:text-5xl text-amber-100 font-bold leading-tight">
-                Generations of Mastery & Pure Artistry
-              </h2>
-              <p className="mt-2 sm:mt-4 text-xs sm:text-base font-light leading-relaxed text-muted-foreground">
-                From hand-drawn sketches to micro-pavé stone setting, every ornament is handcrafted at our Sarafa Market workshop. 100% BIS hallmarked gold & certified diamonds guaranteed.
-              </p>
-
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="mt-10 sm:mt-16 border-t border-gold/30 pt-8 sm:pt-12">
+    <>
+      <KarigarProcessSection />
+      <section className="relative overflow-hidden bg-gradient-to-r from-[#3b080c] via-[#210406] to-[#3b080c] py-10 sm:py-16 border-b border-gold/40 shadow-2xl">
+        <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
             {TRUST.map(([k, v], i) => (
               <Reveal key={v} delay={i * 100}>
-                <div className="text-center p-3 rounded-lg bg-onyx/60 border border-gold/30">
+                <div className="text-center p-3 sm:p-4 rounded-lg bg-onyx/80 border border-gold/30 shadow-lg">
                   <p className="font-display text-xl sm:text-3xl text-gold font-bold">{k}</p>
-                  <p className="mt-1 text-[0.55rem] sm:text-[0.6rem] uppercase tracking-widest text-muted-foreground font-medium">
+                  <p className="mt-1 text-[0.55rem] sm:text-[0.62rem] uppercase tracking-widest text-muted-foreground font-semibold">
                     {v}
                   </p>
                 </div>
@@ -345,10 +319,11 @@ export function Maison() {
             ))}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
+
 
 export function StoreLocation() {
   return (
