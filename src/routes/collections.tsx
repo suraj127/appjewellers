@@ -1,13 +1,15 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
+
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Sections";
-import { Reveal } from "@/components/Reveal";
 import { PRODUCTS, CATEGORY_GROUPS, type Product } from "@/data/products";
 import { getAllProducts } from "@/data/storeState";
-import { useEffect } from "react";
 import bridalBannerImg from "@/assets/coll-bridal.jpg";
 import craftImg from "@/assets/craft.jpg";
+
+
+
 import { CatalogPdfModal } from "@/components/CatalogPdfModal";
 
 
@@ -315,6 +317,48 @@ function DetailedCollectionsPage() {
     });
   }, [allProducts, activeCategory, activeMetal, activePurity, activePriceRange, searchQuery, sortBy]);
 
+  // Lazy Loading / Infinite Scroll State for High-Performance Rendering
+  const BATCH_SIZE = 12;
+  const [displayLimit, setDisplayLimit] = useState<number>(BATCH_SIZE);
+  const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  // Reset batch limit whenever user changes filter criteria
+  useEffect(() => {
+    setDisplayLimit(BATCH_SIZE);
+  }, [activeCategory, activeMetal, activePurity, activePriceRange, searchQuery, sortBy]);
+
+  const visibleProducts = useMemo(() => {
+    return filteredProducts.slice(0, displayLimit);
+  }, [filteredProducts, displayLimit]);
+
+  const hasMore = displayLimit < filteredProducts.length;
+
+  // Auto load next batch on scroll using IntersectionObserver
+  useEffect(() => {
+    if (!hasMore || isLoadingMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsLoadingMore(true);
+          setTimeout(() => {
+            setDisplayLimit((prev) => prev + BATCH_SIZE);
+            setIsLoadingMore(false);
+          }, 450);
+        }
+      },
+      { rootMargin: "250px" }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [hasMore, isLoadingMore]);
+
+
   return (
     <>
       <Nav />
@@ -455,7 +499,7 @@ function DetailedCollectionsPage() {
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between mb-3 px-1">
                 <p className="text-[0.62rem] uppercase tracking-widest text-gold font-bold">
-                  {filteredProducts.length} Items
+                  Showing {visibleProducts.length} of {filteredProducts.length} Items
                 </p>
                 <select
                   value={sortBy}
@@ -469,7 +513,8 @@ function DetailedCollectionsPage() {
               </div>
 
               <div className="grid grid-cols-2 gap-2">
-                {filteredProducts.map((product, idx) => {
+                {visibleProducts.map((product, idx) => {
+
                   const isWishlisted = wishlist.includes(product.slug);
                   return (
                     <div
@@ -700,7 +745,7 @@ function DetailedCollectionsPage() {
               {/* Counter status badge */}
               <div className="flex flex-wrap items-center justify-between gap-2 mb-6 pb-3 border-b border-border/50">
                 <p className="text-xs uppercase tracking-widest text-gold font-semibold">
-                  Showing <span className="text-foreground font-bold">{filteredProducts.length}</span> Jewellery Items
+                  Showing <span className="text-foreground font-bold">{visibleProducts.length}</span> of <span className="text-foreground font-bold">{filteredProducts.length}</span> Jewellery Items
                 </p>
                 <div className="flex items-center gap-3">
                   <button
@@ -716,10 +761,9 @@ function DetailedCollectionsPage() {
                 </div>
               </div>
 
-
               {/* Product Grid showcasing cards without pricing - 2 cols on mobile */}
               <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
-                {filteredProducts.map((product, idx) => {
+                {visibleProducts.map((product, idx) => {
                   const isWishlisted = wishlist.includes(product.slug);
 
                   // Inject an In-Grid Campaign Banner after every 6 items matching Tanishq Screenshot 3
@@ -833,7 +877,31 @@ function DetailedCollectionsPage() {
                     </div>
                   );
                 })}
+
+                {/* Store Logo Animated Loader Sentinel */}
+                {hasMore && (
+                  <div
+                    ref={loadMoreRef}
+                    className="col-span-full py-12 flex flex-col items-center justify-center gap-3 animate-fadeIn"
+                  >
+                    <div className="relative size-16 flex items-center justify-center">
+                      <div className="absolute inset-0 rounded-full border-2 border-gold/20 border-t-gold animate-spin" />
+                      <img
+                        src="/logo-transparent.png"
+                        alt="A.P.P. Jewellers Loading"
+                        className="size-9 object-contain animate-pulse drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]"
+                      />
+                    </div>
+                    <p className="text-[0.65rem] uppercase tracking-[0.25em] text-gold font-bold">
+                      Loading More Masterpieces...
+                    </p>
+                    <p className="text-[0.58rem] text-muted-foreground">
+                      Showing {visibleProducts.length} of {filteredProducts.length} certified items
+                    </p>
+                  </div>
+                )}
               </div>
+
 
               {filteredProducts.length === 0 && (
                 <div className="text-center py-20 bg-onyx/50 border border-border/40 rounded-sm mt-8 p-8">
