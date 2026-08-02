@@ -266,6 +266,15 @@
   animation: page-enter 0.5s var(--ease-luxe) both;
 }
 
+@keyframes progress3s {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.animate-progress-3s {
+  animation: progress3s 3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::after,
