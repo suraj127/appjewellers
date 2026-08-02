@@ -70,7 +70,7 @@ export function GoldSchemeCalculator() {
         {/* Scroll Bar Track */}
         <div className="space-y-4 bg-black/40 p-5 rounded-lg border border-gold/30">
           <div className="flex items-center justify-between text-xs uppercase tracking-widest text-gold font-bold mb-1">
-            <span>Scroll Bar (Drag to adjust installment)</span>
+            <span>Scroll Bar</span>
             <span className="text-amber-200 text-sm font-bold">
               ₹{monthlyAmount.toLocaleString("en-IN")} / mo
             </span>

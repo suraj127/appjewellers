@@ -327,14 +327,6 @@ export function Maison() {
                 From hand-drawn sketches to micro-pavé stone setting, every ornament is handcrafted at our Sarafa Market workshop. 100% BIS hallmarked gold & certified diamonds guaranteed.
               </p>
 
-              <div className="mt-6 sm:mt-8 flex flex-wrap gap-3 sm:gap-6">
-                <Link
-                  to="/appointment"
-                  className="shine-sweep rounded-sm bg-gold px-4 sm:px-8 py-2.5 sm:py-4 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
-                >
-                  Book Store Visit
-                </Link>
-              </div>
             </div>
           </Reveal>
         </div>
