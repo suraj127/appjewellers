@@ -25,7 +25,7 @@ function SchemePage() {
   return (
     <>
       <Nav />
-      <main className="px-6 pb-32 pt-40">
+      <main className="page-enter px-6 pb-32 pt-40">
         <div className="mx-auto max-w-7xl">
           <Reveal>
             <div className="text-center">

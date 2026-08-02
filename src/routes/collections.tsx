@@ -362,7 +362,7 @@ function DetailedCollectionsPage() {
   return (
     <>
       <Nav />
-      <main className="px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
+      <main className="page-enter px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
         <div className="mx-auto max-w-7xl">
           {/* Live Gold Rate & Store Trust Banner in Gap */}
           <div className="mb-3 p-2 rounded bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/40 flex items-center justify-between text-[0.58rem] sm:text-xs text-amber-200 shadow-md">

@@ -62,7 +62,7 @@ function PiecePage() {
   return (
     <>
       <Nav />
-      <main className="px-6 pb-24 pt-36">
+      <main className="page-enter px-6 pb-24 pt-36">
         <div className="mx-auto max-w-7xl">
           <div className="grid items-start gap-14 lg:grid-cols-[1fr_1fr]">
             <Reveal>

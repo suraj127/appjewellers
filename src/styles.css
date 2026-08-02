@@ -251,6 +251,21 @@
   animation: shimmer 7s linear infinite;
 }
 
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility page-enter {
+  animation: page-enter 0.5s var(--ease-luxe) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::after,

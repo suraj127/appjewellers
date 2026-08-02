@@ -34,7 +34,7 @@ function Index() {
   return (
     <>
       <Nav />
-      <main>
+      <main className="page-enter">
         <Hero />
         <Collections />
         <SchemeTeaser />

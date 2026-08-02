@@ -131,6 +131,7 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
+import { FloatingWhatsApp, BackToTop } from "@/components/FloatingActions";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -139,6 +140,8 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <FloatingWhatsApp />
+      <BackToTop />
       <Toaster position="bottom-center" theme="dark" />
     </QueryClientProvider>
   );

@@ -33,7 +33,7 @@ function AppointmentPage() {
   return (
     <>
       <Nav />
-      <main className="px-6 pb-32 pt-44">
+      <main className="page-enter px-6 pb-32 pt-44">
         <div className="mx-auto max-w-3xl">
           <Reveal>
             <div className="text-center">

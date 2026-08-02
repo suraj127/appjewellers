@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import heroImg from "@/assets/hero-necklace.jpg";
 import logoImg from "@/assets/logo.png";
 
 export function Hero() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -19,6 +20,93 @@ export function Hero() {
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  // Gold dust particle system
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animId: number;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.scale(dpr, dpr);
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    interface Particle {
+      x: number;
+      y: number;
+      size: number;
+      speedY: number;
+      speedX: number;
+      opacity: number;
+      flickerSpeed: number;
+      flickerOffset: number;
+    }
+
+    const particles: Particle[] = [];
+    const COUNT = 40;
+    const W = () => canvas.offsetWidth;
+    const H = () => canvas.offsetHeight;
+
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * W(),
+        y: Math.random() * H(),
+        size: Math.random() * 2 + 0.5,
+        speedY: -(Math.random() * 0.3 + 0.1),
+        speedX: (Math.random() - 0.5) * 0.2,
+        opacity: Math.random() * 0.6 + 0.2,
+        flickerSpeed: Math.random() * 0.02 + 0.005,
+        flickerOffset: Math.random() * Math.PI * 2,
+      });
+    }
+
+    let time = 0;
+    const draw = () => {
+      time++;
+      ctx.clearRect(0, 0, W(), H());
+
+      for (const p of particles) {
+        p.y += p.speedY;
+        p.x += p.speedX;
+
+        // Wrap around
+        if (p.y < -10) { p.y = H() + 10; p.x = Math.random() * W(); }
+        if (p.x < -10) p.x = W() + 10;
+        if (p.x > W() + 10) p.x = -10;
+
+        const flicker = 0.5 + 0.5 * Math.sin(time * p.flickerSpeed + p.flickerOffset);
+        const alpha = p.opacity * flicker;
+
+        // Gold glow
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size + 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(212, 175, 55, ${alpha * 0.25})`;
+        ctx.fill();
+
+        // Bright core
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 223, 100, ${alpha})`;
+        ctx.fill();
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", resize);
     };
   }, []);
 
@@ -56,6 +144,13 @@ export function Hero() {
           background: `radial-gradient(600px circle at ${50 + tilt.x * 22}% ${44 + tilt.y * 22}%, color-mix(in oklab, var(--gold) 20%, transparent), transparent 62%)`,
           transition: "background 0.5s linear",
         }}
+      />
+
+      {/* Gold dust particles canvas */}
+      <canvas
+        ref={canvasRef}
+        aria-hidden
+        className="absolute inset-0 size-full pointer-events-none z-[5]"
       />
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
