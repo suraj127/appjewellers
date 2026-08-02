@@ -713,8 +713,15 @@ export function Footer() {
         </div>
 
         <div className="rule-gold mt-10 sm:mt-16" />
-        <p className="mt-6 sm:mt-8 text-center text-[0.55rem] sm:text-[0.58rem] uppercase tracking-[0.25em] sm:tracking-[0.3em] text-muted-foreground leading-relaxed px-2">
-          © 2026 A.P.P. Jewellers · Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Delhi 110053 · Phone: 090151 55615 · BIS Hallmarked 22K Gold & Certified Diamonds
+        <p className="mt-6 sm:mt-8 text-center text-[0.55rem] sm:text-[0.58rem] uppercase tracking-[0.25em] sm:tracking-[0.3em] text-muted-foreground leading-relaxed px-2 flex items-center justify-center gap-2 flex-wrap">
+          <span>© 2026 A.P.P. Jewellers · Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Delhi 110053 · Phone: 090151 55615 · BIS Hallmarked 22K Gold & Certified Diamonds</span>
+          <a
+            href="/admin"
+            title="A.P.P. Owner Portal"
+            className="text-[0.65rem] opacity-30 hover:opacity-100 transition-opacity text-gold"
+          >
+            🔒
+          </a>
         </p>
       </div>
     </footer>

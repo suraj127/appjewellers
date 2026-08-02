@@ -4,8 +4,12 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Sections";
 import { Reveal } from "@/components/Reveal";
 import { PRODUCTS, CATEGORY_GROUPS, type Product } from "@/data/products";
+import { getAllProducts } from "@/data/storeState";
+import { useEffect } from "react";
 import bridalBannerImg from "@/assets/coll-bridal.jpg";
 import craftImg from "@/assets/craft.jpg";
+import { CatalogPdfModal } from "@/components/CatalogPdfModal";
+
 
 const title = "Collections — A.P.P. Jewellers, Sarafa Market, New Delhi";
 const description =
@@ -243,6 +247,15 @@ const MEGA_SUB_CATEGORIES: Record<string, Array<{ name: string; IconComponent: a
 
 function DetailedCollectionsPage() {
   // State
+  const [allProducts, setAllProducts] = useState<Product[]>(getAllProducts());
+
+  useEffect(() => {
+    const syncInventory = () => setAllProducts(getAllProducts());
+    syncInventory();
+    window.addEventListener("app_inventory_updated", syncInventory);
+    return () => window.removeEventListener("app_inventory_updated", syncInventory);
+  }, []);
+
   const [activeCategory, setActiveCategory] = useState<string>("ALL");
   const [activeMetal, setActiveMetal] = useState<string>("ALL");
   const [activePurity, setActivePurity] = useState<string>("ALL");
@@ -258,6 +271,7 @@ function DetailedCollectionsPage() {
   const [mobileFilterOpen, setMobileFilterOpen] = useState<boolean>(false);
 
   const [inquiryProduct, setInquiryProduct] = useState<Product | null>(null);
+  const [isCatalogPdfModalOpen, setIsCatalogPdfModalOpen] = useState<boolean>(false);
 
   // Toggle Wishlist
   const toggleWishlist = (slug: string) => {
@@ -268,7 +282,7 @@ function DetailedCollectionsPage() {
 
   // Efficient Filtering Engine
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return allProducts.filter((p) => {
       const matchCat =
         activeCategory === "ALL" ||
         p.category.toUpperCase() === activeCategory.toUpperCase() ||
@@ -299,7 +313,7 @@ function DetailedCollectionsPage() {
       if (sortBy === "PURITY") return b.purity.localeCompare(a.purity);
       return 0; // BEST_MATCHES default
     });
-  }, [activeCategory, activeMetal, activePurity, activePriceRange, searchQuery, sortBy]);
+  }, [allProducts, activeCategory, activeMetal, activePurity, activePriceRange, searchQuery, sortBy]);
 
   return (
     <>
@@ -316,12 +330,22 @@ function DetailedCollectionsPage() {
                 Today's 22K Gold Rate: <strong className="text-white">₹7,380/g</strong> | 100% BIS Hallmarked | Sarafa Market, Delhi
               </span>
             </div>
-            <a
-              href="tel:09015155615"
-              className="shrink-0 text-[0.55rem] uppercase tracking-wider text-gold font-bold underline ml-2"
-            >
-              Call Us
-            </a>
+            <div className="flex items-center gap-2 shrink-0 ml-2">
+              <button
+                type="button"
+                onClick={() => setIsCatalogPdfModalOpen(true)}
+                className="shine-sweep rounded bg-gradient-to-r from-gold via-amber-300 to-gold text-primary-foreground font-bold px-2.5 py-1 text-[0.58rem] sm:text-xs uppercase tracking-widest shadow hover:brightness-110 flex items-center gap-1 transition-all"
+              >
+                <CrownIcon className="size-3.5 text-primary-foreground" /> Download Catalogue (PDF)
+              </button>
+              <a
+                href="tel:09015155615"
+                className="shrink-0 text-[0.55rem] uppercase tracking-wider text-gold font-bold underline hidden sm:inline-block"
+              >
+                Call Us
+              </a>
+            </div>
+
           </div>
           {/* SLEEK MINIMAL HEADER WITH ROYAL BURGUNDY RED GRADIENT */}
           <div className="bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/50 rounded-lg p-3 sm:p-4 flex flex-col md:flex-row items-center justify-between gap-3 shadow-2xl">
@@ -533,7 +557,28 @@ function DetailedCollectionsPage() {
                 )}
               </div>
 
+              {/* Catalogue PDF Download Luxury Card */}
+              <div className="p-3.5 rounded-md bg-gradient-to-br from-[#4a0810] via-onyx to-[#210406] border border-gold/50 text-center space-y-2 shadow-xl">
+                <p className="text-[0.58rem] uppercase tracking-widest text-gold font-bold flex items-center justify-center gap-1">
+                  <CrownIcon className="size-3.5 text-gold" /> Catalogue PDF
+                </p>
+                <h4 className="font-display text-sm text-amber-200 font-bold leading-tight">
+                  Download 2026 Collection Book
+                </h4>
+                <p className="text-[0.6rem] text-muted-foreground leading-normal">
+                  Ultra-high resolution PDF with 22K gold specs, purity grades & WhatsApp inquiry links.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsCatalogPdfModalOpen(true)}
+                  className="shine-sweep w-full rounded bg-gradient-to-r from-gold via-amber-300 to-gold py-2 text-[0.62rem] uppercase tracking-widest text-primary-foreground font-bold shadow hover:brightness-110 flex items-center justify-center gap-1"
+                >
+                  <CrownIcon className="size-3 text-primary-foreground" /> Download PDF
+                </button>
+              </div>
+
               {/* Price Range / Budget Facet */}
+
               <div>
                 <h4 className="text-[0.7rem] uppercase tracking-[0.2em] text-foreground font-semibold mb-2">
                   Budget / Price Tier
@@ -653,14 +698,24 @@ function DetailedCollectionsPage() {
             {/* Right Product Grid Column */}
             <div>
               {/* Counter status badge */}
-              <div className="flex items-center justify-between mb-6 pb-3 border-b border-border/50">
+              <div className="flex flex-wrap items-center justify-between gap-2 mb-6 pb-3 border-b border-border/50">
                 <p className="text-xs uppercase tracking-widest text-gold font-semibold">
                   Showing <span className="text-foreground font-bold">{filteredProducts.length}</span> Jewellery Items
                 </p>
-                <span className="text-[0.62rem] text-muted-foreground">
-                  Contact us for current gold rate & best price
-                </span>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setIsCatalogPdfModalOpen(true)}
+                    className="shine-sweep flex items-center gap-1.5 rounded bg-gold/15 border border-gold/50 px-3 py-1 text-[0.62rem] uppercase tracking-widest text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow"
+                  >
+                    <CrownIcon className="size-3.5 text-gold" /> Save Catalogue PDF
+                  </button>
+                  <span className="text-[0.62rem] text-muted-foreground hidden sm:inline-block">
+                    Contact us for current gold rate & best price
+                  </span>
+                </div>
               </div>
+
 
               {/* Product Grid showcasing cards without pricing - 2 cols on mobile */}
               <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
@@ -812,6 +867,17 @@ function DetailedCollectionsPage() {
           onClose={() => setInquiryProduct(null)}
         />
       )}
+
+      {/* Catalogue PDF Generator Modal */}
+      {isCatalogPdfModalOpen && (
+        <CatalogPdfModal
+          allProducts={allProducts}
+          currentFilteredProducts={filteredProducts}
+          activeCategory={activeCategory}
+          onClose={() => setIsCatalogPdfModalOpen(false)}
+        />
+      )}
+
 
 
 

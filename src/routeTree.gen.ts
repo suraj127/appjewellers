@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppointmentRouteImport } from './routes/appointment'
 import { Route as CollectionsRouteImport } from './routes/collections'
 import { Route as SchemeRouteImport } from './routes/scheme'
@@ -18,6 +19,11 @@ import { Route as PieceSlugRouteImport } from './routes/piece.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppointmentRoute = AppointmentRouteImport.update({
@@ -43,6 +49,7 @@ const PieceSlugRoute = PieceSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/appointment': typeof AppointmentRoute
   '/collections': typeof CollectionsRoute
   '/scheme': typeof SchemeRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/appointment': typeof AppointmentRoute
   '/collections': typeof CollectionsRoute
   '/scheme': typeof SchemeRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
   '/appointment': typeof AppointmentRoute
   '/collections': typeof CollectionsRoute
   '/scheme': typeof SchemeRoute
@@ -65,12 +74,25 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/appointment' | '/collections' | '/scheme' | '/piece/$slug'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/appointment'
+    | '/collections'
+    | '/scheme'
+    | '/piece/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/appointment' | '/collections' | '/scheme' | '/piece/$slug'
+  to:
+    | '/'
+    | '/admin'
+    | '/appointment'
+    | '/collections'
+    | '/scheme'
+    | '/piece/$slug'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/appointment'
     | '/collections'
     | '/scheme'
@@ -79,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
   AppointmentRoute: typeof AppointmentRoute
   CollectionsRoute: typeof CollectionsRoute
   SchemeRoute: typeof SchemeRoute
@@ -92,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/appointment': {
@@ -127,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
   AppointmentRoute: AppointmentRoute,
   CollectionsRoute: CollectionsRoute,
   SchemeRoute: SchemeRoute,
