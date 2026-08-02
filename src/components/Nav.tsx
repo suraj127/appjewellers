@@ -74,13 +74,13 @@ export function Nav() {
               </div>
             </button>
 
-            {/* Desktop Navigation Links */}
-            <ul className="hidden lg:flex items-center gap-6">
-              {LINKS.map((l) => (
+            {/* Desktop Navigation Links Left Group (Equal Spacing) */}
+            <ul className="hidden lg:flex items-center justify-around flex-1 gap-4 xl:gap-8">
+              {LINKS.slice(0, 2).map((l) => (
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="group relative text-[0.68rem] uppercase tracking-[0.25em] text-muted-foreground transition-colors duration-500 hover:text-gold"
+                    className="group relative text-[0.65rem] xl:text-[0.7rem] uppercase tracking-[0.25em] text-muted-foreground transition-colors duration-500 hover:text-gold whitespace-nowrap"
                   >
                     {l.label}
                     <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full" />
@@ -89,33 +89,50 @@ export function Nav() {
               ))}
             </ul>
 
-            {/* CENTERED BRAND LOGO — REVEALS ONLY WHEN SCROLLED PAST HERO */}
-            <a
-              href="/"
-              className={`flex items-center justify-center transition-all duration-500 ease-in-out ${
-                scrolled
-                  ? "opacity-100 scale-100 translate-y-0 max-w-[160px] sm:max-w-[220px] pointer-events-auto px-2"
-                  : "opacity-0 scale-75 -translate-y-3 max-w-0 pointer-events-none overflow-hidden"
-              }`}
-            >
-              <img
-                src={logoImg}
-                alt="A.P.P. Jewellers Logo"
-                className="h-9 sm:h-14 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.5)]"
-              />
-            </a>
+            {/* CENTERED BRAND LOGO — REVEALS AUTOMATICALLY AT MID WHEN SCROLLED */}
+            <div className="flex items-center justify-center shrink-0 mx-2 sm:mx-6">
+              <a
+                href="/"
+                className={`flex items-center justify-center transition-all duration-500 ease-in-out ${
+                  scrolled
+                    ? "opacity-100 scale-100 max-w-[150px] sm:max-w-[200px] pointer-events-auto"
+                    : "opacity-0 scale-75 max-w-0 pointer-events-none overflow-hidden"
+                }`}
+              >
+                <img
+                  src={logoImg}
+                  alt="A.P.P. Jewellers Logo"
+                  className="h-8 sm:h-12 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.5)]"
+                />
+              </a>
+            </div>
 
-            {/* Right Section: Actions */}
-            <div className="flex items-center gap-3 sm:gap-5">
+            {/* Desktop Navigation Links Right Group (Equal Spacing) */}
+            <ul className="hidden lg:flex items-center justify-around flex-1 gap-4 xl:gap-8">
+              {LINKS.slice(2).map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="group relative text-[0.65rem] xl:text-[0.7rem] uppercase tracking-[0.25em] text-muted-foreground transition-colors duration-500 hover:text-gold whitespace-nowrap"
+                  >
+                    {l.label}
+                    <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* Right Section: Store Info & Call Store */}
+            <div className="flex items-center justify-end gap-3 sm:gap-5 ml-auto lg:ml-0">
               <a
                 href="/#store-info"
-                className="hidden md:inline-block text-[0.68rem] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-gold"
+                className="hidden md:inline-block text-[0.65rem] xl:text-[0.7rem] uppercase tracking-[0.25em] text-muted-foreground transition-colors hover:text-gold whitespace-nowrap"
               >
                 Store Info
               </a>
               <a
                 href="tel:09015155615"
-                className="shine-sweep flex items-center gap-1.5 rounded-sm border border-gold/70 bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.2em] sm:tracking-[0.28em] text-gold transition-all duration-500 hover:bg-gold hover:text-primary-foreground font-semibold shadow-md"
+                className="shine-sweep flex items-center gap-1.5 rounded-sm border border-gold/70 bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.2em] sm:tracking-[0.28em] text-gold transition-all duration-500 hover:bg-gold hover:text-primary-foreground font-semibold shadow-md whitespace-nowrap"
               >
                 <PhoneIcon className="size-3" />
                 <span>Call Store</span>
