@@ -1,303 +1,219 @@
 import { useState, useEffect, useRef } from "react";
-import craftImg from "@/assets/craft.jpg";
-import bridalImg from "@/assets/coll-bridal.jpg";
-import ringsImg from "@/assets/coll-rings.jpg";
-import banglesImg from "@/assets/coll-bangles.jpg";
-import tryonImg from "@/assets/tryon.jpg";
 
-interface ProcessStep {
-  step: string;
-  title: string;
-  subtitle: string;
-  specs: { label: string; value: string }[];
-  description: string;
-  actionSummary: string;
-  image: string;
-  accentColor: string;
-  goldPurity: string;
-}
+/**
+ * Cinematic Scroll-Driven Karigar Experience
+ * 
+ * A full-screen, video-like visual journey through the jewellery making process.
+ * No text walls. No spec grids. Just pure visual storytelling driven by scroll.
+ * 
+ * Inspired by Apple's cinematic product pages — images crossfade as you scroll,
+ * with a subtle gold progress filament and minimal captions that appear/fade.
+ */
 
-const KARIGAR_STEPS: ProcessStep[] = [
+const FRAMES = [
   {
-    step: "01",
-    title: "Sona Galana — Gold Crucible & 22K Purity Melting",
-    subtitle: "Stage 1: Melting & Alloy Formulations",
-    specs: [
-      { label: "Melting Temp", value: "1,064 °C" },
-      { label: "Crucible", value: "Graphite Clay" },
-      { label: "Standard", value: "91.6% Pure 22K" },
-      { label: "Duration", value: "2.5 Hours" },
-    ],
-    description:
-      "Pure 24K gold bars are melted over an intense oxygen flame inside a graphite crucible at 1,064°C. Master Karigars blend pure copper and silver in precise ratios to achieve exact 22 Carat (916) BIS Hallmark strength.",
-    actionSummary: "Molten 22K gold poured into solid gold ingot bars.",
-    image: craftImg,
-    accentColor: "#d4af37",
-    goldPurity: "22K 916 BIS Standard",
+    image: "/assets/karigar_1.png",
+    caption: "The Flame",
+    subcaption: "1,064°C",
   },
   {
-    step: "02",
-    title: "Peetna & Taar Chheelna — Anvil Forging & Wire Drawing",
-    subtitle: "Stage 2: Structural Shaping & Filaments",
-    specs: [
-      { label: "Anvil Tool", value: "Hardened Steel" },
-      { label: "Wire Gauge", value: "0.15 mm Thin" },
-      { label: "Forging Force", value: "Hand Hammered" },
-      { label: "Duration", value: "12 Hours" },
-    ],
-    description:
-      "The solid gold ingot is hand-forged on heavy steel anvils and drawn through diamond-bored steel plates. The Karigar creates ultra-thin 22K gold wire filaments and uniform gold sheets for intricate neckwear.",
-    actionSummary: "Gold drawn into 0.15mm filaments and uniform sheets.",
-    image: banglesImg,
-    accentColor: "#e5c158",
-    goldPurity: "Hand-Forged 916 Wire",
+    image: "/assets/karigar_2.png",
+    caption: "The Forge",
+    subcaption: "Hand & Anvil",
   },
   {
-    step: "03",
-    title: "Naqashi & Jaali — Hand-Carved Kundan Filigree",
-    subtitle: "Stage 3: Micro-Chiseling & Openwork Lattice",
-    specs: [
-      { label: "Tool Used", value: "Diamond Chisel" },
-      { label: "Artisan Hours", value: "80+ Hours" },
-      { label: "Lattice Detail", value: "400+ Piercings" },
-      { label: "Style", value: "Royal Jaipur Kundan" },
-    ],
-    description:
-      "Master engravers (Naqash) use micro-chisels under magnifiers to carve lace-like gold mesh and Kundan foil cups. Every floral petal and geometric border is hand-pierced with meticulous craftsmanship.",
-    actionSummary: "Over 400 micro-piercings carved by master Naqash.",
-    image: tryonImg,
-    accentColor: "#f3e5ab",
-    goldPurity: "Hand-Carved 22K Filigree",
+    image: "/assets/karigar_3.png",
+    caption: "The Carving",
+    subcaption: "400 Micro-Cuts",
   },
   {
-    step: "04",
-    title: "Jadhai — Loupe Precision Gemstone & Solitaire Setting",
-    subtitle: "Stage 4: Micro-Prong & Bezel Stone Setting",
-    specs: [
-      { label: "Magnification", value: "10x Loupe Lens" },
-      { label: "Stones Set", value: "GIA Diamonds & Rubies" },
-      { label: "Setting Type", value: "Micro-Bezel Jadhai" },
-      { label: "Duration", value: "40 Hours" },
-    ],
-    description:
-      "Certified solitaire diamonds, Burmese rubies, and Zambian emeralds are set into hand-crafted gold cups under 10x magnification loupes. Each gemstone is locked with micro-prong precision.",
-    actionSummary: "VVS Solitaires & Rubies hand-locked with zero play.",
-    image: ringsImg,
-    accentColor: "#e8c872",
-    goldPurity: "Certified VVS Diamonds",
+    image: "/assets/karigar_4.png",
+    caption: "The Setting",
+    subcaption: "10x Loupe",
   },
   {
-    step: "05",
-    title: "Rangai & HUID — Meenakari Enamel & BIS Laser Hallmark",
-    subtitle: "Stage 5: Mineral Firing, Polishing & Certification",
-    specs: [
-      { label: "Enamel Firing", value: "750 °C Mineral" },
-      { label: "Buffing", value: "Walnut Shell Velvet" },
-      { label: "Stamp", value: "BIS Laser HUID" },
-      { label: "Guarantee", value: "100% Lifetime" },
-    ],
-    description:
-      "Vibrant Meenakari mineral enamel is kiln-fired into gold grooves, followed by walnut-shell velvet buffing. Finally, the ornament undergoes official government BIS laser hallmark HUID stamping.",
-    actionSummary: "100% BIS Hallmarked HUID stamp & high-luster polish.",
-    image: bridalImg,
-    accentColor: "#ffd700",
-    goldPurity: "100% BIS Hallmarked HUID",
+    image: "/assets/karigar_5.png",
+    caption: "The Masterpiece",
+    subcaption: "BIS Hallmarked",
   },
 ];
 
 export function KarigarProcessSection() {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
-  const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    const onScroll = () => {
       if (!containerRef.current) return;
       const rect = containerRef.current.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Calculate how far the section has scrolled through viewport
-      const totalScrollableDistance = rect.height - windowHeight;
-      if (totalScrollableDistance <= 0) return;
-
-      const currentScroll = -rect.top;
-      const rawProgress = currentScroll / totalScrollableDistance;
-      const clampedProgress = Math.min(Math.max(rawProgress, 0), 1);
-
-      setScrollProgress(clampedProgress);
-
-      // Determine active step index (0 to 4)
-      const stepIndex = Math.min(
-        Math.floor(clampedProgress * KARIGAR_STEPS.length),
-        KARIGAR_STEPS.length - 1
-      );
-      setActiveStepIndex(stepIndex);
+      const scrollable = rect.height - window.innerHeight;
+      if (scrollable <= 0) return;
+      const raw = -rect.top / scrollable;
+      setProgress(Math.min(Math.max(raw, 0), 1));
     };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const currentStep = KARIGAR_STEPS[activeStepIndex];
+  // Which frame is active and how far into its transition are we
+  const totalFrames = FRAMES.length;
+  const frameFloat = progress * (totalFrames - 1); // 0..4
+  const activeIndex = Math.min(Math.floor(frameFloat), totalFrames - 2);
+  const blend = frameFloat - activeIndex; // 0..1 within current pair
 
   return (
     <section
       id="karigar"
       ref={containerRef}
-      className="relative bg-gradient-to-b from-[#1a0407] via-[#2a060a] to-[#1a0407] text-foreground border-y border-gold/40 shadow-2xl min-h-[260vh] sm:min-h-[300vh]"
+      className="relative"
+      style={{ height: `${totalFrames * 100}vh` }}
     >
-      {/* Sticky Viewport Container */}
-      <div className="sticky top-0 h-screen flex flex-col justify-between p-4 sm:p-8 overflow-hidden">
-        {/* Ambient Glowing Background Accents */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 size-96 rounded-full bg-gold/10 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-10 right-10 size-80 rounded-full bg-amber-600/10 blur-[100px] pointer-events-none" />
+      {/* Sticky full-screen viewport */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black">
 
-        {/* Section Top Header & Scroll Meter */}
-        <div className="relative z-10 mx-auto max-w-7xl w-full flex flex-wrap items-center justify-between gap-3 border-b border-gold/30 pb-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-gold text-primary-foreground font-bold px-2 py-0.5 rounded text-[0.55rem] uppercase tracking-widest">
-                SARAFA MARKET ATELIER
-              </span>
-              <span className="text-[0.62rem] text-gold font-bold uppercase tracking-widest">
-                Interactive Karigar Craft Journey
-              </span>
-            </div>
-            <h2 className="font-display text-xl sm:text-3xl text-amber-100 font-bold mt-0.5">
-              The 5 Sacred Stages of Handcrafted Gold
-            </h2>
-          </div>
+        {/* Stacked full-bleed images with opacity crossfade */}
+        {FRAMES.map((frame, i) => {
+          let opacity = 0;
+          if (i < activeIndex) opacity = 0;
+          else if (i === activeIndex) opacity = 1 - blend;
+          else if (i === activeIndex + 1) opacity = blend;
+          else if (i === totalFrames - 1 && progress >= 1) opacity = 1;
+          else opacity = 0;
 
-          {/* Step Selector Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1">
-            {KARIGAR_STEPS.map((s, idx) => (
-              <button
-                key={s.step}
-                type="button"
-                onClick={() => {
-                  if (containerRef.current) {
-                    const rect = containerRef.current.getBoundingClientRect();
-                    const containerTop = window.scrollY + rect.top;
-                    const sectionHeight = rect.height - window.innerHeight;
-                    const targetScroll = containerTop + (idx / (KARIGAR_STEPS.length - 1)) * sectionHeight;
-                    window.scrollTo({ top: targetScroll, behavior: "smooth" });
-                  }
-                }}
-                className={`px-2.5 py-1 rounded text-[0.6rem] font-bold uppercase tracking-wider transition-all border ${
-                  activeStepIndex === idx
-                    ? "bg-gold text-primary-foreground border-gold shadow-md scale-105"
-                    : "bg-onyx/80 text-muted-foreground border-gold/30 hover:border-gold hover:text-gold"
-                }`}
-              >
-                Stage {s.step}
-              </button>
-            ))}
-          </div>
-        </div>
+          // Subtle Ken Burns zoom: each frame scales from 1.0 → 1.08 as it fades in
+          const scale = i === activeIndex + 1
+            ? 1 + blend * 0.08
+            : i === activeIndex
+              ? 1.08 - blend * 0.08
+              : 1;
 
-        {/* Main Content Area (Split 2-Col Layout) */}
-        <div className="relative z-10 mx-auto max-w-7xl w-full flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center py-4 sm:py-6 overflow-hidden">
-          {/* Left Column: Stage Image & Live Molten Gold Visual */}
-          <div className="lg:col-span-5 relative h-56 sm:h-80 lg:h-[400px] w-full rounded-lg border border-gold/50 overflow-hidden bg-black/60 shadow-2xl group">
-            <img
-              src={currentStep.image}
-              alt={currentStep.title}
-              className="size-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
-            />
-
-            {/* Dark Vignette Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-onyx via-transparent to-black/40" />
-
-            {/* Stage Number Badge */}
-            <div className="absolute top-3 left-3 bg-gradient-to-br from-[#4a0810] to-onyx border border-gold/60 p-2.5 rounded text-center shadow-xl">
-              <span className="text-[0.55rem] uppercase tracking-widest text-gold block font-semibold">
-                STAGE
-              </span>
-              <span className="font-display text-2xl text-amber-200 font-bold leading-none">
-                {currentStep.step}
-              </span>
-            </div>
-
-            {/* Live Hallmark Pill Tag */}
-            <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between glass-panel p-2 rounded border-gold/40">
-              <div className="flex items-center gap-2">
-                <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
-                <span className="text-[0.62rem] font-bold text-amber-200 uppercase tracking-wider">
-                  {currentStep.goldPurity}
-                </span>
-              </div>
-              <span className="text-[0.55rem] uppercase tracking-widest text-gold font-bold">
-                100% Certified
-              </span>
-            </div>
-          </div>
-
-          {/* Right Column: Detailed Stage Info & Interactive Technical Specs */}
-          <div className="lg:col-span-7 flex flex-col justify-between space-y-4 sm:space-y-6 text-left">
-            <div>
-              <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold">
-                {currentStep.subtitle}
-              </p>
-              <h3 className="font-display text-2xl sm:text-4xl text-amber-100 font-bold mt-1 leading-snug">
-                {currentStep.title}
-              </h3>
-              <p className="mt-2 sm:mt-3 text-xs sm:text-base font-light text-muted-foreground leading-relaxed">
-                {currentStep.description}
-              </p>
-            </div>
-
-            {/* Technical Specifications 4-Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
-              {currentStep.specs.map((sp) => (
-                <div
-                  key={sp.label}
-                  className="p-2.5 sm:p-3 rounded bg-onyx/90 border border-gold/30 hover:border-gold/60 transition-colors shadow-inner"
-                >
-                  <p className="text-[0.55rem] uppercase tracking-wider text-gold font-semibold">
-                    {sp.label}
-                  </p>
-                  <p className="text-xs sm:text-sm font-bold text-foreground mt-0.5">
-                    {sp.value}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            {/* Action Summary Callout Box */}
-            <div className="p-3.5 rounded bg-gradient-to-r from-[#4a0810] via-onyx to-[#4a0810] border border-gold/40 flex items-center justify-between text-xs text-amber-200 shadow-xl">
-              <div className="flex items-center gap-2.5">
-                <span className="text-gold font-bold text-base">⚒️</span>
-                <div>
-                  <p className="text-[0.58rem] uppercase tracking-widest text-gold font-bold">
-                    KARIGAR ACTION SUMMARY
-                  </p>
-                  <p className="text-foreground font-semibold text-xs sm:text-sm mt-0.5">
-                    {currentStep.actionSummary}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom Scroll Progress Bar & Stage Indicator */}
-        <div className="relative z-10 mx-auto max-w-7xl w-full border-t border-gold/30 pt-3">
-          <div className="flex items-center justify-between text-[0.62rem] text-muted-foreground font-medium mb-1.5">
-            <span className="uppercase tracking-widest text-gold font-bold flex items-center gap-1.5">
-              <span className="size-1.5 rounded-full bg-gold animate-pulse" />
-              Scroll Down to View Jewellery Making Process ({Math.round(scrollProgress * 100)}%)
-            </span>
-            <span className="text-amber-200 font-bold">
-              STAGE {activeStepIndex + 1} OF {KARIGAR_STEPS.length}
-            </span>
-          </div>
-
-          {/* Glowing Gold Track Progress Bar */}
-          <div className="h-2 w-full bg-black/60 rounded-full overflow-hidden border border-gold/30 p-0.5">
+          return (
             <div
-              className="h-full bg-gradient-to-r from-gold via-amber-300 to-gold rounded-full transition-all duration-300 shadow-[0_0_12px_rgba(255,215,0,0.8)]"
-              style={{ width: `${Math.max(scrollProgress * 100, 5)}%` }}
+              key={i}
+              className="absolute inset-0 transition-none"
+              style={{ opacity, zIndex: i }}
+            >
+              <img
+                src={frame.image}
+                alt={frame.caption}
+                className="size-full object-cover will-change-transform"
+                style={{ transform: `scale(${scale})` }}
+                loading={i <= 1 ? "eager" : "lazy"}
+              />
+            </div>
+          );
+        })}
+
+        {/* Dark cinematic vignette overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none z-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 pointer-events-none z-10" />
+
+        {/* Minimal caption — fades in/out with each frame */}
+        <div className="absolute bottom-16 sm:bottom-24 left-0 right-0 z-20 text-center pointer-events-none">
+          {FRAMES.map((frame, i) => {
+            let captionOpacity = 0;
+            if (i === activeIndex && blend < 0.4) captionOpacity = 1;
+            else if (i === activeIndex + 1 && blend > 0.6) captionOpacity = 1;
+            else if (i === activeIndex && blend >= 0.4) captionOpacity = 1 - (blend - 0.4) / 0.2;
+            else if (i === activeIndex + 1 && blend <= 0.6) captionOpacity = (blend - 0.4) / 0.2;
+            if (i === totalFrames - 1 && progress >= 0.98) captionOpacity = 1;
+            if (captionOpacity < 0.01) return null;
+
+            const translateY = captionOpacity < 1 ? 12 * (1 - captionOpacity) : 0;
+
+            return (
+              <div
+                key={i}
+                className="absolute inset-x-0 bottom-0 flex flex-col items-center"
+                style={{
+                  opacity: captionOpacity,
+                  transform: `translateY(${translateY}px)`,
+                }}
+              >
+                <p
+                  className="font-display text-3xl sm:text-6xl font-bold tracking-wider"
+                  style={{
+                    color: "transparent",
+                    backgroundImage: "linear-gradient(135deg, #d4af37, #f5e6a3, #d4af37)",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                  }}
+                >
+                  {frame.caption}
+                </p>
+                <p className="mt-1.5 text-[0.7rem] sm:text-xs uppercase tracking-[0.4em] text-amber-200/70 font-light">
+                  {frame.subcaption}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Top-left: Tiny "A.P.P. Karigar" badge */}
+        <div
+          className="absolute top-6 left-6 sm:top-8 sm:left-10 z-20 pointer-events-none"
+          style={{ opacity: progress > 0.02 ? 1 : 0, transition: "opacity 0.6s" }}
+        >
+          <p className="text-[0.55rem] sm:text-[0.62rem] uppercase tracking-[0.35em] text-gold/80 font-semibold">
+            A.P.P. Karigar
+          </p>
+          <p className="text-[0.48rem] sm:text-[0.52rem] uppercase tracking-[0.25em] text-amber-200/50 mt-0.5">
+            Sarafa Market Atelier
+          </p>
+        </div>
+
+        {/* Right edge: Vertical stage dots */}
+        <div className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-3">
+          {FRAMES.map((_, i) => {
+            const isActive =
+              i === activeIndex ||
+              (i === activeIndex + 1 && blend > 0.5) ||
+              (i === totalFrames - 1 && progress >= 0.98);
+            return (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Go to stage ${i + 1}`}
+                onClick={() => {
+                  if (!containerRef.current) return;
+                  const rect = containerRef.current.getBoundingClientRect();
+                  const containerTop = window.scrollY + rect.top;
+                  const scrollable = rect.height - window.innerHeight;
+                  const target = containerTop + (i / (totalFrames - 1)) * scrollable;
+                  window.scrollTo({ top: target, behavior: "smooth" });
+                }}
+                className="group relative flex items-center justify-center"
+              >
+                <span
+                  className={`block rounded-full transition-all duration-500 ${
+                    isActive
+                      ? "size-3 bg-gold shadow-[0_0_12px_rgba(212,175,55,0.8)]"
+                      : "size-1.5 bg-gold/30 group-hover:bg-gold/60"
+                  }`}
+                />
+                {/* Tiny label on hover */}
+                <span
+                  className={`absolute right-6 whitespace-nowrap text-[0.55rem] uppercase tracking-widest font-semibold transition-opacity duration-300 ${
+                    isActive ? "text-gold opacity-100" : "text-gold/50 opacity-0 group-hover:opacity-100"
+                  }`}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Bottom: Ultra-thin gold progress filament */}
+        <div className="absolute bottom-0 left-0 right-0 z-20">
+          <div className="h-[2px] w-full bg-gold/10">
+            <div
+              className="h-full bg-gradient-to-r from-transparent via-gold to-transparent transition-none"
+              style={{
+                width: `${progress * 100}%`,
+                boxShadow: "0 0 20px rgba(212,175,55,0.6), 0 0 40px rgba(212,175,55,0.3)",
+              }}
             />
           </div>
         </div>
