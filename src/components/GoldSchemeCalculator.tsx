@@ -227,7 +227,7 @@ export function GoldSchemeCalculator() {
             href="https://wa.me/919015155615?text=Hi%20A.P.P.%20Jewellers,%20I%20want%20to%20enroll%20in%20the%20SwarnaNidhi%20Gold%20Purchase%20Scheme."
             target="_blank"
             rel="noreferrer"
-            className="shine-sweep flex-1 sm:flex-initial rounded bg-gold px-6 py-3 text-xs uppercase tracking-widest text-primary-foreground font-bold text-center hover:opacity-90 transition-opacity"
+            className="shine-sweep flex-1 sm:flex-initial rounded border border-emerald-500/70 bg-transparent px-6 py-3 text-xs uppercase tracking-widest text-emerald-400 font-bold text-center hover:bg-emerald-500/10 hover:border-emerald-400 transition-all"
           >
             Enroll via WhatsApp
           </a>

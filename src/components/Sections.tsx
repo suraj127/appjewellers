@@ -423,7 +423,7 @@ export function StoreLocation() {
                   href="https://wa.me/919015155615"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex-1 rounded-sm border border-emerald-500/60 bg-emerald-500/10 px-6 py-3.5 text-[0.65rem] uppercase tracking-[0.3em] text-emerald-400 font-semibold text-center transition-colors hover:bg-emerald-500 hover:text-white min-w-[140px]"
+                  className="flex-1 rounded-sm border border-emerald-500/60 bg-transparent px-6 py-3.5 text-[0.65rem] uppercase tracking-[0.3em] text-emerald-400 font-semibold text-center transition-colors hover:bg-emerald-500/10 hover:border-emerald-400 min-w-[140px]"
                 >
                   💬 WhatsApp
                 </a>
@@ -681,7 +681,7 @@ export function Footer() {
               href="https://wa.me/919015155615"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded bg-emerald-950/60 border border-emerald-500/50 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-emerald-400 font-bold hover:bg-emerald-600 hover:text-white transition-colors shadow"
+              className="inline-flex items-center gap-2 rounded bg-transparent border border-emerald-500/60 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-emerald-400 font-bold hover:bg-emerald-500/10 hover:border-emerald-400 transition-colors shadow"
             >
               <WhatsAppIcon className="size-3.5" /> WhatsApp Inquiry
             </a>

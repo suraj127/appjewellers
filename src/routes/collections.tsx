@@ -158,9 +158,9 @@ function QuickInquiryModal({
                 href={`https://wa.me/919015155615?text=${whatsappMsg}`}
                 target="_blank"
                 rel="noreferrer"
-                className="shine-sweep flex items-center justify-center gap-2 w-full rounded bg-emerald-600 px-4 py-3 text-xs uppercase tracking-widest text-white font-bold text-center hover:bg-emerald-500 transition-colors shadow-lg"
+                className="shine-sweep flex items-center justify-center gap-2 w-full rounded border border-emerald-500/70 bg-transparent px-4 py-3 text-xs uppercase tracking-widest text-emerald-400 font-bold text-center hover:bg-emerald-500/10 hover:border-emerald-400 transition-all shadow-lg"
               >
-                <WhatsAppIcon className="size-4" /> Price on Request via WhatsApp
+                <WhatsAppIcon className="size-4 text-emerald-400" /> Price on Request via WhatsApp
               </a>
 
               <a
@@ -246,6 +246,7 @@ function DetailedCollectionsPage() {
   const [activeCategory, setActiveCategory] = useState<string>("ALL");
   const [activeMetal, setActiveMetal] = useState<string>("ALL");
   const [activePurity, setActivePurity] = useState<string>("ALL");
+  const [activePriceRange, setActivePriceRange] = useState<string>("ALL");
   const [activeOccasion, setActiveOccasion] = useState<string>("ALL");
   const [activeForWhom, setActiveForWhom] = useState<string>("ALL");
 
@@ -285,13 +286,20 @@ function DetailedCollectionsPage() {
         p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.metal.toLowerCase().includes(searchQuery.toLowerCase());
 
-      return matchCat && matchMetal && matchPurity && matchSearch;
+      const matchPrice =
+        activePriceRange === "ALL" ||
+        (activePriceRange === "UNDER_25K" && (p.category.includes("RING") || p.category.includes("EAR") || p.category.includes("COIN"))) ||
+        (activePriceRange === "25K_50K" && (p.category.includes("BANG") || p.category.includes("CHAIN") || p.category.includes("KADA"))) ||
+        (activePriceRange === "50K_100K" && (p.category.includes("HARAM") || p.category.includes("PEND") || p.category.includes("JHUMKA"))) ||
+        (activePriceRange === "ABOVE_100K" && (p.category.includes("SET") || p.category.includes("BRIDAL") || p.category.includes("SOLITAIRE")));
+
+      return matchCat && matchMetal && matchPurity && matchSearch && matchPrice;
     }).sort((a, b) => {
       if (sortBy === "NEWEST") return b.slug.localeCompare(a.slug);
       if (sortBy === "PURITY") return b.purity.localeCompare(a.purity);
       return 0; // BEST_MATCHES default
     });
-  }, [activeCategory, activeMetal, activePurity, searchQuery, sortBy]);
+  }, [activeCategory, activeMetal, activePurity, activePriceRange, searchQuery, sortBy]);
 
   return (
     <>
@@ -498,29 +506,65 @@ function DetailedCollectionsPage() {
 
           {/* DESKTOP CONTENT AREA: Left Facet Filter Sidebar + Right Product Grid */}
           <div className="hidden lg:grid mt-8 gap-6 lg:grid-cols-[260px_1fr]">
-            {/* Left Filter Sidebar matching Tanishq Screenshot 2 */}
-            <aside className="bg-onyx/90 border border-gold/30 rounded-sm p-5 space-y-6 h-fit sticky top-24">
+            {/* Left Filter Sidebar with Floating Sticky Scroll */}
+            <aside className="bg-onyx/90 border border-gold/40 rounded-lg p-5 space-y-6 sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto no-scrollbar shadow-2xl">
               <div className="flex items-center justify-between border-b border-gold/30 pb-3">
-                <h3 className="font-display text-base text-gold font-bold uppercase tracking-wider">
-                  Filter Facets
-                </h3>
-                {(activeCategory !== "ALL" || activeMetal !== "ALL" || activePurity !== "ALL") && (
+                <div>
+                  <h3 className="font-display text-base text-gold font-bold uppercase tracking-wider">
+                    Filter Facets
+                  </h3>
+                  <p className="text-[0.6rem] text-muted-foreground mt-0.5">
+                    {filteredProducts.length} Items Found
+                  </p>
+                </div>
+                {(activeCategory !== "ALL" || activeMetal !== "ALL" || activePurity !== "ALL" || activePriceRange !== "ALL") && (
                   <button
                     type="button"
                     onClick={() => {
                       setActiveCategory("ALL");
                       setActiveMetal("ALL");
                       setActivePurity("ALL");
+                      setActivePriceRange("ALL");
                     }}
-                    className="text-[0.6rem] text-gold underline hover:text-white uppercase tracking-widest"
+                    className="text-[0.6rem] text-gold underline hover:text-white uppercase tracking-widest font-bold"
                   >
                     Clear All
                   </button>
                 )}
               </div>
 
-              {/* Category Facet */}
+              {/* Price Range / Budget Facet */}
               <div>
+                <h4 className="text-[0.7rem] uppercase tracking-[0.2em] text-foreground font-semibold mb-2">
+                  Budget / Price Tier
+                </h4>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  {[
+                    { id: "ALL", label: "All Prices" },
+                    { id: "UNDER_25K", label: "Under ₹25,000" },
+                    { id: "25K_50K", label: "₹25,000 – ₹50,000" },
+                    { id: "50K_100K", label: "₹50,000 – ₹1,00,000" },
+                    { id: "ABOVE_100K", label: "Above ₹1,00,000" },
+                  ].map((pr) => (
+                    <li key={pr.id}>
+                      <button
+                        type="button"
+                        onClick={() => setActivePriceRange(pr.id)}
+                        className={`text-left w-full text-[0.65rem] uppercase tracking-wider py-1.5 px-2 rounded transition-colors ${
+                          activePriceRange === pr.id
+                            ? "bg-gold/20 text-gold font-bold border-l-2 border-gold"
+                            : "hover:text-foreground hover:bg-background/40"
+                        }`}
+                      >
+                        {pr.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Category Facet */}
+              <div className="border-t border-border/50 pt-4">
                 <h4 className="text-[0.7rem] uppercase tracking-[0.2em] text-foreground font-semibold mb-2">
                   Category
                 </h4>

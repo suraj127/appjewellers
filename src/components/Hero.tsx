@@ -76,11 +76,13 @@ export function Hero() {
         </p>
 
         <h1
-          className="reveal mt-5 font-display text-[clamp(2.5rem,7.5vw,5.5rem)] leading-[0.98] tracking-tight font-medium"
+          className="reveal mt-5 font-display text-[clamp(2.3rem,7vw,5.2rem)] leading-[0.98] tracking-tight font-medium"
           style={{ animationDelay: "380ms" }}
         >
-          Timeless Elegance & Pure Craft
-          <span className="block italic shimmer-text mt-1">in 22K Gold & Diamonds</span>
+          Where Royal Heritage Meets Master Artistry
+          <span className="block italic shimmer-text mt-1.5 text-amber-200">
+            in 22K BIS Hallmarked Gold & Certified Diamonds
+          </span>
         </h1>
 
         <p
