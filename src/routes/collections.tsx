@@ -482,10 +482,6 @@ function DetailedCollectionsPage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           {/* PREMIUM COLLECTION LUXURY HEADER */}
           <div className="text-center mb-6 sm:mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 border border-gold/40 text-gold text-[0.58rem] sm:text-xs font-bold uppercase tracking-[0.35em] mb-2 sm:mb-3 shadow-lg">
-              <span className="size-1.5 rounded-full bg-rose-500 animate-ping" />
-              Sarafa Market Atelier · Estd. 1998
-            </div>
             <h1 className="font-display text-2xl sm:text-5xl font-bold text-amber-100 tracking-wide leading-tight">
               Our <span className="italic shimmer-text font-serif">Premium Collection</span>
             </h1>
@@ -1179,15 +1175,19 @@ function DetailedCollectionsPage() {
 
 
 
-      {/* FLOATING CATALOGUE DOWNLOAD BUTTON */}
+      {/* FLOATING CATALOGUE ICON BUTTON (ICON ONLY) */}
       <div className="fixed bottom-6 left-6 z-40">
         <button
           type="button"
           onClick={() => setIsCatalogPdfModalOpen(true)}
-          className="shine-sweep group flex items-center gap-2.5 rounded-full bg-gradient-to-r from-gold via-amber-300 to-gold px-4 sm:px-6 py-3 text-primary-foreground font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-[0_10px_30px_rgba(212,175,55,0.45)] hover:scale-105 transition-all duration-300 border border-amber-200/60"
+          aria-label="View & Download Catalogue PDF"
+          className="shine-sweep group relative size-14 sm:size-16 rounded-full bg-black p-1 border-2 border-gold/80 shadow-[0_10px_30px_rgba(212,175,55,0.5)] hover:scale-110 hover:border-gold transition-all duration-300 backdrop-blur-md flex items-center justify-center overflow-hidden"
         >
-          <CrownIcon className="size-4 text-primary-foreground group-hover:rotate-12 transition-transform" />
-          <span>Download Catalogue</span>
+          <img
+            src="/assets/catalogue_icon.jpg"
+            alt="Catalogue"
+            className="size-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
+          />
         </button>
       </div>
 
