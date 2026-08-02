@@ -186,42 +186,33 @@ export function SchemeTeaser() {
 
 export function Signature() {
   return (
-    <section id="signature" className="relative overflow-hidden bg-gradient-to-r from-[#4a0810] via-[#210406] to-onyx px-3 sm:px-6 py-14 sm:py-32 border-y border-gold/40 shadow-2xl">
-      <div className="mx-auto grid grid-cols-2 gap-3 sm:gap-16 items-center max-w-7xl">
-        {/* IMAGE ON LEFT ON MOBILE & DESKTOP */}
-        <Reveal>
-          <div className="relative">
-            <div
-              aria-hidden
-              className="absolute -inset-10 opacity-60 pointer-events-none"
-              style={{ boxShadow: "var(--shadow-glow)" }}
-            />
-            <img
-              src={bridalImg}
-              alt="Chandra ruby and diamond bridal necklace in 22K gold"
-              loading="lazy"
-              width={900}
-              height={1100}
-              className="float-slow relative w-full h-44 sm:h-[30rem] rounded-sm object-cover border border-gold/50 shadow-2xl"
-            />
-          </div>
-        </Reveal>
+    <section id="signature" className="relative overflow-hidden py-14 sm:py-32 border-y border-gold/40 shadow-2xl">
+      {/* FULL BACKGROUND IMAGE */}
+      <img
+        src={bridalImg}
+        alt="Chandra ruby and diamond bridal necklace in 22K gold"
+        loading="lazy"
+        className="absolute inset-0 size-full object-cover filter brightness-[0.4] contrast-125 scale-105"
+      />
+      {/* DARK VIGNETTE & REDNESS SHADE OVERLAY */}
+      <div className="absolute inset-0 bg-gradient-to-r from-[#210406]/95 via-[#210406]/85 to-onyx/90 sm:from-[#210406]/90 sm:to-onyx/80" />
 
-        {/* DETAILS ON RIGHT ON MOBILE & DESKTOP */}
-        <Reveal delay={160}>
-          <div>
-            <p className="eyebrow text-[0.5rem] sm:text-xs">Piece No. 001 — Signature</p>
-            <h2 className="mt-1 sm:mt-4 font-display text-base sm:text-4xl leading-tight font-bold text-amber-200">
+      {/* CONTENT WRITTEN OVER BACKGROUND IMAGE */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
+        <Reveal>
+          <div className="max-w-2xl bg-black/50 backdrop-blur-md p-5 sm:p-8 rounded-lg border border-gold/40 shadow-2xl">
+            <p className="eyebrow text-[0.55rem] sm:text-xs">Piece No. 001 — Signature</p>
+            <h2 className="mt-2 sm:mt-4 font-display text-xl sm:text-5xl leading-tight font-bold text-amber-200">
               The <span className="italic shimmer-text">Chandra</span> Suite
             </h2>
-            <p className="mt-1 sm:mt-4 text-[0.68rem] sm:text-sm font-light leading-relaxed text-muted-foreground line-clamp-2 sm:line-clamp-none">
+            <p className="mt-2 sm:mt-4 text-xs sm:text-base font-light leading-relaxed text-muted-foreground">
               A crescent of Burmese rubies framed by 412 brilliant-cut diamonds. Certified 22K gold hallmarked purity with lifetime polish guarantee.
             </p>
 
-            <dl className="mt-3 sm:mt-8 grid grid-cols-2 gap-2 sm:gap-6">
+            <dl className="mt-4 sm:mt-8 grid grid-cols-2 gap-3 sm:gap-6 border-t border-gold/30 pt-4">
               {SIGNATURE_SPECS.map(([k, v]) => (
-                <div key={k} className="border-b border-gold/30 pb-1.5 sm:pb-3">
-                  <dt className="text-[0.48rem] sm:text-[0.58rem] uppercase tracking-wider text-gold font-medium">
+                <div key={k} className="border-b border-gold/20 pb-2">
+                  <dt className="text-[0.5rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-medium">
                     {k}
                   </dt>
                   <dd className="mt-0.5 font-display text-xs sm:text-lg text-white font-semibold truncate">{v}</dd>
@@ -229,20 +220,20 @@ export function Signature() {
               ))}
             </dl>
 
-            <div className="mt-4 sm:mt-8 flex flex-wrap items-center gap-2 sm:gap-4">
+            <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-6">
               <Link
                 to="/piece/$slug"
                 params={{ slug: "chandra-suite" }}
-                className="shine-sweep rounded-sm bg-gold px-3 sm:px-6 py-1.5 sm:py-3 text-[0.52rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
+                className="shine-sweep rounded-sm bg-gold px-4 sm:px-8 py-2.5 sm:py-4 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
               >
                 Inspect Piece
               </Link>
               <Link
                 to="/appointment"
                 search={{ piece: "The Chandra Suite" }}
-                className="text-[0.52rem] sm:text-[0.65rem] uppercase tracking-widest text-gold underline font-semibold"
+                className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-widest text-gold underline font-semibold"
               >
-                Enquire
+                Enquire Privately
               </Link>
             </div>
           </div>
@@ -254,52 +245,47 @@ export function Signature() {
 
 export function Maison() {
   return (
-    <section id="maison" className="relative overflow-hidden bg-gradient-to-r from-[#3b080c] via-[#210406] to-[#3b080c] py-12 sm:py-24 border-y border-gold/40">
-      <div className="mx-auto max-w-7xl px-3 sm:px-6">
-        <div className="grid grid-cols-2 gap-3 sm:gap-16 items-center">
-          {/* ARTISTRY IMAGE ON LEFT */}
-          <Reveal>
-            <div className="relative overflow-hidden rounded border border-gold/40 shadow-2xl h-44 sm:h-96">
-              <img
-                src={craftImg}
-                alt="Master goldsmith setting stones by hand at A.P.P. Jewellers"
-                loading="lazy"
-                className="size-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-            </div>
-          </Reveal>
+    <section id="maison" className="relative overflow-hidden py-14 sm:py-32 border-y border-gold/40 shadow-2xl">
+      {/* FULL BACKGROUND IMAGE */}
+      <img
+        src={craftImg}
+        alt="Master Karigar melting raw gold in crucible and finalizing handcrafted jewellery"
+        loading="lazy"
+        className="absolute inset-0 size-full object-cover filter brightness-[0.4] contrast-125 scale-105"
+      />
+      {/* DARK VIGNETTE & REDNESS SHADE OVERLAY */}
+      <div className="absolute inset-0 bg-gradient-to-r from-onyx/90 via-[#210406]/85 to-[#210406]/95 sm:from-onyx/80 sm:to-[#210406]/90" />
 
-          {/* ARTISTRY DETAILS ON RIGHT */}
-          <Reveal delay={150}>
-            <div className="text-left">
-              <span className="eyebrow text-[0.52rem] sm:text-xs">A.P.P. Jewellers Atelier</span>
-              <h2 className="mt-1 sm:mt-4 font-display text-base sm:text-4xl text-amber-100 font-bold leading-tight">
-                Generations of Mastery & Pure Artistry
-              </h2>
-              <p className="mt-1.5 sm:mt-4 text-[0.68rem] sm:text-sm font-light leading-relaxed text-muted-foreground">
-                From hand-drawn sketches to micro-pavé stone setting, every ornament is handcrafted at our Sarafa Market workshop. 100% BIS hallmarked gold & certified diamonds guaranteed.
-              </p>
+      {/* CONTENT WRITTEN OVER BACKGROUND IMAGE */}
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-8">
+        <Reveal>
+          <div className="max-w-2xl ml-auto bg-black/50 backdrop-blur-md p-5 sm:p-8 rounded-lg border border-gold/40 shadow-2xl text-left">
+            <span className="eyebrow text-[0.55rem] sm:text-xs">A.P.P. Karigar</span>
+            <h2 className="mt-2 sm:mt-4 font-display text-xl sm:text-5xl text-amber-100 font-bold leading-tight">
+              Generations of Mastery & Pure Artistry
+            </h2>
+            <p className="mt-2 sm:mt-4 text-xs sm:text-base font-light leading-relaxed text-muted-foreground">
+              From hand-drawn sketches to micro-pavé stone setting, every ornament is handcrafted at our Sarafa Market workshop. 100% BIS hallmarked gold & certified diamonds guaranteed.
+            </p>
 
-              <div className="mt-4 sm:mt-8 flex flex-wrap gap-2 sm:gap-4">
-                <Link
-                  to="/appointment"
-                  className="shine-sweep rounded-sm bg-gold px-3 sm:px-6 py-1.5 sm:py-3 text-[0.52rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
-                >
-                  Book Store Visit
-                </Link>
-              </div>
+            <div className="mt-6 sm:mt-8 flex flex-wrap gap-3 sm:gap-6">
+              <Link
+                to="/appointment"
+                className="shine-sweep rounded-sm bg-gold px-4 sm:px-8 py-2.5 sm:py-4 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
+              >
+                Book Store Visit
+              </Link>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
 
         <div className="mt-10 sm:mt-16 border-t border-gold/30 pt-8 sm:pt-12">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
             {TRUST.map(([k, v], i) => (
               <Reveal key={v} delay={i * 100}>
-                <div className="text-center p-2 rounded bg-onyx/60 border border-gold/20">
+                <div className="text-center p-3 rounded-lg bg-black/60 backdrop-blur-md border border-gold/30">
                   <p className="font-display text-xl sm:text-3xl text-gold font-bold">{k}</p>
-                  <p className="mt-1 text-[0.52rem] sm:text-[0.6rem] uppercase tracking-widest text-muted-foreground font-medium">
+                  <p className="mt-1 text-[0.55rem] sm:text-[0.6rem] uppercase tracking-widest text-muted-foreground font-medium">
                     {v}
                   </p>
                 </div>
