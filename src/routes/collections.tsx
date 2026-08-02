@@ -1205,6 +1205,9 @@ function DetailedCollectionsPage() {
       {/* CATALOGUE PDF MODAL */}
       <CatalogPdfModal
         isOpen={isCatalogPdfModalOpen}
+        allProducts={allProducts}
+        currentFilteredProducts={filteredProducts}
+        activeCategory={activeCategory}
         onClose={() => setIsCatalogPdfModalOpen(false)}
       />
 

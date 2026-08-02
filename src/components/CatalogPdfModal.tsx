@@ -14,18 +14,25 @@ import {
 } from "@/components/LuxuryIcons";
 
 interface CatalogPdfModalProps {
-  allProducts: Product[];
-  currentFilteredProducts: Product[];
-  activeCategory: string;
+  isOpen?: boolean;
+  allProducts?: Product[];
+  currentFilteredProducts?: Product[];
+  activeCategory?: string;
   onClose: () => void;
 }
 
 export function CatalogPdfModal({
+  isOpen = true,
   allProducts,
   currentFilteredProducts,
-  activeCategory,
+  activeCategory = "ALL",
   onClose,
 }: CatalogPdfModalProps) {
+  if (!isOpen) return null;
+
+  const safeAll = allProducts && allProducts.length > 0 ? allProducts : PRODUCTS;
+  const safeFiltered = currentFilteredProducts && currentFilteredProducts.length > 0 ? currentFilteredProducts : safeAll;
+
   const [downloadMode, setDownloadMode] = useState<"FILTERED" | "ALL" | "CATEGORY">("FILTERED");
   const [selectedCategory, setSelectedCategory] = useState<string>(
     activeCategory !== "ALL" ? activeCategory : "BRIDAL SET"
@@ -36,9 +43,9 @@ export function CatalogPdfModal({
 
   // Determine items to include
   const selectedProducts = (() => {
-    if (downloadMode === "FILTERED") return currentFilteredProducts;
-    if (downloadMode === "ALL") return allProducts;
-    return allProducts.filter(
+    if (downloadMode === "FILTERED") return safeFiltered;
+    if (downloadMode === "ALL") return safeAll;
+    return safeAll.filter(
       (p) =>
         p.category.toUpperCase() === selectedCategory.toUpperCase() ||
         p.collection.toUpperCase().includes(selectedCategory.toUpperCase())
