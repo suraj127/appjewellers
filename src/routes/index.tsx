@@ -41,7 +41,6 @@ function Index() {
         <Signature />
         <InstaReels />
         <Maison />
-        <StoreLocation />
         <Appointment />
       </main>
       <Footer />
