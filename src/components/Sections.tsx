@@ -456,15 +456,34 @@ export function StoreLocation() {
                 </div>
               </div>
 
-              {/* Embedded Google Maps Viewport */}
-              <div className="relative h-64 sm:h-80 w-full rounded-lg overflow-hidden border border-gold/30 shadow-inner bg-black/60">
-                <iframe
-                  title="A.P.P. Jewellers Showroom Location Map"
-                  src="https://maps.google.com/maps?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                  className="w-full h-full border-0 filter brightness-90 contrast-110 saturate-120"
-                  loading="lazy"
-                  allowFullScreen
-                />
+              {/* Showroom Landmarks & Access Card */}
+              <div className="bg-gradient-to-br from-[#1c0407] to-[#0d0103] rounded-lg p-6 border border-gold/30 text-left space-y-4 shadow-inner">
+                <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold">
+                  Landmarks & Access
+                </p>
+                <div className="space-y-3 text-xs text-muted-foreground font-light">
+                  <div className="flex items-start gap-3">
+                    <span className="text-gold text-base">🚇</span>
+                    <div>
+                      <p className="text-white font-semibold">Nearest Metro Station</p>
+                      <p>Seelampur Metro Station (Red Line) — 2 mins by rickshaw or walk</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 border-t border-gold/10 pt-3">
+                    <span className="text-gold text-base">🛍️</span>
+                    <div>
+                      <p className="text-white font-semibold">Sarafa Market Landmark</p>
+                      <p>Located in the main jewellery market of New Seelampur Phase II</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3 border-t border-gold/10 pt-3">
+                    <span className="text-gold text-base">🚗</span>
+                    <div>
+                      <p className="text-white font-semibold">Valet & Parking Assistance</p>
+                      <p>Dedicated staff to guide parking upon arrival at Sarafa Market</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
