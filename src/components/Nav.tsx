@@ -65,18 +65,26 @@ export function Nav() {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gold p-2 focus:outline-none rounded-sm border border-gold/40 bg-gold/10 hover:bg-gold/20 active:scale-95 transition-all cursor-pointer"
-                aria-label={mobileMenuOpen ? "Close Navigation Menu" : "Open Navigation Menu"}
+                className="text-gold p-1 focus:outline-none"
+                aria-label="Toggle Navigation Menu"
               >
-                {mobileMenuOpen ? (
-                  <X className="size-5 text-gold" />
-                ) : (
-                  <div className="space-y-1.5 w-5">
-                    <span className="block h-0.5 bg-gold" />
-                    <span className="block h-0.5 bg-gold" />
-                    <span className="block h-0.5 bg-gold" />
-                  </div>
-                )}
+                <div className="space-y-1.5 w-6">
+                  <span
+                    className={`block h-0.5 bg-gold transition-all duration-300 ${
+                      mobileMenuOpen ? "rotate-45 translate-y-2" : ""
+                    }`}
+                  />
+                  <span
+                    className={`block h-0.5 bg-gold transition-all duration-300 ${
+                      mobileMenuOpen ? "opacity-0" : ""
+                    }`}
+                  />
+                  <span
+                    className={`block h-0.5 bg-gold transition-all duration-300 ${
+                      mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                    }`}
+                  />
+                </div>
               </button>
             </div>
 
