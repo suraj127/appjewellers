@@ -54,7 +54,11 @@ export function Nav() {
       <div className={`transition-all duration-500 ${scrolled ? "py-1.5" : "py-2 sm:py-4"}`}>
         <div className="mx-auto max-w-7xl px-3 sm:px-6">
           <nav
-            className="flex items-center justify-between rounded-sm px-3 sm:px-6 py-2 transition-all duration-500 bg-transparent border-0 shadow-none"
+            className={`flex items-center justify-between rounded-sm px-3 sm:px-6 py-2 transition-all duration-500 ${
+              scrolled
+                ? "glass-panel shadow-2xl bg-onyx/95 border border-gold/50"
+                : "bg-onyx/85 border border-gold/30 backdrop-blur-md shadow-xl"
+            }`}
           >
             {/* Mobile Hamburger Toggle Button */}
             <div className="flex items-center lg:hidden">
