@@ -769,9 +769,15 @@ function DetailedCollectionsPage() {
                   <button
                     type="button"
                     onClick={() => setIsCatalogPdfModalOpen(true)}
-                    className="shine-sweep flex items-center gap-1.5 rounded bg-gold/15 border border-gold/50 px-3 py-1 text-[0.62rem] uppercase tracking-widest text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow"
+                    aria-label="View & Download Catalogue PDF"
+                    title="View & Download Catalogue PDF"
+                    className="shine-sweep group relative size-9 sm:size-10 rounded-full bg-black p-0.5 border-2 border-gold/80 shadow-[0_4px_15px_rgba(212,175,55,0.4)] hover:scale-110 hover:border-gold transition-all duration-300 flex items-center justify-center overflow-hidden cursor-pointer"
                   >
-                    <CrownIcon className="size-3.5 text-gold" /> Save Catalogue PDF
+                    <img
+                      src={catalogueIconImg}
+                      alt="Catalogue PDF"
+                      className="size-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
+                    />
                   </button>
                   <span className="text-[0.62rem] text-muted-foreground hidden sm:inline-block">
                     Contact us for current gold rate & best price
@@ -1180,21 +1186,7 @@ function DetailedCollectionsPage() {
 
 
 
-      {/* FLOATING CATALOGUE ICON BUTTON (ICON ONLY) */}
-      <div className="fixed bottom-6 left-6 z-40">
-        <button
-          type="button"
-          onClick={() => setIsCatalogPdfModalOpen(true)}
-          aria-label="View & Download Catalogue PDF"
-          className="shine-sweep group relative size-14 sm:size-16 rounded-full bg-black p-1 border-2 border-gold/80 shadow-[0_10px_30px_rgba(212,175,55,0.5)] hover:scale-110 hover:border-gold transition-all duration-300 backdrop-blur-md flex items-center justify-center overflow-hidden"
-        >
-          <img
-            src={catalogueIconImg}
-            alt="Catalogue PDF"
-            className="size-full object-cover rounded-full group-hover:scale-105 transition-transform duration-300"
-          />
-        </button>
-      </div>
+
 
       {/* QUICK INQUIRY MODAL */}
       {inquiryProduct && (
