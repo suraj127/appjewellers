@@ -103,7 +103,7 @@ export function KarigarProcessSection() {
       id="karigar"
       ref={containerRef}
       className="relative bg-black will-change-transform"
-      style={{ height: `${totalStages * 80}vh` }}
+      style={{ height: `${totalStages * 100}vh` }}
     >
       {/* Sticky Fullscreen Viewport */}
       <div className="sticky top-0 h-screen w-full overflow-hidden bg-black transform-gpu">
