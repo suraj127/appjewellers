@@ -1,11 +1,19 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import heroImg from "@/assets/hero-necklace.jpg";
+import heroVideo from "@/assets/hero-video.mp4";
 import logoImg from "@/assets/logo.png";
 
 export function Hero() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [offset, setOffset] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
+  }, []);
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
@@ -115,17 +123,22 @@ export function Hero() {
       id="top"
       className="relative flex min-h-screen items-center justify-center overflow-hidden bg-onyx pt-36 pb-20"
     >
-      <img
-        src={heroImg}
-        alt="A.P.P. Jewellers fine gold and diamond jewellery"
-        width={1600}
-        height={1200}
+      <video
+        ref={videoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster={heroImg}
         className="absolute inset-0 size-full object-cover"
         style={{
           transform: `scale(1.12) translate3d(${tilt.x * -14}px, ${tilt.y * -14 - offset * 0.12}px, 0)`,
           transition: "transform 1.2s var(--ease-luxe)",
         }}
-      />
+      >
+        <source src={heroVideo} type="video/mp4" />
+        <source src="/hero-video.mp4" type="video/mp4" />
+      </video>
 
       <div className="absolute inset-0" style={{ background: "var(--gradient-veil)" }} />
       <div
