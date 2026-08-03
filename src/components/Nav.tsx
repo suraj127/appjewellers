@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { X } from "lucide-react";
 import logoImg from "@/assets/logo.png";
 import { PhoneIcon } from "@/components/LuxuryIcons";
 
@@ -25,9 +26,10 @@ export function Nav() {
       const isSubpage = window.location.pathname !== "/";
       setScrolled(isSubpage || currentY > 100);
 
-      // Automatically close mobile menu when user scrolls
-      if (Math.abs(currentY - lastY) > 5) {
-        setMobileMenuOpen(false);
+      // If mobile menu is open, keep header visible
+      if (mobileMenuOpen) {
+        setVisible(true);
+        return;
       }
 
       if (currentY > lastY && currentY > 220) {
@@ -40,12 +42,12 @@ export function Nav() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [mobileMenuOpen]);
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-transform duration-500 ease-in-out ${
-        visible ? "translate-y-0" : "-translate-y-full"
+        visible || mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
       {/* Main Navigation Header */}
@@ -63,30 +65,22 @@ export function Nav() {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gold p-1 focus:outline-none"
-                aria-label="Toggle Navigation Menu"
+                className="text-gold p-2 focus:outline-none rounded-sm border border-gold/40 bg-gold/10 hover:bg-gold/20 active:scale-95 transition-all cursor-pointer"
+                aria-label={mobileMenuOpen ? "Close Navigation Menu" : "Open Navigation Menu"}
               >
-                <div className="space-y-1.5 w-6">
-                  <span
-                    className={`block h-0.5 bg-gold transition-all duration-300 ${
-                      mobileMenuOpen ? "rotate-45 translate-y-2" : ""
-                    }`}
-                  />
-                  <span
-                    className={`block h-0.5 bg-gold transition-all duration-300 ${
-                      mobileMenuOpen ? "opacity-0" : ""
-                    }`}
-                  />
-                  <span
-                    className={`block h-0.5 bg-gold transition-all duration-300 ${
-                      mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-                    }`}
-                  />
-                </div>
+                {mobileMenuOpen ? (
+                  <X className="size-5 text-gold" />
+                ) : (
+                  <div className="space-y-1.5 w-5">
+                    <span className="block h-0.5 bg-gold" />
+                    <span className="block h-0.5 bg-gold" />
+                    <span className="block h-0.5 bg-gold" />
+                  </div>
+                )}
               </button>
             </div>
 
-            {/* LEFT SIDE LINKS: Featured | Collection | Monthly Scheme */}
+            {/* LEFT SIDE LINKS */}
             <ul className="hidden lg:flex items-center gap-6">
               {LEFT_LINKS.map((l) => (
                 <li key={l.label}>
@@ -101,7 +95,7 @@ export function Nav() {
               ))}
             </ul>
 
-            {/* CENTER BRAND LOGO (ALWAYS VISIBLE & CENTERED) */}
+            {/* CENTER BRAND LOGO */}
             <a
               href="/"
               className="flex items-center justify-center shrink-0 px-2 transition-transform duration-300 hover:scale-105"
@@ -113,7 +107,7 @@ export function Nav() {
               />
             </a>
 
-            {/* RIGHT SIDE LINKS & CALL US: Book Store Visit | Store Info | Call Us */}
+            {/* RIGHT SIDE LINKS & CALL US */}
             <div className="flex items-center gap-3 sm:gap-6">
               <ul className="hidden lg:flex items-center gap-6">
                 {RIGHT_LINKS.map((l) => (
@@ -145,17 +139,34 @@ export function Nav() {
       {mobileMenuOpen && (
         <>
           <div
-            className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-40"
+            className="lg:hidden fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
             onClick={() => setMobileMenuOpen(false)}
+            onTouchStart={() => setMobileMenuOpen(false)}
           />
-          <div className="lg:hidden fixed inset-x-3 top-16 sm:top-20 bg-onyx/95 border border-gold/40 rounded-lg backdrop-blur-xl p-5 sm:p-6 shadow-2xl animate-fadeIn z-50">
-            <ul className="space-y-3 text-center">
+          <div className="lg:hidden fixed inset-x-3 top-16 sm:top-20 bg-onyx/95 border border-gold/50 rounded-xl backdrop-blur-2xl p-5 sm:p-6 shadow-2xl z-50 animate-fadeIn max-h-[85vh] overflow-y-auto">
+            {/* Drawer Header with Title and Explicit CLOSE (X) Button */}
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-gold/20">
+              <span className="text-xs uppercase tracking-[0.3em] text-gold font-bold">
+                Navigation Menu
+              </span>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-gold/15 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider hover:bg-gold hover:text-primary-foreground transition-all active:scale-95 cursor-pointer shadow"
+                aria-label="Close Menu"
+              >
+                <X className="size-4" />
+                <span>Close</span>
+              </button>
+            </div>
+
+            <ul className="space-y-2 text-center">
               {LEFT_LINKS.map((l) => (
                 <li key={l.label}>
                   <a
                     href={l.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block text-xs uppercase tracking-[0.25em] text-foreground font-semibold hover:text-gold py-2 border-b border-gold/10"
+                    className="block text-xs uppercase tracking-[0.25em] text-foreground font-semibold hover:text-gold py-2.5 border-b border-gold/10 transition-colors"
                   >
                     {l.label}
                   </a>
@@ -166,16 +177,16 @@ export function Nav() {
                   <a
                     href={l.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block text-xs uppercase tracking-[0.25em] text-gold font-semibold py-2 border-b border-gold/10"
+                    className="block text-xs uppercase tracking-[0.25em] text-gold font-semibold py-2.5 border-b border-gold/10 transition-colors"
                   >
                     {l.label}
                   </a>
                 </li>
               ))}
-              <li className="pt-2">
+              <li className="pt-3">
                 <a
                   href="tel:09015155615"
-                  className="shine-sweep flex items-center justify-center gap-2 w-full rounded bg-gold py-3 text-xs uppercase tracking-widest text-primary-foreground font-bold shadow-lg"
+                  className="shine-sweep flex items-center justify-center gap-2 w-full rounded-md bg-gold py-3 text-xs uppercase tracking-widest text-primary-foreground font-bold shadow-lg"
                 >
                   <PhoneIcon className="size-3.5" /> Call Us: 090151 55615
                 </a>
