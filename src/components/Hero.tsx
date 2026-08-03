@@ -124,7 +124,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-onyx pt-28 sm:pt-36 pb-16 sm:pb-20 px-4"
+      className="relative flex min-h-screen h-[100vh] max-h-screen flex-col items-center justify-center overflow-hidden bg-onyx pt-16 sm:pt-20 pb-4 sm:pb-8 px-4"
     >
       <video
         ref={videoRef}
@@ -170,62 +170,62 @@ export function Hero() {
         className="absolute inset-0 size-full pointer-events-none z-[5]"
       />
 
-      <div className="relative z-10 mx-auto max-w-4xl px-3 sm:px-6 text-center">
+      <div className="relative z-10 mx-auto max-w-4xl px-3 sm:px-6 text-center my-auto flex flex-col items-center justify-center">
         {/* BIG & ULTRA-VIBRANT LOGO IN HERO WITH RADIAL HALO */}
-        <div className="reveal relative flex justify-center mb-4 sm:mb-6" style={{ animationDelay: "150ms" }}>
+        <div className="reveal relative flex justify-center mb-2 sm:mb-4" style={{ animationDelay: "150ms" }}>
           {/* Glowing Backlight Halo */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-40 sm:size-72 rounded-full bg-gold/25 blur-3xl pointer-events-none animate-pulse" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-36 sm:size-56 rounded-full bg-gold/25 blur-3xl pointer-events-none animate-pulse" />
 
           <img
             src={logoImg}
             alt="A.P.P. Jewellers Brand Logo"
-            className="relative z-10 h-28 sm:h-48 md:h-60 w-auto object-contain filter brightness-125 contrast-125 saturate-150 drop-shadow-[0_0_35px_rgba(255,215,0,0.85)] drop-shadow-[0_0_70px_rgba(212,175,55,0.6)] hover:scale-105 transition-transform duration-700"
+            className="relative z-10 h-20 sm:h-32 md:h-40 lg:h-44 max-h-[18vh] w-auto object-contain filter brightness-125 contrast-125 saturate-150 drop-shadow-[0_0_35px_rgba(255,215,0,0.85)] drop-shadow-[0_0_70px_rgba(212,175,55,0.6)] hover:scale-105 transition-transform duration-700"
           />
         </div>
 
-        <p className="eyebrow reveal text-[0.55rem] sm:text-xs tracking-[0.25em] sm:tracking-[0.42em]" style={{ animationDelay: "280ms" }}>
+        <p className="eyebrow reveal text-[0.52rem] sm:text-xs tracking-[0.25em] sm:tracking-[0.42em]" style={{ animationDelay: "280ms" }}>
           Sarafa Market · New Seelampur · Delhi
         </p>
 
         <h1
-          className="reveal mt-3 sm:mt-5 font-display text-[clamp(1.75rem,6.5vw,5.2rem)] leading-[1.02] sm:leading-[0.98] tracking-tight font-medium"
+          className="reveal mt-2 sm:mt-3 font-display text-[clamp(1.6rem,4.2vw,3.8rem)] leading-[1.05] tracking-tight font-medium"
           style={{ animationDelay: "380ms" }}
         >
           Royal Gold & Diamond Artistry
-          <span className="block italic shimmer-text mt-1 sm:mt-1.5 text-amber-200">
+          <span className="block italic shimmer-text mt-0.5 sm:mt-1 text-sm sm:text-2xl text-amber-200">
             Where Heritage Meets Luxury
           </span>
         </h1>
 
         <p
-          className="reveal mx-auto mt-4 sm:mt-6 max-w-xl text-xs sm:text-base font-light leading-relaxed tracking-wide text-muted-foreground"
+          className="reveal mx-auto mt-2 sm:mt-4 max-w-xl text-xs sm:text-sm font-light leading-relaxed tracking-wide text-muted-foreground"
           style={{ animationDelay: "560ms" }}
         >
           Explore certified solitaire diamonds, Kundan bridal sets, gold bangles and bespoke handcrafted jewellery at our showroom in New Seelampur.
         </p>
 
         <div
-          className="reveal mt-8 sm:mt-10 flex flex-col items-center justify-center gap-3 sm:gap-4 sm:flex-row w-full max-w-sm sm:max-w-none mx-auto"
+          className="reveal mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto"
           style={{ animationDelay: "700ms" }}
         >
           <Link
             to="/collections"
-            className="shine-sweep w-full rounded-sm border border-gold/70 bg-gold/10 px-6 sm:px-9 py-3 sm:py-3.5 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.25em] sm:tracking-[0.34em] text-gold transition-all duration-700 hover:bg-gold hover:text-primary-foreground sm:w-auto font-semibold text-center"
+            className="shine-sweep w-full rounded-sm border border-gold/70 bg-gold/10 px-5 sm:px-8 py-2.5 sm:py-3 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.22em] sm:tracking-[0.3em] text-gold transition-all duration-700 hover:bg-gold hover:text-primary-foreground sm:w-auto font-semibold text-center"
           >
             Explore Collections
           </Link>
           <a
             href="#store-info"
-            className="w-full rounded-sm border border-border/80 px-6 sm:px-9 py-3 sm:py-3.5 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.25em] sm:tracking-[0.34em] text-foreground/90 transition-colors duration-500 hover:border-gold/60 hover:text-gold sm:w-auto text-center"
+            className="w-full rounded-sm border border-border/80 px-5 sm:px-8 py-2.5 sm:py-3 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.22em] sm:tracking-[0.3em] text-foreground/90 transition-colors duration-500 hover:border-gold/60 hover:text-gold sm:w-auto text-center"
           >
             Showroom Details & Location
           </a>
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-center">
-        <div className="mx-auto h-10 w-px bg-gradient-to-b from-transparent via-gold/70 to-transparent" />
-        <span className="mt-2 block text-[0.55rem] uppercase tracking-[0.4em] text-muted-foreground">
+      <div className="absolute bottom-2 sm:bottom-4 left-1/2 z-10 -translate-x-1/2 text-center pointer-events-none">
+        <div className="mx-auto h-6 sm:h-8 w-px bg-gradient-to-b from-transparent via-gold/70 to-transparent" />
+        <span className="mt-1 block text-[0.5rem] uppercase tracking-[0.4em] text-muted-foreground">
           Scroll
         </span>
       </div>
