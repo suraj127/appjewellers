@@ -395,95 +395,62 @@ export function StoreLocation() {
           </div>
         </Reveal>
 
-        {/* SHOWROOM LOCATION & INTERACTIVE MAP CARD */}
+        {/* SHOWROOM LOCATION CARD */}
         <Reveal delay={100}>
-          <div className="mb-14 rounded-xl bg-onyx/90 border border-gold/50 p-6 sm:p-10 shadow-[0_0_50px_rgba(212,175,55,0.15)] transition-all duration-500 hover:border-gold hover:shadow-[0_0_60px_rgba(212,175,55,0.25)]">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-              {/* Showroom Contact & Timings Info */}
-              <div className="space-y-6 text-left">
+          <div className="mb-14 rounded-xl bg-onyx/90 border border-gold/50 p-6 sm:p-10 shadow-[0_0_50px_rgba(212,175,55,0.15)] transition-all duration-500 hover:border-gold hover:shadow-[0_0_60px_rgba(212,175,55,0.25)] max-w-3xl mx-auto text-center">
+            <div className="space-y-6 flex flex-col items-center">
+              <div>
+                <span className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold block mb-1">
+                  Flagship Store Location
+                </span>
+                <h3 className="font-display text-2xl sm:text-4xl font-bold text-white leading-snug">
+                  A.P.P. Jewellers
+                </h3>
+                <p className="mt-2 text-xs sm:text-base text-amber-100/90 font-light leading-relaxed max-w-xl mx-auto">
+                  Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Seelampur, Seelampur, New Delhi, Delhi 110053
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4 border-y border-gold/20 py-4 w-full max-w-lg">
                 <div>
-                  <span className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold block mb-1">
-                    Flagship Store Location
+                  <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
+                    Showroom Hours
                   </span>
-                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
-                    A.P.P. Jewellers
-                  </h3>
-                  <p className="mt-2 text-xs sm:text-sm text-amber-100/90 font-light leading-relaxed">
-                    Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Seelampur, Seelampur, New Delhi, Delhi 110053
+                  <p className="text-xs sm:text-sm text-white font-bold mt-0.5">
+                    11:00 AM – 8:30 PM
                   </p>
+                  <span className="text-[0.55rem] text-emerald-400 font-medium block">
+                    Open All 7 Days
+                  </span>
                 </div>
-
-                <div className="grid grid-cols-2 gap-4 border-y border-gold/20 py-4">
-                  <div>
-                    <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
-                      Showroom Hours
-                    </span>
-                    <p className="text-xs sm:text-sm text-white font-bold mt-0.5">
-                      11:00 AM – 8:30 PM
-                    </p>
-                    <span className="text-[0.55rem] text-emerald-400 font-medium block">
-                      Open All 7 Days
-                    </span>
-                  </div>
-                  <div>
-                    <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
-                      Direct Phone Desk
-                    </span>
-                    <a href="tel:09015155615" className="text-xs sm:text-sm text-white font-bold mt-0.5 block hover:text-gold transition-colors">
-                      090151 55615
-                    </a>
-                    <span className="text-[0.55rem] text-muted-foreground font-medium block">
-                      Call for Valet & Appointments
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex flex-wrap items-center gap-3 pt-2">
-                  <a
-                    href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="shine-sweep flex items-center justify-center gap-2 rounded bg-gold px-6 py-3 text-xs uppercase tracking-widest text-primary-foreground font-bold shadow-lg hover:opacity-95 transition-opacity"
-                  >
-                    <span>📍 Get Google Maps Directions</span>
+                <div>
+                  <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
+                    Direct Phone Desk
+                  </span>
+                  <a href="tel:09015155615" className="text-xs sm:text-sm text-white font-bold mt-0.5 block hover:text-gold transition-colors">
+                    090151 55615
                   </a>
-                  <a
-                    href="tel:09015155615"
-                    className="flex items-center justify-center gap-2 rounded border border-gold/60 bg-gold/10 px-5 py-3 text-xs uppercase tracking-widest text-gold font-semibold hover:bg-gold hover:text-primary-foreground transition-all"
-                  >
-                    <PhoneIcon className="size-3.5" /> Call Store
-                  </a>
+                  <span className="text-[0.55rem] text-muted-foreground font-medium block">
+                    Call for Valet & Appointments
+                  </span>
                 </div>
               </div>
 
-              {/* Showroom Landmarks & Access Card */}
-              <div className="bg-gradient-to-br from-[#1c0407] to-[#0d0103] rounded-lg p-6 border border-gold/30 text-left space-y-4 shadow-inner">
-                <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold">
-                  Landmarks & Access
-                </p>
-                <div className="space-y-3 text-xs text-muted-foreground font-light">
-                  <div className="flex items-start gap-3">
-                    <span className="text-gold text-base">🚇</span>
-                    <div>
-                      <p className="text-white font-semibold">Nearest Metro Station</p>
-                      <p>Seelampur Metro Station (Red Line) — 2 mins by rickshaw or walk</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 border-t border-gold/10 pt-3">
-                    <span className="text-gold text-base">🛍️</span>
-                    <div>
-                      <p className="text-white font-semibold">Sarafa Market Landmark</p>
-                      <p>Located in the main jewellery market of New Seelampur Phase II</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3 border-t border-gold/10 pt-3">
-                    <span className="text-gold text-base">🚗</span>
-                    <div>
-                      <p className="text-white font-semibold">Valet & Parking Assistance</p>
-                      <p>Dedicated staff to guide parking upon arrival at Sarafa Market</p>
-                    </div>
-                  </div>
-                </div>
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <a
+                  href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="shine-sweep flex items-center justify-center gap-2 rounded bg-gold px-7 py-3.5 text-xs uppercase tracking-widest text-primary-foreground font-bold shadow-lg hover:opacity-95 transition-opacity"
+                >
+                  <span>📍 Get Google Maps Directions</span>
+                </a>
+                <a
+                  href="tel:09015155615"
+                  className="flex items-center justify-center gap-2 rounded border border-gold/60 bg-gold/10 px-6 py-3.5 text-xs uppercase tracking-widest text-gold font-semibold hover:bg-gold hover:text-primary-foreground transition-all"
+                >
+                  <PhoneIcon className="size-3.5" /> Call Store Desk
+                </a>
               </div>
             </div>
           </div>
