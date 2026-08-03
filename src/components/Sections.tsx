@@ -457,38 +457,38 @@ export function StoreLocation() {
         </Reveal>
 
         <Reveal delay={180}>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 items-stretch">
-            <div className="glass-panel rounded-md p-3 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
+          <div className="grid grid-cols-3 gap-2 sm:gap-8 items-stretch">
+            <div className="glass-panel rounded-md p-2.5 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
-                <span className="text-gold font-display text-sm sm:text-2xl font-bold">01</span>
-                <h3 className="mt-1.5 sm:mt-3 font-display text-xs sm:text-xl text-foreground font-semibold leading-tight">
+                <span className="text-gold font-display text-xs sm:text-2xl font-bold">01</span>
+                <h3 className="mt-1 sm:mt-3 font-display text-[0.68rem] sm:text-xl text-foreground font-semibold leading-tight">
                   100% BIS Hallmarked
                 </h3>
-                <p className="mt-1 sm:mt-2 text-[0.55rem] sm:text-sm text-muted-foreground font-light leading-relaxed">
+                <p className="mt-1 sm:mt-2 text-[0.52rem] sm:text-sm text-muted-foreground font-light leading-relaxed">
                   Certified BIS hallmarked gold purity on every piece.
                 </p>
               </div>
             </div>
 
-            <div className="glass-panel rounded-md p-3 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
+            <div className="glass-panel rounded-md p-2.5 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
-                <span className="text-gold font-display text-sm sm:text-2xl font-bold">02</span>
-                <h3 className="mt-1.5 sm:mt-3 font-display text-xs sm:text-xl text-foreground font-semibold leading-tight">
+                <span className="text-gold font-display text-xs sm:text-2xl font-bold">02</span>
+                <h3 className="mt-1 sm:mt-3 font-display text-[0.68rem] sm:text-xl text-foreground font-semibold leading-tight">
                   Certified Solitaires
                 </h3>
-                <p className="mt-1 sm:mt-2 text-[0.55rem] sm:text-sm text-muted-foreground font-light leading-relaxed">
+                <p className="mt-1 sm:mt-2 text-[0.52rem] sm:text-sm text-muted-foreground font-light leading-relaxed">
                   GIA & IGI certified natural diamonds cut for brilliance.
                 </p>
               </div>
             </div>
 
-            <div className="glass-panel rounded-md p-3 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
+            <div className="glass-panel rounded-md p-2.5 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
-                <span className="text-gold font-display text-sm sm:text-2xl font-bold">03</span>
-                <h3 className="mt-1.5 sm:mt-3 font-display text-xs sm:text-xl text-foreground font-semibold leading-tight">
+                <span className="text-gold font-display text-xs sm:text-2xl font-bold">03</span>
+                <h3 className="mt-1 sm:mt-3 font-display text-[0.68rem] sm:text-xl text-foreground font-semibold leading-tight">
                   Bespoke Bridal Design
                 </h3>
-                <p className="mt-1 sm:mt-2 text-[0.55rem] sm:text-sm text-muted-foreground font-light leading-relaxed">
+                <p className="mt-1 sm:mt-2 text-[0.52rem] sm:text-sm text-muted-foreground font-light leading-relaxed">
                   Personalized Kundan, Meenakari, and temple suites.
                 </p>
               </div>
