@@ -17,7 +17,7 @@ export function Hero() {
   }, []);
 
   useEffect(() => {
-    const onMove = (e: PointerEvent) => {
+    const onMove = (e: MouseEvent | PointerEvent) => {
       setTilt({
         x: (e.clientX / window.innerWidth - 0.5) * 2,
         y: (e.clientY / window.innerHeight - 0.5) * 2,
@@ -25,9 +25,11 @@ export function Hero() {
     };
     const onScroll = () => setOffset(window.scrollY);
     window.addEventListener("pointermove", onMove, { passive: true });
+    window.addEventListener("mousemove", onMove, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("mousemove", onMove);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
@@ -131,10 +133,11 @@ export function Hero() {
         muted
         playsInline
         poster={heroImg}
-        className="absolute inset-0 size-full object-cover"
+        className="absolute inset-0 size-full object-cover pointer-events-none"
         style={{
-          transform: `scale(1.12) translate3d(${tilt.x * -14}px, ${tilt.y * -14 - offset * 0.12}px, 0)`,
-          transition: "transform 1.2s var(--ease-luxe)",
+          transform: `scale(1.22) translate3d(${tilt.x * -35}px, ${tilt.y * -45 - offset * 0.25}px, 0)`,
+          transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
+          willChange: "transform",
         }}
       >
         <source src={heroVideo} type="video/mp4" />
