@@ -24,6 +24,12 @@ export function Nav() {
       const currentY = window.scrollY;
       const isSubpage = window.location.pathname !== "/";
       setScrolled(isSubpage || currentY > 100);
+
+      // Automatically close mobile menu when user scrolls
+      if (Math.abs(currentY - lastY) > 5) {
+        setMobileMenuOpen(false);
+      }
+
       if (currentY > lastY && currentY > 220) {
         setVisible(false); // Hide bar on scroll down deep
       } else {
