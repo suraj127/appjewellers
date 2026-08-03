@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
 import logoImg from "@/assets/logo.png";
+import { CurtainSectionDivider } from "@/components/CurtainSectionDivider";
 import {
   Appointment,
   Collections,
@@ -73,12 +74,19 @@ function Index() {
       <Nav />
       <main className="page-enter">
         <Hero />
+        <CurtainSectionDivider label="Fine Collections & Masterpieces" sublabel="Handcrafted Directory" />
         <Collections />
+        <CurtainSectionDivider label="SwarnaNidhi Gold Scheme" sublabel="Guaranteed Savings Plan" />
         <SchemeTeaser />
+        <CurtainSectionDivider label="Signature Masterpiece" sublabel="The Chandra Suite" />
         <Signature />
+        <CurtainSectionDivider label="Atelier Stories & Reels" sublabel="@appjewellers Instagram" />
         <InstaReels />
+        <CurtainSectionDivider label="Our Heritage Atelier" sublabel="Master Karigar Craftsmanship" />
         <Maison />
+        <CurtainSectionDivider label="Showroom Location" sublabel="Sarafa Market · Delhi" />
         <StoreLocation />
+        <CurtainSectionDivider label="Private Consultation" sublabel="Reserve Store Visit" />
         <Appointment />
       </main>
       <Footer />
