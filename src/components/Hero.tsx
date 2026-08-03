@@ -212,7 +212,7 @@ export function Hero() {
         >
           <div className="relative w-full sm:w-auto flex justify-center">
             <GlowEffect
-              colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
+              colors={['#D4AF37', '#FFD700', '#F3E5AB', '#AA771C']}
               mode="colorShift"
               blur="soft"
               duration={3}

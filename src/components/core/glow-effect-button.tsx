@@ -20,7 +20,7 @@ export interface GlowEffectButtonProps {
 export function GlowEffectButton({
   to,
   onClick,
-  colors = ['#FF5733', '#33FF57', '#3357FF', '#F1C40F'],
+  colors = ['#D4AF37', '#FFD700', '#F3E5AB', '#AA771C'],
   mode = 'colorShift',
   blur = 'soft',
   duration = 3,

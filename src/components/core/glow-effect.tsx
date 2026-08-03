@@ -10,7 +10,7 @@ export interface GlowEffectProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const GlowEffect: React.FC<GlowEffectProps> = ({
-  colors = ['#FF5733', '#33FF57', '#3357FF', '#F1C40F'],
+  colors = ['#D4AF37', '#FFD700', '#F3E5AB', '#AA771C'],
   mode = 'colorShift',
   blur = 'soft',
   duration = 3,
@@ -34,7 +34,7 @@ export const GlowEffect: React.FC<GlowEffectProps> = ({
   };
 
   const blurStyle = getBlurValue();
-  const colorList = colors.length > 0 ? colors : ['#FF5733', '#33FF57', '#3357FF', '#F1C40F'];
+  const colorList = colors.length > 0 ? colors : ['#D4AF37', '#FFD700', '#F3E5AB', '#AA771C'];
   const gradientColors = [...colorList, colorList[0]].join(', ');
 
   const getBackgroundStyle = (): React.CSSProperties => {
