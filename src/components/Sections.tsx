@@ -11,6 +11,7 @@ import { PRODUCTS } from "@/data/products";
 import { AppointmentForm } from "./AppointmentForm";
 import { PhoneIcon, WhatsAppIcon } from "./LuxuryIcons";
 import { KarigarProcessSection } from "./KarigarProcessSection";
+import { RoyalCurtainGallery } from "./RoyalCurtainGallery";
 
 
 const COLLECTIONS = [
@@ -182,37 +183,8 @@ export function Collections() {
           />
         </Reveal>
 
-        {/* Exclusive Items Grid - 2 cols on mobile */}
-        <div className="mt-10 sm:mt-20 grid grid-cols-2 gap-3 sm:gap-8 lg:grid-cols-4">
-          {exclusiveItems.map((item, i) => (
-            <Reveal key={item.slug} delay={i * 140}>
-              <Link
-                to="/piece/$slug"
-                params={{ slug: item.slug }}
-                className="lift shine-sweep group relative block h-[18rem] sm:h-[28rem] overflow-hidden rounded-sm border border-border/80 bg-onyx"
-              >
-                <ProductHoverImage
-                  image={item.image}
-                  hoverImage={item.hoverImage}
-                  alt={item.name}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-onyx via-onyx/30 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-95 pointer-events-none" />
-
-                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-6 text-center">
-                  <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.2em] sm:tracking-[0.34em] text-gold font-medium truncate">
-                    {item.category}
-                  </p>
-                  <h3 className="mt-1 font-display text-sm sm:text-2xl font-semibold text-amber-100 leading-tight line-clamp-1">
-                    {item.name}
-                  </h3>
-                  <p className="mt-1 text-[0.65rem] sm:text-xs text-gold font-bold uppercase tracking-wider">
-                    PRICE ON REQUEST
-                  </p>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
+        {/* Interactive Royal Velvet Curtain Unveiling Gallery */}
+        <RoyalCurtainGallery items={exclusiveItems} />
 
         <Reveal delay={200}>
           <div className="mt-16 text-center border-t border-border/60 pt-10">
