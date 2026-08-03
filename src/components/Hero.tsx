@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
+import { GlowEffect } from '@/components/core/glow-effect';
+import { ArrowRight } from 'lucide-react';
 import heroImg from "@/assets/hero-necklace.jpg";
 import heroVideo from "@/assets/hero-video.mp4";
 import logoImg from "@/assets/logo.png";
@@ -205,15 +207,24 @@ export function Hero() {
         </p>
 
         <div
-          className="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-sm sm:max-w-none mx-auto"
+          className="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-sm sm:max-w-none mx-auto"
           style={{ animationDelay: "700ms" }}
         >
-          <Link
-            to="/collections"
-            className="shine-sweep w-full rounded-sm border border-gold/70 bg-gold/10 px-9 py-3.5 text-[0.68rem] uppercase tracking-[0.34em] text-gold transition-all duration-700 hover:bg-gold hover:text-primary-foreground sm:w-auto font-semibold text-center"
-          >
-            Explore Collections
-          </Link>
+          <div className="relative w-full sm:w-auto flex justify-center">
+            <GlowEffect
+              colors={['#FF5733', '#33FF57', '#3357FF', '#F1C40F']}
+              mode="colorShift"
+              blur="soft"
+              duration={3}
+              scale={0.9}
+            />
+            <Link
+              to="/collections"
+              className="relative inline-flex items-center justify-center gap-2 rounded-md bg-zinc-950 px-6 py-3.5 text-[0.68rem] text-zinc-50 outline outline-1 outline-[#fff2f21f] font-semibold uppercase tracking-[0.25em] transition-transform hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center"
+            >
+              Explore Collections <ArrowRight className="h-4 w-4 text-gold" />
+            </Link>
+          </div>
           <a
             href="#store-info"
             className="w-full rounded-sm border border-border/80 px-9 py-3.5 text-[0.68rem] uppercase tracking-[0.34em] text-foreground/90 transition-colors duration-500 hover:border-gold/60 hover:text-gold sm:w-auto text-center"

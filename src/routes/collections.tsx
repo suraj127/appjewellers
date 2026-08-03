@@ -11,6 +11,7 @@ import catalogueIconImg from "@/assets/catalogue_icon.png";
 import logoImg from "@/assets/logo.png";
 
 import { CatalogPdfModal } from "@/components/CatalogPdfModal";
+import { Spotlight } from "@/components/core/spotlight";
 
 /* ── 3D Orbit Background Constants ─────────────────────────────── */
 const ORBIT_COUNT = 22;
@@ -556,6 +557,14 @@ function DetailedCollectionsPage() {
                     key={product.slug}
                     className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded-sm overflow-hidden shadow-lg"
                   >
+                    <Spotlight
+                      className="bg-gold/25 blur-2xl"
+                      size={64}
+                      springOptions={{
+                        bounce: 0.3,
+                        duration: 0.1,
+                      }}
+                    />
                     <div className="relative block h-44 w-full overflow-hidden bg-black/40">
                       <ProductHoverImage
                         image={product.image}
@@ -807,6 +816,14 @@ function DetailedCollectionsPage() {
 
                       {/* Detailed Product Card WITHOUT PRICING */}
                       <div className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded-sm overflow-hidden lift transition-all duration-500 hover:border-gold/60">
+                        <Spotlight
+                          className="bg-gold/25 blur-2xl"
+                          size={80}
+                          springOptions={{
+                            bounce: 0.3,
+                            duration: 0.1,
+                          }}
+                        />
                         {/* Image Box - Compact height on mobile */}
                         <div className="relative block h-40 sm:h-72 w-full overflow-hidden bg-black/40">
                           <ProductHoverImage

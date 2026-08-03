@@ -124,7 +124,9 @@ export function KarigarProcessSection() {
               style={{ opacity }}
             >
               <video
-                ref={(el) => (videoRefs.current[i] = el)}
+                ref={(el) => {
+                  videoRefs.current[i] = el;
+                }}
                 src={stage.video}
                 autoPlay
                 loop

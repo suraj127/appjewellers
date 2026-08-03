@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { type Product, CATEGORY_GROUPS } from "@/data/products";
+import { type Product, PRODUCTS, CATEGORY_GROUPS } from "@/data/products";
 import { generateCatalogPdf } from "@/lib/pdfCatalogGenerator";
 import {
   CrownIcon,
@@ -46,7 +46,7 @@ export function CatalogPdfModal({
     if (downloadMode === "FILTERED") return safeFiltered;
     if (downloadMode === "ALL") return safeAll;
     return safeAll.filter(
-      (p) =>
+      (p: Product) =>
         p.category.toUpperCase() === selectedCategory.toUpperCase() ||
         p.collection.toUpperCase().includes(selectedCategory.toUpperCase())
     );
@@ -137,8 +137,8 @@ export function CatalogPdfModal({
             </label>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { id: "FILTERED", label: "Current View", count: currentFilteredProducts.length, sub: "Filtered items" },
-                { id: "ALL", label: "Master Book", count: allProducts.length, sub: "Full collection" },
+                { id: "FILTERED", label: "Current View", count: safeFiltered.length, sub: "Filtered items" },
+                { id: "ALL", label: "Master Book", count: safeAll.length, sub: "Full collection" },
                 { id: "CATEGORY", label: "By Category", count: selectedProducts.length, sub: "Specific section" },
               ].map((opt) => (
                 <button
@@ -183,7 +183,7 @@ export function CatalogPdfModal({
                   "DAILY WEAR",
                 ].map((cat) => (
                   <option key={cat} value={cat}>
-                    {cat} Catalogue ({allProducts.filter((p) => p.category.toUpperCase().includes(cat)).length} items)
+                    {cat} Catalogue ({safeAll.filter((p) => p.category.toUpperCase().includes(cat)).length} items)
                   </option>
                 ))}
               </select>
