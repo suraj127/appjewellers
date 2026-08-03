@@ -184,7 +184,7 @@ export function Hero() {
           className="reveal mx-auto mt-6 max-w-xl text-sm sm:text-base font-light leading-relaxed tracking-wide text-muted-foreground"
           style={{ animationDelay: "560ms" }}
         >
-          Explore certified solitaire diamonds, Kundan bridal sets, 22K gold bangles and bespoke handcrafted jewellery at our showroom in New Seelampur.
+          Explore certified solitaire diamonds, Kundan bridal sets, gold bangles and bespoke handcrafted jewellery at our showroom in New Seelampur.
         </p>
 
         <div

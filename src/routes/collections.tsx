@@ -31,7 +31,7 @@ function smoothstep(edge0: number, edge1: number, x: number) {
 
 const title = "Collections — A.P.P. Jewellers, Sarafa Market, New Delhi";
 const description =
-  "Explore 22K Gold, Solitaire Diamond, Kundan Bridal Sets, Bangles, Chains and Temple Jewellery at A.P.P. Jewellers. Detailed collection directory with virtual try-on and inquiries.";
+  "Explore Gold, Solitaire Diamond, Kundan Bridal Sets, Bangles, Chains and Temple Jewellery at A.P.P. Jewellers. Detailed collection directory with virtual try-on and inquiries.";
 
 export const Route = createFileRoute("/collections")({
   head: () => ({
@@ -218,7 +218,7 @@ import {
 // Top Category Mega-Menu Data with Vector SVG Icons
 const MEGA_NAV_ITEMS = [
   { id: "ALL", label: "All Jewellery", IconComponent: SparklesIcon },
-  { id: "GOLD", label: "22K Gold", IconComponent: CrownIcon },
+  { id: "GOLD", label: "Gold", IconComponent: CrownIcon },
   { id: "DIAMOND", label: "Solitaire Diamond", IconComponent: DiamondIcon },
   { id: "EARRINGS", label: "Earrings & Jhumka", IconComponent: EarringIcon },
   { id: "RINGS", label: "Rings & Bands", IconComponent: RingIcon },
@@ -487,7 +487,7 @@ function DetailedCollectionsPage() {
               Our <span className="italic shimmer-text font-serif">Premium Collection</span>
             </h1>
             <p className="mt-2 text-xs sm:text-sm font-light text-muted-foreground max-w-lg mx-auto leading-relaxed">
-              Handcrafted 22K BIS Hallmarked Gold, Certified Solitaire Diamonds & Royal Kundan Masterpieces.
+              Handcrafted BIS Hallmarked Gold, Certified Solitaire Diamonds & Royal Kundan Masterpieces.
             </p>
             <div className="rule-gold mx-auto mt-3 sm:mt-4 w-28 sm:w-36" />
           </div>
@@ -784,7 +784,7 @@ function DetailedCollectionsPage() {
                             Dailywear & Kundan Heritage Collection
                           </h3>
                           <p className="mt-1.5 text-xs text-muted-foreground max-w-xl mx-auto font-light hidden sm:block">
-                            Crafted for effortless elegance and lasting durability. Certified 22K BIS Hallmarked gold with lifetime polish warranty.
+                            Crafted for effortless elegance and lasting durability. Certified BIS Hallmarked gold with lifetime polish warranty.
                           </p>
                           <div className="mt-4 sm:mt-6 flex flex-wrap justify-center gap-3">
                             <button
@@ -1016,7 +1016,7 @@ function DetailedCollectionsPage() {
                       { label: "Pendants", val: "PENDANT" },
                       { label: "Bridal Suites", val: "BRIDAL SET" },
                       { label: "Mangalsutra", val: "MANGALSUTRA" },
-                      { label: "22K Gold Coins", val: "GOLD COIN" },
+                      { label: "Gold Coins", val: "GOLD COIN" },
                       { label: "Chains", val: "CHAIN" },
                     ].map((item) => {
                       const isSelected = activeCategory === item.val;
@@ -1047,7 +1047,7 @@ function DetailedCollectionsPage() {
                     </p>
                     {[
                       { label: "All Metals & Gems", val: "ALL" },
-                      { label: "22K / 18K Yellow Gold", val: "GOLD" },
+                      { label: "Yellow Gold", val: "GOLD" },
                       { label: "GIA / IGI Solitaire Diamond", val: "DIAMOND" },
                       { label: "Pure Platinum 950", val: "PLATINUM" },
                       { label: "Fine Sterling Silver 925", val: "SILVER" },

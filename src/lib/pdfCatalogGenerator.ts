@@ -59,7 +59,7 @@ export async function generateCatalogPdf(
   onProgress?: (progressText: string) => void
 ): Promise<Blob> {
   const {
-    subtitle = "Exquisite 22K Gold & Solitaire Diamond Collection",
+    subtitle = "Exquisite Gold & Solitaire Diamond Collection",
     categoryFilter = "ALL",
     includeGoldRate = true,
     goldRate22k = "Rs. 7,380 / gram",
@@ -149,7 +149,7 @@ export async function generateCatalogPdf(
   doc.setFontSize(9.5);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(235, 215, 175);
-  doc.text("FINE 22K GOLD & SOLITAIRE DIAMOND ATELIER", pageWidth / 2, y, { align: "center" });
+  doc.text("FINE GOLD & SOLITAIRE DIAMOND ATELIER", pageWidth / 2, y, { align: "center" });
 
   // Gold Line Separator with Emblem
   y += 9;
@@ -741,7 +741,7 @@ export async function generateCatalogPdf(
   doc.setFontSize(11);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(235, 215, 175);
-  doc.text("Experience High-Purity 22K Gold & Solitaires in Person", pageWidth / 2, finalY, { align: "center" });
+  doc.text("Experience High-Purity Gold & Solitaires in Person", pageWidth / 2, finalY, { align: "center" });
 
   finalY += 12;
   doc.setDrawColor(212, 175, 55);
@@ -804,7 +804,7 @@ export async function generateCatalogPdf(
   doc.setTextColor(240, 240, 240);
   doc.setFontSize(8.5);
   doc.setFont("helvetica", "normal");
-  const customText = "Have a specific design, picture, or family heirloom you want to recreate in 22K Gold or Diamond? Send us a message on WhatsApp or visit our Sarafa Market store for custom karigar crafting.";
+  const customText = "Have a specific design, picture, or family heirloom you want to recreate in Gold or Diamond? Send us a message on WhatsApp or visit our Sarafa Market store for custom karigar crafting.";
   const splitCustom = doc.splitTextToSize(customText, pageWidth - margin * 2 - 45);
   doc.text(splitCustom, pageWidth / 2, customY, { align: "center" });
 

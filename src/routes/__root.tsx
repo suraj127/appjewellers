@@ -78,18 +78,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "A.P.P. Jewellers — Sarafa Market, New Seelampur, Delhi | 22K Gold & Diamonds" },
+      { title: "A.P.P. Jewellers — Sarafa Market, New Seelampur, Delhi | Fine Gold & Diamonds" },
       {
         name: "description",
         content:
-          "A.P.P. Jewellers: Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Delhi. Phone: 090151 55615. 22K BIS Hallmarked Gold, Solitaires & Kundan Jewellery.",
+          "A.P.P. Jewellers: Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Delhi. Phone: 090151 55615. BIS Hallmarked Gold, Solitaires & Kundan Jewellery.",
       },
       { name: "author", content: "A.P.P. Jewellers" },
       { property: "og:title", content: "A.P.P. Jewellers — Sarafa Market, New Seelampur, New Delhi" },
       {
         property: "og:description",
         content:
-          "Fine 22K Gold, Solitaires, Kundan Jewellery & AI Virtual Try-On. Phone: 090151 55615.",
+          "Fine Gold, Solitaires, Kundan Jewellery & AI Virtual Try-On. Phone: 090151 55615.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

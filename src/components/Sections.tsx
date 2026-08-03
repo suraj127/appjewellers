@@ -23,14 +23,14 @@ const COLLECTIONS = [
   },
   {
     name: "Bridal & Temple",
-    meta: "22K · Kundan · Ruby",
+    meta: "Kundan · Ruby",
     img: bridalImg,
     slug: "chandra-suite",
     copy: "Ceremonial suites, hand-set over four hundred hours.",
   },
   {
     name: "Bangles & Cuffs",
-    meta: "22K · Pavé diamond",
+    meta: "Pavé diamond",
     img: banglesImg,
     slug: "meridian-cuff",
     copy: "Sculpted forms that hold the wrist without weight.",
@@ -38,7 +38,7 @@ const COLLECTIONS = [
 ];
 
 const SIGNATURE_SPECS = [
-  ["Metal", "22K yellow gold"],
+  ["Metal", "Yellow gold"],
   ["Centre stone", "3.04 ct pear, D VVS1"],
   ["Certification", "GIA · IGI · BIS Hallmark"],
   ["Gross weight", "38.420 g"],
@@ -178,7 +178,7 @@ export function Collections() {
           <SectionHead
             eyebrow="Special Gold & Diamond Collection"
             title="Handcrafted Jewellery for Every Celebration"
-            copy="Explore pure 22K BIS hallmarked gold, real certified diamonds, traditional Kundan sets, and dailywear jewellery crafted at A.P.P. Jewellers."
+            copy="Explore pure BIS hallmarked gold, real certified diamonds, traditional Kundan sets, and dailywear jewellery crafted at A.P.P. Jewellers."
           />
         </Reveal>
 
@@ -315,7 +315,7 @@ export function Signature() {
                 The <span className="italic shimmer-text">Chandra</span> Suite
               </h2>
               <p className="mt-2 sm:mt-4 text-xs sm:text-base font-light leading-relaxed text-muted-foreground">
-                A crescent of Burmese rubies framed by 412 brilliant-cut diamonds. Certified 22K gold hallmarked purity with lifetime polish guarantee.
+                A crescent of Burmese rubies framed by 412 brilliant-cut diamonds. Certified hallmarked gold purity with lifetime polish guarantee.
               </p>
 
               <dl className="mt-4 sm:mt-8 grid grid-cols-2 gap-3 sm:gap-6 border-t border-gold/30 pt-4">
@@ -404,7 +404,7 @@ export function StoreLocation() {
                   100% BIS Hallmarked
                 </h3>
                 <p className="mt-1 sm:mt-2 text-[0.55rem] sm:text-sm text-muted-foreground font-light leading-relaxed">
-                  Certified 22K (916) and 18K gold hallmark purity on every piece.
+                  Certified BIS hallmarked gold purity on every piece.
                 </p>
               </div>
             </div>
@@ -603,7 +603,7 @@ export function InstaReels() {
               Follow <span className="italic shimmer-text">@appjewellers</span>
             </h2>
             <p className="mt-3 text-xs sm:text-sm font-light text-muted-foreground max-w-lg leading-relaxed">
-              Stay updated with daily 22K gold rate announcements, real bridal customer reveals, Kundan craftsmanship videos, and exclusive new arrivals directly from Sarafa Market.
+              Stay updated with daily gold rate announcements, real bridal customer reveals, Kundan craftsmanship videos, and exclusive new arrivals directly from Sarafa Market.
             </p>
 
             <div className="rule-gold mx-auto my-6 w-32" />
@@ -684,7 +684,7 @@ export function Footer() {
             <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
               <li><Link to="/collections" className="hover:text-gold transition-colors">Solitaire Diamonds</Link></li>
               <li><Link to="/collections" className="hover:text-gold transition-colors">Kundan Bridal Sets</Link></li>
-              <li><Link to="/collections" className="hover:text-gold transition-colors">22K Gold Bangles & Kadas</Link></li>
+              <li><Link to="/collections" className="hover:text-gold transition-colors">Gold Bangles & Kadas</Link></li>
               <li><Link to="/collections" className="hover:text-gold transition-colors">Temple Jewellery & Haram</Link></li>
               <li><Link to="/scheme" className="hover:text-gold transition-colors">SwarnaNidhi Gold Scheme</Link></li>
             </ul>
@@ -709,7 +709,7 @@ export function Footer() {
               Purity & Trust
             </p>
             <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> BIS 100% Hallmarked 22K Gold</li>
+              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> BIS 100% Hallmarked Gold</li>
               <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> GIA & IGI Certified Solitaires</li>
               <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> 100% Lifetime Exchange</li>
               <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> Fully Insured Transit</li>

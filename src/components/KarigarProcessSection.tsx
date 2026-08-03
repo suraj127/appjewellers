@@ -13,7 +13,7 @@ const VIDEO_STAGES = [
     video: "/assets/karigar/v5.mp4",
     title: "The Flame & Crucible",
     subtitle: "Stage 01 · 1,064°C Molten Gold Casting",
-    desc: "Pure 22K gold melted in clay crucibles and poured into artisan molds.",
+    desc: "Pure gold melted in clay crucibles and poured into artisan molds.",
   },
   {
     video: "/assets/karigar/v4.mp4",
@@ -37,7 +37,7 @@ const VIDEO_STAGES = [
     video: "/assets/karigar/v3.mp4",
     title: "The Royal Reveal",
     subtitle: "Stage 05 · BIS Hallmarked Bridal Jewel",
-    desc: "Finished 22K Kundan bridal suite inspected under 10x loupe for 100% perfection.",
+    desc: "Finished Kundan bridal suite inspected under 10x loupe for 100% perfection.",
   },
 ];
 

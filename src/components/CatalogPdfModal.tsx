@@ -69,7 +69,7 @@ export function CatalogPdfModal({
       const pdfBlob = await generateCatalogPdf(
         selectedProducts,
         {
-          subtitle: `Exquisite 22K Gold & Solitaire Diamond Collection · ${categoryLabel}`,
+          subtitle: `Exquisite Gold & Solitaire Diamond Collection · ${categoryLabel}`,
           categoryFilter: downloadMode === "ALL" ? "All Jewellery" : downloadMode === "FILTERED" ? activeCategory : selectedCategory,
           includeGoldRate,
           goldRate22k: "₹7,380 / gram",

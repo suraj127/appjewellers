@@ -23,7 +23,7 @@ const ORBIT_FRAMES = Array.from(
 const MACRO_FRAME = "/assets/chandra/macro.jpg";
 
 const SPECS: [string, string][] = [
-  ["Metal", "22K BIS Hallmarked Gold"],
+  ["Metal", "BIS Hallmarked Gold"],
   ["Gems", "Burmese Rubies · Unheated"],
   ["Diamonds", "412 Ideal-Cut (F-G / VVS)"],
   ["Craft", "340 Hours · Sarafa Atelier"],
@@ -259,7 +259,7 @@ export function ChandraSuiteSection() {
                 }}
               >
                 A crescent of unheated Burmese rubies framed by 412 ideal-cut diamonds,
-                hand-sculpted in 22K BIS Hallmarked gold. Each pearl hand-strung.
+                hand-sculpted in BIS Hallmarked gold. Each pearl hand-strung.
                 Each stone hand-set. Crafted for royalty.
               </p>
 

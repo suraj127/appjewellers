@@ -16,7 +16,7 @@ import {
 
 const title = "A.P.P. Jewellers — Sarafa Market, New Seelampur, Delhi | Fine Gold & Diamonds";
 const description =
-  "A.P.P. Jewellers: 22K BIS Hallmarked gold, GIA certified solitaires, Kundan bridal jewellery. Visit us at Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Delhi. Call: 090151 55615.";
+  "A.P.P. Jewellers: BIS Hallmarked gold, GIA certified solitaires, Kundan bridal jewellery. Visit us at Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Delhi. Call: 090151 55615.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
