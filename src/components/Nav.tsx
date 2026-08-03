@@ -135,42 +135,48 @@ export function Nav() {
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Navigation Drawer & Backdrop */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-16 bg-onyx/95 border-b border-gold/40 backdrop-blur-xl p-6 shadow-2xl animate-fadeIn z-40">
-          <ul className="space-y-3 text-center">
-            {LEFT_LINKS.map((l) => (
-              <li key={l.label}>
+        <>
+          <div
+            className="lg:hidden fixed inset-0 bg-black/70 backdrop-blur-xs z-40"
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div className="lg:hidden fixed inset-x-3 top-16 sm:top-20 bg-onyx/95 border border-gold/40 rounded-lg backdrop-blur-xl p-5 sm:p-6 shadow-2xl animate-fadeIn z-50">
+            <ul className="space-y-3 text-center">
+              {LEFT_LINKS.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block text-xs uppercase tracking-[0.25em] text-foreground font-semibold hover:text-gold py-2 border-b border-gold/10"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+              {RIGHT_LINKS.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block text-xs uppercase tracking-[0.25em] text-gold font-semibold py-2 border-b border-gold/10"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+              <li className="pt-2">
                 <a
-                  href={l.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-xs uppercase tracking-[0.25em] text-foreground font-semibold hover:text-gold py-2 border-b border-gold/10"
+                  href="tel:09015155615"
+                  className="shine-sweep flex items-center justify-center gap-2 w-full rounded bg-gold py-3 text-xs uppercase tracking-widest text-primary-foreground font-bold shadow-lg"
                 >
-                  {l.label}
+                  <PhoneIcon className="size-3.5" /> Call Us: 090151 55615
                 </a>
               </li>
-            ))}
-            {RIGHT_LINKS.map((l) => (
-              <li key={l.label}>
-                <a
-                  href={l.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block text-xs uppercase tracking-[0.25em] text-gold font-semibold py-2 border-b border-gold/10"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-            <li className="pt-2">
-              <a
-                href="tel:09015155615"
-                className="shine-sweep flex items-center justify-center gap-2 w-full rounded bg-gold py-2.5 text-xs uppercase tracking-widest text-primary-foreground font-bold"
-              >
-                <PhoneIcon className="size-3.5" /> Call Us: 090151 55615
-              </a>
-            </li>
-          </ul>
-        </div>
+            </ul>
+          </div>
+        </>
       )}
     </header>
   );

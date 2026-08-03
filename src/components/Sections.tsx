@@ -395,7 +395,7 @@ export function StoreLocation() {
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-3 gap-2 sm:gap-8 items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 items-stretch">
           <Reveal delay={100}>
             <div className="glass-panel rounded-md p-3 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
