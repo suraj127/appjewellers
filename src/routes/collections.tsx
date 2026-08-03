@@ -649,25 +649,7 @@ function DetailedCollectionsPage() {
                 )}
               </div>
 
-              {/* Catalogue PDF Download Luxury Card */}
-              <div className="p-3.5 rounded-md bg-gradient-to-br from-[#4a0810] via-onyx to-[#210406] border border-gold/50 text-center space-y-2 shadow-xl">
-                <p className="text-[0.58rem] uppercase tracking-widest text-gold font-bold flex items-center justify-center gap-1">
-                  <CrownIcon className="size-3.5 text-gold" /> Catalogue PDF
-                </p>
-                <h4 className="font-display text-sm text-amber-200 font-bold leading-tight">
-                  Download 2026 Collection Book
-                </h4>
-                <p className="text-[0.6rem] text-muted-foreground leading-normal">
-                  Ultra-high resolution PDF with 22K gold specs, purity grades & WhatsApp inquiry links.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setIsCatalogPdfModalOpen(true)}
-                  className="shine-sweep w-full rounded bg-gradient-to-r from-gold via-amber-300 to-gold py-2 text-[0.62rem] uppercase tracking-widest text-primary-foreground font-bold shadow hover:brightness-110 flex items-center justify-center gap-1"
-                >
-                  <CrownIcon className="size-3 text-primary-foreground" /> Download PDF
-                </button>
-              </div>
+
 
 
 
