@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from "react";
+import { Link } from "@tanstack/react-router";
 import heroImg from "@/assets/hero-necklace.jpg";
 import heroVideo from "@/assets/hero-video.mp4";
 import logoImg from "@/assets/logo.png";
@@ -204,12 +205,12 @@ export function Hero() {
           className="reveal mt-8 sm:mt-10 flex flex-col items-center justify-center gap-3 sm:gap-4 sm:flex-row w-full max-w-sm sm:max-w-none mx-auto"
           style={{ animationDelay: "700ms" }}
         >
-          <a
-            href="#collections"
+          <Link
+            to="/collections"
             className="shine-sweep w-full rounded-sm border border-gold/70 bg-gold/10 px-6 sm:px-9 py-3 sm:py-3.5 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.25em] sm:tracking-[0.34em] text-gold transition-all duration-700 hover:bg-gold hover:text-primary-foreground sm:w-auto font-semibold text-center"
           >
             Explore Collections
-          </a>
+          </Link>
           <a
             href="#store-info"
             className="w-full rounded-sm border border-border/80 px-6 sm:px-9 py-3 sm:py-3.5 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.25em] sm:tracking-[0.34em] text-foreground/90 transition-colors duration-500 hover:border-gold/60 hover:text-gold sm:w-auto text-center"

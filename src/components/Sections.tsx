@@ -380,23 +380,98 @@ export function Maison() {
 
 export function StoreLocation() {
   return (
-    <section id="our-guarantees" className="relative px-4 sm:px-6 py-16 sm:py-28 bg-[#120305] border-t border-gold/30">
+    <section id="store-info" className="relative px-4 sm:px-6 py-16 sm:py-28 bg-[#120305] border-t border-gold/30 scroll-mt-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
-            <span className="eyebrow text-[0.55rem] sm:text-xs">Our Guarantees</span>
+            <span className="eyebrow text-[0.55rem] sm:text-xs">Sarafa Market · New Seelampur · Delhi</span>
             <h2 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-amber-100">
-              Purity, Authenticity <span className="italic shimmer-text">& Trust</span>
+              Visit Our Flagship <span className="italic shimmer-text">Showroom</span>
             </h2>
             <p className="mt-3 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground">
-              At A.P.P. Jewellers, every piece of gold and diamond jewellery is crafted with unyielding dedication to purity, traditional artistry, and certification.
+              Experience certified solitaire diamonds, Kundan bridal sets, gold bangles, and bespoke jewellery in person at our showroom in Sarafa Market.
             </p>
             <div className="rule-gold mx-auto mt-6 w-32" />
           </div>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 items-stretch">
-          <Reveal delay={100}>
+        {/* SHOWROOM LOCATION & INTERACTIVE MAP CARD */}
+        <Reveal delay={100}>
+          <div className="mb-14 rounded-xl bg-onyx/90 border border-gold/50 p-6 sm:p-10 shadow-[0_0_50px_rgba(212,175,55,0.15)] transition-all duration-500 hover:border-gold hover:shadow-[0_0_60px_rgba(212,175,55,0.25)]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              {/* Showroom Contact & Timings Info */}
+              <div className="space-y-6 text-left">
+                <div>
+                  <span className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold block mb-1">
+                    Flagship Store Location
+                  </span>
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold text-white leading-snug">
+                    A.P.P. Jewellers
+                  </h3>
+                  <p className="mt-2 text-xs sm:text-sm text-amber-100/90 font-light leading-relaxed">
+                    Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Seelampur, Seelampur, New Delhi, Delhi 110053
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 border-y border-gold/20 py-4">
+                  <div>
+                    <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
+                      Showroom Hours
+                    </span>
+                    <p className="text-xs sm:text-sm text-white font-bold mt-0.5">
+                      11:00 AM – 8:30 PM
+                    </p>
+                    <span className="text-[0.55rem] text-emerald-400 font-medium block">
+                      Open All 7 Days
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
+                      Direct Phone Desk
+                    </span>
+                    <a href="tel:09015155615" className="text-xs sm:text-sm text-white font-bold mt-0.5 block hover:text-gold transition-colors">
+                      090151 55615
+                    </a>
+                    <span className="text-[0.55rem] text-muted-foreground font-medium block">
+                      Call for Valet & Appointments
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 pt-2">
+                  <a
+                    href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="shine-sweep flex items-center justify-center gap-2 rounded bg-gold px-6 py-3 text-xs uppercase tracking-widest text-primary-foreground font-bold shadow-lg hover:opacity-95 transition-opacity"
+                  >
+                    <span>📍 Get Google Maps Directions</span>
+                  </a>
+                  <a
+                    href="tel:09015155615"
+                    className="flex items-center justify-center gap-2 rounded border border-gold/60 bg-gold/10 px-5 py-3 text-xs uppercase tracking-widest text-gold font-semibold hover:bg-gold hover:text-primary-foreground transition-all"
+                  >
+                    <PhoneIcon className="size-3.5" /> Call Store
+                  </a>
+                </div>
+              </div>
+
+              {/* Embedded Google Maps Viewport */}
+              <div className="relative h-64 sm:h-80 w-full rounded-lg overflow-hidden border border-gold/30 shadow-inner bg-black/60">
+                <iframe
+                  title="A.P.P. Jewellers Showroom Location Map"
+                  src="https://maps.google.com/maps?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                  className="w-full h-full border-0 filter brightness-90 contrast-110 saturate-120"
+                  loading="lazy"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={180}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 items-stretch">
             <div className="glass-panel rounded-md p-3 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
                 <span className="text-gold font-display text-sm sm:text-2xl font-bold">01</span>
@@ -408,9 +483,7 @@ export function StoreLocation() {
                 </p>
               </div>
             </div>
-          </Reveal>
 
-          <Reveal delay={160}>
             <div className="glass-panel rounded-md p-3 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
                 <span className="text-gold font-display text-sm sm:text-2xl font-bold">02</span>
@@ -422,9 +495,7 @@ export function StoreLocation() {
                 </p>
               </div>
             </div>
-          </Reveal>
 
-          <Reveal delay={220}>
             <div className="glass-panel rounded-md p-3 sm:p-8 border-gold/30 flex flex-col justify-between h-full hover:border-gold transition-colors">
               <div>
                 <span className="text-gold font-display text-sm sm:text-2xl font-bold">03</span>
@@ -436,8 +507,8 @@ export function StoreLocation() {
                 </p>
               </div>
             </div>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
