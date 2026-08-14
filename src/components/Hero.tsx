@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { GlowEffect } from '@/components/core/glow-effect';
 import { ArrowRight, MapPin } from 'lucide-react';
 import logoImg from "@/assets/logo.png";
 
@@ -79,18 +80,27 @@ export function Hero() {
           Discover 100% BIS Hallmarked pure gold, GIA certified solitaires, royal Kundan bridal suites, and bespoke handmade jewellery in Delhi.
         </p>
 
-        {/* CTA BUTTONS */}
+        {/* CTA BUTTONS WITH GLOW EFFECT */}
         <div
           className="reveal mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-md sm:max-w-none mx-auto"
           style={{ animationDelay: "600ms" }}
         >
-          <Link
-            to="/collections"
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-950 hover:bg-[#b8860b] px-7 py-3.5 text-xs text-white font-bold uppercase tracking-[0.22em] transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-lg"
-          >
-            <span>Explore Collections</span>
-            <ArrowRight className="h-4 w-4 text-gold" />
-          </Link>
+          <div className="relative w-full sm:w-auto flex justify-center">
+            <GlowEffect
+              colors={['#D4AF37', '#FFD700', '#F3E5AB', '#AA771C']}
+              mode="colorShift"
+              blur="soft"
+              duration={3}
+              scale={0.9}
+            />
+            <Link
+              to="/collections"
+              className="relative inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-950 hover:bg-[#b8860b] px-7 py-3.5 text-xs text-white font-bold uppercase tracking-[0.22em] transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-2xl"
+            >
+              <span>Explore Collections</span>
+              <ArrowRight className="h-4 w-4 text-gold" />
+            </Link>
+          </div>
 
           <a
             href="#store-info"
