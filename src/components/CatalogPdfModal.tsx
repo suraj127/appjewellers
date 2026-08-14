@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { type Product, PRODUCTS, CATEGORY_GROUPS } from "@/data/products";
 import { generateCatalogPdf } from "@/lib/pdfCatalogGenerator";
+import { Check } from "lucide-react";
 import {
   CrownIcon,
   DiamondIcon,
-  CheckIcon,
   RingIcon,
   EarringIcon,
   NecklaceIcon,
@@ -221,7 +221,7 @@ export function CatalogPdfModal({
               </p>
             </div>
             <div className="shrink-0 p-2 rounded-full bg-gold/10 border border-gold/30">
-              <CheckIcon className="size-5 text-gold" />
+              <Check className="size-5 text-gold" />
             </div>
           </div>
         </div>
