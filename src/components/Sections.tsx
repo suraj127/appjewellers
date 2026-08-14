@@ -698,23 +698,72 @@ export function InstaReels() {
   );
 }
 
+/* ── Intricate Indian Royal Rangoli / Mandala Watermark SVG ────────── */
+function RangoliMandala({ className = "size-72" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 300 300" fill="none" stroke="#C49324" strokeWidth="0.85" className={className}>
+      <circle cx="150" cy="150" r="140" strokeDasharray="3 4" opacity="0.35" />
+      <circle cx="150" cy="150" r="120" opacity="0.45" />
+      <circle cx="150" cy="150" r="90" strokeDasharray="2 3" opacity="0.5" />
+      <circle cx="150" cy="150" r="60" opacity="0.6" />
+      <circle cx="150" cy="150" r="30" opacity="0.75" />
+      <circle cx="150" cy="150" r="8" fill="#C49324" fillOpacity="0.25" />
+      {/* 16-Fold Sacred Geometry Rangoli Petals */}
+      {Array.from({ length: 16 }).map((_, i) => {
+        const deg = (i * 360) / 16;
+        return (
+          <g key={i} transform={`rotate(${deg} 150 150)`}>
+            {/* Outer Petal */}
+            <path d="M150 15 C175 60 190 100 150 135 C110 100 125 60 150 15Z" opacity="0.55" />
+            {/* Inner Petal */}
+            <path d="M150 45 C168 80 178 110 150 135 C122 110 132 80 150 45Z" opacity="0.45" />
+            {/* Center Flame */}
+            <path d="M150 80 C160 105 165 125 150 140 C135 125 140 105 150 80Z" opacity="0.6" fill="#C49324" fillOpacity="0.05" />
+            {/* Decorative Tips */}
+            <circle cx="150" cy="22" r="2.5" fill="#C49324" opacity="0.8" />
+            <circle cx="150" cy="5" r="1.5" fill="#C49324" opacity="0.6" />
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#180205] via-[#120103] to-[#0a0002] border-t border-[#C49324]/40 text-left relative overflow-hidden text-white pt-12 sm:pt-16 pb-8 px-4 sm:px-8">
-      {/* ── Top Center Gold Diamond Jewel Ornament ── */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-20">
-        <div className="size-3 rotate-45 bg-[#C49324] border border-[#fef08a] shadow-[0_0_12px_rgba(212,175,55,0.9)]" />
+    <footer className="bg-gradient-to-b from-[#180205] via-[#120103] to-[#0a0002] text-left relative overflow-hidden text-white pt-14 sm:pt-20 pb-10 px-4 sm:px-8">
+      {/* ── TOP LUXURY GOLD BORDER WITH GLOWING DIAMOND FLARE ── */}
+      <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#C49324] to-transparent shadow-[0_0_15px_rgba(196,147,36,0.8)]" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex items-center justify-center">
+        <div className="size-3.5 rotate-45 bg-[#C49324] border border-[#FFF8D6] shadow-[0_0_18px_#FFD700] ring-2 ring-[#C49324]/50" />
       </div>
 
-      {/* Background ambient lighting and faint luxury mandalas */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 size-96 bg-rose-950/20 blur-3xl pointer-events-none rounded-full" />
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 size-96 bg-rose-950/20 blur-3xl pointer-events-none rounded-full" />
+      {/* ── BOTTOM LUXURY GOLD BORDER WITH GLOWING DIAMOND FLARE ── */}
+      <div className="absolute bottom-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#C49324] to-transparent shadow-[0_0_15px_rgba(196,147,36,0.8)]" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 flex items-center justify-center">
+        <div className="size-3.5 rotate-45 bg-[#C49324] border border-[#FFF8D6] shadow-[0_0_18px_#FFD700] ring-2 ring-[#C49324]/50" />
+      </div>
+
+      {/* ── TOP-LEFT & BOTTOM-RIGHT RANGOLI MANDALAS ── */}
+      <div className="absolute -top-16 -left-16 sm:-top-20 sm:-left-20 pointer-events-none opacity-30 select-none">
+        <RangoliMandala className="size-72 sm:size-96 animate-pulse [animation-duration:8s]" />
+      </div>
+      <div className="absolute -bottom-16 -right-16 sm:-bottom-20 sm:-right-20 pointer-events-none opacity-30 select-none">
+        <RangoliMandala className="size-72 sm:size-96 animate-pulse [animation-duration:8s]" />
+      </div>
+
+      {/* Background ambient lighting */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 size-96 bg-rose-950/25 blur-3xl pointer-events-none rounded-full" />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 size-96 bg-rose-950/25 blur-3xl pointer-events-none rounded-full" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* ── MAIN 4-COLUMN FOOTER GRID ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 pb-12">
           {/* ── COLUMN 1: BRAND IDENTITY & ACTIONS ── */}
-          <div className="space-y-4 text-left lg:pr-6 lg:border-r lg:border-[#C49324]/20">
+          <div className="relative space-y-4 text-left lg:pr-8">
+            {/* Vertical Golden Divider */}
+            <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
+
             <Link to="/" className="inline-block">
               <img
                 src={logoImg}
@@ -764,7 +813,10 @@ export function Footer() {
           </div>
 
           {/* ── COLUMN 2: COLLECTIONS ── */}
-          <div className="space-y-4 text-left lg:px-4 lg:border-r lg:border-[#C49324]/20">
+          <div className="relative space-y-4 text-left lg:px-6">
+            {/* Vertical Golden Divider */}
+            <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
+
             <div>
               <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
                 COLLECTIONS
@@ -830,7 +882,10 @@ export function Footer() {
           </div>
 
           {/* ── COLUMN 3: WHY CHOOSE US ── */}
-          <div className="space-y-4 text-left lg:px-4 lg:border-r lg:border-[#C49324]/20">
+          <div className="relative space-y-4 text-left lg:px-6">
+            {/* Vertical Golden Divider */}
+            <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
+
             <div>
               <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
                 WHY CHOOSE US
@@ -863,7 +918,7 @@ export function Footer() {
           </div>
 
           {/* ── COLUMN 4: SHOWROOM ── */}
-          <div className="space-y-4 text-left lg:pl-4">
+          <div className="space-y-4 text-left lg:pl-6">
             <div>
               <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
                 SHOWROOM
