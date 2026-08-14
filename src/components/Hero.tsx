@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { GlowEffect } from '@/components/core/glow-effect';
 import { ArrowRight, MapPin } from 'lucide-react';
 import logoImg from "@/assets/logo.png";
 import heroBgImg from "@/assets/hero-bg.jpg";
@@ -118,33 +117,24 @@ export function Hero() {
           Discover 100% BIS Hallmarked pure gold, GIA certified solitaires, royal Kundan bridal suites, and bespoke handmade jewellery in Delhi.
         </p>
 
-        {/* CTA BUTTONS WITH GEMINI GLOW EFFECT */}
+        {/* LUXURY CTA BUTTONS */}
         <div
           className="reveal mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-md sm:max-w-none mx-auto"
           style={{ animationDelay: "600ms" }}
         >
-          <div className="relative w-full sm:w-auto flex justify-center">
-            <GlowEffect
-              colors={['#4285F4', '#9B72CB', '#D96570', '#8AB4F8', '#C58AF9', '#38BDF8']}
-              mode="colorShift"
-              blur="soft"
-              duration={3.5}
-              scale={0.92}
-            />
-            <Link
-              to="/collections"
-              className="relative inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-950 hover:bg-[#b8860b] px-7 py-3.5 text-xs text-white font-bold uppercase tracking-[0.22em] transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-2xl"
-            >
-              <span>Explore Collections</span>
-              <ArrowRight className="h-4 w-4 text-gold" />
-            </Link>
-          </div>
+          <Link
+            to="/collections"
+            className="shine-sweep group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#111111] via-[#1d1b16] to-[#111111] border-2 border-[#C49324] hover:border-[#e5be59] px-8 py-3.5 text-xs text-amber-100 font-bold uppercase tracking-[0.24em] transition-all duration-300 hover:scale-[1.03] active:scale-95 w-full sm:w-auto text-center shadow-[0_10px_30px_rgba(196,147,36,0.3)] hover:shadow-[0_12px_40px_rgba(196,147,36,0.55)]"
+          >
+            <span>Explore Collections</span>
+            <ArrowRight className="size-4 text-[#C49324] transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
 
           <a
             href="#store-info"
-            className="w-full rounded-lg border-2 border-[#C49324]/80 bg-white/90 backdrop-blur-sm hover:bg-[#C49324]/15 px-7 py-3 text-xs uppercase tracking-[0.22em] text-zinc-900 font-bold transition-all duration-300 sm:w-auto text-center shadow-md flex items-center justify-center gap-2"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-[#C49324]/80 bg-[#F8F6EF]/90 backdrop-blur-md hover:bg-[#F2E9D8] px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-[#111111] font-bold transition-all duration-300 hover:scale-[1.02] active:scale-95 sm:w-auto text-center shadow-sm"
           >
-            <MapPin className="size-3.5 text-[#b8860b]" />
+            <MapPin className="size-3.5 text-[#C49324]" />
             <span>Visit Showroom</span>
           </a>
         </div>
