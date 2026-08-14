@@ -1,6 +1,6 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { X, Search, MapPin, Heart, Sparkles, Phone, Camera, Mic } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { X, Phone } from "lucide-react";
 import logoImg from "@/assets/logo.png";
 
 /* ── Custom Fine Jewelry Line Art Icons ──────────────────────────── */
@@ -110,7 +110,17 @@ function SchemeIcon({ className = "size-4" }: { className?: string }) {
   );
 }
 
-/* ── Category Sub Navigation Items ─────────────────────────────── */
+const LEFT_LINKS = [
+  { label: "Featured", href: "/#collections" },
+  { label: "Collection", href: "/collections" },
+  { label: "Monthly Scheme", href: "/scheme" },
+];
+
+const RIGHT_LINKS = [
+  { label: "Book Store Visit", href: "/appointment" },
+  { label: "Store Info", href: "/#store-info" },
+];
+
 const SUB_NAV_ITEMS = [
   { label: "All Jewellery", Icon: AllJewelleryIcon, href: "/collections" },
   { label: "Gold", Icon: GoldIcon, href: "/collections?metal=Gold" },
@@ -128,8 +138,6 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -155,35 +163,23 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [mobileMenuOpen]);
 
-  const handleSearch = (e: FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate({
-        to: "/collections",
-        search: { search: searchQuery.trim() } as any,
-      });
-    } else {
-      navigate({ to: "/collections" });
-    }
-  };
-
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-transform duration-500 ease-in-out ${
         visible || mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div
-        className={`w-full transition-all duration-500 ${
-          scrolled
-            ? "bg-black/75 backdrop-blur-md border-b border-gold/30 shadow-2xl"
-            : "bg-transparent border-b border-white/10"
-        }`}
-      >
+      {/* ── TOP TIER BAR: Earlier Classic Navigation Header ── */}
+      <div className={`transition-all duration-500 ${scrolled ? "py-1" : "py-1.5 sm:py-3"}`}>
         <div className="mx-auto max-w-7xl px-3 sm:px-6">
-          {/* ── TOP TIER BAR: Logo, Pill Search Bar, Action Icons ── */}
-          <div className="flex items-center justify-between gap-3 sm:gap-6 py-2.5 sm:py-3">
-            {/* Mobile Hamburger Toggle */}
+          <nav
+            className={`flex items-center justify-between rounded-sm px-3 sm:px-6 py-2 transition-all duration-500 ${
+              scrolled
+                ? "glass-panel shadow-lg bg-white/95 border border-gold/40"
+                : "bg-white/90 border border-gold/30 backdrop-blur-md shadow-md"
+            }`}
+          >
+            {/* Mobile Hamburger Toggle Button */}
             <div className="flex items-center lg:hidden">
               <button
                 type="button"
@@ -211,103 +207,82 @@ export function Nav() {
               </button>
             </div>
 
-            {/* BRAND LOGO */}
+            {/* LEFT SIDE LINKS */}
+            <ul className="hidden lg:flex items-center gap-6">
+              {LEFT_LINKS.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="group relative text-[0.68rem] uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 hover:text-gold font-medium"
+                  >
+                    {l.label}
+                    <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {/* CENTER BRAND LOGO */}
             <a
               href="/"
-              className="flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105"
+              className="flex items-center justify-center shrink-0 px-2 transition-transform duration-300 hover:scale-105"
             >
               <img
                 src={logoImg}
                 alt="A.P.P. Jewellers Logo"
-                className="h-9 sm:h-12 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(212,175,55,0.6)]"
+                className="h-9 sm:h-12 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]"
               />
             </a>
 
-            {/* CENTER LUXURY PILL SEARCH BAR */}
-            <form
-              onSubmit={handleSearch}
-              className="hidden md:flex flex-1 max-w-xl items-center relative"
-            >
-              <div className="relative w-full flex items-center">
-                <Search className="absolute left-4 size-4 text-gold" />
-                <input
-                  type="text"
-                  placeholder="Search for gold necklaces, solitaire rings, bridal kundan..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-black/40 backdrop-blur-md border border-gold/40 hover:border-gold focus:border-gold rounded-full pl-11 pr-20 py-2 text-xs sm:text-sm text-white placeholder:text-white/70 outline-none transition-all shadow-inner focus:bg-black/60"
-                />
-                <div className="absolute right-3.5 flex items-center gap-2 text-white/70">
-                  <button type="button" title="Search by Visual" className="hover:text-gold transition-colors">
-                    <Camera className="size-3.5" />
-                  </button>
-                  <button type="button" title="Voice Search" className="hover:text-gold transition-colors">
-                    <Mic className="size-3.5" />
-                  </button>
-                </div>
-              </div>
-            </form>
-
-            {/* RIGHT SIDE ACTION ICONS */}
-            <div className="flex items-center gap-3 sm:gap-5">
-              <Link
-                to="/scheme"
-                title="SwarnaNidhi Monthly Gold Scheme"
-                className="hidden sm:flex flex-col items-center gap-0.5 text-white/90 hover:text-gold transition-colors group drop-shadow-md"
-              >
-                <SchemeIcon className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
-                <span className="text-[0.55rem] uppercase tracking-wider font-semibold text-white">Gold Scheme</span>
-              </Link>
-
-              <a
-                href="#store-info"
-                title="Sarafa Market Showroom Location"
-                className="hidden sm:flex flex-col items-center gap-0.5 text-white/90 hover:text-gold transition-colors group drop-shadow-md"
-              >
-                <MapPin className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
-                <span className="text-[0.55rem] uppercase tracking-wider font-semibold text-white">Stores</span>
-              </a>
-
-              <Link
-                to="/appointment"
-                title="Book Private Viewing Appointment"
-                className="hidden lg:flex flex-col items-center gap-0.5 text-white/90 hover:text-gold transition-colors group drop-shadow-md"
-              >
-                <Heart className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
-                <span className="text-[0.55rem] uppercase tracking-wider font-semibold text-white">Book Visit</span>
-              </Link>
+            {/* RIGHT SIDE LINKS & CALL US */}
+            <div className="flex items-center gap-3 sm:gap-6">
+              <ul className="hidden lg:flex items-center gap-6">
+                {RIGHT_LINKS.map((l) => (
+                  <li key={l.label}>
+                    <a
+                      href={l.href}
+                      className="group relative text-[0.68rem] uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 hover:text-gold font-medium"
+                    >
+                      {l.label}
+                      <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
 
               <a
                 href="tel:09015155615"
-                className="shine-sweep flex items-center gap-1.5 rounded-full border border-gold/70 bg-[#b8860b] px-3 sm:px-4 py-1.5 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.18em] text-white transition-all duration-300 hover:opacity-95 font-bold shadow-lg"
+                className="shine-sweep flex items-center gap-1.5 rounded-sm border border-gold/70 bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-gold transition-all duration-300 hover:bg-gold hover:text-primary-foreground font-bold shadow-md"
               >
                 <Phone className="size-3" />
-                <span>090151 55615</span>
+                <span>Call Us</span>
               </a>
             </div>
-          </div>
+          </nav>
+        </div>
+      </div>
 
-          {/* ── BOTTOM TIER BAR: Invisible Category Sub-Navigation ── */}
-          <div className="border-t border-white/15 py-2 overflow-x-auto no-scrollbar">
-            <nav className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 min-w-max px-2">
-              {SUB_NAV_ITEMS.map((item) => {
-                const IconComponent = item.Icon;
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-white/95 hover:text-gold transition-colors py-1 cursor-pointer drop-shadow-md"
-                  >
-                    <IconComponent className="size-4 text-gold group-hover:scale-110 transition-transform duration-300" />
-                    <span className="whitespace-nowrap font-medium group-hover:font-semibold transition-all">
-                      {item.label}
-                    </span>
-                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
-                  </a>
-                );
-              })}
-            </nav>
-          </div>
+      {/* ── BOTTOM TIER BAR: Full Screen Width Category Sub-Navigation ── */}
+      <div className="w-full bg-white/95 backdrop-blur-xl border-y border-gold/30 shadow-sm py-2">
+        <div className="w-full px-4 sm:px-8 md:px-12 overflow-x-auto no-scrollbar">
+          <nav className="flex items-center justify-start sm:justify-center gap-5 sm:gap-8 md:gap-10 min-w-max mx-auto">
+            {SUB_NAV_ITEMS.map((item) => {
+              const IconComponent = item.Icon;
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-zinc-800 hover:text-[#b8860b] transition-colors py-0.5 cursor-pointer"
+                >
+                  <IconComponent className="size-4 text-gold group-hover:scale-110 transition-transform duration-300" />
+                  <span className="whitespace-nowrap font-medium group-hover:font-semibold transition-all">
+                    {item.label}
+                  </span>
+                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full" />
+                </a>
+              );
+            })}
+          </nav>
         </div>
       </div>
 
@@ -322,7 +297,7 @@ export function Nav() {
           <div className="lg:hidden fixed inset-x-3 top-20 bg-white border border-gold/40 rounded-2xl backdrop-blur-2xl p-5 shadow-2xl z-50 animate-fadeIn max-h-[85vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-3 mb-4 border-b border-gold/20">
               <span className="text-xs uppercase tracking-[0.25em] text-[#b8860b] font-bold">
-                Jewellery Categories
+                Navigation Menu
               </span>
               <button
                 type="button"
