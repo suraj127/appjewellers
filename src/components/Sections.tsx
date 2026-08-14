@@ -11,6 +11,20 @@ import { PRODUCTS } from "@/data/products";
 import { AppointmentForm } from "./AppointmentForm";
 import { PhoneIcon, WhatsAppIcon } from "./LuxuryIcons";
 import { KarigarProcessSection } from "./KarigarProcessSection";
+import {
+  Phone,
+  MapPin,
+  Clock,
+  ChevronRight,
+  Gem,
+  Award,
+  RefreshCw,
+  ShieldCheck,
+  Lock,
+  Instagram,
+  Facebook,
+  Youtube,
+} from "lucide-react";
 
 
 const COLLECTIONS = [
@@ -686,118 +700,295 @@ export function InstaReels() {
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#2d050a] via-[#1c0205] to-[#100103] px-4 sm:px-8 pb-8 pt-12 sm:pt-20 border-t border-[#9b111e]/40 text-left relative overflow-hidden text-white">
-      {/* Background ambient lighting */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-rose-500/10 blur-3xl pointer-events-none rounded-full" />
+    <footer className="bg-gradient-to-b from-[#180205] via-[#120103] to-[#0a0002] border-t border-[#C49324]/40 text-left relative overflow-hidden text-white pt-12 sm:pt-16 pb-8 px-4 sm:px-8">
+      {/* ── Top Center Gold Diamond Jewel Ornament ── */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center z-20">
+        <div className="size-3 rotate-45 bg-[#C49324] border border-[#fef08a] shadow-[0_0_12px_rgba(212,175,55,0.9)]" />
+      </div>
+
+      {/* Background ambient lighting and faint luxury mandalas */}
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 size-96 bg-rose-950/20 blur-3xl pointer-events-none rounded-full" />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 size-96 bg-rose-950/20 blur-3xl pointer-events-none rounded-full" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        {/* BRAND HEADER & STORE BADGE */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-10 border-b border-gold/20">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            <img
-              src={logoImg}
-              alt="A.P.P. Jewellers Logo"
-              className="h-16 sm:h-20 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.35)]"
-            />
-            <p className="mt-2 text-[0.62rem] sm:text-xs uppercase tracking-[0.3em] text-gold font-medium">
-              Purity · Artistry · Heritage
+        {/* ── MAIN 4-COLUMN FOOTER GRID ── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 pb-12">
+          {/* ── COLUMN 1: BRAND IDENTITY & ACTIONS ── */}
+          <div className="space-y-4 text-left lg:pr-6 lg:border-r lg:border-[#C49324]/20">
+            <Link to="/" className="inline-block">
+              <img
+                src={logoImg}
+                alt="A.P.P. Jewellers Logo"
+                className="h-16 sm:h-20 w-auto object-contain filter drop-shadow-[0_2px_12px_rgba(212,175,55,0.35)]"
+              />
+            </Link>
+
+            <p className="text-[0.65rem] uppercase tracking-[0.28em] text-[#C49324] font-medium">
+              PURITY · ARTISTRY · HERITAGE
             </p>
+
+            <p className="text-xs text-zinc-400 font-light leading-relaxed max-w-xs">
+              Timeless jewellery crafted with purity, artistry and a heritage you can trust.
+            </p>
+
+            {/* 3 Action Buttons */}
+            <div className="pt-2 space-y-2.5 max-w-xs">
+              <a
+                href="tel:09015155615"
+                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#e5be59] font-bold transition-all shadow-sm"
+              >
+                <Phone className="size-3.5 text-[#C49324]" />
+                <span>CALL STORE</span>
+              </a>
+
+              <a
+                href="https://wa.me/919015155615"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-emerald-500/60 bg-[#0c1f14]/50 hover:bg-[#0c1f14]/80 py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-emerald-400 font-bold transition-all shadow-sm"
+              >
+                <WhatsAppIcon className="size-3.5 text-emerald-400" />
+                <span>WHATSAPP CHAT</span>
+              </a>
+
+              <a
+                href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-2 w-full rounded-md bg-[#f4f3ef] hover:bg-white py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#111111] font-bold transition-all shadow-sm"
+              >
+                <span className="text-rose-600 font-bold">📍</span>
+                <span>DIRECTIONS</span>
+              </a>
+            </div>
           </div>
 
-          {/* Quick Action Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          {/* ── COLUMN 2: COLLECTIONS ── */}
+          <div className="space-y-4 text-left lg:px-4 lg:border-r lg:border-[#C49324]/20">
+            <div>
+              <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
+                COLLECTIONS
+              </h4>
+              <div className="mt-1.5 flex items-center gap-1">
+                <div className="h-[1px] w-8 bg-[#C49324]/50" />
+                <div className="size-1 rotate-45 bg-[#C49324]" />
+                <div className="h-[1px] w-16 bg-[#C49324]/30" />
+              </div>
+            </div>
+
+            <ul className="space-y-3.5 text-xs text-zinc-300 font-light pt-2">
+              <li>
+                <Link
+                  to="/collections"
+                  search={{ category: "Solitaires" }}
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                >
+                  <span>Solitaire Diamonds</span>
+                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/collections"
+                  search={{ category: "Bridal & Temple" }}
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                >
+                  <span>Kundan Bridal Sets</span>
+                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/collections"
+                  search={{ category: "Bangles & Bracelets" }}
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                >
+                  <span>Gold Bangles & Kadas</span>
+                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/collections"
+                  search={{ category: "Bridal & Temple" }}
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                >
+                  <span>Temple Jewellery & Haram</span>
+                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/scheme"
+                  className="flex items-center justify-between group text-amber-200/90 font-medium hover:text-[#C49324] transition-colors"
+                >
+                  <span>SwarnaNidhi Gold Scheme</span>
+                  <ChevronRight className="size-3.5 text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* ── COLUMN 3: WHY CHOOSE US ── */}
+          <div className="space-y-4 text-left lg:px-4 lg:border-r lg:border-[#C49324]/20">
+            <div>
+              <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
+                WHY CHOOSE US
+              </h4>
+              <div className="mt-1.5 flex items-center gap-1">
+                <div className="h-[1px] w-8 bg-[#C49324]/50" />
+                <div className="size-1 rotate-45 bg-[#C49324]" />
+                <div className="h-[1px] w-16 bg-[#C49324]/30" />
+              </div>
+            </div>
+
+            <ul className="space-y-4 text-xs text-zinc-300 font-light pt-2">
+              <li className="flex items-center gap-3">
+                <Gem className="size-4 text-[#C49324] shrink-0" />
+                <span>BIS 100% Hallmarked Gold</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Award className="size-4 text-[#C49324] shrink-0" />
+                <span>GIA & IGI Certified Solitaires</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <RefreshCw className="size-4 text-[#C49324] shrink-0" />
+                <span>100% Lifetime Exchange</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <ShieldCheck className="size-4 text-[#C49324] shrink-0" />
+                <span>Fully Insured Transit</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* ── COLUMN 4: SHOWROOM ── */}
+          <div className="space-y-4 text-left lg:pl-4">
+            <div>
+              <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
+                SHOWROOM
+              </h4>
+              <div className="mt-1.5 flex items-center gap-1">
+                <div className="h-[1px] w-8 bg-[#C49324]/50" />
+                <div className="size-1 rotate-45 bg-[#C49324]" />
+                <div className="h-[1px] w-16 bg-[#C49324]/30" />
+              </div>
+            </div>
+
+            <div className="space-y-3.5 text-xs text-zinc-300 font-light pt-2 leading-relaxed">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="size-4 text-[#C49324] shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-white font-semibold">A.P.P. Jewellers</p>
+                  <p className="text-zinc-400 mt-0.5">
+                    Shop No. D-155, Sarafa Market, New Seelampur Phase II, Delhi 110053
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <Clock className="size-4 text-[#C49324] shrink-0" />
+                <p>
+                  <span className="text-[#C49324] font-bold">Open Daily:</span> 11:00 AM – 8:30 PM
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <Phone className="size-4 text-[#C49324] shrink-0" />
+                <a href="tel:09015155615" className="hover:text-[#C49324] transition-colors font-medium">
+                  090151 55615
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── BOTTOM COPYRIGHT & TRUST BADGES BAR ── */}
+        <div className="pt-8 border-t border-[#C49324]/30 flex flex-col lg:flex-row items-center justify-between gap-6">
+          {/* Left: Copyright */}
+          <div className="text-left text-[0.68rem] text-zinc-400 font-light">
+            <p className="text-zinc-300 font-medium">© 2026 A.P.P. JEWELLERS</p>
+            <p className="mt-0.5">All Rights Reserved.</p>
+          </div>
+
+          {/* Center: 3 Trust Marks */}
+          <div className="flex items-center gap-6 sm:gap-10 text-[0.62rem] text-zinc-300 uppercase tracking-widest font-medium">
+            <div className="flex items-center gap-2.5">
+              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324]">
+                <Award className="size-3.5" />
+              </div>
+              <div className="text-left">
+                <span className="block text-[0.55rem] text-[#C49324] font-bold">BIS 916</span>
+                <span>HALLMARK</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5">
+              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324]">
+                <Gem className="size-3.5" />
+              </div>
+              <div className="text-left">
+                <span className="block text-[0.55rem] text-[#C49324] font-bold">GIA</span>
+                <span>CERTIFIED</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2.5">
+              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324]">
+                <Lock className="size-3.5" />
+              </div>
+              <div className="text-left">
+                <span className="block text-[0.55rem] text-[#C49324] font-bold">SECURE</span>
+                <span>PAYMENTS</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Social Outlines & Owner portal */}
+          <div className="flex items-center gap-3">
+            <span className="text-[0.6rem] uppercase tracking-[0.2em] text-[#C49324] font-bold hidden sm:inline mr-1">
+              FOLLOW US
+            </span>
             <a
-              href="tel:09015155615"
-              className="shine-sweep inline-flex items-center gap-2 rounded bg-gold/15 border border-gold/50 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow"
+              href="https://instagram.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
             >
-              <PhoneIcon className="size-3.5" /> Call Store
+              <Instagram className="size-3.5" />
+            </a>
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Facebook"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
+            >
+              <Facebook className="size-3.5" />
+            </a>
+            <a
+              href="https://youtube.com"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="YouTube"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
+            >
+              <Youtube className="size-3.5" />
             </a>
             <a
               href="https://wa.me/919015155615"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded bg-emerald-500/10 border border-emerald-500/50 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-emerald-400 font-bold hover:bg-emerald-500/20 transition-all shadow"
+              aria-label="WhatsApp"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
             >
-              <WhatsAppIcon className="size-3.5" /> WhatsApp Chat
+              <WhatsAppIcon className="size-3.5" />
             </a>
-            <a
-              href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded bg-onyx border border-border/70 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-muted-foreground hover:text-gold hover:border-gold/60 transition-all"
-            >
-              <span>📍 Directions</span>
-            </a>
-          </div>
-        </div>
-
-        {/* STREAMLINED 4-COLUMN FOOTER NAVIGATION */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 text-left border-b border-gold/20">
-          {/* Col 1: Collections */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Fine Collections
-            </p>
-            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Solitaire Diamonds</Link></li>
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Kundan Bridal Sets</Link></li>
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Gold Bangles & Kadas</Link></li>
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Temple Jewellery & Haram</Link></li>
-              <li><Link to="/scheme" className="hover:text-gold transition-colors">SwarnaNidhi Gold Scheme</Link></li>
-            </ul>
-          </div>
-
-          {/* Col 2: Services */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Showroom Services
-            </p>
-            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-              <li><Link to="/appointment" className="hover:text-gold transition-colors">Book Private Consultation</Link></li>
-              <li><Link to="/piece/$slug" params={{ slug: "lumiere-solitaire" }} className="hover:text-gold transition-colors">Virtual Try-On Experience</Link></li>
-              <li><a href="#collections" className="hover:text-gold transition-colors">Live Gold & Silver Rates</a></li>
-              <li><a href="#maison" className="hover:text-gold transition-colors">Bespoke Bench Craftsmanship</a></li>
-            </ul>
-          </div>
-
-          {/* Col 3: Purity & Trust */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Purity & Trust
-            </p>
-            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> BIS 100% Hallmarked Gold</li>
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> GIA & IGI Certified Solitaires</li>
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> 100% Lifetime Exchange</li>
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> Fully Insured Transit</li>
-            </ul>
-          </div>
-
-          {/* Col 4: Showroom Info */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Showroom Location
-            </p>
-            <div className="space-y-2 text-xs text-muted-foreground font-light leading-relaxed">
-              <p className="text-white font-medium">A.P.P. Jewellers</p>
-              <p>Shop No. D-155, Sarafa Market, New Seelampur Phase II, Delhi 110053</p>
-              <p className="text-gold/90 font-medium pt-1">Open Daily: 11:00 AM – 8:30 PM</p>
-              <p className="text-muted-foreground">Phone: 090151 55615</p>
-            </div>
-          </div>
-        </div>
-
-        {/* COPYRIGHT BAR */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.58rem] uppercase tracking-widest text-muted-foreground">
-          <p>© 2026 A.P.P. Jewellers · All Rights Reserved.</p>
-          <div className="flex items-center gap-4">
-            <span className="text-gold/60">BIS 916 HALLMARK</span>
-            <span>·</span>
-            <span className="text-gold/60">GIA CERTIFIED</span>
             <a
               href="/admin"
-              title="Owner Portal Login"
-              className="text-[0.65rem] opacity-30 hover:opacity-100 transition-opacity text-gold ml-2"
+              title="Portal"
+              className="text-[0.65rem] opacity-30 hover:opacity-100 transition-opacity text-[#C49324] ml-1"
             >
               🔒
             </a>
