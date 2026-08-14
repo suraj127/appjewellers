@@ -111,7 +111,7 @@ function SchemeIcon({ className = "size-4" }: { className?: string }) {
 }
 
 const LEFT_LINKS = [
-  { label: "Featured", href: "/#collections" },
+  { label: "Home", href: "/" },
   { label: "Collection", href: "/collections" },
   { label: "Monthly Scheme", href: "/scheme" },
 ];

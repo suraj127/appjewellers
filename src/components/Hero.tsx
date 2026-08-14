@@ -1,22 +1,12 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { GlowEffect } from '@/components/core/glow-effect';
-import { ArrowRight } from 'lucide-react';
-import heroImg from "@/assets/hero-necklace.jpg";
-import heroVideo from "@/assets/hero-video.mp4";
+import { ArrowRight, Sparkles, ShieldCheck, MapPin } from 'lucide-react';
 import logoImg from "@/assets/logo.png";
 
 export function Hero() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [offset, setOffset] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  }, []);
 
   useEffect(() => {
     const onMove = (e: MouseEvent | PointerEvent) => {
@@ -25,18 +15,15 @@ export function Hero() {
         y: (e.clientY / window.innerHeight - 0.5) * 2,
       });
     };
-    const onScroll = () => setOffset(window.scrollY);
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("mousemove", onMove, { passive: true });
-    window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
-  // Gold dust particle system
+  // Gold dust particle system on white canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -66,7 +53,7 @@ export function Hero() {
     }
 
     const particles: Particle[] = [];
-    const COUNT = 40;
+    const COUNT = 35;
     const W = () => canvas.offsetWidth;
     const H = () => canvas.offsetHeight;
 
@@ -75,9 +62,9 @@ export function Hero() {
         x: Math.random() * W(),
         y: Math.random() * H(),
         size: Math.random() * 2 + 0.5,
-        speedY: -(Math.random() * 0.3 + 0.1),
-        speedX: (Math.random() - 0.5) * 0.2,
-        opacity: Math.random() * 0.6 + 0.2,
+        speedY: -(Math.random() * 0.25 + 0.08),
+        speedX: (Math.random() - 0.5) * 0.15,
+        opacity: Math.random() * 0.5 + 0.2,
         flickerSpeed: Math.random() * 0.02 + 0.005,
         flickerOffset: Math.random() * Math.PI * 2,
       });
@@ -92,7 +79,6 @@ export function Hero() {
         p.y += p.speedY;
         p.x += p.speedX;
 
-        // Wrap around
         if (p.y < -10) { p.y = H() + 10; p.x = Math.random() * W(); }
         if (p.x < -10) p.x = W() + 10;
         if (p.x > W() + 10) p.x = -10;
@@ -100,16 +86,14 @@ export function Hero() {
         const flicker = 0.5 + 0.5 * Math.sin(time * p.flickerSpeed + p.flickerOffset);
         const alpha = p.opacity * flicker;
 
-        // Gold glow
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size + 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(212, 175, 55, ${alpha * 0.25})`;
+        ctx.fillStyle = `rgba(184, 134, 11, ${alpha * 0.2})`;
         ctx.fill();
 
-        // Bright core
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 223, 100, ${alpha})`;
+        ctx.fillStyle = `rgba(212, 175, 55, ${alpha * 0.8})`;
         ctx.fill();
       }
 
@@ -126,42 +110,23 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-black pt-28 sm:pt-36 pb-20 px-4"
+      className="relative flex min-h-[92vh] sm:min-h-screen items-center justify-center overflow-hidden bg-white pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 text-foreground border-b border-gold/30"
     >
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={heroImg}
-        className="absolute inset-0 size-full object-cover pointer-events-none"
-        style={{
-          transform: `scale(1.22) translate3d(${tilt.x * -35}px, ${tilt.y * -45 - offset * 0.25}px, 0)`,
-          transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-          willChange: "transform",
-        }}
-      >
-        <source src={heroVideo} type="video/mp4" />
-        <source src="/hero-video.mp4" type="video/mp4" />
-      </video>
-
-      <div className="absolute inset-0" style={{ background: "var(--gradient-veil)" }} />
+      {/* Ambient Luxury Radial Lighting Backdrop */}
       <div
-        aria-hidden
-        className="absolute inset-0"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[650px] sm:size-[900px] rounded-full pointer-events-none"
         style={{
-          background:
-            "radial-gradient(70% 55% at 50% 58%, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.35) 60%, rgba(0, 0, 0, 0.8) 90%)",
+          background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.12) 0%, rgba(254, 243, 199, 0.25) 45%, rgba(255, 255, 255, 0) 75%)",
         }}
       />
 
+      {/* Interactive dynamic gold aura */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-70"
+        className="pointer-events-none absolute inset-0 opacity-60"
         style={{
-          background: `radial-gradient(600px circle at ${50 + tilt.x * 22}% ${44 + tilt.y * 22}%, color-mix(in oklab, var(--gold) 20%, transparent), transparent 62%)`,
-          transition: "background 0.5s linear",
+          background: `radial-gradient(550px circle at ${50 + tilt.x * 20}% ${40 + tilt.y * 20}%, rgba(212, 175, 55, 0.1), transparent 60%)`,
+          transition: "background 0.4s linear",
         }}
       />
 
@@ -173,42 +138,48 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto max-w-4xl px-3 sm:px-6 text-center">
-        {/* BIG & ULTRA-VIBRANT LOGO IN HERO WITH RADIAL HALO */}
-        <div className="reveal relative flex justify-center mb-6" style={{ animationDelay: "150ms" }}>
-          {/* Glowing Backlight Halo */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-48 sm:size-72 rounded-full bg-gold/25 blur-3xl pointer-events-none animate-pulse" />
+        {/* BRAND LOGO WITH GLOWING BACKLIGHT */}
+        <div className="reveal relative flex justify-center mb-6 sm:mb-8" style={{ animationDelay: "100ms" }}>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-40 sm:size-60 rounded-full bg-gold/20 blur-3xl pointer-events-none animate-pulse" />
 
           <img
             src={logoImg}
             alt="A.P.P. Jewellers Brand Logo"
-            className="relative z-10 h-36 sm:h-52 md:h-60 w-auto object-contain filter brightness-125 contrast-125 saturate-150 drop-shadow-[0_0_35px_rgba(255,215,0,0.85)] drop-shadow-[0_0_70px_rgba(212,175,55,0.6)] hover:scale-105 transition-transform duration-700"
+            className="relative z-10 h-32 sm:h-44 md:h-48 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(212,175,55,0.45)] hover:scale-105 transition-transform duration-700"
           />
         </div>
 
-        <p className="eyebrow reveal text-gold font-bold drop-shadow-md" style={{ animationDelay: "280ms" }}>
-          Sarafa Market · New Seelampur · Delhi
-        </p>
+        {/* EYEBROW BADGE */}
+        <div className="reveal flex justify-center mb-4" style={{ animationDelay: "200ms" }}>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-4 py-1 text-[0.62rem] sm:text-xs uppercase tracking-[0.25em] text-[#b8860b] font-bold shadow-sm">
+            <Sparkles className="size-3 text-[#b8860b]" />
+            <span>Sarafa Market · New Seelampur · Delhi</span>
+          </span>
+        </div>
 
+        {/* MAIN HEADLINE */}
         <h1
-          className="reveal mt-5 font-display text-[clamp(2.3rem,7vw,5.2rem)] leading-[0.98] tracking-tight font-medium text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]"
-          style={{ animationDelay: "380ms" }}
+          className="reveal font-display text-[clamp(2.2rem,6.5vw,4.8rem)] leading-[1.02] tracking-tight font-extrabold text-[#121215]"
+          style={{ animationDelay: "300ms" }}
         >
           Royal Gold & Diamond Artistry
-          <span className="block italic shimmer-text mt-1.5 text-amber-200 drop-shadow-lg">
+          <span className="block italic shimmer-text text-[#b8860b] mt-1 sm:mt-2">
             Where Heritage Meets Luxury
           </span>
         </h1>
 
+        {/* SUB-HEAD COPY */}
         <p
-          className="reveal mx-auto mt-6 max-w-xl text-sm sm:text-base font-light leading-relaxed tracking-wide text-amber-100/90 drop-shadow-md"
-          style={{ animationDelay: "560ms" }}
+          className="reveal mx-auto mt-4 sm:mt-6 max-w-xl text-xs sm:text-base font-light leading-relaxed text-zinc-600 px-2"
+          style={{ animationDelay: "450ms" }}
         >
-          Explore certified solitaire diamonds, Kundan bridal sets, gold bangles and bespoke handcrafted jewellery at our showroom in New Seelampur.
+          Discover 100% BIS Hallmarked pure gold, GIA certified solitaires, royal Kundan bridal suites, and bespoke handmade jewellery in Delhi.
         </p>
 
+        {/* CTA BUTTONS */}
         <div
-          className="reveal mt-10 flex flex-col sm:flex-row items-center justify-center gap-6 w-full max-w-sm sm:max-w-none mx-auto"
-          style={{ animationDelay: "700ms" }}
+          className="reveal mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-md sm:max-w-none mx-auto"
+          style={{ animationDelay: "600ms" }}
         >
           <div className="relative w-full sm:w-auto flex justify-center">
             <GlowEffect
@@ -220,23 +191,27 @@ export function Hero() {
             />
             <Link
               to="/collections"
-              className="relative inline-flex items-center justify-center gap-2 rounded-md bg-zinc-950 px-6 py-3.5 text-[0.68rem] text-amber-200 outline outline-1 outline-gold/50 font-semibold uppercase tracking-[0.25em] transition-transform hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-2xl"
+              className="relative inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-950 hover:bg-[#b8860b] px-7 py-3.5 text-xs text-white font-bold uppercase tracking-[0.22em] transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-xl"
             >
-              Explore Collections <ArrowRight className="h-4 w-4 text-gold" />
+              <span>Explore Collections</span>
+              <ArrowRight className="h-4 w-4 text-gold" />
             </Link>
           </div>
+
           <a
             href="#store-info"
-            className="w-full rounded-sm border border-gold/60 bg-black/40 backdrop-blur-sm px-9 py-3.5 text-[0.68rem] uppercase tracking-[0.34em] text-white font-semibold transition-colors duration-500 hover:bg-gold hover:text-black sm:w-auto text-center shadow-lg"
+            className="w-full rounded-lg border-2 border-gold/60 bg-white hover:bg-gold/10 px-7 py-3 text-xs uppercase tracking-[0.22em] text-zinc-900 font-bold transition-all duration-300 sm:w-auto text-center shadow-sm flex items-center justify-center gap-2"
           >
-            Showroom Details & Location
+            <MapPin className="size-3.5 text-[#b8860b]" />
+            <span>Visit Showroom</span>
           </a>
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2 text-center pointer-events-none">
-        <div className="mx-auto h-10 w-px bg-gradient-to-b from-transparent via-gold/70 to-transparent" />
-        <span className="mt-2 block text-[0.55rem] uppercase tracking-[0.4em] text-muted-foreground">
+      {/* SCROLL DOWN INDICATOR */}
+      <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-center pointer-events-none">
+        <div className="mx-auto h-8 w-px bg-gradient-to-b from-transparent via-gold to-transparent" />
+        <span className="mt-1 block text-[0.52rem] uppercase tracking-[0.35em] text-zinc-400 font-medium">
           Scroll
         </span>
       </div>
