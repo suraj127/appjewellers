@@ -686,9 +686,9 @@ export function InstaReels() {
 
 export function Footer() {
   return (
-    <footer className="bg-[#0a0203] px-4 sm:px-8 pb-8 pt-12 sm:pt-20 border-t border-gold/30 text-left relative overflow-hidden text-white">
+    <footer className="bg-gradient-to-b from-[#2d050a] via-[#1c0205] to-[#100103] px-4 sm:px-8 pb-8 pt-12 sm:pt-20 border-t border-[#9b111e]/40 text-left relative overflow-hidden text-white">
       {/* Background ambient lighting */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-gold/5 blur-3xl pointer-events-none rounded-full" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-rose-500/10 blur-3xl pointer-events-none rounded-full" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* BRAND HEADER & STORE BADGE */}

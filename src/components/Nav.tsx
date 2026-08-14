@@ -245,12 +245,12 @@ export function Nav() {
             {/* RIGHT SIDE ACTION ICONS */}
             <div className="flex items-center gap-3 sm:gap-5">
               <Link
-                to="/collections"
-                title="Virtual Jewellery Try-On"
+                to="/scheme"
+                title="SwarnaNidhi Monthly Gold Scheme"
                 className="hidden sm:flex flex-col items-center gap-0.5 text-foreground/80 hover:text-gold transition-colors group"
               >
-                <Sparkles className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
-                <span className="text-[0.55rem] uppercase tracking-wider font-semibold">Try-On</span>
+                <SchemeIcon className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
+                <span className="text-[0.55rem] uppercase tracking-wider font-semibold">Gold Scheme</span>
               </Link>
 
               <a
