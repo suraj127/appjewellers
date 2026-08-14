@@ -69,11 +69,11 @@ export function Hero() {
 
         {/* EYEBROW BADGE (Cormorant Garamond Medium with side filigree flourishes) */}
         <div className="reveal flex items-center justify-center gap-2 mb-4" style={{ animationDelay: "200ms" }}>
-          <span className="text-[#C49324] text-xs font-serif select-none hidden sm:inline">⊰⊱</span>
+          <span className="text-[#C49324] text-xs font-display select-none hidden sm:inline">⊰⊱</span>
           <span className="inline-flex items-center rounded-full border border-[#C49324]/80 bg-[#F2E9D8]/80 backdrop-blur-sm px-4 sm:px-6 py-1 text-[0.68rem] sm:text-xs uppercase tracking-[0.28em] text-[#C49324] font-display font-medium shadow-sm">
             SARAFA MARKET · NEW SEELAMPUR · DELHI
           </span>
-          <span className="text-[#C49324] text-xs font-serif select-none hidden sm:inline">⊰⊱</span>
+          <span className="text-[#C49324] text-xs font-display select-none hidden sm:inline">⊰⊱</span>
         </div>
 
         {/* MAIN HEADLINE (Cormorant Garamond SemiBold + Italic Sparkling Gold) */}
@@ -81,7 +81,7 @@ export function Hero() {
           className="reveal mt-3 sm:mt-5 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.05] tracking-tight"
           style={{ animationDelay: "300ms" }}
         >
-          <span className="font-semibold text-[#111111]">Where Heritage </span>
+          <span className="font-semibold text-[#121212]">Where Heritage </span>
           <span className="italic font-normal luxury-sparkle-text text-[#C49324] block sm:inline">
             Meets Luxury
           </span>
@@ -102,7 +102,7 @@ export function Hero() {
         >
           <Link
             to="/collections"
-            className="shine-sweep group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#111111] via-[#1d1b16] to-[#111111] border-2 border-[#C49324] hover:border-[#e5be59] px-8 py-3.5 text-xs text-amber-100 font-bold uppercase tracking-[0.24em] transition-all duration-300 hover:scale-[1.03] active:scale-95 w-full sm:w-auto text-center shadow-[0_10px_30px_rgba(196,147,36,0.3)] hover:shadow-[0_12px_40px_rgba(196,147,36,0.55)]"
+            className="shine-sweep group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#121212] via-[#1d1b16] to-[#121212] border-2 border-[#C49324] hover:border-[#e5be59] px-8 py-3.5 text-xs text-amber-100 font-bold uppercase tracking-[0.24em] transition-all duration-300 hover:scale-[1.03] active:scale-95 w-full sm:w-auto text-center shadow-[0_10px_30px_rgba(196,147,36,0.3)] hover:shadow-[0_12px_40px_rgba(196,147,36,0.55)]"
           >
             <span>Explore Collections</span>
             <ArrowRight className="size-4 text-[#C49324] transition-transform duration-300 group-hover:translate-x-1" />
@@ -110,7 +110,7 @@ export function Hero() {
 
           <a
             href="#store-info"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-[#C49324]/80 bg-[#F8F6EF]/90 backdrop-blur-md hover:bg-[#F2E9D8] px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-[#111111] font-bold transition-all duration-300 hover:scale-[1.02] active:scale-95 sm:w-auto text-center shadow-sm"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-[#C49324]/80 bg-[#F8F6EF]/90 backdrop-blur-md hover:bg-[#F2E9D8] px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-[#121212] font-bold transition-all duration-300 hover:scale-[1.02] active:scale-95 sm:w-auto text-center shadow-sm"
           >
             <MapPin className="size-3.5 text-[#C49324]" />
             <span>Visit Showroom</span>

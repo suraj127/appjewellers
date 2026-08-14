@@ -433,7 +433,7 @@ export function StoreLocation() {
                   <p className="text-xs sm:text-sm text-foreground font-bold mt-0.5">
                     11:00 AM – 8:30 PM
                   </p>
-                  <span className="text-[0.55rem] text-emerald-600 font-medium block">
+                  <span className="text-[0.55rem] text-[#C49324] font-medium block">
                     Open All 7 Days
                   </span>
                 </div>
@@ -794,9 +794,9 @@ export function Footer() {
                 href="https://wa.me/919015155615"
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-emerald-500/60 bg-[#0c1f14]/50 hover:bg-[#0c1f14]/80 py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-emerald-400 font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#e5be59] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
-                <WhatsAppIcon className="size-3 text-emerald-400 shrink-0" />
+                <WhatsAppIcon className="size-3 text-[#C49324] shrink-0" />
                 <span>CHAT</span>
               </a>
 
@@ -804,7 +804,7 @@ export function Footer() {
                 href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 rounded-md bg-[#f4f3ef] hover:bg-white py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#111111] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-md bg-[#f4f3ef] hover:bg-white py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#121212] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
                 <span className="text-rose-600 font-bold text-xs">📍</span>
                 <span>MAP</span>

@@ -193,7 +193,7 @@ export function SparklesIcon({ className = "size-4 text-gold" }: { className?: s
   );
 }
 
-export function WhatsAppIcon({ className = "size-4 text-emerald-400" }: { className?: string }) {
+export function WhatsAppIcon({ className = "size-4 text-[#C49324]" }: { className?: string }) {
   return (
     <svg
       className={className}

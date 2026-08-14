@@ -393,9 +393,9 @@ export function Nav() {
                   href="https://wa.me/919015155615"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-emerald-600 text-white text-xs uppercase tracking-wider font-bold shadow active:scale-95"
+                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg border border-[#C49324]/50 bg-[#1e070a]/80 hover:bg-[#2e0b10] text-[#e5be59] text-xs uppercase tracking-wider font-bold shadow active:scale-95 transition-all"
                 >
-                  <MessageCircle className="size-3.5" />
+                  <MessageCircle className="size-3.5 text-[#C49324]" />
                   <span>WhatsApp</span>
                 </a>
 

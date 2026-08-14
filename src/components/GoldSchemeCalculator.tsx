@@ -149,15 +149,15 @@ export function GoldSchemeCalculator() {
             </div>
 
             {/* Free Store Bonus Card */}
-            <div className="bg-gradient-to-br from-[#f0fdf4] to-[#dcfce7] border border-emerald-300 p-4 sm:p-5 rounded-xl flex flex-col justify-center shadow-sm relative overflow-hidden">
-              <div className="flex items-center justify-center gap-1 text-[0.62rem] uppercase tracking-widest text-emerald-800 font-bold">
-                <Gift className="size-3 text-emerald-600" />
+            <div className="bg-gradient-to-br from-[#fbf8ee] to-[#f4ecd8] border border-gold/40 p-4 sm:p-5 rounded-xl flex flex-col justify-center shadow-sm relative overflow-hidden">
+              <div className="flex items-center justify-center gap-1 text-[0.62rem] uppercase tracking-widest text-[#8b5a00] font-bold">
+                <Gift className="size-3 text-[#b8860b]" />
                 <span>Store Gift (100% 1st Month)</span>
               </div>
-              <p className="font-display text-2xl sm:text-3xl font-extrabold text-emerald-700 mt-1">
+              <p className="font-display text-2xl sm:text-3xl font-extrabold text-[#8b5a00] mt-1">
                 +₹{storeBonus.toLocaleString("en-IN")}
               </p>
-              <span className="text-[0.62rem] text-emerald-800 font-medium mt-0.5">
+              <span className="text-[0.62rem] text-[#8b5a00]/80 font-medium mt-0.5">
                 Paid Directly By A.P.P. Jewellers
               </span>
             </div>
@@ -187,63 +187,22 @@ export function GoldSchemeCalculator() {
                   <th className="p-3 border-r border-zinc-700 bg-[#1a1a20] text-amber-300 font-extrabold min-w-[100px] sm:min-w-[130px]">
                     Total Maturity
                   </th>
-                  <th className="p-3 bg-[#064e3b] text-emerald-300 font-extrabold min-w-[100px] sm:min-w-[130px]">
+                  <th className="p-3 bg-[#241f17] text-amber-200 font-extrabold min-w-[100px] sm:min-w-[130px]">
                     Net Profit / Gain
                   </th>
                 </tr>
               </thead>
               <tbody>
-                {Array.from({ length: totalDraws - 1 }).map((_, paidDrawsIndex) => {
-                  const paidDraws = paidDrawsIndex + 1;
-                  const netProfit = monthlyAmount * (totalDraws - paidDraws);
-
-                  return (
-                    <tr
-                      key={paidDraws}
-                      className={`border-b border-zinc-200 transition-colors hover:bg-amber-50/40 ${
-                        paidDraws % 2 === 0 ? "bg-[#fafafc]" : "bg-white"
-                      }`}
-                    >
-                      {Array.from({ length: totalDraws }).map((_, drawIndex) => {
-                        const isPaid = drawIndex < paidDraws;
-                        return (
-                          <td
-                            key={drawIndex}
-                            className="p-3 border-r border-zinc-200 text-[0.65rem] sm:text-sm font-medium"
-                          >
-                            {isPaid ? (
-                              <span className="text-foreground font-semibold">
-                                ₹{monthlyAmount.toLocaleString("en-IN")}
-                              </span>
-                            ) : (
-                              <span className="inline-block bg-rose-50 text-rose-600 border border-rose-200 px-2 py-0.5 rounded text-[0.55rem] font-bold">
-                                Stop
-                              </span>
-                            )}
-                          </td>
-                        );
-                      })}
-                      <td className="p-3 border-r border-zinc-200 font-display text-xs sm:text-base font-bold text-[#b8860b] bg-[#fffdf5]">
-                        ₹{targetMaturity.toLocaleString("en-IN")}
-                      </td>
-                      <td className="p-3 font-display text-xs sm:text-base font-bold text-[#059669] bg-[#ecfdf5]">
-                        ₹{netProfit.toLocaleString("en-IN")}
-                      </td>
-                    </tr>
-                  );
-                })}
-
-                {/* Full Grand Finale 8th Row */}
-                <tr className="bg-[#121215] text-amber-300 font-bold border-t-2 border-gold text-[0.65rem] sm:text-sm">
+                <tr className="border-b border-zinc-200 font-medium text-foreground bg-zinc-50/50">
                   {Array.from({ length: totalDraws }).map((_, i) => (
-                    <td key={i} className="p-3 border-r border-zinc-700 text-amber-200 font-bold">
+                    <td key={i} className="p-3 border-r border-zinc-200">
                       ₹{monthlyAmount.toLocaleString("en-IN")}
                     </td>
                   ))}
-                  <td className="p-3 border-r border-zinc-700 font-display text-xs sm:text-lg text-amber-300 font-extrabold">
+                  <td className="p-3 border-r border-zinc-200 font-display text-xs sm:text-lg text-foreground font-extrabold">
                     ₹{targetMaturity.toLocaleString("en-IN")}
                   </td>
-                  <td className="p-3 font-display text-xs sm:text-lg text-emerald-400 font-extrabold bg-[#064e3b]">
+                  <td className="p-3 font-display text-xs sm:text-lg text-[#8b5a00] font-extrabold bg-[#fbf8ee]">
                     +₹{monthlyAmount.toLocaleString("en-IN")} Free
                   </td>
                 </tr>
@@ -271,7 +230,7 @@ export function GoldSchemeCalculator() {
               href={`https://wa.me/919015155615?text=Hi%20A.P.P.%20Jewellers,%20I%20want%20to%20enroll%20in%20the%20SwarnaNidhi%20Gold%20Scheme%20for%20₹${monthlyAmount.toLocaleString("en-IN")}/month.`}
               target="_blank"
               rel="noreferrer"
-              className="shine-sweep flex items-center justify-center gap-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 px-6 py-3 text-xs uppercase tracking-widest text-white font-bold transition-all shadow-md"
+              className="shine-sweep flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] hover:brightness-110 px-6 py-3 text-xs uppercase tracking-widest text-black font-extrabold transition-all shadow-md active:scale-95"
             >
               <span>Enroll via WhatsApp</span>
               <ArrowRight className="size-4" />

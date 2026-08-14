@@ -172,7 +172,7 @@ function QuickInquiryModal({
               </div>
               <div className="flex justify-between">
                 <dt className="text-gold font-medium">Availability:</dt>
-                <dd className="text-emerald-400 font-bold">In Stock at Sarafa Market</dd>
+                <dd className="text-gold font-bold">In Stock at Sarafa Market</dd>
               </div>
             </dl>
 
@@ -181,9 +181,9 @@ function QuickInquiryModal({
                 href={`https://wa.me/919015155615?text=${whatsappMsg}`}
                 target="_blank"
                 rel="noreferrer"
-                className="shine-sweep flex items-center justify-center gap-2 w-full rounded border border-emerald-500/70 bg-transparent px-4 py-3 text-xs uppercase tracking-widest text-emerald-400 font-bold text-center hover:bg-emerald-500/10 hover:border-emerald-400 transition-all shadow-lg"
+                className="shine-sweep flex items-center justify-center gap-2 w-full rounded border border-gold/70 bg-gradient-to-r from-[#121212] via-[#1d1b16] to-[#121212] px-4 py-3 text-xs uppercase tracking-widest text-amber-100 font-bold text-center hover:border-gold transition-all shadow-lg"
               >
-                <WhatsAppIcon className="size-4 text-emerald-400" /> Price on Request via WhatsApp
+                <WhatsAppIcon className="size-4 text-gold" /> Price on Request via WhatsApp
               </a>
 
               <a
@@ -484,7 +484,7 @@ function DetailedCollectionsPage() {
           {/* PREMIUM COLLECTION LUXURY HEADER */}
           <div className="text-center mb-6 sm:mb-8">
             <h1 className="font-display text-2xl sm:text-5xl font-bold text-foreground tracking-wide leading-tight">
-              Our <span className="italic shimmer-text font-serif">Premium Collection</span>
+              Our <span className="italic shimmer-text font-display">Premium Collection</span>
             </h1>
             <p className="mt-2 text-xs sm:text-sm font-light text-muted-foreground max-w-lg mx-auto leading-relaxed">
               Handcrafted BIS Hallmarked Gold, Certified Solitaire Diamonds & Royal Kundan Masterpieces.
@@ -894,7 +894,7 @@ function DetailedCollectionsPage() {
                               rel="noreferrer"
                               className="shine-sweep w-full rounded bg-[#e8e2d5]/10 border border-gold/50 px-2 sm:px-4 py-1.5 sm:py-2.5 text-[0.55rem] sm:text-[0.62rem] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-gold font-bold text-center transition-all duration-300 hover:bg-gold hover:text-primary-foreground flex items-center justify-center gap-1.5"
                             >
-                              <WhatsAppIcon className="size-3.5 text-emerald-400 shrink-0" />
+                              <WhatsAppIcon className="size-3.5 text-gold shrink-0" />
                               <span>PRICE ON REQUEST</span>
                             </a>
                           </div>

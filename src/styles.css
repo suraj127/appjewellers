@@ -109,8 +109,27 @@
     overflow-x: clip;
   }
 
+  /* ── WCAG 2.1 Compliant Keyboard Focus States ── */
+  :focus-visible {
+    outline: 2px solid #C49324 !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 3px rgba(196, 147, 36, 0.3) !important;
+  }
+
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  [role="button"]:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid #C49324 !important;
+    outline-offset: 2px !important;
+  }
+
   ::selection {
-    background: rgba(184, 134, 11, 0.25);
+    background: rgba(196, 147, 36, 0.25);
+    color: #121212;
   }
 }
 
