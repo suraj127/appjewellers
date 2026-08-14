@@ -87,11 +87,11 @@ export function Hero() {
         >
           <div className="relative w-full sm:w-auto flex justify-center">
             <GlowEffect
-              colors={['#D4AF37', '#FFD700', '#F3E5AB', '#AA771C']}
+              colors={['#4285F4', '#9B72CB', '#D96570', '#8AB4F8', '#C58AF9', '#38BDF8']}
               mode="colorShift"
               blur="soft"
-              duration={3}
-              scale={0.9}
+              duration={3.5}
+              scale={0.92}
             />
             <Link
               to="/collections"
