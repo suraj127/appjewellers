@@ -65,10 +65,10 @@ export function Hero() {
 
         {/* MAIN HEADLINE */}
         <h1
-          className="reveal font-display text-[clamp(2.5rem,7.5vw,5.5rem)] leading-[1.05] tracking-tight font-medium text-[#121215]"
+          className="reveal mt-4 font-display text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground leading-[1.05]"
           style={{ animationDelay: "300ms" }}
         >
-          Where Heritage <span className="italic font-serif text-[#b8860b] block sm:inline">Meets Luxury</span>
+          Where Heritage <span className="italic shimmer-text text-[#b8860b]">Meets Luxury</span>
         </h1>
 
         {/* SUB-HEAD COPY */}
