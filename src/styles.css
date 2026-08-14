@@ -340,6 +340,34 @@
   display: inline-block;
 }
 
+@keyframes diamond-glint {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(0deg);
+  }
+  30% {
+    opacity: 0.2;
+    transform: scale(0.6) rotate(30deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(90deg);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 14px rgba(212, 175, 55, 0.8));
+  }
+  70% {
+    opacity: 0.3;
+    transform: scale(0.5) rotate(140deg);
+  }
+  85%, 100% {
+    opacity: 0;
+    transform: scale(0.2) rotate(180deg);
+  }
+}
+
+.diamond-sparkle-glint {
+  animation: diamond-glint 3.2s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::after,
