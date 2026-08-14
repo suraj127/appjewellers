@@ -56,8 +56,8 @@ export function Nav() {
           <nav
             className={`flex items-center justify-between rounded-sm px-3 sm:px-6 py-2 transition-all duration-500 ${
               scrolled
-                ? "glass-panel shadow-2xl bg-white/95 border border-[#9b111e]/25"
-                : "bg-white/90 border border-[#9b111e]/20 backdrop-blur-md shadow-lg"
+                ? "glass-panel shadow-lg bg-white/95 border border-gold/40"
+                : "bg-white/90 border border-gold/30 backdrop-blur-md shadow-md"
             }`}
           >
             {/* Mobile Hamburger Toggle Button */}

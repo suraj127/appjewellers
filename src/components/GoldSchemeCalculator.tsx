@@ -7,9 +7,9 @@ export function GoldSchemeCalculator() {
   const targetMaturity = monthlyAmount * totalDraws;
 
   return (
-    <div className="w-full max-w-6xl mx-auto my-6 sm:my-12 p-3 sm:p-8 bg-gradient-to-b from-[#ffffff] via-[#fdf0f2] to-[#fff3f5] border border-[#9b111e]/25 rounded-lg shadow-xl text-foreground">
+    <div className="w-full max-w-6xl mx-auto my-6 sm:my-12 p-3 sm:p-8 bg-onyx border border-gold/30 rounded-lg shadow-sm text-foreground">
       {/* Header Banner */}
-      <div className="bg-[#9b111e] border border-gold/60 rounded-md p-4 sm:p-6 text-center relative overflow-hidden shadow-xl mb-6 sm:mb-8 text-white">
+      <div className="bg-[#121212] border border-gold/60 rounded-md p-4 sm:p-6 text-center relative overflow-hidden shadow-xl mb-6 sm:mb-8 text-white">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 relative z-10">
           <div className="flex items-center gap-3 sm:gap-4 text-left">
             <img

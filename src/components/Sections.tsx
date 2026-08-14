@@ -167,10 +167,10 @@ export function Collections() {
   return (
     <section
       id="collections"
-      className="relative px-3 sm:px-6 py-14 sm:py-32 bg-gradient-to-b from-[#ffffff] via-[#fdf0f2] to-[#fff8f9] border-y border-[#9b111e]/20 shadow-xl overflow-hidden"
+      className="relative px-3 sm:px-6 py-14 sm:py-32 bg-background border-y border-gold/30 shadow-sm overflow-hidden"
     >
       {/* Ambient Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* ── Foreground content (unchanged) ───────────────────────── */}
       <div className="relative z-10 mx-auto max-w-7xl">
@@ -202,7 +202,7 @@ export function Collections() {
                   <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.2em] sm:tracking-[0.34em] text-gold font-medium truncate">
                     {item.category}
                   </p>
-                  <h3 className="mt-1 font-display text-sm sm:text-2xl font-semibold text-[#2d0a0f] leading-tight line-clamp-1">
+                  <h3 className="mt-1 font-display text-sm sm:text-2xl font-semibold text-foreground leading-tight line-clamp-1">
                     {item.name}
                   </h3>
                   <p className="mt-1 text-[0.65rem] sm:text-xs text-gold font-bold uppercase tracking-wider">
@@ -234,14 +234,14 @@ export function Collections() {
 
 export function SchemeTeaser() {
   return (
-    <section className="relative px-4 sm:px-6 py-16 sm:py-24 bg-gradient-to-r from-[#fff5f6] via-[#fde8eb] to-[#fff5f6] border-y border-[#9b111e]/20 shadow-xl overflow-hidden">
+    <section className="relative px-4 sm:px-6 py-16 sm:py-24 bg-onyx border-y border-gold/30 shadow-sm overflow-hidden">
       {/* Ambient Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="max-w-2xl text-left">
           <span className="eyebrow text-[0.55rem] sm:text-xs">A.P.P. Gold Purchase Plan</span>
-          <h2 className="mt-3 font-display text-2xl sm:text-4xl font-bold text-[#9b111e]">
+          <h2 className="mt-3 font-display text-2xl sm:text-4xl font-bold text-foreground">
             SwarnaNidhi <span className="italic shimmer-text">Gold Savings Scheme</span>
           </h2>
           <p className="mt-3 text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
@@ -277,7 +277,7 @@ export function Signature() {
   };
 
   return (
-    <section id="signature" className="relative overflow-hidden bg-gradient-to-r from-[#fff5f6] via-[#fce8eb] to-[#fff5f6] py-12 sm:py-24 border-y border-[#9b111e]/25 shadow-xl">
+    <section id="signature" className="relative overflow-hidden bg-gradient-to-r from-[#ffffff] via-[#f9f9fa] to-[#ffffff] py-12 sm:py-24 border-y border-gold/30 shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-16 items-center">
           {/* SINGLE FEATURED IMAGE WITH MINIMAL LUXURY ANIMATION */}
@@ -311,7 +311,7 @@ export function Signature() {
           <Reveal delay={150}>
             <div className="text-left">
               <p className="eyebrow text-[0.55rem] sm:text-xs">Piece No. 001 — Signature</p>
-              <h2 className="mt-2 sm:mt-4 font-display text-2xl sm:text-5xl leading-tight font-bold text-[#9b111e]">
+              <h2 className="mt-2 sm:mt-4 font-display text-2xl sm:text-5xl leading-tight font-bold text-foreground">
                 The <span className="italic shimmer-text">Chandra</span> Suite
               </h2>
               <p className="mt-2 sm:mt-4 text-xs sm:text-base font-light leading-relaxed text-muted-foreground">
@@ -324,7 +324,7 @@ export function Signature() {
                     <dt className="text-[0.5rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-medium">
                       {k}
                     </dt>
-                    <dd className="mt-0.5 font-display text-xs sm:text-lg text-[#2d0a0f] font-semibold truncate">{v}</dd>
+                    <dd className="mt-0.5 font-display text-xs sm:text-lg text-foreground font-semibold truncate">{v}</dd>
                   </div>
                 ))}
               </dl>
@@ -357,7 +357,7 @@ export function Maison() {
   return (
     <>
       <KarigarProcessSection />
-      <section className="relative overflow-hidden bg-gradient-to-r from-[#fde8eb] via-[#fff5f6] to-[#fde8eb] py-10 sm:py-16 border-b border-[#9b111e]/25 shadow-xl">
+      <section className="relative overflow-hidden bg-onyx py-10 sm:py-16 border-b border-gold/30 shadow-sm">
         <div className="mx-auto max-w-7xl px-4 sm:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-6">
             {TRUST.map(([k, v], i) => (
@@ -380,12 +380,12 @@ export function Maison() {
 
 export function StoreLocation() {
   return (
-    <section id="store-info" className="relative px-4 sm:px-6 py-16 sm:py-28 bg-gradient-to-b from-[#fff5f6] via-[#fdf0f2] to-[#fff8f9] border-t border-[#9b111e]/20 scroll-mt-20">
+    <section id="store-info" className="relative px-4 sm:px-6 py-16 sm:py-28 bg-background border-t border-gold/30 scroll-mt-20">
       <div className="mx-auto max-w-6xl">
         <Reveal>
           <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
             <span className="eyebrow text-[0.55rem] sm:text-xs">Sarafa Market · New Seelampur · Delhi</span>
-            <h2 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-[#2d0a0f]">
+            <h2 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-foreground">
               Visit Our Flagship <span className="italic shimmer-text">Showroom</span>
             </h2>
             <p className="mt-3 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground">
@@ -403,10 +403,10 @@ export function StoreLocation() {
                 <span className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold block mb-1">
                   Flagship Store Location
                 </span>
-                <h3 className="font-display text-2xl sm:text-4xl font-bold text-[#9b111e] leading-snug">
+                <h3 className="font-display text-2xl sm:text-4xl font-bold text-foreground leading-snug">
                   A.P.P. Jewellers
                 </h3>
-                <p className="mt-2 text-xs sm:text-base text-[#2d0a0f]/90 font-light leading-relaxed max-w-xl mx-auto">
+                <p className="mt-2 text-xs sm:text-base text-muted-foreground font-light leading-relaxed max-w-xl mx-auto">
                   Shop No. D-155, Sarafa Market, New Seelampur Phase II, New Seelampur, Seelampur, New Delhi, Delhi 110053
                 </p>
               </div>
@@ -416,7 +416,7 @@ export function StoreLocation() {
                   <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
                     Showroom Hours
                   </span>
-                  <p className="text-xs sm:text-sm text-[#2d0a0f] font-bold mt-0.5">
+                  <p className="text-xs sm:text-sm text-foreground font-bold mt-0.5">
                     11:00 AM – 8:30 PM
                   </p>
                   <span className="text-[0.55rem] text-emerald-600 font-medium block">
@@ -427,7 +427,7 @@ export function StoreLocation() {
                   <span className="text-[0.55rem] sm:text-[0.6rem] uppercase tracking-wider text-gold font-semibold block">
                     Direct Phone Desk
                   </span>
-                  <a href="tel:09015155615" className="text-xs sm:text-sm text-[#2d0a0f] font-bold mt-0.5 block hover:text-gold transition-colors">
+                  <a href="tel:09015155615" className="text-xs sm:text-sm text-foreground font-bold mt-0.5 block hover:text-gold transition-colors">
                     090151 55615
                   </a>
                   <span className="text-[0.55rem] text-muted-foreground font-medium block">
@@ -502,12 +502,12 @@ export function StoreLocation() {
 
 export function Appointment() {
   return (
-    <section id="appointment" className="px-3 sm:px-6 py-16 sm:py-24 bg-gradient-to-r from-[#fff5f6] via-[#fce8eb] to-[#fff5f6] border-y border-[#9b111e]/25 shadow-xl">
+    <section id="appointment" className="px-3 sm:px-6 py-16 sm:py-24 bg-gradient-to-r from-[#ffffff] via-[#f9f9fa] to-[#ffffff] border-y border-gold/30 shadow-sm">
       <div className="mx-auto max-w-4xl text-center">
         <Reveal>
           <div>
             <span className="eyebrow text-[0.55rem] sm:text-xs">Private Showroom Experience</span>
-            <h2 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-[#9b111e]">
+            <h2 className="mt-3 font-display text-2xl sm:text-5xl leading-tight font-bold text-foreground">
               Sit with the pieces, <span className="italic shimmer-text">privately</span>
             </h2>
             <p className="mt-4 text-xs sm:text-base font-light leading-relaxed text-muted-foreground max-w-2xl mx-auto">
@@ -632,9 +632,9 @@ function ReelCard({
 
 export function InstaReels() {
   return (
-    <section id="instagram-reels" className="relative px-4 sm:px-6 py-16 sm:py-24 bg-gradient-to-b from-[#ffffff] via-[#fdf0f2] to-[#ffffff] border-y border-[#9b111e]/20 shadow-xl overflow-hidden text-center">
+    <section id="instagram-reels" className="relative px-4 sm:px-6 py-16 sm:py-24 bg-background border-y border-gold/30 shadow-sm overflow-hidden text-center">
       {/* Ambient Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[500px] bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-rose-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[500px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 mx-auto max-w-4xl">
         <Reveal>
@@ -656,7 +656,7 @@ export function InstaReels() {
             <p className="text-[0.62rem] uppercase tracking-[0.35em] text-gold font-bold mb-2">
               Official Instagram Feed
             </p>
-            <h2 className="font-display text-2xl sm:text-5xl font-bold text-[#2d0a0f] leading-tight">
+            <h2 className="font-display text-2xl sm:text-5xl font-bold text-foreground leading-tight">
               Follow <span className="italic shimmer-text">@appjewellers</span>
             </h2>
             <p className="mt-3 text-xs sm:text-sm font-light text-muted-foreground max-w-lg leading-relaxed">
@@ -686,7 +686,7 @@ export function InstaReels() {
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#fff5f6] via-[#fde8eb] to-[#f8dce1] px-4 sm:px-8 pb-8 pt-12 sm:pt-20 border-t border-[#9b111e]/25 text-left relative overflow-hidden">
+    <footer className="bg-[#0a0203] px-4 sm:px-8 pb-8 pt-12 sm:pt-20 border-t border-gold/30 text-left relative overflow-hidden text-white">
       {/* Background ambient lighting */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-gold/5 blur-3xl pointer-events-none rounded-full" />
 
@@ -779,7 +779,7 @@ export function Footer() {
               Showroom Location
             </p>
             <div className="space-y-2 text-xs text-muted-foreground font-light leading-relaxed">
-              <p className="text-[#2d0a0f] font-medium">A.P.P. Jewellers</p>
+              <p className="text-white font-medium">A.P.P. Jewellers</p>
               <p>Shop No. D-155, Sarafa Market, New Seelampur Phase II, Delhi 110053</p>
               <p className="text-gold/90 font-medium pt-1">Open Daily: 11:00 AM – 8:30 PM</p>
               <p className="text-muted-foreground">Phone: 090151 55615</p>
