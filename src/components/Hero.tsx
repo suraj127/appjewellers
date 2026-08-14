@@ -65,13 +65,10 @@ export function Hero() {
 
         {/* MAIN HEADLINE */}
         <h1
-          className="reveal font-display text-[clamp(2.2rem,6.5vw,4.8rem)] leading-[1.02] tracking-tight font-extrabold text-[#121215]"
+          className="reveal font-display text-[clamp(2.5rem,7.5vw,5.5rem)] leading-[1.05] tracking-tight font-medium text-[#121215]"
           style={{ animationDelay: "300ms" }}
         >
-          Royal Gold & Diamond Artistry
-          <span className="block italic text-[#b8860b] mt-1 sm:mt-2 font-serif">
-            Where Heritage Meets Luxury
-          </span>
+          Where Heritage <span className="italic font-serif text-[#b8860b] block sm:inline">Meets Luxury</span>
         </h1>
 
         {/* SUB-HEAD COPY */}
