@@ -686,118 +686,92 @@ export function InstaReels() {
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#2d050a] via-[#1c0205] to-[#100103] px-4 sm:px-8 pb-8 pt-12 sm:pt-20 border-t border-[#9b111e]/40 text-left relative overflow-hidden text-white">
+    <footer className="bg-gradient-to-b from-[#220307] via-[#160204] to-[#0c0102] px-4 sm:px-8 py-8 sm:py-10 border-t border-[#9b111e]/40 text-white relative overflow-hidden">
       {/* Background ambient lighting */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-48 bg-rose-500/10 blur-3xl pointer-events-none rounded-full" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-32 bg-rose-500/10 blur-3xl pointer-events-none rounded-full" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        {/* BRAND HEADER & STORE BADGE */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-10 border-b border-gold/20">
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+        {/* ── TOP COMPACT ROW: Brand + Quick Links + Action Badges ── */}
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-6 pb-6 border-b border-white/10">
+          {/* Brand Info */}
+          <div className="flex items-center gap-3 text-left">
             <img
               src={logoImg}
-              alt="A.P.P. Jewellers Logo"
-              className="h-16 sm:h-20 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_20px_rgba(255,215,0,0.35)]"
+              alt="A.P.P. Jewellers"
+              className="h-10 sm:h-12 w-auto object-contain filter drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]"
             />
-            <p className="mt-2 text-[0.62rem] sm:text-xs uppercase tracking-[0.3em] text-gold font-medium">
-              Purity · Artistry · Heritage
-            </p>
+            <div>
+              <h4 className="font-display text-sm sm:text-base font-bold text-white tracking-wider">
+                A.P.P. JEWELLERS
+              </h4>
+              <p className="text-[0.62rem] text-gold uppercase tracking-[0.2em] font-medium">
+                Sarafa Market · New Seelampur · Delhi
+              </p>
+            </div>
           </div>
 
-          {/* Quick Action Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          {/* Clean Horizontal Quick Navigation */}
+          <nav className="flex flex-wrap items-center justify-center gap-4 sm:gap-7 text-xs font-medium text-white/80">
+            <Link to="/collections" className="hover:text-gold transition-colors">
+              Collections
+            </Link>
+            <Link to="/scheme" className="hover:text-gold transition-colors text-amber-200">
+              Gold Scheme
+            </Link>
+            <Link to="/appointment" className="hover:text-gold transition-colors">
+              Book Visit
+            </Link>
+            <a href="#store-info" className="hover:text-gold transition-colors">
+              Showroom Details
+            </a>
+            <a href="#signature" className="hover:text-gold transition-colors hidden sm:inline">
+              Craftsmanship
+            </a>
+          </nav>
+
+          {/* Quick Action Contact Pills */}
+          <div className="flex items-center gap-2 sm:gap-3">
             <a
               href="tel:09015155615"
-              className="shine-sweep inline-flex items-center gap-2 rounded bg-gold/15 border border-gold/50 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-all shadow"
+              className="shine-sweep inline-flex items-center gap-1.5 rounded-full bg-[#b8860b] px-3.5 py-1.5 text-[0.62rem] sm:text-xs uppercase tracking-wider text-white font-bold shadow hover:opacity-90 transition-all"
             >
-              <PhoneIcon className="size-3.5" /> Call Store
+              <PhoneIcon className="size-3 fill-white" />
+              <span>090151 55615</span>
             </a>
+
             <a
               href="https://wa.me/919015155615"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded bg-emerald-500/10 border border-emerald-500/50 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-emerald-400 font-bold hover:bg-emerald-500/20 transition-all shadow"
+              className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600/80 hover:bg-emerald-600 px-3.5 py-1.5 text-[0.62rem] sm:text-xs uppercase tracking-wider text-white font-bold transition-all shadow"
             >
-              <WhatsAppIcon className="size-3.5" /> WhatsApp Chat
+              <WhatsAppIcon className="size-3" />
+              <span>WhatsApp</span>
             </a>
+
             <a
               href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded bg-onyx border border-border/70 px-4 py-2 text-[0.62rem] uppercase tracking-widest text-muted-foreground hover:text-gold hover:border-gold/60 transition-all"
+              className="inline-flex items-center gap-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1.5 text-[0.62rem] sm:text-xs uppercase tracking-wider text-white transition-all"
             >
               <span>📍 Directions</span>
             </a>
           </div>
         </div>
 
-        {/* STREAMLINED 4-COLUMN FOOTER NAVIGATION */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-10 text-left border-b border-gold/20">
-          {/* Col 1: Collections */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Fine Collections
-            </p>
-            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Solitaire Diamonds</Link></li>
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Kundan Bridal Sets</Link></li>
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Gold Bangles & Kadas</Link></li>
-              <li><Link to="/collections" className="hover:text-gold transition-colors">Temple Jewellery & Haram</Link></li>
-              <li><Link to="/scheme" className="hover:text-gold transition-colors">SwarnaNidhi Gold Scheme</Link></li>
-            </ul>
-          </div>
+        {/* ── BOTTOM COMPACT ROW: Trust Marks & Copyright ── */}
+        <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.6rem] text-zinc-400 font-light">
+          <p>© 2026 A.P.P. Jewellers · Shop No. D-155, Sarafa Market, Delhi 110053 · Open All 7 Days (11 AM – 8:30 PM)</p>
 
-          {/* Col 2: Services */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Showroom Services
-            </p>
-            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-              <li><Link to="/appointment" className="hover:text-gold transition-colors">Book Private Consultation</Link></li>
-              <li><Link to="/piece/$slug" params={{ slug: "lumiere-solitaire" }} className="hover:text-gold transition-colors">Virtual Try-On Experience</Link></li>
-              <li><a href="#collections" className="hover:text-gold transition-colors">Live Gold & Silver Rates</a></li>
-              <li><a href="#maison" className="hover:text-gold transition-colors">Bespoke Bench Craftsmanship</a></li>
-            </ul>
-          </div>
-
-          {/* Col 3: Purity & Trust */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Purity & Trust
-            </p>
-            <ul className="space-y-2.5 text-xs text-muted-foreground font-light">
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> BIS 100% Hallmarked Gold</li>
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> GIA & IGI Certified Solitaires</li>
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> 100% Lifetime Exchange</li>
-              <li className="flex items-center gap-1.5 text-amber-200/90 font-medium"><span>✓</span> Fully Insured Transit</li>
-            </ul>
-          </div>
-
-          {/* Col 4: Showroom Info */}
-          <div>
-            <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold font-bold mb-4">
-              Showroom Location
-            </p>
-            <div className="space-y-2 text-xs text-muted-foreground font-light leading-relaxed">
-              <p className="text-white font-medium">A.P.P. Jewellers</p>
-              <p>Shop No. D-155, Sarafa Market, New Seelampur Phase II, Delhi 110053</p>
-              <p className="text-gold/90 font-medium pt-1">Open Daily: 11:00 AM – 8:30 PM</p>
-              <p className="text-muted-foreground">Phone: 090151 55615</p>
-            </div>
-          </div>
-        </div>
-
-        {/* COPYRIGHT BAR */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[0.58rem] uppercase tracking-widest text-muted-foreground">
-          <p>© 2026 A.P.P. Jewellers · All Rights Reserved.</p>
-          <div className="flex items-center gap-4">
-            <span className="text-gold/60">BIS 916 HALLMARK</span>
+          <div className="flex items-center gap-3">
+            <span className="text-amber-200/90 font-medium">✓ 100% BIS 916 Hallmarked</span>
             <span>·</span>
-            <span className="text-gold/60">GIA CERTIFIED</span>
+            <span className="text-amber-200/90 font-medium">✓ Certified Diamonds</span>
             <a
               href="/admin"
-              title="Owner Portal Login"
-              className="text-[0.65rem] opacity-30 hover:opacity-100 transition-opacity text-gold ml-2"
+              title="Portal"
+              className="text-[0.65rem] opacity-30 hover:opacity-100 transition-opacity text-gold ml-1"
             >
               🔒
             </a>
