@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { X, Phone } from "lucide-react";
+import { X, Phone, MapPin, Calendar } from "lucide-react";
 import logoImg from "@/assets/logo.png";
 
 /* ── Custom Fine Jewelry Line Art Icons ──────────────────────────── */
@@ -65,7 +65,7 @@ function GemstoneIcon({ className = "size-4" }: { className?: string }) {
       <polygon points="12 2 20 7 20 17 12 22 4 17 4 7 12 2" />
       <line x1="12" y1="22" x2="12" y2="12" />
       <polyline points="20 7 12 12 4 7" />
-      <polyline points="20 17 12 12 4 17" />
+      <polyline points="20 17 12 12 4 7" />
     </svg>
   );
 }
@@ -117,8 +117,8 @@ const LEFT_LINKS = [
 ];
 
 const RIGHT_LINKS = [
-  { label: "Book Store Visit", href: "/appointment" },
-  { label: "Store Info", href: "/#store-info" },
+  { label: "Book Visit", href: "/appointment", icon: Calendar },
+  { label: "Store Info", href: "/#store-info", icon: MapPin },
 ];
 
 const SUB_NAV_ITEMS = [
@@ -131,7 +131,7 @@ const SUB_NAV_ITEMS = [
   { label: "Wedding", Icon: WeddingIcon, href: "/collections?category=Bridal+%26+Temple" },
   { label: "Gifting", Icon: GiftingIcon, href: "/collections" },
   { label: "Under 50K", Icon: Under50KIcon, href: "/collections" },
-  { label: "Monthly Scheme", Icon: SchemeIcon, href: "/scheme" },
+  { label: "SwarnaNidhi Scheme", Icon: SchemeIcon, href: "/scheme" },
 ];
 
 export function Nav() {
@@ -144,7 +144,7 @@ export function Nav() {
     const onScroll = () => {
       const currentY = window.scrollY;
       const isSubpage = window.location.pathname !== "/";
-      setScrolled(isSubpage || currentY > 100);
+      setScrolled(isSubpage || currentY > 60);
 
       if (mobileMenuOpen) {
         setVisible(true);
@@ -169,54 +169,55 @@ export function Nav() {
         visible || mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      {/* ── TOP TIER BAR: Earlier Classic Navigation Header ── */}
-      <div className={`transition-all duration-500 ${scrolled ? "py-1" : "py-1.5 sm:py-3"}`}>
-        <div className="mx-auto max-w-7xl px-3 sm:px-6">
-          <nav
-            className={`flex items-center justify-between rounded-sm px-3 sm:px-6 py-2 transition-all duration-500 ${
-              scrolled
-                ? "glass-panel shadow-lg bg-white/95 border border-gold/40"
-                : "bg-white/90 border border-gold/30 backdrop-blur-md shadow-md"
-            }`}
-          >
-            {/* Mobile Hamburger Toggle Button */}
+      {/* ── FULL WIDTH MASTER CONTAINER (Frosted Onyx Glass) ── */}
+      <div
+        className={`w-full transition-all duration-500 ${
+          scrolled
+            ? "bg-[#0c0c0e]/95 backdrop-blur-2xl border-b border-gold/35 shadow-[0_12px_40px_rgba(0,0,0,0.6)]"
+            : "bg-gradient-to-b from-black/85 via-black/75 to-black/70 backdrop-blur-xl border-b border-gold/25 shadow-2xl"
+        }`}
+      >
+        {/* ── TOP TIER: Brand Logo, Main Links, Action Buttons (Full Width) ── */}
+        <div className="w-full px-4 sm:px-8 md:px-12">
+          <div className="flex items-center justify-between gap-4 py-2.5 sm:py-3.5">
+            {/* Mobile Hamburger Toggle */}
             <div className="flex items-center lg:hidden">
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gold p-1 focus:outline-none"
+                className="text-amber-200 p-1.5 focus:outline-none hover:text-gold transition-colors"
                 aria-label="Toggle Navigation Menu"
               >
                 <div className="space-y-1.5 w-6">
                   <span
-                    className={`block h-0.5 bg-gold transition-all duration-300 ${
-                      mobileMenuOpen ? "rotate-45 translate-y-2" : ""
+                    className={`block h-0.5 bg-amber-200 transition-all duration-300 ${
+                      mobileMenuOpen ? "rotate-45 translate-y-2 bg-gold" : ""
                     }`}
                   />
                   <span
-                    className={`block h-0.5 bg-gold transition-all duration-300 ${
+                    className={`block h-0.5 bg-amber-200 transition-all duration-300 ${
                       mobileMenuOpen ? "opacity-0" : ""
                     }`}
                   />
                   <span
-                    className={`block h-0.5 bg-gold transition-all duration-300 ${
-                      mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
+                    className={`block h-0.5 bg-amber-200 transition-all duration-300 ${
+                      mobileMenuOpen ? "-rotate-45 -translate-y-2 bg-gold" : ""
                     }`}
                   />
                 </div>
               </button>
             </div>
 
-            {/* LEFT SIDE LINKS */}
-            <ul className="hidden lg:flex items-center gap-6">
+            {/* LEFT SIDE BRAND LINKS */}
+            <ul className="hidden lg:flex items-center gap-7">
               {LEFT_LINKS.map((l) => (
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="group relative text-[0.68rem] uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 hover:text-gold font-medium"
+                    className="group relative text-[0.72rem] uppercase tracking-[0.24em] text-white/90 transition-colors duration-300 hover:text-amber-200 font-medium py-1"
                   >
                     {l.label}
-                    <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+                    <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
                   </a>
                 </li>
               ))}
@@ -230,59 +231,63 @@ export function Nav() {
               <img
                 src={logoImg}
                 alt="A.P.P. Jewellers Logo"
-                className="h-9 sm:h-12 w-auto object-contain filter brightness-110 contrast-110 drop-shadow-[0_0_15px_rgba(255,215,0,0.4)]"
+                className="h-10 sm:h-12 md:h-13 w-auto object-contain filter drop-shadow-[0_0_18px_rgba(212,175,55,0.65)]"
               />
             </a>
 
-            {/* RIGHT SIDE LINKS & CALL US */}
-            <div className="flex items-center gap-3 sm:gap-6">
-              <ul className="hidden lg:flex items-center gap-6">
-                {RIGHT_LINKS.map((l) => (
-                  <li key={l.label}>
-                    <a
-                      href={l.href}
-                      className="group relative text-[0.68rem] uppercase tracking-[0.22em] text-muted-foreground transition-colors duration-300 hover:text-gold font-medium"
-                    >
-                      {l.label}
-                      <span className="absolute -bottom-1 left-0 h-px w-0 bg-gold transition-all duration-300 group-hover:w-full" />
-                    </a>
-                  </li>
-                ))}
+            {/* RIGHT SIDE LINKS & LUXURY CALL DESK */}
+            <div className="flex items-center gap-4 sm:gap-7">
+              <ul className="hidden lg:flex items-center gap-7">
+                {RIGHT_LINKS.map((l) => {
+                  const Icon = l.icon;
+                  return (
+                    <li key={l.label}>
+                      <a
+                        href={l.href}
+                        className="group relative flex items-center gap-1.5 text-[0.72rem] uppercase tracking-[0.24em] text-white/90 transition-colors duration-300 hover:text-amber-200 font-medium py-1"
+                      >
+                        <Icon className="size-3.5 text-gold group-hover:scale-110 transition-transform" />
+                        <span>{l.label}</span>
+                        <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
 
               <a
                 href="tel:09015155615"
-                className="shine-sweep flex items-center gap-1.5 rounded-sm border border-gold/70 bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-[0.2em] text-gold transition-all duration-300 hover:bg-gold hover:text-primary-foreground font-bold shadow-md"
+                className="shine-sweep flex items-center gap-2 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-4 sm:px-5 py-1.5 sm:py-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.2em] text-black font-extrabold shadow-[0_0_20px_rgba(212,175,55,0.45)] hover:scale-105 transition-transform"
               >
-                <Phone className="size-3" />
-                <span>Call Us</span>
+                <Phone className="size-3.5 fill-black" />
+                <span>090151 55615</span>
               </a>
             </div>
-          </nav>
+          </div>
         </div>
-      </div>
 
-      {/* ── BOTTOM TIER BAR: Full Screen Width Category Sub-Navigation ── */}
-      <div className="w-full bg-white/95 backdrop-blur-xl border-y border-gold/30 shadow-sm py-2">
-        <div className="w-full px-4 sm:px-8 md:px-12 overflow-x-auto no-scrollbar">
-          <nav className="flex items-center justify-start sm:justify-center gap-5 sm:gap-8 md:gap-10 min-w-max mx-auto">
-            {SUB_NAV_ITEMS.map((item) => {
-              const IconComponent = item.Icon;
-              return (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-zinc-800 hover:text-[#b8860b] transition-colors py-0.5 cursor-pointer"
-                >
-                  <IconComponent className="size-4 text-gold group-hover:scale-110 transition-transform duration-300" />
-                  <span className="whitespace-nowrap font-medium group-hover:font-semibold transition-all">
-                    {item.label}
-                  </span>
-                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full" />
-                </a>
-              );
-            })}
-          </nav>
+        {/* ── BOTTOM TIER: Full-Width Category Sub-Navigation (Edge to Edge) ── */}
+        <div className="w-full border-t border-gold/20 py-2 sm:py-2.5 bg-black/30 backdrop-blur-md">
+          <div className="w-full px-4 sm:px-8 md:px-12 overflow-x-auto no-scrollbar">
+            <nav className="flex items-center justify-start sm:justify-center gap-5 sm:gap-8 md:gap-11 min-w-max mx-auto">
+              {SUB_NAV_ITEMS.map((item) => {
+                const IconComponent = item.Icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-white/90 hover:text-amber-200 transition-colors py-0.5 cursor-pointer"
+                  >
+                    <IconComponent className="size-4 text-gold group-hover:scale-115 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+                    <span className="whitespace-nowrap font-medium group-hover:font-semibold transition-all">
+                      {item.label}
+                    </span>
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
         </div>
       </div>
 
@@ -290,19 +295,19 @@ export function Nav() {
       {mobileMenuOpen && (
         <>
           <div
-            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="lg:hidden fixed inset-0 bg-black/75 backdrop-blur-md z-40"
             onClick={() => setMobileMenuOpen(false)}
             onTouchStart={() => setMobileMenuOpen(false)}
           />
-          <div className="lg:hidden fixed inset-x-3 top-20 bg-white border border-gold/40 rounded-2xl backdrop-blur-2xl p-5 shadow-2xl z-50 animate-fadeIn max-h-[85vh] overflow-y-auto">
-            <div className="flex items-center justify-between pb-3 mb-4 border-b border-gold/20">
-              <span className="text-xs uppercase tracking-[0.25em] text-[#b8860b] font-bold">
-                Navigation Menu
+          <div className="lg:hidden fixed inset-x-3 top-20 bg-[#121215] border border-gold/50 rounded-2xl backdrop-blur-2xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.8)] z-50 animate-fadeIn max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 mb-4 border-b border-gold/25">
+              <span className="text-xs uppercase tracking-[0.28em] text-gold font-bold">
+                A.P.P. Jewellers
               </span>
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-zinc-100 border border-zinc-300 text-foreground text-xs font-bold uppercase tracking-wider hover:bg-gold hover:text-white transition-all cursor-pointer"
+                className="flex items-center gap-1.5 px-3 py-1 rounded-md bg-gold/15 border border-gold/40 text-gold text-xs font-bold uppercase tracking-wider hover:bg-gold hover:text-black transition-all cursor-pointer"
                 aria-label="Close Menu"
               >
                 <X className="size-4" />
@@ -318,7 +323,7 @@ export function Nav() {
                     key={item.label}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 p-2.5 rounded-lg bg-[#fafafa] border border-gold/20 hover:bg-gold/10 hover:border-gold transition-all text-xs font-semibold text-foreground"
+                    className="flex items-center gap-2 p-2.5 rounded-lg bg-black/40 border border-gold/20 hover:bg-gold/15 hover:border-gold transition-all text-xs font-semibold text-white/95"
                   >
                     <IconComponent className="size-4 text-gold shrink-0" />
                     <span className="truncate">{item.label}</span>
@@ -327,19 +332,19 @@ export function Nav() {
               })}
             </div>
 
-            <div className="pt-2 border-t border-zinc-200 space-y-2">
+            <div className="pt-3 border-t border-gold/20 space-y-2.5">
               <Link
                 to="/appointment"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-center py-2.5 rounded bg-zinc-900 text-white text-xs uppercase tracking-widest font-bold"
+                className="block text-center py-2.5 rounded bg-zinc-900 border border-gold/40 text-amber-200 text-xs uppercase tracking-widest font-bold hover:border-gold"
               >
                 Book Private Viewing
               </Link>
               <a
                 href="tel:09015155615"
-                className="shine-sweep flex items-center justify-center gap-2 w-full rounded bg-[#b8860b] py-2.5 text-xs uppercase tracking-widest text-white font-bold shadow"
+                className="shine-sweep flex items-center justify-center gap-2 w-full rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] py-2.5 text-xs uppercase tracking-widest text-black font-extrabold shadow-lg"
               >
-                <Phone className="size-3.5" /> Call: 090151 55615
+                <Phone className="size-3.5 fill-black" /> Call Store: 090151 55615
               </a>
             </div>
           </div>
