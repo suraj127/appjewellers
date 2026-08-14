@@ -185,22 +185,22 @@ export function Hero() {
           />
         </div>
 
-        <p className="eyebrow reveal" style={{ animationDelay: "280ms" }}>
+        <p className="eyebrow reveal text-gold font-bold drop-shadow-md" style={{ animationDelay: "280ms" }}>
           Sarafa Market · New Seelampur · Delhi
         </p>
 
         <h1
-          className="reveal mt-5 font-display text-[clamp(2.3rem,7vw,5.2rem)] leading-[0.98] tracking-tight font-medium"
+          className="reveal mt-5 font-display text-[clamp(2.3rem,7vw,5.2rem)] leading-[0.98] tracking-tight font-medium text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.9)]"
           style={{ animationDelay: "380ms" }}
         >
           Royal Gold & Diamond Artistry
-          <span className="block italic shimmer-text mt-1.5 text-amber-200">
+          <span className="block italic shimmer-text mt-1.5 text-amber-200 drop-shadow-lg">
             Where Heritage Meets Luxury
           </span>
         </h1>
 
         <p
-          className="reveal mx-auto mt-6 max-w-xl text-sm sm:text-base font-light leading-relaxed tracking-wide text-muted-foreground"
+          className="reveal mx-auto mt-6 max-w-xl text-sm sm:text-base font-light leading-relaxed tracking-wide text-amber-100/90 drop-shadow-md"
           style={{ animationDelay: "560ms" }}
         >
           Explore certified solitaire diamonds, Kundan bridal sets, gold bangles and bespoke handcrafted jewellery at our showroom in New Seelampur.
@@ -220,14 +220,14 @@ export function Hero() {
             />
             <Link
               to="/collections"
-              className="relative inline-flex items-center justify-center gap-2 rounded-md bg-zinc-950 px-6 py-3.5 text-[0.68rem] text-zinc-50 outline outline-1 outline-[#fff2f21f] font-semibold uppercase tracking-[0.25em] transition-transform hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center"
+              className="relative inline-flex items-center justify-center gap-2 rounded-md bg-zinc-950 px-6 py-3.5 text-[0.68rem] text-amber-200 outline outline-1 outline-gold/50 font-semibold uppercase tracking-[0.25em] transition-transform hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-2xl"
             >
               Explore Collections <ArrowRight className="h-4 w-4 text-gold" />
             </Link>
           </div>
           <a
             href="#store-info"
-            className="w-full rounded-sm border border-border/80 px-9 py-3.5 text-[0.68rem] uppercase tracking-[0.34em] text-foreground/90 transition-colors duration-500 hover:border-gold/60 hover:text-gold sm:w-auto text-center"
+            className="w-full rounded-sm border border-gold/60 bg-black/40 backdrop-blur-sm px-9 py-3.5 text-[0.68rem] uppercase tracking-[0.34em] text-white font-semibold transition-colors duration-500 hover:bg-gold hover:text-black sm:w-auto text-center shadow-lg"
           >
             Showroom Details & Location
           </a>
