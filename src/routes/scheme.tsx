@@ -5,7 +5,7 @@ import { Footer } from "@/components/Sections";
 import { Reveal } from "@/components/Reveal";
 import { GoldSchemeCalculator } from "@/components/GoldSchemeCalculator";
 import {
-  Sparkles,
+  Crown,
   ShieldCheck,
   Gift,
   Coins,
@@ -52,7 +52,7 @@ const TRUST_PILLARS = [
     desc: "Shield against gold price fluctuations with disciplined monthly micro-investments.",
   },
   {
-    icon: Sparkles,
+    icon: Crown,
     title: "Zero Making Charge Perks",
     desc: "Enjoy exclusive VIP Karigar discounts on making charges when purchasing your jewellery.",
   },
@@ -115,7 +115,6 @@ function SchemePage() {
           <Reveal>
             <div className="text-center max-w-3xl mx-auto">
               <span className="inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-1.5 text-[0.62rem] sm:text-xs uppercase tracking-[0.25em] text-[#b8860b] font-bold shadow-sm">
-                <Sparkles className="size-3 text-gold" />
                 <span>A.P.P. Jewellers · Sarafa Market Delhi</span>
               </span>
 

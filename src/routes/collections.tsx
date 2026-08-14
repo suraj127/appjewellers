@@ -210,7 +210,6 @@ import {
   CoinIcon,
   MirrorIcon,
   HeartIcon,
-  SparklesIcon,
   WhatsAppIcon,
   PhoneIcon,
   CloseIcon,
@@ -218,7 +217,7 @@ import {
 
 // Top Category Mega-Menu Data with Vector SVG Icons
 const MEGA_NAV_ITEMS = [
-  { id: "ALL", label: "All Jewellery", IconComponent: SparklesIcon },
+  { id: "ALL", label: "All Jewellery", IconComponent: CrownIcon },
   { id: "GOLD", label: "Gold", IconComponent: CrownIcon },
   { id: "DIAMOND", label: "Solitaire Diamond", IconComponent: DiamondIcon },
   { id: "EARRINGS", label: "Earrings & Jhumka", IconComponent: EarringIcon },
@@ -238,7 +237,7 @@ const MEGA_SUB_CATEGORIES: Record<string, Array<{ name: string; IconComponent: a
     { name: "Gold Rings", IconComponent: RingIcon, cat: "RINGS" },
     { name: "Gold Engagement Rings", IconComponent: DiamondIcon, cat: "ENGAGEMENT RINGS" },
     { name: "Gold Necklaces", IconComponent: CrownIcon, cat: "NECKLACE" },
-    { name: "Gold Nose Pins", IconComponent: SparklesIcon, cat: "NOSE STUDS" },
+    { name: "Gold Nose Pins", IconComponent: DiamondIcon, cat: "NOSE STUDS" },
     { name: "Gold Kadas", IconComponent: RingIcon, cat: "KADA" },
     { name: "Gold Mangalsutras", IconComponent: NecklaceIcon, cat: "MANGALSUTRA" },
   ],
@@ -251,16 +250,16 @@ const MEGA_SUB_CATEGORIES: Record<string, Array<{ name: string; IconComponent: a
   ],
   EARRINGS: [
     { name: "Kundan Jhumkas", IconComponent: EarringIcon, cat: "JHUMKA" },
-    { name: "Gold Studs", IconComponent: SparklesIcon, cat: "STUDS" },
+    { name: "Gold Studs", IconComponent: EarringIcon, cat: "STUDS" },
     { name: "Drop Earrings", IconComponent: EarringIcon, cat: "EARRINGS" },
-    { name: "Second Studs", IconComponent: SparklesIcon, cat: "SECOND STUD" },
+    { name: "Second Studs", IconComponent: EarringIcon, cat: "SECOND STUD" },
   ],
   WEDDING: [
     { name: "Full Bridal Sets", IconComponent: CrownIcon, cat: "BRIDAL SET" },
     { name: "Kasu Mala Haram", IconComponent: NecklaceIcon, cat: "HARAM" },
-    { name: "Bridal Nath", IconComponent: SparklesIcon, cat: "BRIDAL NATH" },
+    { name: "Bridal Nath", IconComponent: RingIcon, cat: "BRIDAL NATH" },
     { name: "Maang Tikka", IconComponent: CrownIcon, cat: "MAANG TIKKA" },
-    { name: "Vaddanam Belt", IconComponent: SparklesIcon, cat: "VADDANAM" },
+    { name: "Vaddanam Belt", IconComponent: CrownIcon, cat: "VADDANAM" },
   ],
 };
 

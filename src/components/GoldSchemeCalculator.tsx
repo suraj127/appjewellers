@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Sparkles, ShieldCheck, Gift, ArrowRight, Phone, CheckCircle2, ChevronRight } from "lucide-react";
+import { ShieldCheck, Gift, ArrowRight, Phone, CheckCircle2, ChevronRight } from "lucide-react";
 import logoImg from "@/assets/logo.png";
 
 export function GoldSchemeCalculator() {
@@ -168,7 +168,6 @@ export function GoldSchemeCalculator() {
         <div className="mb-8">
           <div className="flex items-center justify-between text-xs text-gold font-bold mb-3 px-1">
             <span className="uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="size-3.5" />
               Draw Breakdown & Maturity Matrix
             </span>
             <span className="sm:hidden text-muted-foreground text-[0.65rem]">

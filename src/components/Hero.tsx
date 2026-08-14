@@ -1,12 +1,10 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { GlowEffect } from '@/components/core/glow-effect';
-import { ArrowRight, Sparkles, ShieldCheck, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import logoImg from "@/assets/logo.png";
 
 export function Hero() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     const onMove = (e: MouseEvent | PointerEvent) => {
@@ -23,136 +21,44 @@ export function Hero() {
     };
   }, []);
 
-  // Gold dust particle system on white canvas
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animId: number;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
-      ctx.scale(dpr, dpr);
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    interface Particle {
-      x: number;
-      y: number;
-      size: number;
-      speedY: number;
-      speedX: number;
-      opacity: number;
-      flickerSpeed: number;
-      flickerOffset: number;
-    }
-
-    const particles: Particle[] = [];
-    const COUNT = 35;
-    const W = () => canvas.offsetWidth;
-    const H = () => canvas.offsetHeight;
-
-    for (let i = 0; i < COUNT; i++) {
-      particles.push({
-        x: Math.random() * W(),
-        y: Math.random() * H(),
-        size: Math.random() * 2 + 0.5,
-        speedY: -(Math.random() * 0.25 + 0.08),
-        speedX: (Math.random() - 0.5) * 0.15,
-        opacity: Math.random() * 0.5 + 0.2,
-        flickerSpeed: Math.random() * 0.02 + 0.005,
-        flickerOffset: Math.random() * Math.PI * 2,
-      });
-    }
-
-    let time = 0;
-    const draw = () => {
-      time++;
-      ctx.clearRect(0, 0, W(), H());
-
-      for (const p of particles) {
-        p.y += p.speedY;
-        p.x += p.speedX;
-
-        if (p.y < -10) { p.y = H() + 10; p.x = Math.random() * W(); }
-        if (p.x < -10) p.x = W() + 10;
-        if (p.x > W() + 10) p.x = -10;
-
-        const flicker = 0.5 + 0.5 * Math.sin(time * p.flickerSpeed + p.flickerOffset);
-        const alpha = p.opacity * flicker;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size + 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(184, 134, 11, ${alpha * 0.2})`;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(212, 175, 55, ${alpha * 0.8})`;
-        ctx.fill();
-      }
-
-      animId = requestAnimationFrame(draw);
-    };
-    draw();
-
-    return () => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener("resize", resize);
-    };
-  }, []);
-
   return (
     <section
       id="top"
-      className="relative flex min-h-[92vh] sm:min-h-screen items-center justify-center overflow-hidden bg-white pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 text-foreground border-b border-gold/30"
+      className="relative flex min-h-[90vh] sm:min-h-screen items-center justify-center overflow-hidden bg-white pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 text-foreground border-b border-gold/30"
     >
-      {/* Ambient Luxury Radial Lighting Backdrop */}
+      {/* Ambient Warm Luxury Radial Lighting Backdrop */}
       <div
         className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[650px] sm:size-[900px] rounded-full pointer-events-none"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.12) 0%, rgba(254, 243, 199, 0.25) 45%, rgba(255, 255, 255, 0) 75%)",
+          background: "radial-gradient(ellipse at center, rgba(212, 175, 55, 0.1) 0%, rgba(254, 243, 199, 0.2) 45%, rgba(255, 255, 255, 0) 75%)",
         }}
       />
 
       {/* Interactive dynamic gold aura */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-60"
+        className="pointer-events-none absolute inset-0 opacity-50"
         style={{
-          background: `radial-gradient(550px circle at ${50 + tilt.x * 20}% ${40 + tilt.y * 20}%, rgba(212, 175, 55, 0.1), transparent 60%)`,
+          background: `radial-gradient(550px circle at ${50 + tilt.x * 20}% ${40 + tilt.y * 20}%, rgba(212, 175, 55, 0.08), transparent 60%)`,
           transition: "background 0.4s linear",
         }}
-      />
-
-      {/* Gold dust particles canvas */}
-      <canvas
-        ref={canvasRef}
-        aria-hidden
-        className="absolute inset-0 size-full pointer-events-none z-[5]"
       />
 
       <div className="relative z-10 mx-auto max-w-4xl px-3 sm:px-6 text-center">
         {/* BRAND LOGO WITH GLOWING BACKLIGHT */}
         <div className="reveal relative flex justify-center mb-6 sm:mb-8" style={{ animationDelay: "100ms" }}>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-40 sm:size-60 rounded-full bg-gold/20 blur-3xl pointer-events-none animate-pulse" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-40 sm:size-60 rounded-full bg-gold/15 blur-3xl pointer-events-none" />
 
           <img
             src={logoImg}
             alt="A.P.P. Jewellers Brand Logo"
-            className="relative z-10 h-32 sm:h-44 md:h-48 w-auto object-contain filter drop-shadow-[0_0_25px_rgba(212,175,55,0.45)] hover:scale-105 transition-transform duration-700"
+            className="relative z-10 h-32 sm:h-44 md:h-48 w-auto object-contain filter drop-shadow-[0_2px_15px_rgba(212,175,55,0.35)] hover:scale-105 transition-transform duration-700"
           />
         </div>
 
         {/* EYEBROW BADGE */}
         <div className="reveal flex justify-center mb-4" style={{ animationDelay: "200ms" }}>
           <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-4 py-1 text-[0.62rem] sm:text-xs uppercase tracking-[0.25em] text-[#b8860b] font-bold shadow-sm">
-            <Sparkles className="size-3 text-[#b8860b]" />
             <span>Sarafa Market · New Seelampur · Delhi</span>
           </span>
         </div>
@@ -163,7 +69,7 @@ export function Hero() {
           style={{ animationDelay: "300ms" }}
         >
           Royal Gold & Diamond Artistry
-          <span className="block italic shimmer-text text-[#b8860b] mt-1 sm:mt-2">
+          <span className="block italic text-[#b8860b] mt-1 sm:mt-2 font-serif">
             Where Heritage Meets Luxury
           </span>
         </h1>
@@ -181,22 +87,13 @@ export function Hero() {
           className="reveal mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-md sm:max-w-none mx-auto"
           style={{ animationDelay: "600ms" }}
         >
-          <div className="relative w-full sm:w-auto flex justify-center">
-            <GlowEffect
-              colors={['#D4AF37', '#FFD700', '#F3E5AB', '#AA771C']}
-              mode="colorShift"
-              blur="soft"
-              duration={3}
-              scale={0.9}
-            />
-            <Link
-              to="/collections"
-              className="relative inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-950 hover:bg-[#b8860b] px-7 py-3.5 text-xs text-white font-bold uppercase tracking-[0.22em] transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-xl"
-            >
-              <span>Explore Collections</span>
-              <ArrowRight className="h-4 w-4 text-gold" />
-            </Link>
-          </div>
+          <Link
+            to="/collections"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-zinc-950 hover:bg-[#b8860b] px-7 py-3.5 text-xs text-white font-bold uppercase tracking-[0.22em] transition-all hover:scale-[1.02] active:scale-95 w-full sm:w-auto text-center shadow-lg"
+          >
+            <span>Explore Collections</span>
+            <ArrowRight className="h-4 w-4 text-gold" />
+          </Link>
 
           <a
             href="#store-info"
