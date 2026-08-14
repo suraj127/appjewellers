@@ -758,9 +758,9 @@ export function Footer() {
 
       <div className="relative z-10 mx-auto max-w-7xl">
         {/* ── MAIN 4-COLUMN FOOTER GRID ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 pb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-10 pb-12">
           {/* ── COLUMN 1: BRAND IDENTITY & ACTIONS ── */}
-          <div className="relative space-y-4 text-left lg:pr-8">
+          <div className="relative space-y-4 text-center sm:text-left lg:pr-8 flex flex-col items-center sm:items-start">
             {/* Vertical Golden Divider */}
             <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
 
@@ -781,10 +781,10 @@ export function Footer() {
             </p>
 
             {/* 3 Action Buttons */}
-            <div className="pt-2 space-y-2.5 max-w-xs">
+            <div className="pt-2 space-y-2.5 w-full max-w-xs">
               <a
                 href="tel:09015155615"
-                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#e5be59] font-bold transition-all shadow-sm"
+                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#e5be59] font-bold transition-all shadow-sm active:scale-95"
               >
                 <Phone className="size-3.5 text-[#C49324]" />
                 <span>CALL STORE</span>
@@ -794,7 +794,7 @@ export function Footer() {
                 href="https://wa.me/919015155615"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-emerald-500/60 bg-[#0c1f14]/50 hover:bg-[#0c1f14]/80 py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-emerald-400 font-bold transition-all shadow-sm"
+                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-emerald-500/60 bg-[#0c1f14]/50 hover:bg-[#0c1f14]/80 py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-emerald-400 font-bold transition-all shadow-sm active:scale-95"
               >
                 <WhatsAppIcon className="size-3.5 text-emerald-400" />
                 <span>WHATSAPP CHAT</span>
@@ -804,7 +804,7 @@ export function Footer() {
                 href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 w-full rounded-md bg-[#f4f3ef] hover:bg-white py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#111111] font-bold transition-all shadow-sm"
+                className="flex items-center justify-center gap-2 w-full rounded-md bg-[#f4f3ef] hover:bg-white py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#111111] font-bold transition-all shadow-sm active:scale-95"
               >
                 <span className="text-rose-600 font-bold">📍</span>
                 <span>DIRECTIONS</span>
@@ -833,7 +833,7 @@ export function Footer() {
                 <Link
                   to="/collections"
                   search={{ category: "Solitaires" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
                 >
                   <span>Solitaire Diamonds</span>
                   <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
@@ -843,7 +843,7 @@ export function Footer() {
                 <Link
                   to="/collections"
                   search={{ category: "Bridal & Temple" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
                 >
                   <span>Kundan Bridal Sets</span>
                   <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
@@ -853,7 +853,7 @@ export function Footer() {
                 <Link
                   to="/collections"
                   search={{ category: "Bangles & Bracelets" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
                 >
                   <span>Gold Bangles & Kadas</span>
                   <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
@@ -863,7 +863,7 @@ export function Footer() {
                 <Link
                   to="/collections"
                   search={{ category: "Bridal & Temple" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors"
+                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
                 >
                   <span>Temple Jewellery & Haram</span>
                   <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
@@ -872,7 +872,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/scheme"
-                  className="flex items-center justify-between group text-amber-200/90 font-medium hover:text-[#C49324] transition-colors"
+                  className="flex items-center justify-between group text-amber-200/90 font-medium hover:text-[#C49324] transition-colors py-0.5"
                 >
                   <span>SwarnaNidhi Gold Scheme</span>
                   <ChevronRight className="size-3.5 text-[#C49324] group-hover:translate-x-0.5 transition-all" />
@@ -958,49 +958,49 @@ export function Footer() {
           </div>
         </div>
 
-        {/* ── BOTTOM COPYRIGHT & TRUST BADGES BAR ── */}
+        {/* ── BOTTOM COPYRIGHT & TRUST BADGES BAR (Responsive Stack on Mobile) ── */}
         <div className="pt-8 border-t border-[#C49324]/30 flex flex-col lg:flex-row items-center justify-between gap-6">
           {/* Left: Copyright */}
-          <div className="text-left text-[0.68rem] text-zinc-400 font-light">
+          <div className="text-center lg:text-left text-[0.68rem] text-zinc-400 font-light order-3 lg:order-1">
             <p className="text-zinc-300 font-medium">© 2026 A.P.P. JEWELLERS</p>
             <p className="mt-0.5">All Rights Reserved.</p>
           </div>
 
-          {/* Center: 3 Trust Marks */}
-          <div className="flex items-center gap-6 sm:gap-10 text-[0.62rem] text-zinc-300 uppercase tracking-widest font-medium">
-            <div className="flex items-center gap-2.5">
-              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324]">
+          {/* Center: 3 Trust Marks (Grid on Mobile) */}
+          <div className="grid grid-cols-3 sm:flex items-center gap-3 sm:gap-8 md:gap-10 text-[0.58rem] sm:text-[0.62rem] text-zinc-300 uppercase tracking-wider sm:tracking-widest font-medium order-1 lg:order-2 w-full sm:w-auto justify-center text-center sm:text-left">
+            <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2.5">
+              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324] shrink-0">
                 <Award className="size-3.5" />
               </div>
-              <div className="text-left">
-                <span className="block text-[0.55rem] text-[#C49324] font-bold">BIS 916</span>
-                <span>HALLMARK</span>
+              <div>
+                <span className="block text-[0.52rem] sm:text-[0.55rem] text-[#C49324] font-bold">BIS 916</span>
+                <span className="text-[0.5rem] sm:text-[0.62rem]">HALLMARK</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2.5">
-              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324]">
+            <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2.5">
+              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324] shrink-0">
                 <Gem className="size-3.5" />
               </div>
-              <div className="text-left">
-                <span className="block text-[0.55rem] text-[#C49324] font-bold">GIA</span>
-                <span>CERTIFIED</span>
+              <div>
+                <span className="block text-[0.52rem] sm:text-[0.55rem] text-[#C49324] font-bold">GIA</span>
+                <span className="text-[0.5rem] sm:text-[0.62rem]">CERTIFIED</span>
               </div>
             </div>
 
-            <div className="flex items-center gap-2.5">
-              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324]">
+            <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2.5">
+              <div className="size-6 rounded-full bg-[#C49324]/15 border border-[#C49324]/40 flex items-center justify-center text-[#C49324] shrink-0">
                 <Lock className="size-3.5" />
               </div>
-              <div className="text-left">
-                <span className="block text-[0.55rem] text-[#C49324] font-bold">SECURE</span>
-                <span>PAYMENTS</span>
+              <div>
+                <span className="block text-[0.52rem] sm:text-[0.55rem] text-[#C49324] font-bold">SECURE</span>
+                <span className="text-[0.5rem] sm:text-[0.62rem]">PAYMENTS</span>
               </div>
             </div>
           </div>
 
           {/* Right: Social Outlines & Owner portal */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-center gap-3 order-2 lg:order-3">
             <span className="text-[0.6rem] uppercase tracking-[0.2em] text-[#C49324] font-bold hidden sm:inline mr-1">
               FOLLOW US
             </span>
@@ -1009,7 +1009,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="Instagram"
-              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all active:scale-95"
             >
               <Instagram className="size-3.5" />
             </a>
@@ -1018,7 +1018,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="Facebook"
-              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all active:scale-95"
             >
               <Facebook className="size-3.5" />
             </a>
@@ -1027,7 +1027,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="YouTube"
-              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all active:scale-95"
             >
               <Youtube className="size-3.5" />
             </a>
@@ -1036,7 +1036,7 @@ export function Footer() {
               target="_blank"
               rel="noreferrer"
               aria-label="WhatsApp"
-              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all"
+              className="size-8 rounded-full border border-[#C49324]/40 hover:border-[#C49324] hover:bg-[#C49324]/15 flex items-center justify-center text-[#C49324] transition-all active:scale-95"
             >
               <WhatsAppIcon className="size-3.5" />
             </a>
