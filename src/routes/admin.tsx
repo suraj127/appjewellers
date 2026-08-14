@@ -39,8 +39,8 @@ function AdminPage() {
   // PASSCODE LOCK SCREEN FOR UNAUTHENTICATED VISITORS
   if (!authed) {
     return (
-      <div className="min-h-[85vh] flex items-center justify-center px-4 py-16 bg-gradient-to-b from-black via-onyx to-black">
-        <div className="bg-onyx/90 border border-gold/40 rounded-lg p-8 sm:p-10 max-w-md w-full text-center space-y-6 shadow-2xl relative overflow-hidden">
+      <div className="min-h-[85vh] flex items-center justify-center px-4 py-16 bg-gradient-to-b from-[#ffffff] via-[#fdf0f2] to-[#fff5f6]">
+        <div className="bg-white/95 border border-[#9b111e]/30 rounded-lg p-8 sm:p-10 max-w-md w-full text-center space-y-6 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent" />
           
           <div className="mx-auto size-16 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold text-2xl shadow-inner">
@@ -48,7 +48,7 @@ function AdminPage() {
           </div>
 
           <div>
-            <h1 className="font-display text-2xl text-gold font-bold uppercase tracking-wider">
+            <h1 className="font-display text-2xl text-[#9b111e] font-bold uppercase tracking-wider">
               A.P.P. Jewellers Admin
             </h1>
             <p className="text-xs text-muted-foreground mt-1">
@@ -68,7 +68,7 @@ function AdminPage() {
                 onChange={(e) => setPasscode(e.target.value)}
                 required
                 autoFocus
-                className="w-full bg-background border border-gold/40 rounded px-4 py-3 text-center text-lg text-amber-200 tracking-widest font-mono outline-none focus:border-gold"
+                className="w-full bg-background border border-gold/40 rounded px-4 py-3 text-center text-lg text-[#9b111e] tracking-widest font-mono outline-none focus:border-gold"
               />
             </div>
 
@@ -90,13 +90,13 @@ function AdminPage() {
 
   // DASHBOARD PANEL FOR LOGGED-IN STORE MANAGERS
   return (
-    <div className="min-h-screen bg-black text-foreground py-10 px-4 sm:px-8 space-y-8">
+    <div className="min-h-screen bg-background text-foreground py-10 px-4 sm:px-8 space-y-8">
       {/* Top Header Navigation Bar */}
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-gold/30 pb-6">
         <div className="flex items-center gap-3">
           <span className="text-2xl">👑</span>
           <div>
-            <h1 className="font-display text-2xl sm:text-3xl text-amber-200 font-bold uppercase tracking-wider">
+            <h1 className="font-display text-2xl sm:text-3xl text-[#9b111e] font-bold uppercase tracking-wider">
               A.P.P. Jewellers Backend
             </h1>
             <p className="text-xs text-muted-foreground">

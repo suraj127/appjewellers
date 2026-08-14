@@ -102,11 +102,11 @@ export function KarigarProcessSection() {
     <section
       id="karigar"
       ref={containerRef}
-      className="relative bg-black will-change-transform"
+      className="relative bg-[#fff8f9] will-change-transform"
       style={{ height: `${totalStages * 100}vh` }}
     >
       {/* Sticky Fullscreen Viewport */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-black transform-gpu">
+      <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#fff8f9] transform-gpu">
         {/* Layered Videos with Hardware-Accelerated Opacity Crossfade */}
         {VIDEO_STAGES.map((stage, i) => {
           let opacity = 0;

@@ -470,11 +470,11 @@ function DetailedCollectionsPage() {
                 />
               )}
 
-              {/* Dark Radial Gradient Overlay */}
+              {/* Light Reddish Radial Gradient Overlay */}
               <div
                 className="absolute inset-0"
                 style={{
-                  background: "radial-gradient(ellipse 130% 90% at 50% 50%, rgba(10,2,3,0.7) 0%, rgba(10,2,3,0.88) 60%, rgba(10,2,3,0.95) 100%)",
+                  background: "radial-gradient(ellipse 130% 90% at 50% 50%, rgba(255,252,252,0.7) 0%, rgba(253,240,242,0.88) 60%, rgba(255,252,252,0.95) 100%)",
                   opacity: footerFadeOut,
                 }}
               />
@@ -484,7 +484,7 @@ function DetailedCollectionsPage() {
         <div className="relative z-10 mx-auto max-w-7xl">
           {/* PREMIUM COLLECTION LUXURY HEADER */}
           <div className="text-center mb-6 sm:mb-8">
-            <h1 className="font-display text-2xl sm:text-5xl font-bold text-amber-100 tracking-wide leading-tight">
+            <h1 className="font-display text-2xl sm:text-5xl font-bold text-[#9b111e] tracking-wide leading-tight">
               Our <span className="italic shimmer-text font-serif">Premium Collection</span>
             </h1>
             <p className="mt-2 text-xs sm:text-sm font-light text-muted-foreground max-w-lg mx-auto leading-relaxed">
@@ -494,7 +494,7 @@ function DetailedCollectionsPage() {
           </div>
 
           {/* CLEAN SEARCH BAR */}
-          <div className="bg-gradient-to-r from-[#4a0810] via-[#210406] to-[#4a0810] border border-gold/50 rounded-lg p-3 sm:p-4 shadow-2xl">
+          <div className="bg-gradient-to-r from-[#fff4f6] via-[#fde8eb] to-[#fff4f6] border border-[#9b111e]/30 rounded-lg p-3 sm:p-4 shadow-xl">
             {/* Search Input */}
             <div className="relative flex items-center w-full">
               <SearchIcon className="absolute left-4 size-4.5 text-gold" />
@@ -787,9 +787,9 @@ function DetailedCollectionsPage() {
                   return (
                     <div key={product.slug} className="contents">
                       {showInGridBanner && (
-                        <div className="col-span-full my-4 sm:my-6 p-4 sm:p-8 rounded bg-gradient-to-r from-[#4a0810] via-[#210406] to-onyx border border-gold/40 text-center relative overflow-hidden shadow-2xl">
+                        <div className="col-span-full my-4 sm:my-6 p-4 sm:p-8 rounded bg-gradient-to-r from-[#fff4f6] via-[#fde8eb] to-[#fff4f6] border border-[#9b111e]/30 text-center relative overflow-hidden shadow-xl">
                           <span className="eyebrow text-[0.58rem]">Everyday Luxury</span>
-                          <h3 className="font-display text-xl sm:text-3xl text-amber-200 font-bold mt-1">
+                          <h3 className="font-display text-xl sm:text-3xl text-[#9b111e] font-bold mt-1">
                             Dailywear & Kundan Heritage Collection
                           </h3>
                           <p className="mt-1.5 text-xs text-muted-foreground max-w-xl mx-auto font-light hidden sm:block">

@@ -126,7 +126,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-onyx pt-28 sm:pt-36 pb-20 px-4"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background pt-28 sm:pt-36 pb-20 px-4"
     >
       <video
         ref={videoRef}
@@ -135,7 +135,7 @@ export function Hero() {
         muted
         playsInline
         poster={heroImg}
-        className="absolute inset-0 size-full object-cover pointer-events-none"
+        className="absolute inset-0 size-full object-cover pointer-events-none opacity-40"
         style={{
           transform: `scale(1.22) translate3d(${tilt.x * -35}px, ${tilt.y * -45 - offset * 0.25}px, 0)`,
           transition: "transform 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -152,7 +152,7 @@ export function Hero() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(70% 55% at 50% 58%, oklch(0.08 0 0 / 0.85), oklch(0.08 0 0 / 0.45) 60%, transparent 85%)",
+            "radial-gradient(70% 55% at 50% 58%, rgba(255, 252, 252, 0.6), rgba(253, 238, 241, 0.45) 60%, rgba(255, 252, 252, 0.95) 90%)",
         }}
       />
 

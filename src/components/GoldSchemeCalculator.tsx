@@ -7,9 +7,9 @@ export function GoldSchemeCalculator() {
   const targetMaturity = monthlyAmount * totalDraws;
 
   return (
-    <div className="w-full max-w-6xl mx-auto my-6 sm:my-12 p-3 sm:p-8 bg-gradient-to-b from-[#2d080a] via-[#1a0406] to-onyx border border-gold/40 rounded-lg shadow-2xl text-foreground">
+    <div className="w-full max-w-6xl mx-auto my-6 sm:my-12 p-3 sm:p-8 bg-gradient-to-b from-[#ffffff] via-[#fdf0f2] to-[#fff3f5] border border-[#9b111e]/25 rounded-lg shadow-xl text-foreground">
       {/* Header Banner */}
-      <div className="bg-[#6b0f1a] border border-gold/60 rounded-md p-4 sm:p-6 text-center relative overflow-hidden shadow-xl mb-6 sm:mb-8">
+      <div className="bg-[#9b111e] border border-gold/60 rounded-md p-4 sm:p-6 text-center relative overflow-hidden shadow-xl mb-6 sm:mb-8 text-white">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 relative z-10">
           <div className="flex items-center gap-3 sm:gap-4 text-left">
             <img
@@ -18,20 +18,20 @@ export function GoldSchemeCalculator() {
               className="h-10 sm:h-16 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(252,211,77,0.4)] shrink-0"
             />
             <div>
-              <h2 className="font-display text-lg sm:text-3xl text-gold font-bold tracking-wider leading-tight">
+              <h2 className="font-display text-lg sm:text-3xl text-amber-200 font-bold tracking-wider leading-tight">
                 A.P.P. JEWELLERS
               </h2>
-              <p className="text-[0.55rem] sm:text-xs uppercase tracking-[0.2em] text-gold/80 font-light">
+              <p className="text-[0.55rem] sm:text-xs uppercase tracking-[0.2em] text-amber-100/90 font-light">
                 SwarnaNidhi Gold Purchase Scheme
               </p>
             </div>
           </div>
 
-          <div className="bg-[#4a0810] border border-gold/70 px-4 sm:px-6 py-2.5 sm:py-4 rounded-md text-center w-full md:max-w-md">
+          <div className="bg-black/20 border border-gold/50 px-4 sm:px-6 py-2.5 sm:py-4 rounded-md text-center w-full md:max-w-md">
             <p className="font-display text-xs sm:text-xl font-bold tracking-wider text-amber-200 uppercase leading-snug">
               IF ALL INSTALLMENTS ARE PAID ON DUE DATE
             </p>
-            <p className="text-[0.52rem] sm:text-[0.68rem] text-gold/90 uppercase tracking-widest mt-0.5">
+            <p className="text-[0.52rem] sm:text-[0.68rem] text-amber-100/90 uppercase tracking-widest mt-0.5">
               Guaranteed Bonus & Jewellery Purchase Benefit
             </p>
           </div>
