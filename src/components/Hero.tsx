@@ -58,35 +58,13 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto max-w-4xl px-3 sm:px-6 text-center">
-        {/* BRAND LOGO WITH DIAMOND SPARKLE EFFECT */}
-        <div className="reveal relative inline-flex items-center justify-center mb-5 sm:mb-7 mx-auto" style={{ animationDelay: "100ms" }}>
+        {/* BRAND LOGO */}
+        <div className="reveal relative flex justify-center mb-5 sm:mb-7 mx-auto" style={{ animationDelay: "100ms" }}>
           <img
             src={logoImg}
             alt="A.P.P. Jewellers Brand Logo"
             className="relative z-10 h-32 sm:h-44 md:h-48 w-auto object-contain hover:scale-105 transition-transform duration-700 select-none"
           />
-
-          {/* Sparkling glint pinpointed on the diamond of the logo */}
-          <div className="absolute top-[8%] left-[50%] -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              className="size-6 sm:size-8 diamond-sparkle-glint"
-            >
-              <path
-                d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"
-                fill="url(#diamond-sparkle-grad)"
-              />
-              <defs>
-                <radialGradient id="diamond-sparkle-grad" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#FFFFFF" />
-                  <stop offset="40%" stopColor="#FFF9E6" />
-                  <stop offset="75%" stopColor="#D4AF37" />
-                  <stop offset="100%" stopColor="transparent" />
-                </radialGradient>
-              </defs>
-            </svg>
-          </div>
         </div>
 
         {/* EYEBROW BADGE (Cormorant Garamond Medium with side filigree flourishes) */}
