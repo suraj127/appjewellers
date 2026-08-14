@@ -757,9 +757,9 @@ export function Footer() {
       <div className="absolute top-1/2 right-0 -translate-y-1/2 size-96 bg-rose-950/25 blur-3xl pointer-events-none rounded-full" />
 
       <div className="relative z-10 mx-auto max-w-7xl">
-        {/* ── MAIN 4-COLUMN FOOTER GRID ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-10 pb-12">
-          {/* ── COLUMN 1: BRAND IDENTITY & ACTIONS ── */}
+        {/* ── MAIN 4-COLUMN FOOTER GRID (Horizontal on Mobile) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-10 pb-12">
+          {/* ── COLUMN 1: BRAND IDENTITY & HORIZONTAL ACTION BUTTONS ── */}
           <div className="relative space-y-4 text-center sm:text-left lg:pr-8 flex flex-col items-center sm:items-start">
             {/* Vertical Golden Divider */}
             <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
@@ -776,145 +776,148 @@ export function Footer() {
               PURITY · ARTISTRY · HERITAGE
             </p>
 
-            <p className="text-xs text-zinc-400 font-light leading-relaxed max-w-xs">
+            <p className="text-xs text-zinc-400 font-light leading-relaxed max-w-sm">
               Timeless jewellery crafted with purity, artistry and a heritage you can trust.
             </p>
 
-            {/* 3 Action Buttons */}
-            <div className="pt-2 space-y-2.5 w-full max-w-xs">
+            {/* 3 Action Buttons (Horizontal Row on Mobile) */}
+            <div className="pt-2 flex flex-row items-center justify-center sm:justify-start gap-2 w-full max-w-md lg:max-w-xs">
               <a
                 href="tel:09015155615"
-                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#e5be59] font-bold transition-all shadow-sm active:scale-95"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#e5be59] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
-                <Phone className="size-3.5 text-[#C49324]" />
-                <span>CALL STORE</span>
+                <Phone className="size-3 text-[#C49324] shrink-0" />
+                <span>CALL</span>
               </a>
 
               <a
                 href="https://wa.me/919015155615"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2.5 w-full rounded-md border border-emerald-500/60 bg-[#0c1f14]/50 hover:bg-[#0c1f14]/80 py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-emerald-400 font-bold transition-all shadow-sm active:scale-95"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-emerald-500/60 bg-[#0c1f14]/50 hover:bg-[#0c1f14]/80 py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-emerald-400 font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
-                <WhatsAppIcon className="size-3.5 text-emerald-400" />
-                <span>WHATSAPP CHAT</span>
+                <WhatsAppIcon className="size-3 text-emerald-400 shrink-0" />
+                <span>CHAT</span>
               </a>
 
               <a
                 href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-center gap-2 w-full rounded-md bg-[#f4f3ef] hover:bg-white py-2.5 px-4 text-[0.68rem] uppercase tracking-[0.2em] text-[#111111] font-bold transition-all shadow-sm active:scale-95"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-md bg-[#f4f3ef] hover:bg-white py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#111111] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
-                <span className="text-rose-600 font-bold">📍</span>
-                <span>DIRECTIONS</span>
+                <span className="text-rose-600 font-bold text-xs">📍</span>
+                <span>MAP</span>
               </a>
             </div>
           </div>
 
-          {/* ── COLUMN 2: COLLECTIONS ── */}
-          <div className="relative space-y-4 text-left lg:px-6">
-            {/* Vertical Golden Divider */}
-            <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
+          {/* ── 2-COLUMN HORIZONTAL GRID FOR COLLECTIONS & WHY CHOOSE US ON MOBILE ── */}
+          <div className="grid grid-cols-2 lg:contents gap-6 sm:gap-8">
+            {/* ── COLUMN 2: COLLECTIONS ── */}
+            <div className="relative space-y-4 text-left lg:px-6">
+              {/* Vertical Golden Divider */}
+              <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
 
-            <div>
-              <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
-                COLLECTIONS
-              </h4>
-              <div className="mt-1.5 flex items-center gap-1">
-                <div className="h-[1px] w-8 bg-[#C49324]/50" />
-                <div className="size-1 rotate-45 bg-[#C49324]" />
-                <div className="h-[1px] w-16 bg-[#C49324]/30" />
+              <div>
+                <h4 className="font-display text-xs sm:text-base uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#C49324] font-bold">
+                  COLLECTIONS
+                </h4>
+                <div className="mt-1.5 flex items-center gap-1">
+                  <div className="h-[1px] w-6 sm:w-8 bg-[#C49324]/50" />
+                  <div className="size-1 rotate-45 bg-[#C49324]" />
+                  <div className="h-[1px] w-10 sm:w-16 bg-[#C49324]/30" />
+                </div>
               </div>
+
+              <ul className="space-y-2.5 sm:space-y-3.5 text-[0.7rem] sm:text-xs text-zinc-300 font-light pt-1 sm:pt-2">
+                <li>
+                  <Link
+                    to="/collections"
+                    search={{ category: "Solitaires" }}
+                    className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
+                  >
+                    <span>Solitaires</span>
+                    <ChevronRight className="size-3 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/collections"
+                    search={{ category: "Bridal & Temple" }}
+                    className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
+                  >
+                    <span>Bridal Sets</span>
+                    <ChevronRight className="size-3 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/collections"
+                    search={{ category: "Bangles & Bracelets" }}
+                    className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
+                  >
+                    <span>Gold Bangles</span>
+                    <ChevronRight className="size-3 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/collections"
+                    search={{ category: "Bridal & Temple" }}
+                    className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
+                  >
+                    <span>Temple Haram</span>
+                    <ChevronRight className="size-3 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/scheme"
+                    className="flex items-center justify-between group text-amber-200/90 font-medium hover:text-[#C49324] transition-colors py-0.5"
+                  >
+                    <span>SwarnaNidhi</span>
+                    <ChevronRight className="size-3 text-[#C49324] group-hover:translate-x-0.5 transition-all" />
+                  </Link>
+                </li>
+              </ul>
             </div>
 
-            <ul className="space-y-3.5 text-xs text-zinc-300 font-light pt-2">
-              <li>
-                <Link
-                  to="/collections"
-                  search={{ category: "Solitaires" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
-                >
-                  <span>Solitaire Diamonds</span>
-                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/collections"
-                  search={{ category: "Bridal & Temple" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
-                >
-                  <span>Kundan Bridal Sets</span>
-                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/collections"
-                  search={{ category: "Bangles & Bracelets" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
-                >
-                  <span>Gold Bangles & Kadas</span>
-                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/collections"
-                  search={{ category: "Bridal & Temple" }}
-                  className="flex items-center justify-between group hover:text-[#C49324] transition-colors py-0.5"
-                >
-                  <span>Temple Jewellery & Haram</span>
-                  <ChevronRight className="size-3.5 text-zinc-500 group-hover:text-[#C49324] group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/scheme"
-                  className="flex items-center justify-between group text-amber-200/90 font-medium hover:text-[#C49324] transition-colors py-0.5"
-                >
-                  <span>SwarnaNidhi Gold Scheme</span>
-                  <ChevronRight className="size-3.5 text-[#C49324] group-hover:translate-x-0.5 transition-all" />
-                </Link>
-              </li>
-            </ul>
-          </div>
+            {/* ── COLUMN 3: WHY CHOOSE US ── */}
+            <div className="relative space-y-4 text-left lg:px-6">
+              {/* Vertical Golden Divider */}
+              <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
 
-          {/* ── COLUMN 3: WHY CHOOSE US ── */}
-          <div className="relative space-y-4 text-left lg:px-6">
-            {/* Vertical Golden Divider */}
-            <div className="hidden lg:block absolute right-0 top-2 bottom-2 w-[1px] bg-gradient-to-b from-transparent via-[#C49324]/35 to-transparent" />
-
-            <div>
-              <h4 className="font-display text-sm sm:text-base uppercase tracking-[0.25em] text-[#C49324] font-bold">
-                WHY CHOOSE US
-              </h4>
-              <div className="mt-1.5 flex items-center gap-1">
-                <div className="h-[1px] w-8 bg-[#C49324]/50" />
-                <div className="size-1 rotate-45 bg-[#C49324]" />
-                <div className="h-[1px] w-16 bg-[#C49324]/30" />
+              <div>
+                <h4 className="font-display text-xs sm:text-base uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#C49324] font-bold">
+                  WHY CHOOSE US
+                </h4>
+                <div className="mt-1.5 flex items-center gap-1">
+                  <div className="h-[1px] w-6 sm:w-8 bg-[#C49324]/50" />
+                  <div className="size-1 rotate-45 bg-[#C49324]" />
+                  <div className="h-[1px] w-10 sm:w-16 bg-[#C49324]/30" />
+                </div>
               </div>
-            </div>
 
-            <ul className="space-y-4 text-xs text-zinc-300 font-light pt-2">
-              <li className="flex items-center gap-3">
-                <Gem className="size-4 text-[#C49324] shrink-0" />
-                <span>BIS 100% Hallmarked Gold</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Award className="size-4 text-[#C49324] shrink-0" />
-                <span>GIA & IGI Certified Solitaires</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <RefreshCw className="size-4 text-[#C49324] shrink-0" />
-                <span>100% Lifetime Exchange</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <ShieldCheck className="size-4 text-[#C49324] shrink-0" />
-                <span>Fully Insured Transit</span>
-              </li>
-            </ul>
+              <ul className="space-y-2.5 sm:space-y-4 text-[0.7rem] sm:text-xs text-zinc-300 font-light pt-1 sm:pt-2">
+                <li className="flex items-center gap-2 sm:gap-3">
+                  <Gem className="size-3.5 sm:size-4 text-[#C49324] shrink-0" />
+                  <span>100% Hallmarked</span>
+                </li>
+                <li className="flex items-center gap-2 sm:gap-3">
+                  <Award className="size-3.5 sm:size-4 text-[#C49324] shrink-0" />
+                  <span>GIA / IGI Certified</span>
+                </li>
+                <li className="flex items-center gap-2 sm:gap-3">
+                  <RefreshCw className="size-3.5 sm:size-4 text-[#C49324] shrink-0" />
+                  <span>Lifetime Exchange</span>
+                </li>
+                <li className="flex items-center gap-2 sm:gap-3">
+                  <ShieldCheck className="size-3.5 sm:size-4 text-[#C49324] shrink-0" />
+                  <span>Insured Transit</span>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* ── COLUMN 4: SHOWROOM ── */}
