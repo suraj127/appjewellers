@@ -28,13 +28,13 @@ export function Hero() {
       id="top"
       className="relative flex min-h-[92vh] sm:min-h-screen items-center justify-center overflow-hidden bg-[#F8F6EF] pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 text-foreground border-b border-gold/30"
     >
-      {/* ── Background Luxury Image with subtle parallax tilt ── */}
-      <div
-        className="absolute inset-0 size-full bg-cover bg-no-repeat pointer-events-none transition-transform duration-700 ease-out"
+      {/* ── Background Luxury Image with mobile-optimized responsive framing ── */}
+      <img
+        src={heroBgImg}
+        alt="Royal Jewellery Background"
+        className="absolute inset-0 size-full object-cover object-[78%_center] sm:object-[center_35%] pointer-events-none transition-transform duration-700 ease-out select-none"
         style={{
-          backgroundImage: `url(${heroBgImg})`,
-          backgroundPosition: "center 40%",
-          transform: `scale(1.05) translate3d(${tilt.x * -10}px, ${tilt.y * -10}px, 0)`,
+          transform: `scale(1.03) translate3d(${tilt.x * -8}px, ${tilt.y * -8}px, 0)`,
         }}
       />
 
@@ -44,7 +44,7 @@ export function Hero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 48%, rgba(248, 246, 239, 0.82) 0%, rgba(248, 246, 239, 0.55) 55%, rgba(248, 246, 239, 0.25) 80%, rgba(248, 246, 239, 0.6) 100%)",
+            "radial-gradient(ellipse at 50% 45%, rgba(248, 246, 239, 0.86) 0%, rgba(248, 246, 239, 0.6) 50%, rgba(248, 246, 239, 0.2) 80%, rgba(248, 246, 239, 0.5) 100%)",
         }}
       />
 
