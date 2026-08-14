@@ -173,7 +173,13 @@ export function Nav() {
         visible || mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      <div className="w-full bg-white/95 backdrop-blur-xl border-b border-gold/30 shadow-md">
+      <div
+        className={`w-full transition-all duration-500 ${
+          scrolled
+            ? "bg-black/75 backdrop-blur-md border-b border-gold/30 shadow-2xl"
+            : "bg-transparent border-b border-white/10"
+        }`}
+      >
         <div className="mx-auto max-w-7xl px-3 sm:px-6">
           {/* ── TOP TIER BAR: Logo, Pill Search Bar, Action Icons ── */}
           <div className="flex items-center justify-between gap-3 sm:gap-6 py-2.5 sm:py-3">
@@ -182,23 +188,23 @@ export function Nav() {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-foreground hover:text-gold p-1 focus:outline-none"
+                className="text-gold p-1 focus:outline-none"
                 aria-label="Toggle Navigation Menu"
               >
                 <div className="space-y-1.5 w-6">
                   <span
-                    className={`block h-0.5 bg-foreground transition-all duration-300 ${
-                      mobileMenuOpen ? "rotate-45 translate-y-2 bg-gold" : ""
+                    className={`block h-0.5 bg-gold transition-all duration-300 ${
+                      mobileMenuOpen ? "rotate-45 translate-y-2" : ""
                     }`}
                   />
                   <span
-                    className={`block h-0.5 bg-foreground transition-all duration-300 ${
+                    className={`block h-0.5 bg-gold transition-all duration-300 ${
                       mobileMenuOpen ? "opacity-0" : ""
                     }`}
                   />
                   <span
-                    className={`block h-0.5 bg-foreground transition-all duration-300 ${
-                      mobileMenuOpen ? "-rotate-45 -translate-y-2 bg-gold" : ""
+                    className={`block h-0.5 bg-gold transition-all duration-300 ${
+                      mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
                     }`}
                   />
                 </div>
@@ -213,7 +219,7 @@ export function Nav() {
               <img
                 src={logoImg}
                 alt="A.P.P. Jewellers Logo"
-                className="h-9 sm:h-12 w-auto object-contain filter drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]"
+                className="h-9 sm:h-12 w-auto object-contain filter drop-shadow-[0_0_15px_rgba(212,175,55,0.6)]"
               />
             </a>
 
@@ -229,9 +235,9 @@ export function Nav() {
                   placeholder="Search for gold necklaces, solitaire rings, bridal kundan..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-[#f8f8f9] border border-gold/30 hover:border-gold focus:border-gold rounded-full pl-11 pr-20 py-2 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground outline-none transition-all shadow-inner focus:bg-white"
+                  className="w-full bg-black/40 backdrop-blur-md border border-gold/40 hover:border-gold focus:border-gold rounded-full pl-11 pr-20 py-2 text-xs sm:text-sm text-white placeholder:text-white/70 outline-none transition-all shadow-inner focus:bg-black/60"
                 />
-                <div className="absolute right-3.5 flex items-center gap-2 text-muted-foreground">
+                <div className="absolute right-3.5 flex items-center gap-2 text-white/70">
                   <button type="button" title="Search by Visual" className="hover:text-gold transition-colors">
                     <Camera className="size-3.5" />
                   </button>
@@ -247,33 +253,33 @@ export function Nav() {
               <Link
                 to="/scheme"
                 title="SwarnaNidhi Monthly Gold Scheme"
-                className="hidden sm:flex flex-col items-center gap-0.5 text-foreground/80 hover:text-gold transition-colors group"
+                className="hidden sm:flex flex-col items-center gap-0.5 text-white/90 hover:text-gold transition-colors group drop-shadow-md"
               >
                 <SchemeIcon className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
-                <span className="text-[0.55rem] uppercase tracking-wider font-semibold">Gold Scheme</span>
+                <span className="text-[0.55rem] uppercase tracking-wider font-semibold text-white">Gold Scheme</span>
               </Link>
 
               <a
                 href="#store-info"
                 title="Sarafa Market Showroom Location"
-                className="hidden sm:flex flex-col items-center gap-0.5 text-foreground/80 hover:text-gold transition-colors group"
+                className="hidden sm:flex flex-col items-center gap-0.5 text-white/90 hover:text-gold transition-colors group drop-shadow-md"
               >
                 <MapPin className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
-                <span className="text-[0.55rem] uppercase tracking-wider font-semibold">Stores</span>
+                <span className="text-[0.55rem] uppercase tracking-wider font-semibold text-white">Stores</span>
               </a>
 
               <Link
                 to="/appointment"
                 title="Book Private Viewing Appointment"
-                className="hidden lg:flex flex-col items-center gap-0.5 text-foreground/80 hover:text-gold transition-colors group"
+                className="hidden lg:flex flex-col items-center gap-0.5 text-white/90 hover:text-gold transition-colors group drop-shadow-md"
               >
                 <Heart className="size-4.5 text-gold group-hover:scale-110 transition-transform" />
-                <span className="text-[0.55rem] uppercase tracking-wider font-semibold">Book Visit</span>
+                <span className="text-[0.55rem] uppercase tracking-wider font-semibold text-white">Book Visit</span>
               </Link>
 
               <a
                 href="tel:09015155615"
-                className="shine-sweep flex items-center gap-1.5 rounded-full border border-gold/70 bg-[#b8860b] px-3 sm:px-4 py-1.5 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.18em] text-white transition-all duration-300 hover:opacity-95 font-bold shadow-md"
+                className="shine-sweep flex items-center gap-1.5 rounded-full border border-gold/70 bg-[#b8860b] px-3 sm:px-4 py-1.5 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.18em] text-white transition-all duration-300 hover:opacity-95 font-bold shadow-lg"
               >
                 <Phone className="size-3" />
                 <span>090151 55615</span>
@@ -281,8 +287,8 @@ export function Nav() {
             </div>
           </div>
 
-          {/* ── BOTTOM TIER BAR: Tanishq-Style Category Sub-Navigation ── */}
-          <div className="border-t border-zinc-200/80 py-2 overflow-x-auto no-scrollbar">
+          {/* ── BOTTOM TIER BAR: Invisible Category Sub-Navigation ── */}
+          <div className="border-t border-white/15 py-2 overflow-x-auto no-scrollbar">
             <nav className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 min-w-max px-2">
               {SUB_NAV_ITEMS.map((item) => {
                 const IconComponent = item.Icon;
@@ -290,13 +296,13 @@ export function Nav() {
                   <a
                     key={item.label}
                     href={item.href}
-                    className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-zinc-800 hover:text-[#b8860b] transition-colors py-1 cursor-pointer"
+                    className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-white/95 hover:text-gold transition-colors py-1 cursor-pointer drop-shadow-md"
                   >
                     <IconComponent className="size-4 text-gold group-hover:scale-110 transition-transform duration-300" />
                     <span className="whitespace-nowrap font-medium group-hover:font-semibold transition-all">
                       {item.label}
                     </span>
-                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full" />
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
                   </a>
                 );
               })}
