@@ -14,6 +14,19 @@ const RIGHT_LINKS = [
   { label: "Store Info", href: "/#store-info" },
 ];
 
+const SUB_NAV_ITEMS = [
+  { label: "All Jewellery", icon: "📿", href: "/collections" },
+  { label: "Gold", icon: "👑", href: "/collections?metal=Gold" },
+  { label: "Diamond", icon: "💎", href: "/collections?category=Solitaires" },
+  { label: "Earrings", icon: "✨", href: "/collections?category=Earrings" },
+  { label: "Daily Wear", icon: "💫", href: "/collections?category=Daily+Wear" },
+  { label: "Gemstone", icon: "🔮", href: "/collections?category=Bridal+%26+Temple" },
+  { label: "Wedding", icon: "💒", href: "/collections?category=Bridal+%26+Temple" },
+  { label: "Gifting", icon: "🎁", href: "/collections" },
+  { label: "Under 50K", icon: "💰", href: "/collections" },
+  { label: "Store Visit", icon: "📍", href: "/appointment" },
+];
+
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -51,8 +64,8 @@ export function Nav() {
       }`}
     >
       {/* Main Navigation Header */}
-      <div className={`transition-all duration-500 ${scrolled ? "py-1.5" : "py-2 sm:py-4"}`}>
-        <div className="mx-auto max-w-7xl px-3 sm:px-6">
+      <div className={`transition-all duration-500 ${scrolled ? "py-1" : "py-1.5 sm:py-3"}`}>
+        <div className="mx-auto max-w-7xl px-2 sm:px-6">
           <nav
             className={`flex items-center justify-between rounded-sm px-3 sm:px-6 py-2 transition-all duration-500 ${
               scrolled
@@ -140,6 +153,22 @@ export function Nav() {
               </a>
             </div>
           </nav>
+
+          {/* Sub Navigation Bar (Matching Tanishq style navbar screenshot) */}
+          <div className="mt-1 sm:mt-1.5 overflow-x-auto no-scrollbar bg-white/95 backdrop-blur-md border border-gold/30 rounded-md py-1.5 px-2 shadow-sm">
+            <div className="flex items-center justify-start sm:justify-center gap-3 sm:gap-6 min-w-max px-2">
+              {SUB_NAV_ITEMS.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="group flex items-center gap-1.5 text-[0.65rem] sm:text-[0.72rem] font-medium tracking-wide text-foreground/90 hover:text-gold transition-colors cursor-pointer px-1.5 py-0.5 rounded hover:bg-gold/10"
+                >
+                  <span className="text-xs sm:text-sm transition-transform duration-300 group-hover:scale-110">{item.icon}</span>
+                  <span className="whitespace-nowrap">{item.label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
