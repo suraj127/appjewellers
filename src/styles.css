@@ -307,6 +307,39 @@
   }
 }
 
+@keyframes luxury-sparkle {
+  0% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 2px rgba(196, 147, 36, 0.3));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8)) drop-shadow(0 0 20px rgba(196, 147, 36, 0.45));
+  }
+  100% {
+    background-position: 200% 50%;
+    filter: drop-shadow(0 0 2px rgba(196, 147, 36, 0.3));
+  }
+}
+
+.luxury-sparkle-text {
+  background: linear-gradient(
+    90deg,
+    #996e14 0%,
+    #C49324 20%,
+    #FFF8D6 48%,
+    #FFFFFF 52%,
+    #C49324 80%,
+    #996e14 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: luxury-sparkle 4s ease-in-out infinite;
+  display: inline-block;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::after,

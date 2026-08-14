@@ -57,19 +57,24 @@ export function Hero() {
           />
         </div>
 
-        {/* EYEBROW BADGE */}
-        <div className="reveal flex justify-center mb-4" style={{ animationDelay: "200ms" }}>
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-gold/40 bg-gold/10 px-4 py-1 text-[0.62rem] sm:text-xs uppercase tracking-[0.25em] text-[#b8860b] font-bold shadow-sm">
-            <span>Sarafa Market · New Seelampur · Delhi</span>
+        {/* EYEBROW BADGE (Cormorant Garamond Medium with side filigree flourishes) */}
+        <div className="reveal flex items-center justify-center gap-2 mb-4" style={{ animationDelay: "200ms" }}>
+          <span className="text-[#C49324] text-xs font-serif select-none hidden sm:inline">⊰⊱</span>
+          <span className="inline-flex items-center rounded-full border border-[#C49324]/70 bg-[#F2E9D8]/50 px-4 sm:px-6 py-1 text-[0.68rem] sm:text-xs uppercase tracking-[0.28em] text-[#C49324] font-display font-medium shadow-sm">
+            SARAFA MARKET · NEW SEELAMPUR · DELHI
           </span>
+          <span className="text-[#C49324] text-xs font-serif select-none hidden sm:inline">⊰⊱</span>
         </div>
 
-        {/* MAIN HEADLINE */}
+        {/* MAIN HEADLINE (Cormorant Garamond SemiBold + Italic Sparkling Gold) */}
         <h1
-          className="reveal mt-4 font-display text-3xl sm:text-6xl md:text-7xl font-bold tracking-tight text-foreground leading-[1.05]"
+          className="reveal mt-3 sm:mt-5 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.05] tracking-tight"
           style={{ animationDelay: "300ms" }}
         >
-          Where Heritage <span className="italic shimmer-text text-[#b8860b]">Meets Luxury</span>
+          <span className="font-semibold text-[#111111]">Where Heritage </span>
+          <span className="italic font-normal luxury-sparkle-text text-[#C49324] block sm:inline">
+            Meets Luxury
+          </span>
         </h1>
 
         {/* SUB-HEAD COPY */}
