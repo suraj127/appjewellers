@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { X, Phone, MapPin, Calendar } from "lucide-react";
 import logoImg from "@/assets/logo.png";
 
@@ -138,6 +138,9 @@ export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const showSubNav = location.pathname === "/" || location.pathname === "/collections" || location.pathname.startsWith("/collections");
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -266,29 +269,31 @@ export function Nav() {
           </div>
         </div>
 
-        {/* ── BOTTOM TIER: Full-Width Category Sub-Navigation (Edge to Edge) ── */}
-        <div className="w-full border-t border-gold/20 py-2 sm:py-2.5 bg-black/30 backdrop-blur-md">
-          <div className="w-full px-4 sm:px-8 md:px-12 overflow-x-auto no-scrollbar">
-            <nav className="flex items-center justify-start sm:justify-center gap-5 sm:gap-8 md:gap-11 min-w-max mx-auto">
-              {SUB_NAV_ITEMS.map((item) => {
-                const IconComponent = item.Icon;
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-white/90 hover:text-amber-200 transition-colors py-0.5 cursor-pointer"
-                  >
-                    <IconComponent className="size-4 text-gold group-hover:scale-115 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
-                    <span className="whitespace-nowrap font-medium group-hover:font-semibold transition-all">
-                      {item.label}
-                    </span>
-                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
-                  </a>
-                );
-              })}
-            </nav>
+        {/* ── BOTTOM TIER: Category Sub-Navigation (Only on Home & Collection pages) ── */}
+        {showSubNav && (
+          <div className="w-full border-t border-gold/20 py-2 sm:py-2.5 bg-black/30 backdrop-blur-md">
+            <div className="w-full px-4 sm:px-8 md:px-12 overflow-x-auto no-scrollbar">
+              <nav className="flex items-center justify-start sm:justify-center gap-5 sm:gap-8 md:gap-11 min-w-max mx-auto">
+                {SUB_NAV_ITEMS.map((item) => {
+                  const IconComponent = item.Icon;
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      className="group relative flex items-center gap-1.5 text-[0.68rem] sm:text-[0.74rem] font-medium tracking-wide text-white/90 hover:text-amber-200 transition-colors py-0.5 cursor-pointer"
+                    >
+                      <IconComponent className="size-4 text-gold group-hover:scale-115 transition-transform duration-300 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+                      <span className="whitespace-nowrap font-medium group-hover:font-semibold transition-all">
+                        {item.label}
+                      </span>
+                      <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-gold transition-all duration-300 group-hover:w-full" />
+                    </a>
+                  );
+                })}
+              </nav>
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* ── Mobile Navigation Drawer ── */}
