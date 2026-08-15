@@ -11,6 +11,7 @@ import catalogueIconImg from "@/assets/catalogue_icon.png";
 import logoImg from "@/assets/logo.png";
 
 import { CatalogPdfModal } from "@/components/CatalogPdfModal";
+import { JewelryPieceReader } from "@/components/JewelryPieceReader";
 import { Spotlight } from "@/components/core/spotlight";
 
 /* ── 3D Orbit Background Constants ─────────────────────────────── */
@@ -328,6 +329,7 @@ function DetailedCollectionsPage() {
   const [mobileTab, setMobileTab] = useState<"category" | "metal" | "purity" | "price" | "sort">("category");
 
   const [inquiryProduct, setInquiryProduct] = useState<Product | null>(null);
+  const [readerProduct, setReaderProduct] = useState<Product | null>(null);
   const [isCatalogPdfModalOpen, setIsCatalogPdfModalOpen] = useState<boolean>(false);
 
   // Toggle Wishlist
@@ -547,66 +549,69 @@ function DetailedCollectionsPage() {
               </div>
             </div>
 
-            {/* Mobile Product Grid - Full Width 2 Columns */}
-            <div className="grid grid-cols-2 gap-2.5">
+            {/* Mobile Product Grid - Full Width 2 Columns with Editorial Style */}
+            <div className="grid grid-cols-2 gap-3">
               {visibleProducts.map((product, idx) => {
                 const isWishlisted = wishlist.includes(product.slug);
                 return (
                   <div
                     key={product.slug}
-                    className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded-sm overflow-hidden shadow-lg"
+                    onClick={() => setReaderProduct(product)}
+                    className="group relative flex flex-col justify-between bg-[#FAF9F6] border border-[#D4AF37]/30 rounded-sm overflow-hidden shadow-md cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-[#D4AF37]"
                   >
-                    <Spotlight
-                      className="bg-gold/25 blur-2xl"
-                      size={64}
-                      springOptions={{
-                        bounce: 0.3,
-                        duration: 0.1,
-                      }}
-                    />
-                    <div className="relative block h-44 w-full overflow-hidden bg-black/40">
+                    <div className="relative block h-48 w-full overflow-hidden bg-[#121614]">
                       <ProductHoverImage
                         image={product.image}
                         hoverImage={product.hoverImage}
                         alt={product.name}
                       />
-                      <div className="absolute top-1.5 left-1.5">
+                      <div className="absolute top-2 left-2 z-10">
                         {product.purity && (
-                          <span className="glass-panel text-gold font-bold text-[0.5rem] uppercase tracking-wider px-1.5 py-0.5 rounded shadow">
+                          <span className="bg-[#0f1412]/80 backdrop-blur-xs text-[#D4AF37] border border-[#D4AF37]/40 font-mono text-[0.48rem] uppercase tracking-widest px-1.5 py-0.5 rounded-xs shadow">
                             {product.purity}
                           </span>
                         )}
                       </div>
                       <button
                         type="button"
-                        onClick={() => toggleWishlist(product.slug)}
-                        className="absolute top-1.5 right-1.5 glass-panel p-1 rounded-full"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleWishlist(product.slug);
+                        }}
+                        className="absolute top-2 right-2 z-10 bg-[#0f1412]/60 p-1.5 rounded-full"
                       >
                         <HeartIcon
                           filled={isWishlisted}
-                          className={`size-3.5 ${isWishlisted ? "text-rose-500" : "text-gold/80"}`}
+                          className={`size-3.5 ${isWishlisted ? "text-rose-500" : "text-[#D4AF37]"}`}
                         />
                       </button>
+
+                      {/* Mobile Card Hover Overlay */}
+                      <div className="absolute inset-0 bg-[#0f1412]/85 p-3 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 text-center">
+                        <p className="font-serif text-xs text-[#FAF9F6] font-medium leading-snug">
+                          {product.name}
+                        </p>
+                        <p className="mt-1 text-[0.55rem] text-[#C5A059] font-light line-clamp-2">
+                          {product.tagline}
+                        </p>
+                        <span className="mt-2.5 inline-block w-full py-1.5 rounded-full border border-[#D4AF37] bg-[#D4AF37] text-[#0f1412] font-mono text-[0.52rem] font-bold uppercase tracking-widest text-center shadow">
+                          EXPLORE CREATION
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="p-2.5 flex flex-col justify-between flex-1 text-center">
+                    {/* Micro-captions beneath card */}
+                    <div className="p-2.5 flex flex-col justify-between flex-1 text-center bg-[#FAF9F6] border-t border-[#D4AF37]/20">
                       <div>
-                        <p className="text-[0.52rem] uppercase tracking-wider text-gold font-medium truncate">
+                        <p className="text-[0.5rem] font-mono uppercase tracking-[0.22em] text-[#C5A059] font-medium truncate">
                           {product.category} · {product.metal}
                         </p>
-                        <h3 className="mt-0.5 font-display text-xs text-foreground font-semibold leading-snug line-clamp-1">
+                        <h3 className="mt-0.5 font-serif text-xs text-[#1A1A1A] font-semibold leading-snug line-clamp-1">
                           {product.name}
                         </h3>
-                      </div>
-
-                      <div className="mt-2.5 pt-2 border-t border-border/40">
-                        <button
-                          type="button"
-                          onClick={() => setInquiryProduct(product)}
-                          className="shine-sweep w-full rounded bg-gold/15 border border-gold/50 py-1.5 text-[0.55rem] uppercase tracking-widest text-gold font-bold text-center"
-                        >
-                          PRICE ON REQUEST
-                        </button>
+                        <p className="mt-1 text-[0.5rem] font-mono tracking-widest text-[#7A7A7A] uppercase">
+                          {product.purity || "22K GOLD"} / {product.metal}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -775,74 +780,93 @@ function DetailedCollectionsPage() {
                 </div>
               </div>
 
-              {/* Product Grid showcasing cards without pricing - 2 cols on mobile */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3">
+              {/* Editorial Exhibition Grid featuring cards with Hover Overlay Cards & Micro-Captions */}
+              <div className="grid grid-cols-2 gap-4 sm:gap-8 lg:grid-cols-3">
                 {visibleProducts.map((product, idx) => {
                   const isWishlisted = wishlist.includes(product.slug);
 
-                  // Inject an In-Grid Campaign Banner after every 6 items matching Tanishq Screenshot 3
-                  const showInGridBanner = idx > 0 && idx % 6 === 0;
+                  // Inject Collection Chapter Dividers periodically to organize exhibition feed
+                  let chapterHeader = null;
+                  if (idx === 0) {
+                    chapterHeader = (
+                      <div className="col-span-full my-6 border-y border-[#D4AF37]/30 bg-[#FAF9F6] p-6 text-center shadow-xs">
+                        <p className="font-mono text-[0.62rem] uppercase tracking-[0.35em] text-[#C5A059] font-bold">
+                          CHAPTER ONE — HAUTE JOAILLERIE
+                        </p>
+                        <h2 className="mt-1 font-serif text-2xl sm:text-3xl text-[#1A1A1A] font-normal tracking-wide">
+                          THE ROYAL HERITAGE COLLECTION
+                        </h2>
+                        <p className="mt-1 text-xs font-light text-[#555] max-w-lg mx-auto">
+                          Hand-carved temple motifs, royal Kundan suites, and timeless 22K gold heirlooms.
+                        </p>
+                      </div>
+                    );
+                  } else if (idx === 6) {
+                    chapterHeader = (
+                      <div className="col-span-full my-8 border-y border-[#D4AF37]/30 bg-[#FAF9F6] p-6 text-center shadow-xs">
+                        <p className="font-mono text-[0.62rem] uppercase tracking-[0.35em] text-[#C5A059] font-bold">
+                          CHAPTER TWO — FINE GEMSTONES
+                        </p>
+                        <h2 className="mt-1 font-serif text-2xl sm:text-3xl text-[#1A1A1A] font-normal tracking-wide">
+                          SOLITAIRE & EMERALD CUTS
+                        </h2>
+                        <p className="mt-1 text-xs font-light text-[#555] max-w-lg mx-auto">
+                          Certified GIA/IGI solitaire diamonds, Colombian emeralds & platinum settings.
+                        </p>
+                      </div>
+                    );
+                  } else if (idx === 12) {
+                    chapterHeader = (
+                      <div className="col-span-full my-8 border-y border-[#D4AF37]/30 bg-[#FAF9F6] p-6 text-center shadow-xs">
+                        <p className="font-mono text-[0.62rem] uppercase tracking-[0.35em] text-[#C5A059] font-bold">
+                          CHAPTER THREE — SACRED ARTISTRY
+                        </p>
+                        <h2 className="mt-1 font-serif text-2xl sm:text-3xl text-[#1A1A1A] font-normal tracking-wide">
+                          TEMPLE & KUNDAN MASTERPIECES
+                        </h2>
+                        <p className="mt-1 text-xs font-light text-[#555] max-w-lg mx-auto">
+                          Goddess Lakshmi motifs, antique Nakshi carving, and Meenakari enamelwork.
+                        </p>
+                      </div>
+                    );
+                  } else if (idx === 18) {
+                    chapterHeader = (
+                      <div className="col-span-full my-8 border-y border-[#D4AF37]/30 bg-[#FAF9F6] p-6 text-center shadow-xs">
+                        <p className="font-mono text-[0.62rem] uppercase tracking-[0.35em] text-[#C5A059] font-bold">
+                          CHAPTER FOUR — EVERYDAY LUXURY
+                        </p>
+                        <h2 className="mt-1 font-serif text-2xl sm:text-3xl text-[#1A1A1A] font-normal tracking-wide">
+                          DAILYWEAR & MODERN CREATIONS
+                        </h2>
+                        <p className="mt-1 text-xs font-light text-[#555] max-w-lg mx-auto">
+                          Solid gold chains, lightweight bangles, dailywear studs & hallmarked coins.
+                        </p>
+                      </div>
+                    );
+                  }
 
                   return (
                     <div key={product.slug} className="contents">
-                      {showInGridBanner && (
-                        <div className="col-span-full my-4 sm:my-6 p-4 sm:p-8 rounded bg-onyx border border-gold/30 text-center relative overflow-hidden shadow-sm">
-                          <span className="eyebrow text-[0.58rem]">Everyday Luxury</span>
-                          <h3 className="font-display text-xl sm:text-3xl text-foreground font-bold mt-1">
-                            Dailywear & Kundan Heritage Collection
-                          </h3>
-                          <p className="mt-1.5 text-xs text-muted-foreground max-w-xl mx-auto font-light hidden sm:block">
-                            Crafted for effortless elegance and lasting durability. Certified BIS Hallmarked gold with lifetime polish warranty.
-                          </p>
-                          <div className="mt-4 sm:mt-6 flex flex-wrap justify-center gap-3">
-                            <button
-                              type="button"
-                              onClick={() => setActiveCategory("DAILY WEAR")}
-                              className="shine-sweep rounded bg-gold px-4 sm:px-6 py-2 text-[0.62rem] sm:text-xs uppercase tracking-widest text-primary-foreground font-bold"
-                            >
-                              Explore Dailywear Rings
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setActiveCategory("JHUMKA")}
-                              className="rounded border border-gold/60 px-4 sm:px-6 py-2 text-[0.62rem] sm:text-xs uppercase tracking-widest text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-colors"
-                            >
-                              Explore Dailywear Earrings
-                            </button>
-                          </div>
-                        </div>
-                      )}
+                      {chapterHeader}
 
-                      {/* Detailed Product Card WITHOUT PRICING */}
-                      <div className="group relative flex flex-col justify-between bg-onyx/80 border border-border/80 rounded-sm overflow-hidden lift transition-all duration-500 hover:border-gold/60">
-                        <Spotlight
-                          className="bg-gold/25 blur-2xl"
-                          size={80}
-                          springOptions={{
-                            bounce: 0.3,
-                            duration: 0.1,
-                          }}
-                        />
-                        {/* Image Box - Compact height on mobile */}
-                        <div className="relative block h-40 sm:h-72 w-full overflow-hidden bg-black/40">
+                      {/* Editorial Exhibition Product Card */}
+                      <div
+                        onClick={() => setReaderProduct(product)}
+                        className="group relative flex flex-col justify-between bg-[#FAF9F6] border border-[#D4AF37]/30 rounded-sm overflow-hidden shadow-sm cursor-pointer transition-all duration-500 hover:shadow-2xl hover:border-[#D4AF37]"
+                      >
+                        {/* Image Box with Hover Overlay Card */}
+                        <div className="relative block h-56 sm:h-80 w-full overflow-hidden bg-[#121614]">
                           <ProductHoverImage
                             image={product.image}
                             hoverImage={product.hoverImage}
                             alt={product.name}
                           />
 
-                          <div className="absolute inset-0 bg-gradient-to-t from-onyx/90 via-transparent to-transparent opacity-80 pointer-events-none" />
-
-                          {/* Top Left Badges */}
-                          <div className="absolute top-2 sm:top-3 left-2 sm:left-3 flex flex-col gap-1">
+                          {/* Top Left Purity Badge */}
+                          <div className="absolute top-3 left-3 z-10">
                             {product.purity && (
-                              <span className="glass-panel text-gold font-bold text-[0.5rem] sm:text-[0.55rem] uppercase tracking-widest px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded-xs shadow">
+                              <span className="bg-[#0f1412]/80 backdrop-blur-xs text-[#D4AF37] border border-[#D4AF37]/50 font-mono text-[0.55rem] font-semibold uppercase tracking-widest px-2 py-0.5 rounded-xs shadow">
                                 {product.purity}
-                              </span>
-                            )}
-                            {idx % 3 === 0 && (
-                              <span className="bg-rose-900/80 text-rose-200 text-[0.5rem] sm:text-[0.55rem] font-bold uppercase tracking-widest px-1.5 sm:px-2 py-0.5 rounded-xs border border-rose-500/40 hidden sm:inline-block">
-                                Only 1 left!
                               </span>
                             )}
                           </div>
@@ -850,53 +874,71 @@ function DetailedCollectionsPage() {
                           {/* Top Right Wishlist Heart */}
                           <button
                             type="button"
-                            onClick={() => toggleWishlist(product.slug)}
-                            className="absolute top-2 sm:top-3 right-2 sm:right-3 glass-panel p-1.5 sm:p-2 rounded-full transition-transform hover:scale-110"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleWishlist(product.slug);
+                            }}
+                            className="absolute top-3 right-3 z-10 bg-[#0f1412]/60 p-2 rounded-full transition-transform hover:scale-110"
                           >
                             <HeartIcon
                               filled={isWishlisted}
-                              className={`size-3.5 sm:size-4 ${isWishlisted ? "text-rose-500" : "text-gold/80"}`}
+                              className={`size-4 ${isWishlisted ? "text-rose-500" : "text-[#D4AF37]"}`}
                             />
                           </button>
 
-                          {/* Hover Quick Action Buttons matching Tanishq Screenshot 1 */}
-                          <div className="absolute bottom-2 sm:bottom-3 inset-x-2 sm:inset-x-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <button
-                              type="button"
-                              onClick={() => setInquiryProduct(product)}
-                              className="w-full bg-gold text-primary-foreground font-bold text-[0.55rem] sm:text-[0.62rem] uppercase tracking-widest py-1.5 sm:py-2.5 rounded text-center shine-sweep shadow-lg"
-                            >
-                              Inquire Now
-                            </button>
+                          {/* INTERACTIVE HOVER OVERLAY CARD */}
+                          <div className="absolute inset-0 bg-[#0a0d0c]/90 p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 text-center">
+                            <div>
+                              <p className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#D4AF37]">
+                                {product.category} · {product.metal}
+                              </p>
+                              <h4 className="mt-2 font-serif text-lg text-[#FAF9F6] font-normal leading-tight">
+                                {product.name}
+                              </h4>
+                              <p className="mt-2 text-xs text-[#D6D1C7] font-light leading-relaxed line-clamp-3">
+                                {product.story ||
+                                  product.tagline ||
+                                  "Handcrafted temple engraving with rose-cut solitaires and certified gold purity."}
+                              </p>
+                            </div>
+
+                            <div className="space-y-2 pt-4">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setReaderProduct(product);
+                                }}
+                                className="w-full py-2.5 rounded-full border border-[#D4AF37] bg-[#D4AF37] text-[#0f1412] font-mono text-xs font-bold uppercase tracking-[0.2em] shadow-md hover:bg-white hover:border-white transition-all"
+                              >
+                                EXPLORE CREATION
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setReaderProduct(product);
+                                }}
+                                className="w-full py-2 rounded-full border border-[#D4AF37]/50 text-[#D4AF37] font-mono text-[0.62rem] uppercase tracking-widest hover:bg-[#D4AF37]/20 transition-all"
+                              >
+                                VIEW SPECIFICATIONS
+                              </button>
+                            </div>
                           </div>
                         </div>
 
-                        {/* Content WITHOUT PRICING */}
-                        <div className="p-3 sm:p-5 flex flex-col justify-between flex-1 text-center">
+                        {/* MICRO-CAPTIONS BENEATH CARD */}
+                        <div className="p-4 flex flex-col justify-between flex-1 text-center bg-[#FAF9F6] border-t border-[#D4AF37]/20">
                           <div>
-                            <p className="text-[0.52rem] sm:text-[0.58rem] uppercase tracking-[0.2em] sm:tracking-[0.3em] text-gold font-medium truncate">
-                              {product.category} · {product.metal}
+                            <p className="text-[0.55rem] font-mono uppercase tracking-[0.25em] text-[#C5A059] font-medium truncate">
+                              {product.collection || product.category}
                             </p>
-                            <h3 className="mt-1 font-display text-sm sm:text-2xl text-foreground font-semibold leading-snug line-clamp-1">
+                            <h3 className="mt-1 font-serif text-base sm:text-lg text-[#1A1A1A] font-semibold leading-snug line-clamp-1">
                               {product.name}
                             </h3>
-                            <p className="mt-1 text-[0.68rem] sm:text-xs font-light text-muted-foreground line-clamp-1 sm:line-clamp-2">
-                              {product.tagline}
+                            <p className="mt-1.5 text-[0.62rem] font-mono tracking-widest text-[#666] uppercase">
+                              {product.purity || "22K GOLD"} / {product.metal} · SKU-{product.slug.slice(-4).toUpperCase()}
                             </p>
-                          </div>
-
-                          <div className="mt-3 sm:mt-5 pt-2 sm:pt-3 border-t border-border/50">
-                            <a
-                              href={`https://wa.me/919015155615?text=${encodeURIComponent(
-                                `Hi A.P.P. Jewellers, I would like to get a price quote and details for "${product.name}" (Category: ${product.category}, Purity: ${product.purity}) from your collection directory.`
-                              )}`}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="shine-sweep w-full rounded bg-[#e8e2d5]/10 border border-gold/50 px-2 sm:px-4 py-1.5 sm:py-2.5 text-[0.55rem] sm:text-[0.62rem] uppercase tracking-[0.18em] sm:tracking-[0.25em] text-gold font-bold text-center transition-all duration-300 hover:bg-gold hover:text-primary-foreground flex items-center justify-center gap-1.5"
-                            >
-                              <WhatsAppIcon className="size-3.5 text-gold shrink-0" />
-                              <span>PRICE ON REQUEST</span>
-                            </a>
                           </div>
                         </div>
                       </div>
@@ -1185,6 +1227,16 @@ function DetailedCollectionsPage() {
 
 
 
+
+      {/* JEWELRY PIECE READER VIEW MODAL */}
+      {readerProduct && (
+        <JewelryPieceReader
+          product={readerProduct}
+          allProducts={allProducts}
+          onClose={() => setReaderProduct(null)}
+          onSelectProduct={(p) => setReaderProduct(p)}
+        />
+      )}
 
       {/* QUICK INQUIRY MODAL */}
       {inquiryProduct && (
