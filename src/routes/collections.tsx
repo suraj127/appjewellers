@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getAllProducts } from "@/data/storeState";
 import type { Product } from "@/data/products";
@@ -33,48 +33,135 @@ export const Route = createFileRoute("/collections")({
   component: EditorialCollectionsPage,
 });
 
-/* ── Sub Navigation Bar Items (Like Earlier) ─────────────────────── */
+/* ── Curtain Reveal Stacking Panels Definition ───────────────────── */
+interface CurtainPanelConfig {
+  id: string;
+  categoryKey: string;
+  panelNum: string;
+  subtitle: string;
+  title: string;
+  tagline: string;
+  bgColor: string;
+  filterFn: (p: Product) => boolean;
+}
+
+const CURTAIN_PANELS: CurtainPanelConfig[] = [
+  {
+    id: "curtain-hero",
+    categoryKey: "ALL",
+    panelNum: "ARCHIVE 01",
+    subtitle: "HAUTE JOAILLERIE & GRAND CURATION",
+    title: "The Fine Jewelry Exhibition",
+    tagline:
+      "A year of master craftsmanship, certified 22K gold purity, and royal Delhi goldsmith heritage.",
+    bgColor: "#FAF8F5",
+    filterFn: () => true,
+  },
+  {
+    id: "curtain-gold",
+    categoryKey: "GOLD",
+    panelNum: "ARCHIVE 02",
+    subtitle: "BIS HALLMARKED 22K (916) PURITY",
+    title: "The Royal Gold Heritage",
+    tagline:
+      "Intricate hand-forged chokers, nakshi repoussé necklaces, and heavy bridal haar.",
+    bgColor: "#F5F2EB",
+    filterFn: (p) =>
+      p.metal === "GOLD" ||
+      p.category === "HARAM" ||
+      p.category === "CHOKER SET",
+  },
+  {
+    id: "curtain-diamond",
+    categoryKey: "DIAMOND",
+    panelNum: "ARCHIVE 03",
+    subtitle: "GIA & IGI CERTIFIED SOLITAIRES",
+    title: "Magnetic Imprint & Diamonds",
+    tagline:
+      "Precision cut solitaire rings, diamond tennis bracelets, and pavé set emerald cuts.",
+    bgColor: "#EFECE4",
+    filterFn: (p) =>
+      p.metal === "DIAMOND" ||
+      p.metal === "PLATINUM" ||
+      p.category.includes("SOLITAIRE") ||
+      p.category === "ENGAGEMENT RINGS",
+  },
+  {
+    id: "curtain-earrings",
+    categoryKey: "EARRINGS",
+    panelNum: "ARCHIVE 04",
+    subtitle: "SACRED ARTISTRY & MEENAKARI",
+    title: "Earrings, Jhumkas & Chandbalis",
+    tagline:
+      "Tiered temple jhumkas, pearl-tassel balis, and everyday brilliant solitaire studs.",
+    bgColor: "#F8F6F1",
+    filterFn: (p) =>
+      p.category.includes("EAR") ||
+      p.category.includes("JHUMKA") ||
+      p.category.includes("STUD") ||
+      p.category === "NOSE STUDS",
+  },
+  {
+    id: "curtain-rings",
+    categoryKey: "RINGS",
+    panelNum: "ARCHIVE 05",
+    subtitle: "TIMELESS BANDS & COCKTAIL CUTS",
+    title: "Rings, Bands & Solitaires",
+    tagline:
+      "Hand-carved eternity bands, statement polki cocktail rings, and signature daily signets.",
+    bgColor: "#F3EFE8",
+    filterFn: (p) => p.category.includes("RING"),
+  },
+  {
+    id: "curtain-wedding",
+    categoryKey: "WEDDING",
+    panelNum: "ARCHIVE 06",
+    subtitle: "ROYAL ATELIER HEIRLOOMS",
+    title: "Bridal Suites & Temple Masterpieces",
+    tagline:
+      "Grand wedding ensembles, goddess Lakshmi vaddanams, and hand-linked kadas.",
+    bgColor: "#EAE5DC",
+    filterFn: (p) =>
+      p.category.includes("BRIDAL") ||
+      p.category.includes("HARAM") ||
+      p.category.includes("SET") ||
+      p.category.includes("VADDANAM"),
+  },
+  {
+    id: "curtain-daily",
+    categoryKey: "DAILY WEAR",
+    panelNum: "ARCHIVE 07",
+    subtitle: "EVERYDAY LUXURY & MINIMALISM",
+    title: "Dailywear Chains, Mangalsutras & Coins",
+    tagline:
+      "Solid gold chains, delicate everyday pendants, and certified 24K gold investment coins.",
+    bgColor: "#FAF8F5",
+    filterFn: (p) =>
+      p.category.includes("DAILY") ||
+      p.category.includes("CHAIN") ||
+      p.category.includes("MANGALSUTRA") ||
+      p.category.includes("COIN") ||
+      p.metal === "SILVER",
+  },
+];
+
+/* ── Sub Navigation Bar Items ────────────────────────────────────── */
 const SUB_NAV_ITEMS = [
-  { id: "ALL", label: "All Jewellery", IconComponent: CrownIcon },
-  { id: "GOLD", label: "Gold", IconComponent: CrownIcon },
-  { id: "DIAMOND", label: "Solitaire Diamond", IconComponent: DiamondIcon },
-  { id: "EARRINGS", label: "Earrings & Jhumka", IconComponent: EarringIcon },
-  { id: "RINGS", label: "Rings & Bands", IconComponent: RingIcon },
-  { id: "DAILY WEAR", label: "Daily Wear", IconComponent: NecklaceIcon },
-  { id: "WEDDING", label: "Bridal & Wedding", IconComponent: CrownIcon },
-  { id: "GOLD COIN", label: "Gold Coins", IconComponent: CoinIcon },
+  { id: "curtain-hero", label: "All Jewellery", IconComponent: CrownIcon },
+  { id: "curtain-gold", label: "Gold", IconComponent: CrownIcon },
+  { id: "curtain-diamond", label: "Solitaire Diamond", IconComponent: DiamondIcon },
+  { id: "curtain-earrings", label: "Earrings & Jhumka", IconComponent: EarringIcon },
+  { id: "curtain-rings", label: "Rings & Bands", IconComponent: RingIcon },
+  { id: "curtain-wedding", label: "Bridal & Wedding", IconComponent: CrownIcon },
+  { id: "curtain-daily", label: "Daily Wear & Coins", IconComponent: NecklaceIcon },
 ];
 
 function EditorialCollectionsPage() {
   const [allProducts, setAllProducts] = useState<Product[]>(getAllProducts());
-  const [activeCategory, setActiveCategory] = useState<string>("ALL");
+  const [activePanelId, setActivePanelId] = useState<string>("curtain-hero");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [activeMobileHover, setActiveMobileHover] = useState<string | null>(null);
-
-  // Smooth Scroll-Reveal & Parallax Motion Controller
-  const [visibleItems, setVisibleItems] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute("data-slug");
-            if (id) {
-              setVisibleItems((prev) => ({ ...prev, [id]: true }));
-            }
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: "50px" }
-    );
-
-    const elements = document.querySelectorAll(".scroll-reveal-card");
-    elements.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, [activeCategory, allProducts]);
 
   useEffect(() => {
     const sync = () => setAllProducts(getAllProducts());
@@ -89,45 +176,27 @@ function EditorialCollectionsPage() {
     );
   };
 
-  // Filter products by selected sub-nav item
-  const filteredProducts = useMemo(() => {
-    if (activeCategory === "ALL") return allProducts;
-    return allProducts.filter((p) => {
-      if (activeCategory === "GOLD") return p.metal === "GOLD";
-      if (activeCategory === "DIAMOND")
-        return p.metal === "DIAMOND" || p.category.includes("SOLITAIRE");
-      if (activeCategory === "EARRINGS")
-        return (
-          p.category.includes("EAR") ||
-          p.category.includes("JHUMKA") ||
-          p.category.includes("STUD")
-        );
-      if (activeCategory === "RINGS") return p.category.includes("RING");
-      if (activeCategory === "DAILY WEAR")
-        return (
-          p.category.includes("DAILY") ||
-          p.category.includes("CHAIN") ||
-          p.category.includes("PENDANT")
-        );
-      if (activeCategory === "WEDDING")
-        return (
-          p.category.includes("BRIDAL") ||
-          p.category.includes("HARAM") ||
-          p.category.includes("SET") ||
-          p.category.includes("VADDANAM")
-        );
-      if (activeCategory === "GOLD COIN") return p.category.includes("COIN");
-      return p.category.toUpperCase().includes(activeCategory.toUpperCase());
-    });
-  }, [allProducts, activeCategory]);
+  const scrollToCurtain = (id: string) => {
+    setActivePanelId(id);
+    const target = document.getElementById(id);
+    if (target) {
+      const headerOffset = 110;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased selection:bg-[#E8DFC8] selection:text-[#121212] overflow-x-hidden">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased selection:bg-[#E8DFC8] selection:text-[#121212]">
       {/* ════════════════════════════════════════════════════════════ */}
-      {/* 1. TOP EDITORIAL BRAND HEADER                               */}
+      {/* 1. STICKY TOP BRAND HEADER                                   */}
       {/* ════════════════════════════════════════════════════════════ */}
-      <header className="sticky top-0 z-40 border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-2xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-12 py-3.5 sm:py-5">
+      <header className="sticky top-0 z-50 border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-12 py-3 sm:py-4">
           {/* Left: Brand Identity */}
           <Link
             to="/"
@@ -153,24 +222,21 @@ function EditorialCollectionsPage() {
         </div>
 
         {/* ════════════════════════════════════════════════════════════ */}
-        {/* SUB NAVIGATION BAR (Category Icons & Horizontal Tabs)       */}
+        {/* SUB NAVIGATION BAR (Category Icons & Curtain Jump Tabs)     */}
         {/* ════════════════════════════════════════════════════════════ */}
         <div className="border-t border-[#121212]/10 bg-[#FAF8F5]/90 py-2 sm:py-2.5 overflow-x-auto no-scrollbar scroll-smooth">
-          <div className="mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-1.5 sm:gap-4 px-3 sm:px-4 min-w-max">
+          <div className="mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-1.5 sm:gap-3 px-3 sm:px-4 min-w-max">
             {SUB_NAV_ITEMS.map((item) => {
-              const isSelected = activeCategory === item.id;
+              const isSelected = activePanelId === item.id;
               const Icon = item.IconComponent;
               return (
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => {
-                    setActiveCategory(item.id);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
-                  }}
+                  onClick={() => scrollToCurtain(item.id)}
                   className={`group flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full font-sans text-[0.68rem] sm:text-xs tracking-wider uppercase transition-all shrink-0 ${
                     isSelected
-                      ? "bg-[#121212] text-[#FAF8F5] font-bold shadow-xs"
+                      ? "bg-[#121212] text-[#FAF8F5] font-bold shadow-xs scale-105"
                       : "text-[#555] hover:text-[#121212] hover:bg-[#121212]/5"
                   }`}
                 >
@@ -190,175 +256,187 @@ function EditorialCollectionsPage() {
       </header>
 
       {/* ════════════════════════════════════════════════════════════ */}
-      {/* 2. EDITORIAL MAGAZINE EXHIBITION GRID WITH SCROLL TRANSITION */}
+      {/* 2. CURTAIN REVEAL / OVERLAPPING STACKING PANELS (Wipe Stack) */}
       {/* ════════════════════════════════════════════════════════════ */}
-      <main className="relative z-10 mx-auto max-w-7xl px-3 sm:px-10 lg:px-12 py-8 sm:py-16 space-y-8 sm:space-y-12">
-        {/* Editorial Header */}
-        <div className="text-center space-y-1.5 sm:space-y-2 max-w-2xl mx-auto px-2">
-          <p className="font-sans text-[0.6rem] sm:text-[0.65rem] tracking-[0.35em] uppercase text-[#888] font-semibold">
-            ARCHIVE 365 · SARAFA MARKET
-          </p>
-          <h1 className="font-display italic text-3xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
-            {activeCategory === "ALL"
-              ? "The Fine Jewelry Exhibition"
-              : SUB_NAV_ITEMS.find((s) => s.id === activeCategory)?.label ||
-                "Exhibition Catalog"}
-          </h1>
-          <p className="font-display text-xs sm:text-base text-[#666] font-light pt-0.5 sm:pt-1 leading-relaxed">
-            Every piece is forged in 22K/18K certified gold with hand-cut
-            solitaires and master karigar hallmarks.
-          </p>
-        </div>
+      <main className="relative">
+        {CURTAIN_PANELS.map((panel, panelIdx) => {
+          const pieces = allProducts.filter(panel.filterFn);
+          const displayPieces =
+            pieces.length > 0
+              ? pieces.slice(0, 9)
+              : allProducts.slice(panelIdx * 3, panelIdx * 3 + 6);
 
-        {/* Asymmetric Staggered Masonry Grid with Smooth Scroll-Reveal Animation */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 lg:gap-12 items-start pt-2 sm:pt-6">
-          {filteredProducts.map((piece, pieceIdx) => {
-            // Asymmetric aspect ratios
-            const aspectStyles = [
-              "aspect-[3/4]",
-              "aspect-square",
-              "aspect-[4/5]",
-              "aspect-[3/4]",
-              "aspect-square",
-              "aspect-[4/3]",
-            ];
-            const currentAspect = aspectStyles[pieceIdx % aspectStyles.length];
-            const isWishlisted = wishlist.includes(piece.slug);
-            const isRevealed = Boolean(visibleItems[piece.slug]);
-            const isMobileHovered = activeMobileHover === piece.slug;
+          // Stacking z-index: Each incoming panel has a higher z-index so it slides directly over the previous one!
+          const zIndexValue = 10 + panelIdx * 5;
 
-            const whatsappPriceMsg = encodeURIComponent(
-              `Hi A.P.P. Jewellers, I would like to get the current price quote and details for "${piece.name}" (${piece.purity}, SKU: ${piece.slug.toUpperCase()}) from your 365 Collection.`
-            );
-
-            return (
-              <div
-                key={piece.slug}
-                data-slug={piece.slug}
-                className={`scroll-reveal-card group relative flex flex-col space-y-2.5 sm:space-y-3.5 transition-all duration-700 ease-out transform ${
-                  pieceIdx % 3 === 1 ? "lg:translate-y-8" : ""
-                } ${
-                  isRevealed
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-12"
-                }`}
-                style={{
-                  transitionDelay: `${(pieceIdx % 3) * 120}ms`,
-                }}
-              >
-                {/* Image Box Container with Mobile Touch & Desktop Hover support */}
-                <div
-                  onClick={() => setSelectedProduct(piece)}
-                  onTouchStart={() =>
-                    setActiveMobileHover((prev) =>
-                      prev === piece.slug ? null : piece.slug
-                    )
-                  }
-                  className={`relative w-full ${currentAspect} overflow-hidden bg-[#EFECE6] cursor-pointer shadow-xs transition-all duration-700 ease-out group-hover:shadow-2xl rounded-xs`}
-                >
-                  <img
-                    src={piece.image}
-                    alt={piece.name}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-
-                  {/* Top Wishlist Heart Button */}
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleWishlist(piece.slug);
-                    }}
-                    aria-label="Wishlist piece"
-                    className="absolute top-2.5 sm:top-3 right-2.5 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-xs transition-transform hover:scale-110 shadow-xs"
-                  >
-                    <HeartIcon
-                      filled={isWishlisted}
-                      className={`size-3.5 sm:size-4 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
-                    />
-                  </button>
-
-                  {/* ── CARTIER HOVER POPOVER CARD (With Discover + Price Enquiry) ── */}
-                  <div
-                    className={`absolute inset-2 sm:inset-5 bg-[#FFFFFF] border border-[#121212]/15 shadow-2xl p-4 sm:p-7 flex flex-col justify-between items-center text-center transition-all duration-300 transform z-20 ${
-                      isMobileHovered
-                        ? "opacity-100 scale-100 pointer-events-auto"
-                        : "opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 pointer-events-none group-hover:pointer-events-auto"
-                    }`}
-                  >
-                    <div className="space-y-1.5 sm:space-y-2">
-                      <p className="font-sans text-[0.52rem] sm:text-[0.55rem] tracking-[0.3em] uppercase text-[#888] font-bold">
-                        CREATION {pieceIdx + 1}
-                      </p>
-                      <h4 className="font-display text-sm sm:text-xl text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-2">
-                        {piece.name}
-                      </h4>
-                      <p className="font-display italic text-[0.68rem] sm:text-sm text-[#666] line-clamp-2 sm:line-clamp-3 leading-relaxed">
-                        {piece.story ||
-                          piece.tagline ||
-                          "Handcrafted with certified gold purity and master artisan settings."}
-                      </p>
-                    </div>
-
-                    {/* Action Buttons: Discover Creation + Price Enquiry */}
-                    <div className="w-full space-y-2 pt-2">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedProduct(piece);
-                        }}
-                        className="w-full py-2 sm:py-2.5 px-4 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.58rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.2em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs"
-                      >
-                        DISCOVER CREATION
-                      </button>
-
-                      <a
-                        href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="flex items-center justify-center gap-1.5 w-full py-1.5 sm:py-2 px-4 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.55rem] sm:text-[0.6rem] font-semibold uppercase tracking-[0.18em] transition-all hover:bg-[#121212]/10"
-                      >
-                        <WhatsAppIcon className="size-3 text-[#121212]" />
-                        <span>PRICE ENQUIRY</span>
-                      </a>
-                    </div>
-                  </div>
+          return (
+            <section
+              key={panel.id}
+              id={panel.id}
+              style={{
+                backgroundColor: panel.bgColor,
+                zIndex: zIndexValue,
+              }}
+              className={`sticky top-[108px] min-h-screen w-full transition-all duration-700 ease-out border-t border-[#121212]/10 shadow-[0_-25px_60px_rgba(0,0,0,0.12)] px-4 sm:px-10 lg:px-12 py-12 sm:py-20`}
+            >
+              <div className="mx-auto max-w-7xl space-y-10 sm:space-y-14">
+                {/* Curtain Panel Header with Staggered Entrance */}
+                <div className="text-center space-y-2 max-w-3xl mx-auto px-2">
+                  <p className="font-sans text-[0.6rem] sm:text-[0.68rem] tracking-[0.35em] uppercase text-[#777] font-semibold">
+                    {panel.panelNum} · {panel.subtitle}
+                  </p>
+                  <h2 className="font-display italic text-3xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
+                    {panel.title}
+                  </h2>
+                  <p className="font-display text-xs sm:text-base text-[#555] font-light pt-1 leading-relaxed max-w-xl mx-auto">
+                    {panel.tagline}
+                  </p>
                 </div>
 
-                {/* Micro-Caption Directly Beneath Card (With Instant Price Link) */}
-                <div className="flex items-center justify-between gap-2 px-0.5">
-                  <div className="min-w-0">
-                    <p className="font-sans text-[0.62rem] sm:text-[0.68rem] tracking-[0.22em] uppercase text-[#121212] font-medium truncate">
-                      {piece.name}
-                    </p>
-                    <p className="font-sans text-[0.52rem] sm:text-[0.55rem] tracking-[0.2em] uppercase text-[#888]">
-                      {piece.purity || "22K GOLD"} · {piece.category}
-                    </p>
-                  </div>
+                {/* Asymmetric Exhibition Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 lg:gap-12 items-start">
+                  {displayPieces.map((piece, pieceIdx) => {
+                    const aspectStyles = [
+                      "aspect-[3/4]",
+                      "aspect-square",
+                      "aspect-[4/5]",
+                      "aspect-[3/4]",
+                      "aspect-square",
+                      "aspect-[4/3]",
+                    ];
+                    const currentAspect =
+                      aspectStyles[pieceIdx % aspectStyles.length];
+                    const isWishlisted = wishlist.includes(piece.slug);
+                    const isMobileHovered = activeMobileHover === piece.slug;
 
-                  <a
-                    href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    title="WhatsApp Price Enquiry"
-                    className="shrink-0 font-sans text-[0.52rem] sm:text-[0.58rem] tracking-wider uppercase text-[#888] hover:text-[#121212] border-b border-[#888]/40 hover:border-[#121212] transition-colors"
-                  >
-                    Price on Request →
-                  </a>
+                    const whatsappPriceMsg = encodeURIComponent(
+                      `Hi A.P.P. Jewellers, I would like to enquire about the price and details for "${piece.name}" (${piece.purity}, SKU: ${piece.slug.toUpperCase()}) from your 365 Collection.`
+                    );
+
+                    return (
+                      <div
+                        key={piece.slug}
+                        className={`group relative flex flex-col space-y-3 transition-transform duration-700 ease-out ${
+                          pieceIdx % 3 === 1 ? "lg:translate-y-6" : ""
+                        }`}
+                      >
+                        {/* Image Box Container */}
+                        <div
+                          onClick={() => setSelectedProduct(piece)}
+                          onTouchStart={() =>
+                            setActiveMobileHover((prev) =>
+                              prev === piece.slug ? null : piece.slug
+                            )
+                          }
+                          className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-700 ease-out group-hover:shadow-2xl rounded-xs`}
+                        >
+                          <img
+                            src={piece.image}
+                            alt={piece.name}
+                            loading="lazy"
+                            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
+
+                          {/* Top Wishlist Heart Button */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleWishlist(piece.slug);
+                            }}
+                            aria-label="Wishlist piece"
+                            className="absolute top-2.5 sm:top-3 right-2.5 sm:right-3 z-10 p-1.5 sm:p-2 rounded-full bg-white/80 backdrop-blur-xs transition-transform hover:scale-110 shadow-xs"
+                          >
+                            <HeartIcon
+                              filled={isWishlisted}
+                              className={`size-3.5 sm:size-4 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
+                            />
+                          </button>
+
+                          {/* ── CARTIER HOVER POPOVER CARD (With Discover + Price Enquiry) ── */}
+                          <div
+                            className={`absolute inset-2 sm:inset-5 bg-[#FFFFFF] border border-[#121212]/15 shadow-2xl p-4 sm:p-7 flex flex-col justify-between items-center text-center transition-all duration-300 transform z-20 ${
+                              isMobileHovered
+                                ? "opacity-100 scale-100 pointer-events-auto"
+                                : "opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 pointer-events-none group-hover:pointer-events-auto"
+                            }`}
+                          >
+                            <div className="space-y-1.5 sm:space-y-2">
+                              <p className="font-sans text-[0.52rem] sm:text-[0.55rem] tracking-[0.3em] uppercase text-[#888] font-bold">
+                                {panel.panelNum} · CREATION {pieceIdx + 1}
+                              </p>
+                              <h4 className="font-display text-sm sm:text-xl text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-2">
+                                {piece.name}
+                              </h4>
+                              <p className="font-display italic text-[0.68rem] sm:text-sm text-[#666] line-clamp-2 sm:line-clamp-3 leading-relaxed">
+                                {piece.story ||
+                                  piece.tagline ||
+                                  "Handcrafted with certified gold purity and master artisan settings."}
+                              </p>
+                            </div>
+
+                            {/* Action Buttons: Discover Creation + Price Enquiry */}
+                            <div className="w-full space-y-2 pt-2">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedProduct(piece);
+                                }}
+                                className="w-full py-2 sm:py-2.5 px-4 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.58rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.2em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs"
+                              >
+                                DISCOVER CREATION
+                              </button>
+
+                              <a
+                                href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="flex items-center justify-center gap-1.5 w-full py-1.5 sm:py-2 px-4 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.55rem] sm:text-[0.6rem] font-semibold uppercase tracking-[0.18em] transition-all hover:bg-[#121212]/10"
+                              >
+                                <WhatsAppIcon className="size-3 text-[#121212]" />
+                                <span>PRICE ENQUIRY</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Micro-Caption Directly Beneath Card */}
+                        <div className="flex items-center justify-between gap-2 px-0.5">
+                          <div className="min-w-0">
+                            <p className="font-sans text-[0.62rem] sm:text-[0.68rem] tracking-[0.22em] uppercase text-[#121212] font-medium truncate">
+                              {piece.name}
+                            </p>
+                            <p className="font-sans text-[0.52rem] sm:text-[0.55rem] tracking-[0.2em] uppercase text-[#888]">
+                              {piece.purity || "22K GOLD"} · {piece.category}
+                            </p>
+                          </div>
+
+                          <a
+                            href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            title="WhatsApp Price Enquiry"
+                            className="shrink-0 font-sans text-[0.52rem] sm:text-[0.58rem] tracking-wider uppercase text-[#888] hover:text-[#121212] border-b border-[#888]/40 hover:border-[#121212] transition-colors"
+                          >
+                            Price on Request →
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
-            );
-          })}
-        </div>
+            </section>
+          );
+        })}
       </main>
 
       {/* ════════════════════════════════════════════════════════════ */}
       {/* 3. EDITORIAL FOOTER                                         */}
       {/* ════════════════════════════════════════════════════════════ */}
-      <footer className="border-t border-[#121212]/10 bg-[#FAF8F5] py-12 sm:py-16 px-6 sm:px-12 text-center space-y-4 sm:space-y-6">
+      <footer className="relative z-50 border-t border-[#121212]/10 bg-[#FAF8F5] py-16 px-6 sm:px-12 text-center space-y-4 sm:space-y-6">
         <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-4 font-sans text-[0.62rem] sm:text-[0.65rem] tracking-[0.25em] uppercase text-[#777]">
           <p>A.P.P. JEWELLERS — 365</p>
           <p>A YEAR OF CRAFTSMANSHIP & GOLD HERITAGE</p>
@@ -431,7 +509,7 @@ function EditorialPieceReader({
   );
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#FAF8F5] text-[#121212] animate-fadeIn">
+    <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#FAF8F5] text-[#121212] animate-fadeIn">
       {/* ── Top Bar (Video 00:08) ─────────────────────────────────── */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[#121212]/10 bg-[#FAF8F5]/95 px-4 sm:px-12 py-3.5 sm:py-4 backdrop-blur-md">
         <div className="flex items-center gap-2.5 sm:gap-3">
