@@ -420,97 +420,65 @@ function DetailedCollectionsPage() {
     <>
 
       <Nav />
-      <main ref={mainRef} className="relative page-enter px-3 sm:px-8 pb-32 pt-24 sm:pt-36 bg-background text-foreground min-h-screen">
-        {/* ══════════════════════════════════════════════════════════ */}
-        {/*  3D ORBIT BACKGROUND LAYER (Fixed & Fades Out at Footer)  */}
-        {/* ══════════════════════════════════════════════════════════ */}
-        {footerFadeOut > 0.005 && (
-          <div
-            className="fixed inset-0 pointer-events-none z-0 overflow-hidden will-change-transform"
-            style={{ transform: `scale(${zoomScale})` }}
-          >
-              {orbitReady && ORBIT_FRAMES.map((src, i) => {
-                let opacity = 0;
-                if (i === activeIdx) opacity = 1 - blend;
-                else if (i === activeIdx + 1) opacity = blend;
-                opacity *= (1 - macroBlend) * footerFadeOut;
-                if (opacity < 0.005) return null;
-
-                return (
-                  <img
-                    key={src}
-                    src={src}
-                    alt=""
-                    aria-hidden
-                    className="absolute inset-0 w-full h-full select-none"
-                    style={{
-                      objectFit: "cover",
-                      objectPosition: "center 40%",
-                      opacity: opacity * 0.28,
-                      filter: "brightness(0.65) contrast(1.1) saturate(0.85)",
-                    }}
-                    draggable={false}
-                  />
-                );
-              })}
-
-              {/* Macro close-up frame */}
-              {macroBlend > 0.01 && (
-                <img
-                  src={MACRO_FRAME}
-                  alt=""
-                  aria-hidden
-                  className="absolute inset-0 w-full h-full select-none"
-                  style={{
-                    objectFit: "cover",
-                    objectPosition: "center center",
-                    opacity: macroBlend * footerFadeOut * 0.28,
-                    filter: "brightness(0.65) contrast(1.1) saturate(0.85)",
-                  }}
-                  draggable={false}
-                />
-              )}
-
-              {/* Light Clean Radial Gradient Overlay */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background: "radial-gradient(ellipse 130% 90% at 50% 50%, rgba(255,255,255,0.7) 0%, rgba(250,250,252,0.88) 60%, rgba(255,255,255,0.95) 100%)",
-                  opacity: footerFadeOut,
-                }}
-              />
-          </div>
-        )}
-
+      <main ref={mainRef} className="relative page-enter px-4 sm:px-10 pb-32 pt-28 sm:pt-36 bg-[#FAF9F6] text-[#1A1A1A] min-h-screen">
         <div className="relative z-10 mx-auto max-w-7xl">
-          {/* PREMIUM COLLECTION LUXURY HEADER */}
-          <div className="text-center mb-6 sm:mb-8">
-            <h1 className="font-display text-2xl sm:text-5xl font-bold text-foreground tracking-wide leading-tight">
-              Our <span className="italic shimmer-text font-display">Premium Collection</span>
-            </h1>
-            <p className="mt-2 text-xs sm:text-sm font-light text-muted-foreground max-w-lg mx-auto leading-relaxed">
-              Handcrafted BIS Hallmarked Gold, Certified Solitaire Diamonds & Royal Kundan Masterpieces.
+          {/* CARTIER 365 EDITORIAL MAGAZINE HEADER */}
+          <div className="text-center mb-8 sm:mb-12 space-y-2">
+            <p className="font-mono text-xs uppercase tracking-[0.4em] text-[#C5A059] font-bold">
+              HAUTE JOAILLERIE ARCHIVE
             </p>
-            <div className="rule-gold mx-auto mt-3 sm:mt-4 w-28 sm:w-36" />
+            <h1 className="font-serif text-3xl sm:text-6xl font-normal text-[#1A1A1A] tracking-tight leading-tight">
+              A.P.P. Jewellers <span className="italic font-serif font-light text-[#888]">— 365</span>
+            </h1>
+            <p className="mt-2 text-xs sm:text-sm font-serif italic text-[#666] max-w-lg mx-auto leading-relaxed">
+              Curated exhibition chapters featuring 22K BIS Hallmarked Gold, Certified Solitaires & Heritage Kundan Artistry.
+            </p>
+            <div className="w-16 h-px bg-[#1A1A1A]/20 mx-auto mt-4" />
           </div>
 
-          {/* CLEAN SEARCH BAR */}
-          <div className="bg-onyx border border-gold/40 rounded-lg p-3 sm:p-4 shadow-sm">
-            {/* Search Input */}
+          {/* TOP EDITORIAL CHAPTER & CATEGORY NAVIGATION BAR */}
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 mb-8 pb-4 border-b border-[#1A1A1A]/10">
+            {[
+              { id: "ALL", label: "ALL CREATIONS" },
+              { id: "BRIDAL SET", label: "CHAPTER I: ROYAL HERITAGE" },
+              { id: "RINGS", label: "CHAPTER II: SOLITAIRES" },
+              { id: "JHUMKA", label: "CHAPTER III: TEMPLE MASTERPIECES" },
+              { id: "CHAIN", label: "CHAPTER IV: DAILY LUXURY" },
+            ].map((tab) => {
+              const isSelected = activeCategory === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActiveCategory(tab.id)}
+                  className={`font-mono text-[0.62rem] sm:text-xs font-bold uppercase tracking-[0.25em] px-4 py-2 rounded-full border transition-all ${
+                    isSelected
+                      ? "bg-[#1A1A1A] text-[#FAF9F6] border-[#1A1A1A] shadow-xs"
+                      : "bg-[#F3F1EC] text-[#555] border-transparent hover:border-[#1A1A1A]/30 hover:text-[#1A1A1A]"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* EDITORIAL SEARCH INPUT */}
+          <div className="max-w-xl mx-auto mb-10">
             <div className="relative flex items-center w-full">
-              <SearchIcon className="absolute left-4 size-4.5 text-gold" />
+              <SearchIcon className="absolute left-4 size-4 text-[#1A1A1A]/60" />
               <input
                 type="text"
-                placeholder="Search rings, bangles, haram, kundan..."
+                placeholder="Search by piece name, karat purity, stone or motif..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-onyx/90 border border-gold/40 focus:border-gold rounded-full pl-11 pr-10 py-2.5 text-xs sm:text-sm text-foreground placeholder:text-muted-foreground/70 outline-none transition-all shadow-inner"
+                className="w-full bg-[#F3F1EC] border border-[#1A1A1A]/15 focus:border-[#1A1A1A] rounded-full pl-11 pr-10 py-2.5 font-mono text-xs text-[#1A1A1A] placeholder:text-[#888] outline-none transition-all"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-4 text-xs text-gold hover:text-white"
+                  className="absolute right-4 text-xs text-[#1A1A1A]/60 hover:text-[#1A1A1A]"
                 >
                   <CloseIcon className="size-4" />
                 </button>
@@ -886,44 +854,32 @@ function DetailedCollectionsPage() {
                             />
                           </button>
 
-                          {/* INTERACTIVE HOVER OVERLAY CARD */}
-                          <div className="absolute inset-0 bg-[#0a0d0c]/90 p-5 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20 text-center">
-                            <div>
-                              <p className="font-mono text-[0.6rem] uppercase tracking-[0.3em] text-[#D4AF37]">
-                                {product.category} · {product.metal}
+                          {/* CARTIER HOVER POPOVER CARD (Matching Reference Video 00:05) */}
+                          <div className="absolute inset-2 sm:inset-4 bg-[#FAF9F6] border border-[#1A1A1A]/20 shadow-2xl p-5 sm:p-6 rounded-xs flex flex-col justify-between items-center text-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform scale-95 group-hover:scale-100 z-20">
+                            <div className="space-y-2">
+                              <p className="font-mono text-[0.55rem] uppercase tracking-[0.3em] text-[#C5A059] font-bold">
+                                {product.collection || product.category}
                               </p>
-                              <h4 className="mt-2 font-serif text-lg text-[#FAF9F6] font-normal leading-tight">
+                              <h4 className="font-serif text-base sm:text-xl text-[#1A1A1A] font-normal leading-tight">
                                 {product.name}
                               </h4>
-                              <p className="mt-2 text-xs text-[#D6D1C7] font-light leading-relaxed line-clamp-3">
+                              <p className="text-xs text-[#555] font-serif italic line-clamp-3 leading-relaxed">
                                 {product.story ||
                                   product.tagline ||
                                   "Handcrafted temple engraving with rose-cut solitaires and certified gold purity."}
                               </p>
                             </div>
 
-                            <div className="space-y-2 pt-4">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setReaderProduct(product);
-                                }}
-                                className="w-full py-2.5 rounded-full border border-[#D4AF37] bg-[#D4AF37] text-[#0f1412] font-mono text-xs font-bold uppercase tracking-[0.2em] shadow-md hover:bg-white hover:border-white transition-all"
-                              >
-                                EXPLORE CREATION
-                              </button>
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setReaderProduct(product);
-                                }}
-                                className="w-full py-2 rounded-full border border-[#D4AF37]/50 text-[#D4AF37] font-mono text-[0.62rem] uppercase tracking-widest hover:bg-[#D4AF37]/20 transition-all"
-                              >
-                                VIEW SPECIFICATIONS
-                              </button>
-                            </div>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setReaderProduct(product);
+                              }}
+                              className="w-full py-2.5 px-4 rounded-full border border-[#1A1A1A] bg-transparent text-[#1A1A1A] font-mono text-[0.62rem] font-bold uppercase tracking-[0.2em] transition-all hover:bg-[#1A1A1A] hover:text-[#FAF9F6] shadow-xs"
+                            >
+                              EXPLORE CREATION
+                            </button>
                           </div>
                         </div>
 
