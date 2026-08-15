@@ -65,7 +65,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "The Royal Gold Heritage",
     tagline:
       "Intricate hand-forged chokers, nakshi repoussé necklaces, and heavy bridal haar.",
-    bgColor: "#F5F2EB",
+    bgColor: "#F6F3EC",
     filterFn: (p) =>
       p.metal === "GOLD" ||
       p.category === "HARAM" ||
@@ -79,7 +79,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Magnetic Imprint & Diamonds",
     tagline:
       "Precision cut solitaire rings, diamond tennis bracelets, and pavé set emerald cuts.",
-    bgColor: "#EFECE4",
+    bgColor: "#EFECE5",
     filterFn: (p) =>
       p.metal === "DIAMOND" ||
       p.metal === "PLATINUM" ||
@@ -94,7 +94,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Earrings, Jhumkas & Chandbalis",
     tagline:
       "Tiered temple jhumkas, pearl-tassel balis, and everyday brilliant solitaire studs.",
-    bgColor: "#F8F6F1",
+    bgColor: "#F7F5F0",
     filterFn: (p) =>
       p.category.includes("EAR") ||
       p.category.includes("JHUMKA") ||
@@ -109,7 +109,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Rings, Bands & Solitaires",
     tagline:
       "Hand-carved eternity bands, statement polki cocktail rings, and signature daily signets.",
-    bgColor: "#F3EFE8",
+    bgColor: "#F2EEE6",
     filterFn: (p) => p.category.includes("RING"),
   },
   {
@@ -120,7 +120,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Bridal Suites & Temple Masterpieces",
     tagline:
       "Grand wedding ensembles, goddess Lakshmi vaddanams, and hand-linked kadas.",
-    bgColor: "#EAE5DC",
+    bgColor: "#ECE7DE",
     filterFn: (p) =>
       p.category.includes("BRIDAL") ||
       p.category.includes("HARAM") ||
@@ -180,7 +180,7 @@ function EditorialCollectionsPage() {
     setActivePanelId(id);
     const target = document.getElementById(id);
     if (target) {
-      const headerOffset = 100;
+      const headerOffset = 90;
       const elementPosition = target.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -191,11 +191,11 @@ function EditorialCollectionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased selection:bg-[#E8DFC8] selection:text-[#121212]">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased selection:bg-[#E8DFC8] selection:text-[#121212] overflow-x-hidden scroll-smooth">
       {/* ════════════════════════════════════════════════════════════ */}
       {/* 1. STICKY TOP BRAND HEADER                                   */}
       {/* ════════════════════════════════════════════════════════════ */}
-      <header className="sticky top-0 z-50 border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs">
+      <header className="sticky top-0 z-50 border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs will-change-transform">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-3 sm:px-12 py-2.5 sm:py-4">
           {/* Left: Brand Identity */}
           <Link
@@ -224,8 +224,8 @@ function EditorialCollectionsPage() {
         {/* ════════════════════════════════════════════════════════════ */}
         {/* SUB NAVIGATION BAR (Category Icons & Curtain Jump Tabs)     */}
         {/* ════════════════════════════════════════════════════════════ */}
-        <div className="border-t border-[#121212]/10 bg-[#FAF8F5]/90 py-1.5 sm:py-2.5 overflow-x-auto no-scrollbar scroll-smooth">
-          <div className="mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-1 sm:gap-3 px-2 sm:px-4 min-w-max">
+        <div className="border-t border-[#121212]/10 bg-[#FAF8F5]/90 py-1.5 sm:py-2 overflow-x-auto no-scrollbar scroll-smooth">
+          <div className="mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-1 sm:gap-2.5 px-2 sm:px-4 min-w-max">
             {SUB_NAV_ITEMS.map((item) => {
               const isSelected = activePanelId === item.id;
               const Icon = item.IconComponent;
@@ -234,9 +234,9 @@ function EditorialCollectionsPage() {
                   key={item.id}
                   type="button"
                   onClick={() => scrollToCurtain(item.id)}
-                  className={`group flex items-center gap-1 sm:gap-2 px-2.5 sm:px-4 py-1 sm:py-2 rounded-full font-sans text-[0.62rem] sm:text-xs tracking-wider uppercase transition-all shrink-0 ${
+                  className={`group flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[0.6rem] sm:text-xs tracking-wider uppercase transition-all shrink-0 ${
                     isSelected
-                      ? "bg-[#121212] text-[#FAF8F5] font-bold shadow-xs scale-105"
+                      ? "bg-[#121212] text-[#FAF8F5] font-bold shadow-xs scale-102"
                       : "text-[#555] hover:text-[#121212] hover:bg-[#121212]/5"
                   }`}
                 >
@@ -256,7 +256,7 @@ function EditorialCollectionsPage() {
       </header>
 
       {/* ════════════════════════════════════════════════════════════ */}
-      {/* 2. CURTAIN REVEAL / OVERLAPPING STACKING PANELS (Wipe Stack) */}
+      {/* 2. BUTTERY SMOOTH CURTAIN OVERLAPPING STACK                  */}
       {/* ════════════════════════════════════════════════════════════ */}
       <main className="relative">
         {CURTAIN_PANELS.map((panel, panelIdx) => {
@@ -275,10 +275,13 @@ function EditorialCollectionsPage() {
               style={{
                 backgroundColor: panel.bgColor,
                 zIndex: zIndexValue,
+                transform: "translate3d(0,0,0)",
               }}
-              className={`sticky top-[92px] sm:top-[108px] min-h-screen w-full transition-all duration-700 ease-out border-t border-[#121212]/10 shadow-[0_-25px_60px_rgba(0,0,0,0.12)] px-2 sm:px-10 lg:px-12 py-8 sm:py-20`}
+              className={`relative scroll-mt-24 w-full border-t border-[#121212]/10 shadow-[0_-12px_32px_rgba(0,0,0,0.06)] px-2 sm:px-10 lg:px-12 py-8 sm:py-16 ${
+                panelIdx > 0 ? "-mt-4 sm:-mt-6" : ""
+              }`}
             >
-              <div className="mx-auto max-w-7xl space-y-6 sm:space-y-14">
+              <div className="mx-auto max-w-7xl space-y-5 sm:space-y-12">
                 {/* Curtain Panel Header */}
                 <div className="text-center space-y-1 sm:space-y-2 max-w-3xl mx-auto px-1">
                   <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-[0.3em] uppercase text-[#777] font-semibold">
@@ -292,8 +295,8 @@ function EditorialCollectionsPage() {
                   </p>
                 </div>
 
-                {/* 3-COLUMN DESKTOP & MOBILE GRID (3 Pictures At Once on Mobile!) */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-8 lg:gap-10 items-start">
+                {/* 3-COLUMN DESKTOP & MOBILE GRID */}
+                <div className="grid grid-cols-3 gap-2 sm:gap-6 lg:gap-8 items-start">
                   {displayPieces.map((piece, pieceIdx) => {
                     const aspectStyles = [
                       "aspect-[3/4]",
@@ -315,8 +318,8 @@ function EditorialCollectionsPage() {
                     return (
                       <div
                         key={piece.slug}
-                        className={`group relative flex flex-col space-y-1.5 sm:space-y-3 transition-transform duration-700 ease-out ${
-                          pieceIdx % 3 === 1 ? "lg:translate-y-6" : ""
+                        className={`group relative flex flex-col space-y-1.5 sm:space-y-3 ${
+                          pieceIdx % 3 === 1 ? "lg:translate-y-4" : ""
                         }`}
                       >
                         {/* Image Box Container */}
@@ -327,13 +330,13 @@ function EditorialCollectionsPage() {
                               prev === piece.slug ? null : piece.slug
                             )
                           }
-                          className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-700 ease-out group-hover:shadow-2xl rounded-xs`}
+                          className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-2xs hover:shadow-xl transition-shadow duration-300 rounded-xs`}
                         >
                           <img
                             src={piece.image}
                             alt={piece.name}
                             loading="lazy"
-                            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                           />
 
                           {/* Top Wishlist Heart Button */}
@@ -344,30 +347,30 @@ function EditorialCollectionsPage() {
                               toggleWishlist(piece.slug);
                             }}
                             aria-label="Wishlist piece"
-                            className="absolute top-1 sm:top-3 right-1 sm:right-3 z-10 p-1 sm:p-2 rounded-full bg-white/80 backdrop-blur-xs transition-transform hover:scale-110 shadow-xs"
+                            className="absolute top-1 sm:top-2.5 right-1 sm:right-2.5 z-10 p-1 sm:p-1.5 rounded-full bg-white/80 backdrop-blur-xs transition-transform hover:scale-110 shadow-xs"
                           >
                             <HeartIcon
                               filled={isWishlisted}
-                              className={`size-2.5 sm:size-4 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
+                              className={`size-2.5 sm:size-3.5 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
                             />
                           </button>
 
                           {/* ── CARTIER HOVER POPOVER CARD ── */}
                           <div
-                            className={`absolute inset-1 sm:inset-5 bg-[#FFFFFF] border border-[#121212]/15 shadow-2xl p-2 sm:p-7 flex flex-col justify-between items-center text-center transition-all duration-300 transform z-20 ${
+                            className={`absolute inset-1 sm:inset-4 bg-[#FFFFFF] border border-[#121212]/15 shadow-xl p-2 sm:p-6 flex flex-col justify-between items-center text-center transition-opacity duration-200 z-20 ${
                               isMobileHovered
-                                ? "opacity-100 scale-100 pointer-events-auto"
-                                : "opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 pointer-events-none group-hover:pointer-events-auto"
+                                ? "opacity-100 pointer-events-auto"
+                                : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
                             }`}
                           >
-                            <div className="space-y-0.5 sm:space-y-2">
+                            <div className="space-y-0.5 sm:space-y-1.5">
                               <p className="font-sans text-[0.42rem] sm:text-[0.55rem] tracking-[0.2em] uppercase text-[#888] font-bold">
                                 {panel.panelNum}
                               </p>
-                              <h4 className="font-display text-[0.62rem] sm:text-xl text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-1 sm:line-clamp-2">
+                              <h4 className="font-display text-[0.62rem] sm:text-lg text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-1 sm:line-clamp-2">
                                 {piece.name}
                               </h4>
-                              <p className="hidden sm:block font-display italic text-xs sm:text-sm text-[#666] line-clamp-2 sm:line-clamp-3 leading-relaxed">
+                              <p className="hidden sm:block font-display italic text-xs text-[#666] line-clamp-2 leading-relaxed">
                                 {piece.story ||
                                   piece.tagline ||
                                   "Handcrafted with certified gold purity and master artisan settings."}
@@ -375,14 +378,14 @@ function EditorialCollectionsPage() {
                             </div>
 
                             {/* Action Buttons: Discover Creation + Price Enquiry */}
-                            <div className="w-full space-y-1 sm:space-y-2 pt-1">
+                            <div className="w-full space-y-1 sm:space-y-1.5 pt-1">
                               <button
                                 type="button"
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedProduct(piece);
                                 }}
-                                className="w-full py-1 sm:py-2.5 px-1.5 sm:px-4 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.48rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.15em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs truncate"
+                                className="w-full py-1 sm:py-2 px-1.5 sm:px-3 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.48rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs truncate"
                               >
                                 DISCOVER
                               </button>
@@ -392,7 +395,7 @@ function EditorialCollectionsPage() {
                                 target="_blank"
                                 rel="noreferrer"
                                 onClick={(e) => e.stopPropagation()}
-                                className="flex items-center justify-center gap-1 w-full py-0.5 sm:py-2 px-1.5 sm:px-4 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.45rem] sm:text-[0.6rem] font-semibold uppercase tracking-[0.12em] transition-all hover:bg-[#121212]/10 truncate"
+                                className="flex items-center justify-center gap-1 w-full py-0.5 sm:py-1.5 px-1.5 sm:px-3 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.45rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.12em] transition-all hover:bg-[#121212]/10 truncate"
                               >
                                 <WhatsAppIcon className="size-2.5 sm:size-3 text-[#121212]" />
                                 <span>PRICE</span>
@@ -449,7 +452,7 @@ function EditorialCollectionsPage() {
       </footer>
 
       {/* ════════════════════════════════════════════════════════════ */}
-      {/* 4. FULL-SCREEN ARTICLE READER VIEW (Responsive for Mobile)   */}
+      {/* 4. FULL-SCREEN ARTICLE READER VIEW                           */}
       {/* ════════════════════════════════════════════════════════════ */}
       {selectedProduct && (
         <EditorialPieceReader
