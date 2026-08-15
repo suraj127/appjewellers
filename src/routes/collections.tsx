@@ -65,7 +65,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "The Royal Gold Heritage",
     tagline:
       "Intricate hand-forged chokers, nakshi repoussé necklaces, and heavy bridal haar.",
-    bgColor: "#F6F3EC",
+    bgColor: "#F5F2EB",
     filterFn: (p) =>
       p.metal === "GOLD" ||
       p.category === "HARAM" ||
@@ -79,7 +79,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Magnetic Imprint & Diamonds",
     tagline:
       "Precision cut solitaire rings, diamond tennis bracelets, and pavé set emerald cuts.",
-    bgColor: "#EFECE5",
+    bgColor: "#EFECE4",
     filterFn: (p) =>
       p.metal === "DIAMOND" ||
       p.metal === "PLATINUM" ||
@@ -94,7 +94,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Earrings, Jhumkas & Chandbalis",
     tagline:
       "Tiered temple jhumkas, pearl-tassel balis, and everyday brilliant solitaire studs.",
-    bgColor: "#F7F5F0",
+    bgColor: "#F8F6F1",
     filterFn: (p) =>
       p.category.includes("EAR") ||
       p.category.includes("JHUMKA") ||
@@ -109,7 +109,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Rings, Bands & Solitaires",
     tagline:
       "Hand-carved eternity bands, statement polki cocktail rings, and signature daily signets.",
-    bgColor: "#F2EEE6",
+    bgColor: "#F3EFE8",
     filterFn: (p) => p.category.includes("RING"),
   },
   {
@@ -120,7 +120,7 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
     title: "Bridal Suites & Temple Masterpieces",
     tagline:
       "Grand wedding ensembles, goddess Lakshmi vaddanams, and hand-linked kadas.",
-    bgColor: "#ECE7DE",
+    bgColor: "#EAE5DC",
     filterFn: (p) =>
       p.category.includes("BRIDAL") ||
       p.category.includes("HARAM") ||
@@ -191,11 +191,11 @@ function EditorialCollectionsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased selection:bg-[#E8DFC8] selection:text-[#121212] overflow-x-hidden scroll-smooth">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased selection:bg-[#E8DFC8] selection:text-[#121212]">
       {/* ════════════════════════════════════════════════════════════ */}
       {/* 1. STICKY TOP BRAND HEADER                                   */}
       {/* ════════════════════════════════════════════════════════════ */}
-      <header className="sticky top-0 z-50 border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs will-change-transform">
+      <header className="sticky top-0 z-50 border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-3 sm:px-12 py-2.5 sm:py-4">
           {/* Left: Brand Identity */}
           <Link
@@ -256,17 +256,17 @@ function EditorialCollectionsPage() {
       </header>
 
       {/* ════════════════════════════════════════════════════════════ */}
-      {/* 2. BUTTERY SMOOTH CURTAIN OVERLAPPING STACK                  */}
+      {/* 2. CURTAIN REVEAL / OVERLAPPING STACKING PANELS (Wipe Stack) */}
       {/* ════════════════════════════════════════════════════════════ */}
       <main className="relative">
         {CURTAIN_PANELS.map((panel, panelIdx) => {
           const pieces = allProducts.filter(panel.filterFn);
           const displayPieces =
             pieces.length > 0
-              ? pieces.slice(0, 12)
-              : allProducts.slice(panelIdx * 3, panelIdx * 3 + 9);
+              ? pieces.slice(0, 6)
+              : allProducts.slice(panelIdx * 3, panelIdx * 3 + 6);
 
-          const zIndexValue = 10 + panelIdx * 5;
+          const zIndexValue = 10 + panelIdx * 10;
 
           return (
             <section
@@ -275,11 +275,8 @@ function EditorialCollectionsPage() {
               style={{
                 backgroundColor: panel.bgColor,
                 zIndex: zIndexValue,
-                transform: "translate3d(0,0,0)",
               }}
-              className={`relative scroll-mt-24 w-full border-t border-[#121212]/10 shadow-[0_-12px_32px_rgba(0,0,0,0.06)] px-2 sm:px-10 lg:px-12 py-8 sm:py-16 ${
-                panelIdx > 0 ? "-mt-4 sm:-mt-6" : ""
-              }`}
+              className={`sticky top-[86px] sm:top-[100px] min-h-[92vh] sm:min-h-screen w-full transition-transform duration-500 ease-out border-t border-[#121212]/10 shadow-[0_-25px_50px_rgba(0,0,0,0.12)] px-2 sm:px-10 lg:px-12 py-6 sm:py-16`}
             >
               <div className="mx-auto max-w-7xl space-y-5 sm:space-y-12">
                 {/* Curtain Panel Header */}
@@ -330,7 +327,7 @@ function EditorialCollectionsPage() {
                               prev === piece.slug ? null : piece.slug
                             )
                           }
-                          className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-2xs hover:shadow-xl transition-shadow duration-300 rounded-xs`}
+                          className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-300 hover:shadow-2xl rounded-xs`}
                         >
                           <img
                             src={piece.image}
