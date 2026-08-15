@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { getAllProducts } from "@/data/storeState";
 import type { Product } from "@/data/products";
@@ -156,12 +156,18 @@ const SUB_NAV_ITEMS = [
   { id: "curtain-daily", label: "Daily Wear & Coins", IconComponent: NecklaceIcon },
 ];
 
+/* ── Header height constants ─────────────────────────────────────── */
+const HEADER_HEIGHT_MOBILE = 90;
+const HEADER_HEIGHT_DESKTOP = 105;
+
 function EditorialCollectionsPage() {
   const [allProducts, setAllProducts] = useState<Product[]>(getAllProducts());
   const [activePanelId, setActivePanelId] = useState<string>("curtain-hero");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [activeMobileHover, setActiveMobileHover] = useState<string | null>(null);
+  const [visiblePanels, setVisiblePanels] = useState<Set<string>>(new Set(["curtain-hero"]));
+  const subNavRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const sync = () => setAllProducts(getAllProducts());
@@ -169,6 +175,51 @@ function EditorialCollectionsPage() {
     window.addEventListener("app_inventory_updated", sync);
     return () => window.removeEventListener("app_inventory_updated", sync);
   }, []);
+
+  /* ── IntersectionObserver: Track active panel on scroll ──────── */
+  useEffect(() => {
+    const panelEls = CURTAIN_PANELS.map((p) => document.getElementById(p.id)).filter(Boolean) as HTMLElement[];
+    if (panelEls.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const newVisible = new Set(visiblePanels);
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (entry.isIntersecting) {
+            newVisible.add(id);
+            // Set active panel to the one with the highest index that's visible
+            const visibleIds = Array.from(newVisible);
+            const highestIdx = Math.max(
+              ...visibleIds.map((vid) => CURTAIN_PANELS.findIndex((p) => p.id === vid))
+            );
+            if (highestIdx >= 0) {
+              setActivePanelId(CURTAIN_PANELS[highestIdx].id);
+            }
+          } else {
+            newVisible.delete(id);
+          }
+        });
+        setVisiblePanels(newVisible);
+      },
+      {
+        threshold: 0.3,
+        rootMargin: "-10% 0px -10% 0px",
+      }
+    );
+
+    panelEls.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  /* ── Auto-scroll sub-nav to keep active item visible ─────────── */
+  useEffect(() => {
+    if (!subNavRef.current) return;
+    const activeBtn = subNavRef.current.querySelector(`[data-nav-id="${activePanelId}"]`) as HTMLElement;
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+    }
+  }, [activePanelId]);
 
   const toggleWishlist = (slug: string) => {
     setWishlist((prev) =>
@@ -180,7 +231,7 @@ function EditorialCollectionsPage() {
     setActivePanelId(id);
     const target = document.getElementById(id);
     if (target) {
-      const headerOffset = 90;
+      const headerOffset = window.innerWidth >= 640 ? HEADER_HEIGHT_DESKTOP : HEADER_HEIGHT_MOBILE;
       const elementPosition = target.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
       window.scrollTo({
@@ -192,10 +243,10 @@ function EditorialCollectionsPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased selection:bg-[#E8DFC8] selection:text-[#121212]">
-      {/* ════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════ */}
       {/* 1. STICKY TOP BRAND HEADER                                   */}
-      {/* ════════════════════════════════════════════════════════════ */}
-      <header className="sticky top-0 z-50 border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs">
+      {/* ══════════════════════════════════════════════════════════════ */}
+      <header className="sticky top-0 z-[200] border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-3 sm:px-12 py-2.5 sm:py-4">
           {/* Left: Brand Identity */}
           <Link
@@ -221,10 +272,13 @@ function EditorialCollectionsPage() {
           </Link>
         </div>
 
-        {/* ════════════════════════════════════════════════════════════ */}
+        {/* ══════════════════════════════════════════════════════════════ */}
         {/* SUB NAVIGATION BAR (Category Icons & Curtain Jump Tabs)     */}
-        {/* ════════════════════════════════════════════════════════════ */}
-        <div className="border-t border-[#121212]/10 bg-[#FAF8F5]/90 py-1.5 sm:py-2 overflow-x-auto no-scrollbar scroll-smooth">
+        {/* ══════════════════════════════════════════════════════════════ */}
+        <div
+          ref={subNavRef}
+          className="border-t border-[#121212]/10 bg-[#FAF8F5]/90 py-1.5 sm:py-2 overflow-x-auto no-scrollbar scroll-smooth"
+        >
           <div className="mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-1 sm:gap-2.5 px-2 sm:px-4 min-w-max">
             {SUB_NAV_ITEMS.map((item) => {
               const isSelected = activePanelId === item.id;
@@ -233,8 +287,9 @@ function EditorialCollectionsPage() {
                 <button
                   key={item.id}
                   type="button"
+                  data-nav-id={item.id}
                   onClick={() => scrollToCurtain(item.id)}
-                  className={`group flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[0.6rem] sm:text-xs tracking-wider uppercase transition-all shrink-0 ${
+                  className={`group flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[0.6rem] sm:text-xs tracking-wider uppercase transition-all duration-300 shrink-0 ${
                     isSelected
                       ? "bg-[#121212] text-[#FAF8F5] font-bold shadow-xs scale-102"
                       : "text-[#555] hover:text-[#121212] hover:bg-[#121212]/5"
@@ -255,186 +310,35 @@ function EditorialCollectionsPage() {
         </div>
       </header>
 
-      {/* ════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════ */}
       {/* 2. CURTAIN REVEAL / OVERLAPPING STACKING PANELS (Wipe Stack) */}
-      {/* ════════════════════════════════════════════════════════════ */}
-      <main className="relative">
-        {CURTAIN_PANELS.map((panel, panelIdx) => {
-          const pieces = allProducts.filter(panel.filterFn);
-          const displayPieces =
-            pieces.length > 0
-              ? pieces.slice(0, 6)
-              : allProducts.slice(panelIdx * 3, panelIdx * 3 + 6);
-
-          const zIndexValue = 10 + panelIdx * 10;
-
-          return (
-            <section
-              key={panel.id}
-              id={panel.id}
-              style={{
-                backgroundColor: panel.bgColor,
-                zIndex: zIndexValue,
-              }}
-              className={`sticky top-[86px] sm:top-[100px] min-h-[92vh] sm:min-h-screen w-full transition-transform duration-500 ease-out border-t border-[#121212]/10 shadow-[0_-25px_50px_rgba(0,0,0,0.12)] px-2 sm:px-10 lg:px-12 py-6 sm:py-16`}
-            >
-              <div className="mx-auto max-w-7xl space-y-5 sm:space-y-12">
-                {/* Curtain Panel Header */}
-                <div className="text-center space-y-1 sm:space-y-2 max-w-3xl mx-auto px-1">
-                  <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-[0.3em] uppercase text-[#777] font-semibold">
-                    {panel.panelNum} · {panel.subtitle}
-                  </p>
-                  <h2 className="font-display italic text-2xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
-                    {panel.title}
-                  </h2>
-                  <p className="font-display text-[0.72rem] sm:text-base text-[#555] font-light pt-0.5 sm:pt-1 leading-relaxed max-w-xl mx-auto line-clamp-2 sm:line-clamp-none">
-                    {panel.tagline}
-                  </p>
-                </div>
-
-                {/* 3-COLUMN DESKTOP & MOBILE GRID */}
-                <div className="grid grid-cols-3 gap-2 sm:gap-6 lg:gap-8 items-start">
-                  {displayPieces.map((piece, pieceIdx) => {
-                    const aspectStyles = [
-                      "aspect-[3/4]",
-                      "aspect-square",
-                      "aspect-[4/5]",
-                      "aspect-[3/4]",
-                      "aspect-square",
-                      "aspect-[4/3]",
-                    ];
-                    const currentAspect =
-                      aspectStyles[pieceIdx % aspectStyles.length];
-                    const isWishlisted = wishlist.includes(piece.slug);
-                    const isMobileHovered = activeMobileHover === piece.slug;
-
-                    const whatsappPriceMsg = encodeURIComponent(
-                      `Hi A.P.P. Jewellers, I would like to enquire about the price and details for "${piece.name}" (${piece.purity}, SKU: ${piece.slug.toUpperCase()}) from your 365 Collection.`
-                    );
-
-                    return (
-                      <div
-                        key={piece.slug}
-                        className={`group relative flex flex-col space-y-1.5 sm:space-y-3 ${
-                          pieceIdx % 3 === 1 ? "lg:translate-y-4" : ""
-                        }`}
-                      >
-                        {/* Image Box Container */}
-                        <div
-                          onClick={() => setSelectedProduct(piece)}
-                          onTouchStart={() =>
-                            setActiveMobileHover((prev) =>
-                              prev === piece.slug ? null : piece.slug
-                            )
-                          }
-                          className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-300 hover:shadow-2xl rounded-xs`}
-                        >
-                          <img
-                            src={piece.image}
-                            alt={piece.name}
-                            loading="lazy"
-                            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                          />
-
-                          {/* Top Wishlist Heart Button */}
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleWishlist(piece.slug);
-                            }}
-                            aria-label="Wishlist piece"
-                            className="absolute top-1 sm:top-2.5 right-1 sm:right-2.5 z-10 p-1 sm:p-1.5 rounded-full bg-white/80 backdrop-blur-xs transition-transform hover:scale-110 shadow-xs"
-                          >
-                            <HeartIcon
-                              filled={isWishlisted}
-                              className={`size-2.5 sm:size-3.5 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
-                            />
-                          </button>
-
-                          {/* ── CARTIER HOVER POPOVER CARD ── */}
-                          <div
-                            className={`absolute inset-1 sm:inset-4 bg-[#FFFFFF] border border-[#121212]/15 shadow-xl p-2 sm:p-6 flex flex-col justify-between items-center text-center transition-opacity duration-200 z-20 ${
-                              isMobileHovered
-                                ? "opacity-100 pointer-events-auto"
-                                : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
-                            }`}
-                          >
-                            <div className="space-y-0.5 sm:space-y-1.5">
-                              <p className="font-sans text-[0.42rem] sm:text-[0.55rem] tracking-[0.2em] uppercase text-[#888] font-bold">
-                                {panel.panelNum}
-                              </p>
-                              <h4 className="font-display text-[0.62rem] sm:text-lg text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-1 sm:line-clamp-2">
-                                {piece.name}
-                              </h4>
-                              <p className="hidden sm:block font-display italic text-xs text-[#666] line-clamp-2 leading-relaxed">
-                                {piece.story ||
-                                  piece.tagline ||
-                                  "Handcrafted with certified gold purity and master artisan settings."}
-                              </p>
-                            </div>
-
-                            {/* Action Buttons: Discover Creation + Price Enquiry */}
-                            <div className="w-full space-y-1 sm:space-y-1.5 pt-1">
-                              <button
-                                type="button"
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setSelectedProduct(piece);
-                                }}
-                                className="w-full py-1 sm:py-2 px-1.5 sm:px-3 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.48rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs truncate"
-                              >
-                                DISCOVER
-                              </button>
-
-                              <a
-                                href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="flex items-center justify-center gap-1 w-full py-0.5 sm:py-1.5 px-1.5 sm:px-3 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.45rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.12em] transition-all hover:bg-[#121212]/10 truncate"
-                              >
-                                <WhatsAppIcon className="size-2.5 sm:size-3 text-[#121212]" />
-                                <span>PRICE</span>
-                              </a>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Micro-Caption Directly Beneath Card */}
-                        <div className="space-y-0.5 px-0.5">
-                          <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-wider uppercase text-[#121212] font-medium truncate">
-                            {piece.name}
-                          </p>
-                          <div className="flex items-center justify-between gap-1">
-                            <p className="font-sans text-[0.45rem] sm:text-[0.55rem] tracking-wider uppercase text-[#888] truncate">
-                              {piece.purity || "22K"}
-                            </p>
-                            <a
-                              href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
-                              target="_blank"
-                              rel="noreferrer"
-                              title="WhatsApp Price Enquiry"
-                              className="font-sans text-[0.45rem] sm:text-[0.58rem] tracking-wider uppercase text-[#888] hover:text-[#121212] transition-colors shrink-0"
-                            >
-                              Price →
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </section>
-          );
-        })}
+      {/*    Each panel wrapped in scroll-spacer for proper sticky      */}
+      {/*    curtain reveal. Panels slide UP over previous ones.        */}
+      {/* ══════════════════════════════════════════════════════════════ */}
+      <main>
+        {CURTAIN_PANELS.map((panel, panelIdx) => (
+          <CurtainPanel
+            key={panel.id}
+            panel={panel}
+            panelIdx={panelIdx}
+            allProducts={allProducts}
+            isVisible={visiblePanels.has(panel.id)}
+            wishlist={wishlist}
+            activeMobileHover={activeMobileHover}
+            onToggleWishlist={toggleWishlist}
+            onMobileHover={setActiveMobileHover}
+            onSelectProduct={setSelectedProduct}
+          />
+        ))}
       </main>
 
-      {/* ════════════════════════════════════════════════════════════ */}
-      {/* 3. EDITORIAL FOOTER                                         */}
-      {/* ════════════════════════════════════════════════════════════ */}
-      <footer className="relative z-50 border-t border-[#121212]/10 bg-[#FAF8F5] py-12 sm:py-16 px-4 sm:px-12 text-center space-y-4 sm:space-y-6">
+      {/* ══════════════════════════════════════════════════════════════ */}
+      {/* 3. EDITORIAL FOOTER                                          */}
+      {/* ══════════════════════════════════════════════════════════════ */}
+      <footer
+        className="relative border-t border-[#121212]/10 bg-[#FAF8F5] py-12 sm:py-16 px-4 sm:px-12 text-center space-y-4 sm:space-y-6"
+        style={{ zIndex: 200 }}
+      >
         <div className="mx-auto flex max-w-7xl flex-col sm:flex-row items-center justify-between gap-3 font-sans text-[0.55rem] sm:text-[0.65rem] tracking-[0.25em] uppercase text-[#777]">
           <p>A.P.P. JEWELLERS — 365</p>
           <p>A YEAR OF CRAFTSMANSHIP & GOLD HERITAGE</p>
@@ -448,9 +352,9 @@ function EditorialCollectionsPage() {
         </div>
       </footer>
 
-      {/* ════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════ */}
       {/* 4. FULL-SCREEN ARTICLE READER VIEW                           */}
-      {/* ════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════ */}
       {selectedProduct && (
         <EditorialPieceReader
           product={selectedProduct}
@@ -459,6 +363,282 @@ function EditorialCollectionsPage() {
           onSelectProduct={(p) => setSelectedProduct(p)}
         />
       )}
+
+      {/* ── Curtain reveal CSS animations (injected once) ───────────── */}
+      <style>{`
+        /* Curtain panel content reveal animation */
+        .curtain-content {
+          opacity: 0;
+          transform: translateY(40px);
+          transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                      transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .curtain-content.revealed {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Stagger delays for content children */
+        .curtain-content.revealed .stagger-1 { transition-delay: 0.08s; }
+        .curtain-content.revealed .stagger-2 { transition-delay: 0.18s; }
+        .curtain-content.revealed .stagger-3 { transition-delay: 0.28s; }
+        .curtain-content.revealed .stagger-4 { transition-delay: 0.38s; }
+        .curtain-content.revealed .stagger-5 { transition-delay: 0.48s; }
+        .curtain-content.revealed .stagger-6 { transition-delay: 0.58s; }
+
+        /* Individual staggered children */
+        .stagger-child {
+          opacity: 0;
+          transform: translateY(25px);
+          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .curtain-content.revealed .stagger-child {
+          opacity: 1;
+          transform: translateY(0);
+        }
+
+        /* Curtain edge shadow on top of each panel */
+        .curtain-edge::before {
+          content: '';
+          position: absolute;
+          top: -30px;
+          left: 0;
+          right: 0;
+          height: 30px;
+          background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(0,0,0,0.04) 40%,
+            rgba(0,0,0,0.10) 100%
+          );
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        /* Reader fade-in */
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.4s ease-out both;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════════════ */
+/* CURTAIN PANEL COMPONENT                                              */
+/* Each panel is a sticky section that slides over the previous one     */
+/* ══════════════════════════════════════════════════════════════════════ */
+function CurtainPanel({
+  panel,
+  panelIdx,
+  allProducts,
+  isVisible,
+  wishlist,
+  activeMobileHover,
+  onToggleWishlist,
+  onMobileHover,
+  onSelectProduct,
+}: {
+  panel: CurtainPanelConfig;
+  panelIdx: number;
+  allProducts: Product[];
+  isVisible: boolean;
+  wishlist: string[];
+  activeMobileHover: string | null;
+  onToggleWishlist: (slug: string) => void;
+  onMobileHover: (slug: string | null) => void;
+  onSelectProduct: (p: Product) => void;
+}) {
+  const pieces = allProducts.filter(panel.filterFn);
+  const displayPieces =
+    pieces.length > 0
+      ? pieces.slice(0, 6)
+      : allProducts.slice(panelIdx * 3, panelIdx * 3 + 6);
+
+  const zIndexValue = 10 + panelIdx * 10;
+
+  return (
+    /* Scroll spacer: provides height for sticky to work.
+       The first panel doesn't need extra spacer height. */
+    <div
+      style={{
+        /* Each spacer is slightly taller than viewport so there's
+           scroll room between panels for the wipe transition */
+        minHeight: panelIdx === 0 ? "auto" : "5vh",
+      }}
+    >
+      <section
+        id={panel.id}
+        style={{
+          backgroundColor: panel.bgColor,
+          zIndex: zIndexValue,
+        }}
+        className={`curtain-edge sticky top-[90px] sm:top-[105px] min-h-[calc(100vh-90px)] sm:min-h-[calc(100vh-105px)] w-full px-2 sm:px-10 lg:px-12 py-6 sm:py-16 will-change-transform`}
+      >
+        {/* Dramatic curtain shadow at the top edge */}
+        <div
+          className="absolute inset-x-0 top-0 pointer-events-none"
+          style={{
+            height: "8px",
+            background: panelIdx > 0
+              ? "linear-gradient(to bottom, rgba(0,0,0,0.08), transparent)"
+              : "none",
+          }}
+        />
+
+        <div className={`curtain-content ${isVisible ? "revealed" : ""} mx-auto max-w-7xl space-y-5 sm:space-y-12`}>
+          {/* Curtain Panel Header */}
+          <div className="text-center space-y-1 sm:space-y-2 max-w-3xl mx-auto px-1 stagger-child stagger-1">
+            <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-[0.3em] uppercase text-[#777] font-semibold">
+              {panel.panelNum} · {panel.subtitle}
+            </p>
+            <h2 className="font-display italic text-2xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
+              {panel.title}
+            </h2>
+            <p className="font-display text-[0.72rem] sm:text-base text-[#555] font-light pt-0.5 sm:pt-1 leading-relaxed max-w-xl mx-auto line-clamp-2 sm:line-clamp-none">
+              {panel.tagline}
+            </p>
+          </div>
+
+          {/* 3-COLUMN DESKTOP & MOBILE GRID */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-6 lg:gap-8 items-start">
+            {displayPieces.map((piece, pieceIdx) => {
+              const aspectStyles = [
+                "aspect-[3/4]",
+                "aspect-square",
+                "aspect-[4/5]",
+                "aspect-[3/4]",
+                "aspect-square",
+                "aspect-[4/3]",
+              ];
+              const currentAspect =
+                aspectStyles[pieceIdx % aspectStyles.length];
+              const isWishlisted = wishlist.includes(piece.slug);
+              const isMobileHovered = activeMobileHover === piece.slug;
+
+              const whatsappPriceMsg = encodeURIComponent(
+                `Hi A.P.P. Jewellers, I would like to enquire about the price and details for "${piece.name}" (${piece.purity}, SKU: ${piece.slug.toUpperCase()}) from your 365 Collection.`
+              );
+
+              return (
+                <div
+                  key={piece.slug}
+                  className={`stagger-child stagger-${Math.min(pieceIdx + 1, 6)} group relative flex flex-col space-y-1.5 sm:space-y-3 ${
+                    pieceIdx % 3 === 1 ? "lg:translate-y-4" : ""
+                  }`}
+                >
+                  {/* Image Box Container */}
+                  <div
+                    onClick={() => onSelectProduct(piece)}
+                    onTouchStart={() =>
+                      onMobileHover(
+                        activeMobileHover === piece.slug ? null : piece.slug
+                      )
+                    }
+                    className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-300 hover:shadow-2xl rounded-xs`}
+                  >
+                    <img
+                      src={piece.image}
+                      alt={piece.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    />
+
+                    {/* Top Wishlist Heart Button */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleWishlist(piece.slug);
+                      }}
+                      aria-label="Wishlist piece"
+                      className="absolute top-1 sm:top-2.5 right-1 sm:right-2.5 z-10 p-1 sm:p-1.5 rounded-full bg-white/80 backdrop-blur-xs transition-transform hover:scale-110 shadow-xs"
+                    >
+                      <HeartIcon
+                        filled={isWishlisted}
+                        className={`size-2.5 sm:size-3.5 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
+                      />
+                    </button>
+
+                    {/* ── CARTIER HOVER POPOVER CARD ── */}
+                    <div
+                      className={`absolute inset-1 sm:inset-4 bg-[#FFFFFF] border border-[#121212]/15 shadow-xl p-2 sm:p-6 flex flex-col justify-between items-center text-center transition-opacity duration-200 z-20 ${
+                        isMobileHovered
+                          ? "opacity-100 pointer-events-auto"
+                          : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
+                      }`}
+                    >
+                      <div className="space-y-0.5 sm:space-y-1.5">
+                        <p className="font-sans text-[0.42rem] sm:text-[0.55rem] tracking-[0.2em] uppercase text-[#888] font-bold">
+                          {panel.panelNum}
+                        </p>
+                        <h4 className="font-display text-[0.62rem] sm:text-lg text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-1 sm:line-clamp-2">
+                          {piece.name}
+                        </h4>
+                        <p className="hidden sm:block font-display italic text-xs text-[#666] line-clamp-2 leading-relaxed">
+                          {piece.story ||
+                            piece.tagline ||
+                            "Handcrafted with certified gold purity and master artisan settings."}
+                        </p>
+                      </div>
+
+                      {/* Action Buttons: Discover Creation + Price Enquiry */}
+                      <div className="w-full space-y-1 sm:space-y-1.5 pt-1">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectProduct(piece);
+                          }}
+                          className="w-full py-1 sm:py-2 px-1.5 sm:px-3 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.48rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs truncate"
+                        >
+                          DISCOVER
+                        </button>
+
+                        <a
+                          href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex items-center justify-center gap-1 w-full py-0.5 sm:py-1.5 px-1.5 sm:px-3 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.45rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.12em] transition-all hover:bg-[#121212]/10 truncate"
+                        >
+                          <WhatsAppIcon className="size-2.5 sm:size-3 text-[#121212]" />
+                          <span>PRICE ENQUIRY</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Micro-Caption Directly Beneath Card */}
+                  <div className="space-y-0.5 px-0.5">
+                    <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-wider uppercase text-[#121212] font-medium truncate">
+                      {piece.name}
+                    </p>
+                    <div className="flex items-center justify-between gap-1">
+                      <p className="font-sans text-[0.45rem] sm:text-[0.55rem] tracking-wider uppercase text-[#888] truncate">
+                        {piece.purity || "22K"}
+                      </p>
+                      <a
+                        href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        title="WhatsApp Price Enquiry"
+                        className="font-sans text-[0.45rem] sm:text-[0.58rem] tracking-wider uppercase text-[#888] hover:text-[#121212] transition-colors shrink-0"
+                      >
+                        Price →
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
@@ -507,7 +687,7 @@ function EditorialPieceReader({
   );
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto bg-[#FAF8F5] text-[#121212] animate-fadeIn">
+    <div className="fixed inset-0 z-[300] overflow-y-auto bg-[#FAF8F5] text-[#121212] animate-fadeIn">
       {/* ── Top Bar (Video 00:08) ─────────────────────────────────── */}
       <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[#121212]/10 bg-[#FAF8F5]/95 px-4 sm:px-12 py-3 sm:py-4 backdrop-blur-md">
         <div className="flex items-center gap-2 sm:gap-3">
@@ -517,7 +697,7 @@ function EditorialPieceReader({
             className="h-6 sm:h-8 object-contain"
           />
           <span className="font-display text-xs sm:text-sm tracking-widest text-[#121212] font-semibold border-l border-[#121212]/20 pl-2 sm:pl-3 truncate">
-            Cartier — 365 Archive
+            A.P.P. — 365 Archive
           </span>
         </div>
 
