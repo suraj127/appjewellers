@@ -15,6 +15,7 @@ import {
   HeartIcon,
 } from "@/components/LuxuryIcons";
 
+/* ── A.P.P. Jewellers 365 Editorial Collection — Sub-Navbar & Orbit Scroll ── */
 /* ── 3D Orbit Background Constants for Smooth Scroll Transition ── */
 const ORBIT_COUNT = 22;
 const ORBIT_FRAMES = Array.from(
