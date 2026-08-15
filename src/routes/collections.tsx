@@ -147,17 +147,17 @@ const CURTAIN_PANELS: CurtainPanelConfig[] = [
 
 /* ── Sub Navigation Bar Items ────────────────────────────────────── */
 const SUB_NAV_ITEMS = [
-  { id: "curtain-hero", label: "All Jewellery", IconComponent: CrownIcon },
-  { id: "curtain-gold", label: "Gold", IconComponent: CrownIcon },
-  { id: "curtain-diamond", label: "Solitaire Diamond", IconComponent: DiamondIcon },
-  { id: "curtain-earrings", label: "Earrings & Jhumka", IconComponent: EarringIcon },
-  { id: "curtain-rings", label: "Rings & Bands", IconComponent: RingIcon },
-  { id: "curtain-wedding", label: "Bridal & Wedding", IconComponent: CrownIcon },
-  { id: "curtain-daily", label: "Daily Wear & Coins", IconComponent: NecklaceIcon },
+  { id: "curtain-hero", label: "All", labelFull: "All Jewellery", IconComponent: CrownIcon },
+  { id: "curtain-gold", label: "Gold", labelFull: "Gold", IconComponent: CrownIcon },
+  { id: "curtain-diamond", label: "Diamond", labelFull: "Solitaire Diamond", IconComponent: DiamondIcon },
+  { id: "curtain-earrings", label: "Earrings", labelFull: "Earrings & Jhumka", IconComponent: EarringIcon },
+  { id: "curtain-rings", label: "Rings", labelFull: "Rings & Bands", IconComponent: RingIcon },
+  { id: "curtain-wedding", label: "Bridal", labelFull: "Bridal & Wedding", IconComponent: CrownIcon },
+  { id: "curtain-daily", label: "Daily", labelFull: "Daily Wear & Coins", IconComponent: NecklaceIcon },
 ];
 
 /* ── Header height constants ─────────────────────────────────────── */
-const HEADER_HEIGHT_MOBILE = 90;
+const HEADER_HEIGHT_MOBILE = 82;
 const HEADER_HEIGHT_DESKTOP = 105;
 
 function EditorialCollectionsPage() {
@@ -247,28 +247,28 @@ function EditorialCollectionsPage() {
       {/* 1. STICKY TOP BRAND HEADER                                   */}
       {/* ══════════════════════════════════════════════════════════════ */}
       <header className="sticky top-0 z-[200] border-b border-[#121212]/10 bg-[#FAF8F5]/95 backdrop-blur-md transition-all shadow-xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-3 sm:px-12 py-2.5 sm:py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-2.5 sm:px-12 py-2 sm:py-4">
           {/* Left: Brand Identity */}
           <Link
             to="/"
-            className="flex items-center gap-2 sm:gap-3 transition-opacity hover:opacity-80"
+            className="flex items-center gap-1.5 sm:gap-3 transition-opacity hover:opacity-80 min-w-0"
           >
             <img
               src={logoImg}
               alt="A.P.P. Jewellers"
-              className="h-6 sm:h-8 object-contain"
+              className="h-5 sm:h-8 object-contain shrink-0"
             />
-            <span className="font-display text-sm sm:text-lg tracking-widest text-[#121212] font-semibold border-l border-[#121212]/20 pl-2 sm:pl-3">
-              A.P.P. Jewellers — 365
+            <span className="hidden xs:inline font-display text-[0.7rem] sm:text-lg tracking-widest text-[#121212] font-semibold border-l border-[#121212]/20 pl-1.5 sm:pl-3 truncate">
+              A.P.P. — 365
             </span>
           </Link>
 
           {/* Right: Return Home Action */}
           <Link
             to="/"
-            className="font-sans text-[0.55rem] sm:text-[0.65rem] tracking-[0.18em] sm:tracking-[0.25em] uppercase text-[#121212] border border-[#121212]/30 rounded-full px-3 sm:px-5 py-1 sm:py-2 hover:bg-[#121212] hover:text-[#FAF8F5] transition-all"
+            className="font-sans text-[0.5rem] sm:text-[0.65rem] tracking-[0.15em] sm:tracking-[0.25em] uppercase text-[#121212] border border-[#121212]/30 rounded-full px-2.5 sm:px-5 py-1 sm:py-2 hover:bg-[#121212] hover:text-[#FAF8F5] transition-all shrink-0"
           >
-            BACK TO HOME
+            HOME
           </Link>
         </div>
 
@@ -277,9 +277,9 @@ function EditorialCollectionsPage() {
         {/* ══════════════════════════════════════════════════════════════ */}
         <div
           ref={subNavRef}
-          className="border-t border-[#121212]/10 bg-[#FAF8F5]/90 py-1.5 sm:py-2 overflow-x-auto no-scrollbar scroll-smooth"
+          className="border-t border-[#121212]/10 bg-[#FAF8F5]/90 py-1 sm:py-2 overflow-x-auto no-scrollbar scroll-smooth"
         >
-          <div className="mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-1 sm:gap-2.5 px-2 sm:px-4 min-w-max">
+          <div className="mx-auto flex max-w-7xl items-center justify-start sm:justify-center gap-0.5 sm:gap-2.5 px-1.5 sm:px-4 min-w-max">
             {SUB_NAV_ITEMS.map((item) => {
               const isSelected = activePanelId === item.id;
               const Icon = item.IconComponent;
@@ -289,9 +289,9 @@ function EditorialCollectionsPage() {
                   type="button"
                   data-nav-id={item.id}
                   onClick={() => scrollToCurtain(item.id)}
-                  className={`group flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[0.6rem] sm:text-xs tracking-wider uppercase transition-all duration-300 shrink-0 ${
+                  className={`group flex items-center gap-0.5 sm:gap-2 px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-full font-sans text-[0.55rem] sm:text-xs tracking-wider uppercase transition-all duration-300 shrink-0 ${
                     isSelected
-                      ? "bg-[#121212] text-[#FAF8F5] font-bold shadow-xs scale-102"
+                      ? "bg-[#121212] text-[#FAF8F5] font-bold shadow-xs"
                       : "text-[#555] hover:text-[#121212] hover:bg-[#121212]/5"
                   }`}
                 >
@@ -302,7 +302,8 @@ function EditorialCollectionsPage() {
                         : "text-[#888] group-hover:text-[#121212]"
                     }`}
                   />
-                  <span>{item.label}</span>
+                  <span className="hidden sm:inline">{item.labelFull}</span>
+                  <span className="sm:hidden">{item.label}</span>
                 </button>
               );
             })}
@@ -477,7 +478,7 @@ function CurtainPanel({
           backgroundColor: panel.bgColor,
           zIndex: zIndexValue,
         }}
-        className={`curtain-edge sticky top-[90px] sm:top-[105px] min-h-[calc(100vh-90px)] sm:min-h-[calc(100vh-105px)] w-full px-2 sm:px-10 lg:px-12 py-6 sm:py-16 will-change-transform`}
+        className={`curtain-edge sticky top-[82px] sm:top-[105px] min-h-[calc(100vh-82px)] sm:min-h-[calc(100vh-105px)] w-full px-1.5 sm:px-10 lg:px-12 py-4 sm:py-16 will-change-transform`}
       >
         {/* Dramatic curtain shadow at the top edge */}
         <div
@@ -490,33 +491,33 @@ function CurtainPanel({
           }}
         />
 
-        <div className={`curtain-content ${isVisible ? "revealed" : ""} mx-auto max-w-7xl space-y-5 sm:space-y-12`}>
+        <div className={`curtain-content ${isVisible ? "revealed" : ""} mx-auto max-w-7xl space-y-3 sm:space-y-12`}>
           {/* Curtain Panel Header */}
-          <div className="text-center space-y-1 sm:space-y-2 max-w-3xl mx-auto px-1 stagger-child stagger-1">
-            <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-[0.3em] uppercase text-[#777] font-semibold">
+          <div className="text-center space-y-0.5 sm:space-y-2 max-w-3xl mx-auto px-1 stagger-child stagger-1">
+            <p className="font-sans text-[0.48rem] sm:text-[0.68rem] tracking-[0.25em] sm:tracking-[0.3em] uppercase text-[#777] font-semibold">
               {panel.panelNum} · {panel.subtitle}
             </p>
-            <h2 className="font-display italic text-2xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
+            <h2 className="font-display italic text-xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
               {panel.title}
             </h2>
-            <p className="font-display text-[0.72rem] sm:text-base text-[#555] font-light pt-0.5 sm:pt-1 leading-relaxed max-w-xl mx-auto line-clamp-2 sm:line-clamp-none">
+            <p className="font-display text-[0.65rem] sm:text-base text-[#555] font-light leading-relaxed max-w-xl mx-auto line-clamp-1 sm:line-clamp-none">
               {panel.tagline}
             </p>
           </div>
 
           {/* 3-COLUMN DESKTOP & MOBILE GRID */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-6 lg:gap-8 items-start">
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-6 lg:gap-8 items-start">
             {displayPieces.map((piece, pieceIdx) => {
-              const aspectStyles = [
-                "aspect-[3/4]",
-                "aspect-square",
-                "aspect-[4/5]",
-                "aspect-[3/4]",
-                "aspect-square",
-                "aspect-[4/3]",
+              /* On mobile use uniform aspect ratio for clean grid */
+              const aspectDesktop = [
+                "sm:aspect-[3/4]",
+                "sm:aspect-square",
+                "sm:aspect-[4/5]",
+                "sm:aspect-[3/4]",
+                "sm:aspect-square",
+                "sm:aspect-[4/3]",
               ];
-              const currentAspect =
-                aspectStyles[pieceIdx % aspectStyles.length];
+              const desktopAspect = aspectDesktop[pieceIdx % aspectDesktop.length];
               const isWishlisted = wishlist.includes(piece.slug);
               const isMobileHovered = activeMobileHover === piece.slug;
 
@@ -527,8 +528,8 @@ function CurtainPanel({
               return (
                 <div
                   key={piece.slug}
-                  className={`stagger-child stagger-${Math.min(pieceIdx + 1, 6)} group relative flex flex-col space-y-1.5 sm:space-y-3 ${
-                    pieceIdx % 3 === 1 ? "lg:translate-y-4" : ""
+                  className={`stagger-child stagger-${Math.min(pieceIdx + 1, 6)} group relative flex flex-col space-y-1 sm:space-y-3 ${
+                    pieceIdx % 3 === 1 ? "sm:translate-y-4" : ""
                   }`}
                 >
                   {/* Image Box Container */}
@@ -539,7 +540,7 @@ function CurtainPanel({
                         activeMobileHover === piece.slug ? null : piece.slug
                       )
                     }
-                    className={`relative w-full ${currentAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-300 hover:shadow-2xl rounded-xs`}
+                    className={`relative w-full aspect-[3/4] ${desktopAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-300 hover:shadow-2xl rounded-xs`}
                   >
                     <img
                       src={piece.image}
@@ -560,23 +561,23 @@ function CurtainPanel({
                     >
                       <HeartIcon
                         filled={isWishlisted}
-                        className={`size-2.5 sm:size-3.5 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
+                        className={`size-3 sm:size-3.5 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
                       />
                     </button>
 
                     {/* ── CARTIER HOVER POPOVER CARD ── */}
                     <div
-                      className={`absolute inset-1 sm:inset-4 bg-[#FFFFFF] border border-[#121212]/15 shadow-xl p-2 sm:p-6 flex flex-col justify-between items-center text-center transition-opacity duration-200 z-20 ${
+                      className={`absolute inset-0 sm:inset-4 bg-[#FFFFFF]/95 sm:bg-[#FFFFFF] border-0 sm:border border-[#121212]/15 shadow-xl p-1.5 sm:p-6 flex flex-col justify-between items-center text-center transition-all duration-200 z-20 ${
                         isMobileHovered
                           ? "opacity-100 pointer-events-auto"
                           : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
                       }`}
                     >
-                      <div className="space-y-0.5 sm:space-y-1.5">
-                        <p className="font-sans text-[0.42rem] sm:text-[0.55rem] tracking-[0.2em] uppercase text-[#888] font-bold">
+                      <div className="space-y-0.5 sm:space-y-1.5 flex-1 flex flex-col justify-center">
+                        <p className="font-sans text-[0.4rem] sm:text-[0.55rem] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[#888] font-bold">
                           {panel.panelNum}
                         </p>
-                        <h4 className="font-display text-[0.62rem] sm:text-lg text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-1 sm:line-clamp-2">
+                        <h4 className="font-display text-[0.6rem] sm:text-lg text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-2">
                           {piece.name}
                         </h4>
                         <p className="hidden sm:block font-display italic text-xs text-[#666] line-clamp-2 leading-relaxed">
@@ -587,14 +588,14 @@ function CurtainPanel({
                       </div>
 
                       {/* Action Buttons: Discover Creation + Price Enquiry */}
-                      <div className="w-full space-y-1 sm:space-y-1.5 pt-1">
+                      <div className="w-full space-y-0.5 sm:space-y-1.5">
                         <button
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             onSelectProduct(piece);
                           }}
-                          className="w-full py-1 sm:py-2 px-1.5 sm:px-3 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.48rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.15em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs truncate"
+                          className="w-full py-1 sm:py-2 px-1 sm:px-3 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.45rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs"
                         >
                           DISCOVER
                         </button>
@@ -604,22 +605,22 @@ function CurtainPanel({
                           target="_blank"
                           rel="noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="flex items-center justify-center gap-1 w-full py-0.5 sm:py-1.5 px-1.5 sm:px-3 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.45rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.12em] transition-all hover:bg-[#121212]/10 truncate"
+                          className="flex items-center justify-center gap-0.5 sm:gap-1 w-full py-0.5 sm:py-1.5 px-1 sm:px-3 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.42rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.08em] sm:tracking-[0.12em] transition-all hover:bg-[#121212]/10"
                         >
-                          <WhatsAppIcon className="size-2.5 sm:size-3 text-[#121212]" />
-                          <span>PRICE ENQUIRY</span>
+                          <WhatsAppIcon className="size-2 sm:size-3 text-[#121212]" />
+                          <span>PRICE</span>
                         </a>
                       </div>
                     </div>
                   </div>
 
                   {/* Micro-Caption Directly Beneath Card */}
-                  <div className="space-y-0.5 px-0.5">
-                    <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-wider uppercase text-[#121212] font-medium truncate">
+                  <div className="space-y-0 px-0.5">
+                    <p className="font-sans text-[0.5rem] sm:text-[0.68rem] tracking-wider uppercase text-[#121212] font-medium truncate leading-tight">
                       {piece.name}
                     </p>
-                    <div className="flex items-center justify-between gap-1">
-                      <p className="font-sans text-[0.45rem] sm:text-[0.55rem] tracking-wider uppercase text-[#888] truncate">
+                    <div className="flex items-center justify-between gap-0.5">
+                      <p className="font-sans text-[0.42rem] sm:text-[0.55rem] tracking-wider uppercase text-[#888] truncate">
                         {piece.purity || "22K"}
                       </p>
                       <a
@@ -627,7 +628,7 @@ function CurtainPanel({
                         target="_blank"
                         rel="noreferrer"
                         title="WhatsApp Price Enquiry"
-                        className="font-sans text-[0.45rem] sm:text-[0.58rem] tracking-wider uppercase text-[#888] hover:text-[#121212] transition-colors shrink-0"
+                        className="font-sans text-[0.42rem] sm:text-[0.58rem] tracking-wider uppercase text-[#888] hover:text-[#121212] transition-colors shrink-0"
                       >
                         Price →
                       </a>
@@ -688,31 +689,31 @@ function EditorialPieceReader({
 
   return (
     <div className="fixed inset-0 z-[300] overflow-y-auto bg-[#FAF8F5] text-[#121212] animate-fadeIn">
-      {/* ── Top Bar (Video 00:08) ─────────────────────────────────── */}
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[#121212]/10 bg-[#FAF8F5]/95 px-4 sm:px-12 py-3 sm:py-4 backdrop-blur-md">
-        <div className="flex items-center gap-2 sm:gap-3">
+      {/* ── Top Bar ─────────────────────────────────────────────── */}
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[#121212]/10 bg-[#FAF8F5]/95 px-3 sm:px-12 py-2.5 sm:py-4 backdrop-blur-md">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
           <img
             src={logoImg}
             alt="A.P.P. Jewellers"
-            className="h-6 sm:h-8 object-contain"
+            className="h-5 sm:h-8 object-contain shrink-0"
           />
-          <span className="font-display text-xs sm:text-sm tracking-widest text-[#121212] font-semibold border-l border-[#121212]/20 pl-2 sm:pl-3 truncate">
-            A.P.P. — 365 Archive
+          <span className="font-display text-[0.65rem] sm:text-sm tracking-widest text-[#121212] font-semibold border-l border-[#121212]/20 pl-1.5 sm:pl-3 truncate">
+            365 Archive
           </span>
         </div>
 
         <button
           type="button"
           onClick={onClose}
-          className="group flex items-center gap-1.5 sm:gap-2 rounded-full border border-[#121212]/30 px-3 sm:px-4 py-1.5 font-sans text-[0.58rem] sm:text-[0.65rem] tracking-[0.25em] uppercase hover:bg-[#121212] hover:text-[#FAF8F5] transition-all"
+          className="group flex items-center gap-1 sm:gap-2 rounded-full border border-[#121212]/30 px-2.5 sm:px-4 py-1 sm:py-1.5 font-sans text-[0.5rem] sm:text-[0.65rem] tracking-[0.2em] sm:tracking-[0.25em] uppercase hover:bg-[#121212] hover:text-[#FAF8F5] transition-all shrink-0"
         >
           <span>CLOSE</span>
-          <span className="text-sm sm:text-base leading-none">✕</span>
+          <span className="text-xs sm:text-base leading-none">✕</span>
         </button>
       </header>
 
-      {/* ── Main Container with Left & Right Rails (Video 00:08–00:10) */}
-      <div className="relative mx-auto flex min-h-[calc(100vh-70px)] max-w-7xl">
+      {/* ── Main Container with Left & Right Rails ──────────────── */}
+      <div className="relative mx-auto flex min-h-[calc(100vh-56px)] sm:min-h-[calc(100vh-70px)] max-w-7xl">
         {/* Left Rail: Vertical "BACK TO GALLERY" (Desktop Only) */}
         <aside className="hidden lg:flex w-20 shrink-0 flex-col items-center justify-center border-r border-[#121212]/10 bg-[#FAF8F5]">
           <button
@@ -727,26 +728,26 @@ function EditorialPieceReader({
           </button>
         </aside>
 
-        {/* Center Article Content (Video 00:08–00:13) */}
-        <article className="flex-1 px-3.5 py-6 sm:px-16 lg:px-20 max-w-4xl mx-auto space-y-8 sm:space-y-16">
+        {/* Center Article Content */}
+        <article className="flex-1 px-3 py-4 sm:px-16 sm:py-6 lg:px-20 max-w-4xl mx-auto space-y-5 sm:space-y-16">
           {/* Article Header */}
-          <div className="text-center space-y-1.5 sm:space-y-3">
-            <p className="font-sans text-[0.55rem] sm:text-[0.65rem] tracking-[0.35em] uppercase text-[#777] font-semibold">
+          <div className="text-center space-y-1 sm:space-y-3">
+            <p className="font-sans text-[0.48rem] sm:text-[0.65rem] tracking-[0.25em] sm:tracking-[0.35em] uppercase text-[#777] font-semibold">
               {product.collection || "EXHIBITION ARCHIVE"} · CREATION{" "}
               {product.slug.slice(-2).toUpperCase() || "01"}
             </p>
-            <h1 className="font-display text-2xl sm:text-6xl lg:text-7xl font-normal leading-tight tracking-tight text-[#121212]">
+            <h1 className="font-display text-xl sm:text-6xl lg:text-7xl font-normal leading-tight tracking-tight text-[#121212]">
               {product.name}
             </h1>
-            <p className="font-sans text-[0.62rem] sm:text-xs uppercase tracking-[0.25em] text-[#888] pt-0.5">
+            <p className="font-sans text-[0.52rem] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#888]">
               {product.purity || "22K GOLD"} · {product.metal} · SKU-
               {product.slug.slice(-4).toUpperCase()}
             </p>
           </div>
 
-          {/* Large Hero Image (Video 00:09) */}
+          {/* Large Hero Image */}
           <div className="relative overflow-hidden rounded-xs border border-[#121212]/10 bg-[#EFECE6] shadow-sm">
-            <div className="relative h-[260px] sm:h-[520px] lg:h-[640px] w-full overflow-hidden">
+            <div className="relative h-[280px] sm:h-[520px] lg:h-[640px] w-full overflow-hidden">
               <img
                 src={currentImg}
                 alt={product.name}
@@ -780,66 +781,66 @@ function EditorialPieceReader({
 
           {/* Editorial Story Opening Paragraph */}
           <div className="space-y-3 max-w-2xl mx-auto text-center px-1">
-            <p className="font-display text-base sm:text-2xl leading-relaxed text-[#222] font-light">
+            <p className="font-display text-sm sm:text-2xl leading-relaxed text-[#222] font-light">
               {product.story ||
                 product.tagline ||
                 "Conceived as an emblem of royal Indian heritage, this masterpiece combines timeless geometry with meticulously hand-carved floral details."}
             </p>
           </div>
 
-          {/* Editorial Q&A Craft Breakdown (Exact Match to Video 00:11–00:12) */}
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-8 items-start border-t border-b border-[#121212]/10 py-6 sm:py-12">
+          {/* Editorial Q&A Craft Breakdown */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-8 items-start border-t border-b border-[#121212]/10 py-5 sm:py-12">
             {/* Left Photo */}
             <div className="md:col-span-5 relative">
-              <div className="relative h-48 sm:h-80 w-full overflow-hidden bg-[#EFECE6] border border-[#121212]/10">
+              <div className="relative h-40 sm:h-80 w-full overflow-hidden bg-[#EFECE6] border border-[#121212]/10">
                 <img
                   src={craftImg}
                   alt="Craftsmanship Atelier"
                   className="h-full w-full object-cover filter grayscale contrast-125"
                 />
               </div>
-              <p className="mt-1.5 font-sans text-[0.48rem] sm:text-[0.52rem] tracking-[0.25em] text-[#888] uppercase">
-                HANDCRAFTED AT SEELAMPUR ATELIER — BIS HALLMARKED 22K/18K
+              <p className="mt-1 font-sans text-[0.42rem] sm:text-[0.52rem] tracking-[0.2em] sm:tracking-[0.25em] text-[#888] uppercase">
+                HANDCRAFTED AT SEELAMPUR ATELIER — BIS HALLMARKED
               </p>
             </div>
 
-            {/* Right Q&A Dialog (Video 00:12 Style) */}
-            <div className="md:col-span-7 space-y-3.5 sm:space-y-6 font-display">
+            {/* Right Q&A Dialog */}
+            <div className="md:col-span-7 space-y-3 sm:space-y-6 font-display">
               <div>
-                <p className="text-sm sm:text-lg font-medium text-[#121212]">
+                <p className="text-xs sm:text-lg font-medium text-[#121212]">
                   Gold Purity & Assay Grade?
                 </p>
-                <p className="text-xs sm:text-base text-[#555] italic mt-0.5 font-light">
+                <p className="text-[0.68rem] sm:text-base text-[#555] italic mt-0.5 font-light leading-relaxed">
                   {product.purity || "22 CARAT (916)"} — 100% BIS Hallmarked at
                   Delhi Assay Centre.
                 </p>
               </div>
 
               <div>
-                <p className="text-sm sm:text-lg font-medium text-[#121212]">
+                <p className="text-xs sm:text-lg font-medium text-[#121212]">
                   Artisan Setting & Forging Technique?
                 </p>
-                <p className="text-xs sm:text-base text-[#555] italic mt-0.5 font-light">
+                <p className="text-[0.68rem] sm:text-base text-[#555] italic mt-0.5 font-light leading-relaxed">
                   {product.craftsmanship?.[1]?.[1] ||
                     "Traditional Hand-Forged & Prong Setting."}
                 </p>
               </div>
 
               <div>
-                <p className="text-sm sm:text-lg font-medium text-[#121212]">
+                <p className="text-xs sm:text-lg font-medium text-[#121212]">
                   Artisan Hours Dedicated?
                 </p>
-                <p className="text-xs sm:text-base text-[#555] italic mt-0.5 font-light">
+                <p className="text-[0.68rem] sm:text-base text-[#555] italic mt-0.5 font-light leading-relaxed">
                   {product.craftsmanship?.[0]?.[1] ||
                     "120 Hours of Dedicated Karigar Artistry."}
                 </p>
               </div>
 
               <div>
-                <p className="text-sm sm:text-lg font-medium text-[#121212]">
+                <p className="text-xs sm:text-lg font-medium text-[#121212]">
                   A characteristic you share with this creation?
                 </p>
-                <p className="text-xs sm:text-base text-[#555] italic mt-0.5 font-light">
+                <p className="text-[0.68rem] sm:text-base text-[#555] italic mt-0.5 font-light leading-relaxed">
                   "I feel at my best when I'm most confidently my true feminine
                   self. It allows me to be raw and brave with choices."
                 </p>
@@ -847,24 +848,55 @@ function EditorialPieceReader({
             </div>
           </div>
 
+          {/* Mobile: Horizontal Thumbnail Strip for related pieces */}
+          {complementaryPieces.length > 0 && (
+            <div className="lg:hidden">
+              <p className="font-sans text-[0.5rem] sm:text-[0.55rem] tracking-[0.25em] text-[#888] uppercase mb-2">
+                RELATED PIECES
+              </p>
+              <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                {complementaryPieces.map((item) => (
+                  <button
+                    key={item.slug}
+                    type="button"
+                    onClick={() => onSelectProduct(item)}
+                    title={item.name}
+                    className="group relative shrink-0 w-16 overflow-hidden border border-[#121212]/20 transition-all active:scale-95"
+                  >
+                    <div className="aspect-square overflow-hidden">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <p className="font-sans text-[0.38rem] tracking-wider uppercase text-[#555] text-center py-0.5 truncate px-0.5">
+                      {item.name}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Action Buttons: WhatsApp Price Inquiry & Call Store */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5 sm:gap-3">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3">
             <a
               href={`https://wa.me/919015155615?text=${whatsappInquiry}`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full sm:w-auto rounded-full border border-[#121212] bg-[#121212] px-6 py-3 sm:px-7 sm:py-3.5 font-sans text-[0.62rem] sm:text-xs font-bold uppercase tracking-[0.2em] text-[#FAF8F5] shadow-md transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212]"
+              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 w-full sm:w-auto rounded-full border border-[#121212] bg-[#121212] px-5 py-2.5 sm:px-7 sm:py-3.5 font-sans text-[0.55rem] sm:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#FAF8F5] shadow-md transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] active:scale-95"
             >
-              <WhatsAppIcon className="size-3.5 sm:size-4 text-current" />
-              <span>REQUEST PRICE & SPECIFICATIONS</span>
+              <WhatsAppIcon className="size-3 sm:size-4 text-current" />
+              <span>REQUEST PRICE</span>
             </a>
 
             <a
               href="tel:09015155615"
-              className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto rounded-full border border-[#121212]/30 px-5 py-3 sm:px-6 sm:py-3.5 font-sans text-[0.58rem] sm:text-xs font-bold uppercase tracking-[0.18em] text-[#121212] hover:bg-[#121212]/5 transition-all"
+              className="inline-flex items-center justify-center gap-1.5 w-full sm:w-auto rounded-full border border-[#121212]/30 px-5 py-2.5 sm:px-6 sm:py-3.5 font-sans text-[0.55rem] sm:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.18em] text-[#121212] hover:bg-[#121212]/5 transition-all active:scale-95"
             >
               <PhoneIcon className="size-3 sm:size-3.5 text-[#121212]" />
-              <span>CALL ATELIER: 090151 55615</span>
+              <span>CALL: 090151 55615</span>
             </a>
           </div>
         </article>
@@ -896,32 +928,32 @@ function EditorialPieceReader({
         )}
       </div>
 
-      {/* ── Footer Transition: NEXT CREATION (Video 00:13–00:14) ───── */}
-      <footer className="border-t border-[#121212]/10 bg-[#F5F2ED] py-8 sm:py-16 px-4 text-center">
-        <div className="mx-auto max-w-xl space-y-3 sm:space-y-6">
-          <p className="font-sans text-[0.58rem] sm:text-xs tracking-[0.35em] text-[#777] uppercase font-bold">
+      {/* ── Footer Transition: NEXT CREATION ─────────────────────── */}
+      <footer className="border-t border-[#121212]/10 bg-[#F5F2ED] py-6 sm:py-16 px-4 text-center">
+        <div className="mx-auto max-w-xl space-y-2 sm:space-y-6">
+          <p className="font-sans text-[0.5rem] sm:text-xs tracking-[0.3em] sm:tracking-[0.35em] text-[#777] uppercase font-bold">
             NEXT CREATION
           </p>
 
-          <h3 className="font-display italic text-xl sm:text-5xl text-[#121212] font-normal tracking-tight px-1">
+          <h3 className="font-display italic text-lg sm:text-5xl text-[#121212] font-normal tracking-tight px-1">
             {nextProduct.name}
           </h3>
 
           <button
             type="button"
             onClick={() => onSelectProduct(nextProduct)}
-            className="group relative inline-block overflow-hidden rounded-xs border border-[#121212]/20 shadow-md transition-all hover:scale-105 hover:border-[#121212]"
+            className="group relative inline-block overflow-hidden rounded-xs border border-[#121212]/20 shadow-md transition-all hover:scale-105 hover:border-[#121212] active:scale-95"
           >
-            <div className="h-28 sm:h-44 w-44 sm:w-64 bg-[#EFECE6] overflow-hidden">
+            <div className="h-24 sm:h-44 w-36 sm:w-64 bg-[#EFECE6] overflow-hidden">
               <img
                 src={nextProduct.image}
                 alt={nextProduct.name}
                 className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
             </div>
-            <div className="bg-[#FAF8F5] p-2 sm:p-3 text-center border-t border-[#121212]/10">
-              <p className="font-sans text-[0.52rem] sm:text-[0.62rem] text-[#121212] font-bold uppercase tracking-widest">
-                DISCOVER CREATION →
+            <div className="bg-[#FAF8F5] p-1.5 sm:p-3 text-center border-t border-[#121212]/10">
+              <p className="font-sans text-[0.48rem] sm:text-[0.62rem] text-[#121212] font-bold uppercase tracking-widest">
+                DISCOVER →
               </p>
             </div>
           </button>
