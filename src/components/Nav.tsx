@@ -140,7 +140,7 @@ export function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
-  const showSubNav = location.pathname === "/" || location.pathname === "/collections" || location.pathname.startsWith("/collections");
+  const showSubNav = location.pathname !== "/" && location.pathname.startsWith("/collections");
 
   useEffect(() => {
     let lastY = window.scrollY;
