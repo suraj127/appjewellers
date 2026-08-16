@@ -184,8 +184,14 @@ export function Nav() {
         visible || mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      {/* ── FULL WIDTH MASTER CONTAINER (Warm Yellowish-White Luxury Background) ── */}
-      <div className="w-full bg-[#fcfaf2]/95 backdrop-blur-xl border-b border-[#b8860b]/30 shadow-md">
+      {/* ── FULL WIDTH MASTER CONTAINER (Transparent Luxury Background) ── */}
+      <div
+        className={`w-full transition-colors duration-500 ${
+          scrolled
+            ? "bg-[#fcfaf2]/80 backdrop-blur-md border-b border-[#b8860b]/20 shadow-xs"
+            : "bg-transparent border-b border-transparent"
+        }`}
+      >
         {/* ── TOP TIER: Brand Logo, Main Links, Action Buttons (Full Width) ── */}
         <div className="w-full px-3 sm:px-8 md:px-12">
           <div className="flex items-center justify-between gap-2 sm:gap-4 py-2 sm:py-3">
@@ -277,9 +283,9 @@ export function Nav() {
           </div>
         </div>
 
-        {/* ── BOTTOM TIER: Category Sub-Navigation (Warm Yellowish-White Full Width) ── */}
+        {/* ── BOTTOM TIER: Category Sub-Navigation ── */}
         {showSubNav && (
-          <div className="w-full border-t border-[#b8860b]/20 py-2 bg-[#f7f4ea] overflow-x-auto no-scrollbar touch-pan-x">
+          <div className="w-full border-t border-[#b8860b]/20 py-2 bg-[#fcfaf2]/80 backdrop-blur-md overflow-x-auto no-scrollbar touch-pan-x">
             <div className="w-full px-3 sm:px-8 md:px-12">
               <nav className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 md:gap-11 min-w-max mx-auto px-1">
                 {SUB_NAV_ITEMS.map((item) => {
