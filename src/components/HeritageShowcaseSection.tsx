@@ -244,35 +244,43 @@ export function HeritageShowcaseSection() {
           </div>
         </div>
 
-        {/* ── MAJESTIC BRANDING SEAL AT THE END (MADAN JEWELLERS HERITAGE STYLE) ── */}
+        {/* ── MAJESTIC BRANDING SEAL AT THE END (MADAN JEWELLERS HERITAGE EXACT STYLE) ── */}
         <div className="mt-14 sm:mt-20 text-center max-w-2xl mx-auto">
           <Reveal delay={200}>
-            {/* Royal Octagonal Crest Seal */}
-            <div className="mx-auto mb-5 size-16 sm:size-20 rounded-2xl bg-gradient-to-br from-[#d4af37] via-[#f5d77f] to-[#aa771c] p-0.5 shadow-[0_8px_25px_rgba(212,175,55,0.4)] flex items-center justify-center">
-              <div className="size-full rounded-[14px] bg-[#1a150b] flex items-center justify-center border border-[#f5d77f]/40">
-                <span className="font-display text-xl sm:text-2xl font-bold tracking-widest text-[#f5d77f]">
-                  APP
-                </span>
-              </div>
+            {/* Elegant Translucent Octagon Monogram Emblem */}
+            <div className="relative mx-auto mb-6 size-16 sm:size-20 flex items-center justify-center">
+              {/* Outer delicate gold octagon border */}
+              <div className="absolute inset-0 rounded-[22px] border border-[#d4af37]/60 bg-gradient-to-b from-[#ffffff]/70 to-[#f5ebd7]/50 backdrop-blur-xs shadow-[0_4px_20px_rgba(184,134,11,0.18)] rotate-0" />
+              {/* Inner subtle outline */}
+              <div className="absolute inset-1.5 rounded-[18px] border border-[#b8860b]/30" />
+              {/* Monogram Letter */}
+              <span className="relative z-10 font-display text-2xl sm:text-3xl font-light tracking-widest text-[#8b5a00]">
+                A
+              </span>
             </div>
 
-            {/* Brand Title */}
-            <h3 className="font-display text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-[0.22em] text-zinc-900 uppercase">
+            {/* Brand Title: Wide-Spaced Luxury Serif */}
+            <h3 className="font-display text-2xl sm:text-4xl md:text-[2.65rem] font-normal tracking-[0.32em] sm:tracking-[0.38em] text-[#2c2214] uppercase pl-[0.32em] sm:pl-[0.38em]">
               A.P.P. JEWELLERS
             </h3>
 
-            {/* Heritage Estd Line */}
-            <div className="flex items-center justify-center gap-3 my-3 sm:my-4">
-              <div className="h-px w-12 sm:w-20 bg-gradient-to-r from-transparent to-[#b8860b]" />
-              <span className="text-[0.68rem] sm:text-xs font-semibold tracking-[0.28em] text-[#8b5a00] uppercase font-sans">
-                Estd. 1992
+            {/* Heritage Group Line with Horizontal Hairline Rules */}
+            <div className="flex items-center justify-center gap-3 sm:gap-4 my-3 sm:my-3.5">
+              <div className="h-[1px] w-16 sm:w-28 bg-gradient-to-r from-transparent to-[#b8860b]/70" />
+              <span className="text-[0.65rem] sm:text-[0.72rem] font-normal tracking-[0.25em] text-[#8b5a00] font-serif">
+                Sarafa Market Group
               </span>
-              <div className="h-px w-12 sm:w-20 bg-gradient-to-l from-transparent to-[#b8860b]" />
+              <div className="h-[1px] w-16 sm:w-28 bg-gradient-to-l from-transparent to-[#b8860b]/70" />
             </div>
 
-            {/* Showroom Location & Hallmarking Promise */}
-            <p className="text-xs sm:text-sm text-zinc-600 font-medium tracking-wide">
-              Sarafa Market, New Seelampur, Delhi • 100% BIS Hallmarked Gold & Certified Solitaires
+            {/* Estd. 1992 */}
+            <p className="text-[0.7rem] sm:text-xs tracking-[0.28em] text-[#7a654c] font-sans font-light uppercase pl-[0.28em]">
+              Estd. 1992
+            </p>
+
+            {/* Showroom Promise */}
+            <p className="mt-4 text-xs sm:text-sm text-zinc-600 font-light tracking-wide max-w-md mx-auto">
+              Pure BIS Hallmarked 22K Gold • Certified Solitaires • Bespoke Kundan
             </p>
 
             {/* Luxury Call-To-Action Pill Buttons */}
