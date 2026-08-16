@@ -7,6 +7,7 @@ import banglesImg from "@/assets/coll-bangles.jpg";
 import tryonImg from "@/assets/tryon.jpg";
 import craftImg from "@/assets/craft.jpg";
 import logoImg from "@/assets/logo.png";
+import schemeBgImg from "@/assets/scheme_bg.jpg";
 import { PRODUCTS } from "@/data/products";
 import { AppointmentForm } from "./AppointmentForm";
 import { PhoneIcon, WhatsAppIcon } from "./LuxuryIcons";
@@ -27,6 +28,10 @@ import {
   Instagram,
   Facebook,
   Youtube,
+  Calendar,
+  Gift,
+  Coins,
+  ArrowRight,
 } from "lucide-react";
 
 
@@ -477,30 +482,191 @@ export function Collections() {
 
 export function SchemeTeaser() {
   return (
-    <section className="relative px-4 sm:px-6 py-16 sm:py-24 bg-onyx border-y border-gold/30 shadow-sm overflow-hidden">
-      {/* Ambient Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative px-3 sm:px-6 py-10 sm:py-16 md:py-20 bg-[#faf6ee] overflow-hidden select-none border-y border-[#d4af37]/35">
+      {/* ── MASTER ROYAL GOLDEN FRAME CONTAINER ── */}
+      <div className="relative mx-auto max-w-7xl rounded-[28px] sm:rounded-[40px] border border-[#d4af37]/50 shadow-[0_20px_50px_rgba(184,134,11,0.16)] bg-[#faf6ee] overflow-hidden">
+        
+        {/* ── RIGHT BACKGROUND GOLD BANGLES ON SILK IMAGE ── */}
+        <img
+          src={schemeBgImg}
+          alt="Royal Gold Bangles Savings Scheme"
+          className="absolute inset-0 size-full object-cover object-[75%_center] sm:object-right pointer-events-none opacity-90 transition-transform duration-1000 hover:scale-103"
+        />
 
-      <div className="relative z-10 mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-8">
-        <div className="max-w-2xl text-left">
-          <span className="eyebrow text-[0.55rem] sm:text-xs">A.P.P. Gold Purchase Plan</span>
-          <h2 className="mt-3 font-display text-2xl sm:text-4xl font-bold text-foreground">
-            SwarnaNidhi <span className="italic shimmer-text">Gold Savings Scheme</span>
-          </h2>
-          <p className="mt-3 text-xs sm:text-sm text-muted-foreground font-light leading-relaxed">
-            Pay 8 monthly installments and enjoy up to 100% store bonus & net customer profits up to ₹42,000! Calculate your returns with our interactive scheme calculator.
-          </p>
+        {/* ── SOFT IVORY / ALABASTER GRADIENT VEIL FOR TEXT CLARITY ── */}
+        <div 
+          aria-hidden
+          className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#fcf9f2] via-[#fcf9f2]/95 sm:via-[#fcf9f2]/90 via-55% to-transparent" 
+        />
+        <div 
+          aria-hidden
+          className="absolute inset-0 pointer-events-none bg-gradient-to-t from-[#fcf9f2]/80 via-transparent to-transparent md:hidden" 
+        />
+
+        {/* ── CONTENT GRID: LEFT COPY & BADGES | RIGHT FLOATING CALCULATOR CARD ── */}
+        <div className="relative z-10 p-5 sm:p-8 md:p-12 lg:p-14 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12">
+          
+          {/* ──── LEFT CONTENT COLUMN ──── */}
+          <div className="max-w-2xl text-left w-full">
+            <Reveal>
+              {/* Lotus Royal Flourish Icon */}
+              <div className="flex items-center gap-2 mb-2">
+                <svg viewBox="0 0 40 28" fill="none" className="h-6 sm:h-7 w-auto text-[#c49324]">
+                  <path d="M20 3C20 3 24 10 24 16C24 19 22.2 21 20 21C17.8 21 16 19 16 16C16 10 20 3 20 3Z" stroke="currentColor" strokeWidth="1.6" fill="rgba(196,147,36,0.18)" />
+                  <path d="M20 21C20 21 28 20 31 15C33 11 31 7 31 7C31 7 29 13 22 17" stroke="currentColor" strokeWidth="1.6" />
+                  <path d="M20 21C20 21 12 20 9 15C7 11 9 7 9 7C9 7 11 13 18 17" stroke="currentColor" strokeWidth="1.6" />
+                  <circle cx="20" cy="24" r="1.5" fill="currentColor" />
+                  <circle cx="12" cy="18" r="1" fill="currentColor" />
+                  <circle cx="28" cy="18" r="1" fill="currentColor" />
+                </svg>
+              </div>
+
+              {/* Eyebrow with Filigree Diamond Accents */}
+              <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                <span className="text-[#b8860b] text-xs select-none">✦</span>
+                <span className="text-[0.66rem] sm:text-xs uppercase tracking-[0.28em] text-[#8b5a00] font-display font-semibold">
+                  A.P.P. GOLD PURCHASE PLAN
+                </span>
+                <span className="text-[#b8860b] text-xs select-none">✦</span>
+              </div>
+
+              {/* Main Headline: SwarnaNidhi Gold Savings Scheme */}
+              <h2 className="font-display text-3xl sm:text-5xl lg:text-[3.25rem] leading-[1.08] tracking-tight text-[#1a1a1a]">
+                <span className="font-bold block">SwarnaNidhi</span>
+                <span className="italic font-normal text-[#b8860b] block mt-0.5 sm:mt-1">
+                  Gold Savings Scheme
+                </span>
+              </h2>
+
+              {/* Description Copy */}
+              <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-[0.95rem] text-[#4a3b2c] font-normal leading-relaxed max-w-xl">
+                Pay 8 monthly installments and enjoy up to 100% store bonus & net customer profits up to ₹42,000! Calculate your returns with our interactive scheme calculator.
+              </p>
+
+              {/* ── 4 FEATURE PILLARS IN HORIZONTAL ROW ── */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-6 sm:my-8">
+                {/* 1. 8 Easy Installments */}
+                <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+                  <div className="size-11 sm:size-12 rounded-full bg-gradient-to-b from-white to-[#f4ede0] border border-[#d4af37]/45 shadow-xs flex items-center justify-center mb-2">
+                    <Calendar className="size-5 text-[#b8860b]" />
+                  </div>
+                  <span className="text-[0.62rem] sm:text-[0.68rem] font-bold uppercase tracking-wider text-[#2d2417] leading-tight font-sans">
+                    8 EASY<br className="hidden sm:inline" /> INSTALLMENTS
+                  </span>
+                </div>
+
+                {/* 2. Up to 100% Store Bonus */}
+                <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+                  <div className="size-11 sm:size-12 rounded-full bg-gradient-to-b from-white to-[#f4ede0] border border-[#d4af37]/45 shadow-xs flex items-center justify-center mb-2">
+                    <Gift className="size-5 text-[#b8860b]" />
+                  </div>
+                  <span className="text-[0.62rem] sm:text-[0.68rem] font-bold uppercase tracking-wider text-[#2d2417] leading-tight font-sans">
+                    UP TO 100%<br className="hidden sm:inline" /> STORE BONUS
+                  </span>
+                </div>
+
+                {/* 3. Up to ₹42,000 Net Profits */}
+                <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+                  <div className="size-11 sm:size-12 rounded-full bg-gradient-to-b from-white to-[#f4ede0] border border-[#d4af37]/45 shadow-xs flex items-center justify-center mb-2">
+                    <Coins className="size-5 text-[#b8860b]" />
+                  </div>
+                  <span className="text-[0.62rem] sm:text-[0.68rem] font-bold uppercase tracking-wider text-[#2d2417] leading-tight font-sans">
+                    UP TO ₹42,000<br className="hidden sm:inline" /> NET PROFITS
+                  </span>
+                </div>
+
+                {/* 4. Safe & Secure Investment */}
+                <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
+                  <div className="size-11 sm:size-12 rounded-full bg-gradient-to-b from-white to-[#f4ede0] border border-[#d4af37]/45 shadow-xs flex items-center justify-center mb-2">
+                    <ShieldCheck className="size-5 text-[#b8860b]" />
+                  </div>
+                  <span className="text-[0.62rem] sm:text-[0.68rem] font-bold uppercase tracking-wider text-[#2d2417] leading-tight font-sans">
+                    SAFE & SECURE<br className="hidden sm:inline" /> INVESTMENT
+                  </span>
+                </div>
+              </div>
+
+              {/* ── BOTTOM TRUST PILL (TRANSLUCENT GLASS BAR) ── */}
+              <div className="rounded-2xl border border-[#d4af37]/40 bg-white/80 backdrop-blur-md p-3 sm:p-3.5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 mt-4 sm:mt-6">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 rounded-lg bg-[#b8860b]/10 text-[#b8860b]">
+                    <Lock className="size-4" />
+                  </div>
+                  <div>
+                    <p className="text-[0.66rem] sm:text-[0.7rem] font-bold uppercase tracking-wider text-[#1a1a1a]">100% SECURE</p>
+                    <p className="text-[0.58rem] sm:text-[0.64rem] text-zinc-600 font-light">Your data is protected</p>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block h-6 w-px bg-[#d4af37]/35" />
+
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 rounded-lg bg-[#b8860b]/10 text-[#b8860b]">
+                    <Award className="size-4" />
+                  </div>
+                  <div>
+                    <p className="text-[0.66rem] sm:text-[0.7rem] font-bold uppercase tracking-wider text-[#1a1a1a]">TRUSTED BY THOUSANDS</p>
+                    <p className="text-[0.58rem] sm:text-[0.64rem] text-zinc-600 font-light">Across India</p>
+                  </div>
+                </div>
+
+                <div className="hidden sm:block h-6 w-px bg-[#d4af37]/35" />
+
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 rounded-lg bg-[#b8860b]/10 text-[#b8860b]">
+                    <Gem className="size-4" />
+                  </div>
+                  <div>
+                    <p className="text-[0.66rem] sm:text-[0.7rem] font-bold uppercase tracking-wider text-[#1a1a1a]">TRANSPARENT & REWARDING</p>
+                    <p className="text-[0.58rem] sm:text-[0.64rem] text-zinc-600 font-light">Honest returns, lifelong value</p>
+                  </div>
+                </div>
+              </div>
+
+            </Reveal>
+          </div>
+
+          {/* ──── RIGHT FLOATING CARD: CALCULATE SCHEME EARNINGS ──── */}
+          <div className="relative z-10 w-full lg:w-auto flex justify-center lg:justify-end shrink-0 py-2 sm:py-4">
+            <Reveal delay={150}>
+              <div className="relative w-full max-w-[280px] sm:max-w-[320px] rounded-[28px] sm:rounded-[36px] bg-gradient-to-b from-[#ffffff] via-[#fdfbf6] to-[#f4ede0] border-2 border-[#d4af37]/75 shadow-[0_22px_55px_rgba(139,90,0,0.25)] p-6 sm:p-8 text-center flex flex-col items-center group hover:scale-102 hover:shadow-[0_28px_65px_rgba(184,134,11,0.35)] transition-all duration-500">
+                
+                {/* Gold Circular Medallion with Diamond */}
+                <div className="size-14 sm:size-16 rounded-full bg-gradient-to-b from-[#f5d77f] via-[#d4af37] to-[#aa771c] p-0.5 shadow-md flex items-center justify-center mb-3 sm:mb-4">
+                  <div className="size-full rounded-full bg-gradient-to-b from-[#d4af37] to-[#8b5a00] flex items-center justify-center border border-white/40">
+                    <Gem className="size-7 text-white drop-shadow-sm" />
+                  </div>
+                </div>
+
+                {/* Card Title */}
+                <span className="text-[0.7rem] sm:text-[0.78rem] uppercase font-bold tracking-[0.22em] text-[#2c2214] font-sans">
+                  CALCULATE SCHEME
+                </span>
+                <h3 className="font-display text-2xl sm:text-3xl font-bold text-[#b8860b] tracking-wider mt-0.5 uppercase">
+                  EARNINGS
+                </h3>
+
+                {/* Filigree Hairline */}
+                <div className="flex items-center justify-center gap-2 my-2.5 sm:my-3">
+                  <div className="h-px w-8 bg-[#d4af37]/60" />
+                  <span className="text-[#b8860b] text-xs">✦</span>
+                  <div className="h-px w-8 bg-[#d4af37]/60" />
+                </div>
+
+                {/* Action Button: CALCULATE NOW */}
+                <Link
+                  to="/scheme"
+                  className="shine-sweep mt-3 w-full inline-flex items-center justify-center gap-2 rounded-xl sm:rounded-2xl bg-[#121212] hover:bg-[#b8860b] text-white py-3.5 px-6 text-xs uppercase tracking-[0.22em] font-extrabold shadow-lg hover:shadow-xl active:scale-95 transition-all duration-300"
+                >
+                  <span>CALCULATE NOW</span>
+                  <ArrowRight className="size-3.5" />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
+
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full md:w-auto z-10">
-          <Link
-            to="/scheme"
-            className="shine-sweep inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-9 py-4 text-xs uppercase tracking-[0.26em] text-black font-extrabold shadow-[0_10px_35px_rgba(184,134,11,0.4)] hover:shadow-[0_14px_45px_rgba(184,134,11,0.6)] hover:scale-105 active:scale-95 transition-all text-center"
-          >
-            <span>Calculate Scheme Earnings</span>
-            <span className="text-xs">→</span>
-          </Link>
-        </div>
       </div>
     </section>
   );
