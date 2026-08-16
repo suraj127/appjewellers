@@ -224,35 +224,20 @@ export function HeritageShowcaseSection() {
             </div>
           </div>
 
-          {/* CENTER LOGO & BRAND IDENTITY (A.P.P. JEWELLERS) */}
+          {/* CENTER OFFICIAL LOGO & BRAND IDENTITY (A.P.P. JEWELLERS) */}
           <div className="lg:col-span-4 text-center py-6 px-4 flex flex-col items-center justify-center">
             <Reveal>
-              {/* Octagonal Monogram Monolith Icon (Glassmorphism + Double Gold Hairline) */}
-              <div className="relative mx-auto mb-5 size-24 flex items-center justify-center group cursor-default">
-                <div 
-                  className="absolute inset-0 rounded-[24px] border border-white/60 bg-gradient-to-b from-white/25 to-white/10 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-500"
-                  style={{
-                    clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                  }}
+              {/* Official A.P.P. Jewellers Brand Logo Image */}
+              <div className="relative mx-auto mb-4 flex items-center justify-center">
+                <img
+                  src={logoImg}
+                  alt="A.P.P. Jewellers Official Logo"
+                  className="h-28 sm:h-36 md:h-40 w-auto object-contain filter drop-shadow-[0_6px_25px_rgba(0,0,0,0.35)] hover:scale-105 transition-transform duration-500 select-none"
                 />
-                <div 
-                  className="absolute inset-1.5 rounded-[20px] border border-white/35 pointer-events-none"
-                  style={{
-                    clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                  }}
-                />
-                <span className="relative z-10 font-serif text-2xl font-normal tracking-widest text-white/95 drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)] select-none">
-                  APP
-                </span>
               </div>
 
-              {/* Brand Title: Wide-Spaced Serif (A.P.P. JEWELLERS) */}
-              <h2 className="font-serif text-3xl md:text-[2.25rem] font-normal tracking-[0.34em] text-white uppercase pl-[0.34em] drop-shadow-sm leading-tight">
-                A.P.P. JEWELLERS
-              </h2>
-
               {/* Subtitle with Hairline Rules (Sarafa Market Group) */}
-              <div className="flex items-center justify-center gap-3 my-3">
+              <div className="flex items-center justify-center gap-3 my-2.5">
                 <div className="h-[1px] w-14 bg-gradient-to-r from-transparent to-white/70" />
                 <span className="text-[0.74rem] font-light tracking-[0.24em] text-white/90 font-serif whitespace-nowrap uppercase">
                   Sarafa Market Group
@@ -266,12 +251,12 @@ export function HeritageShowcaseSection() {
               </p>
 
               {/* Atelier Note */}
-              <p className="mt-5 text-sm text-white/85 font-light tracking-wide max-w-xs mx-auto leading-relaxed drop-shadow-xs">
+              <p className="mt-4 text-xs sm:text-sm text-white/85 font-light tracking-wide max-w-xs mx-auto leading-relaxed drop-shadow-xs">
                 Handcrafted Solitaires, Diamond Haar & 22K Royal Antique Heirlooms
               </p>
 
               {/* Action Buttons */}
-              <div className="mt-8 flex flex-row items-center justify-center gap-3 w-full max-w-xs mx-auto">
+              <div className="mt-7 flex flex-row items-center justify-center gap-3 w-full max-w-xs mx-auto">
                 <Link
                   to="/collections"
                   className="shine-sweep inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#eedab2] via-[#ffffff] to-[#d8c3a5] px-7 py-3 text-xs uppercase tracking-[0.22em] text-[#4a3424] font-extrabold shadow-[0_8px_25px_rgba(0,0,0,0.22)] hover:scale-105 active:scale-95 transition-all"
@@ -335,27 +320,16 @@ export function HeritageShowcaseSection() {
 
           {/* ── CENTER FLOATING FROSTED LOGO HERO (Center Layer in Mobile) ── */}
           <div className="absolute inset-0 z-25 pointer-events-none flex items-center justify-center p-3">
-            <div className="pointer-events-auto max-w-[290px] sm:max-w-xs w-full text-center p-4 sm:p-5 rounded-3xl bg-[#7c5f49]/80 backdrop-blur-md border border-white/30 shadow-[0_20px_60px_rgba(0,0,0,0.35)] flex flex-col items-center">
-              {/* Octagonal Monogram Monolith Icon */}
-              <div className="relative mx-auto mb-2.5 size-14 sm:size-16 flex items-center justify-center">
-                <div 
-                  className="absolute inset-0 rounded-2xl border border-white/60 bg-white/20 backdrop-blur-md shadow-md"
-                  style={{
-                    clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                  }}
-                />
-                <span className="relative z-10 font-serif text-base sm:text-lg font-bold tracking-widest text-white drop-shadow-sm select-none">
-                  APP
-                </span>
-              </div>
-
-              {/* Brand Title: A.P.P. JEWELLERS */}
-              <h3 className="font-serif text-base sm:text-xl font-medium tracking-[0.26em] text-white uppercase pl-[0.26em] drop-shadow-sm leading-tight">
-                A.P.P. JEWELLERS
-              </h3>
+            <div className="pointer-events-auto max-w-[290px] sm:max-w-xs w-full text-center p-4 sm:p-5 rounded-3xl bg-[#7c5f49]/88 backdrop-blur-md border border-white/35 shadow-[0_20px_60px_rgba(0,0,0,0.4)] flex flex-col items-center">
+              {/* Official A.P.P. Jewellers Logo */}
+              <img
+                src={logoImg}
+                alt="A.P.P. Jewellers Official Logo"
+                className="h-20 sm:h-24 w-auto object-contain filter drop-shadow-[0_4px_16px_rgba(0,0,0,0.4)] mb-1 select-none"
+              />
 
               {/* Subtitle with Hairline Rules */}
-              <div className="flex items-center justify-center gap-2 my-1.5">
+              <div className="flex items-center justify-center gap-2 my-1">
                 <div className="h-[1px] w-8 bg-white/60" />
                 <span className="text-[0.58rem] sm:text-[0.66rem] font-light tracking-[0.2em] text-white/90 font-serif whitespace-nowrap uppercase">
                   Sarafa Market Delhi
@@ -363,7 +337,7 @@ export function HeritageShowcaseSection() {
                 <div className="h-[1px] w-8 bg-white/60" />
               </div>
 
-              <p className="text-[0.52rem] sm:text-[0.58rem] tracking-[0.24em] text-white/80 font-sans uppercase pl-[0.24em] mb-2.5">
+              <p className="text-[0.52rem] sm:text-[0.58rem] tracking-[0.24em] text-white/80 font-sans uppercase pl-[0.24em] mb-2">
                 Estd. 1992
               </p>
 
