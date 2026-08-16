@@ -64,7 +64,6 @@ const CATEGORIES = [
 
 /* Helper to estimate formatted INR price */
 function formatProductPrice(product: Product): { priceFormatted: string; numericPrice: number } {
-  // Determine weight
   const weightStr = product.dimensions?.find((d) =>
     d[0].toLowerCase().includes("weight")
   )?.[1];
@@ -94,8 +93,8 @@ function formatProductPrice(product: Product): { priceFormatted: string; numeric
 /* Helper stock/urgency badge */
 function getProductBadge(product: Product, index: number): string | null {
   if (index % 5 === 1) return "ONLY 1 LEFT!";
-  if (index % 7 === 2) return "BIS 22K HALLMARKED";
-  if (index % 4 === 3) return "EXCLUSIVE DESIGN";
+  if (index % 7 === 2) return "BIS 22K (916) CERTIFIED";
+  if (index % 4 === 3) return "ATELIER EXCLUSIVE";
   if (product.isExclusive) return "LIMITED EDITION";
   return null;
 }
@@ -182,7 +181,7 @@ export function CollectionPage() {
     });
   }, [allProducts, selectedCategory, selectedMetal, searchQuery, sortOption]);
 
-  // Voice recognition simulation / trigger
+  // Voice recognition
   const handleVoiceSearch = () => {
     setIsVoiceModalOpen(true);
     setIsListening(true);
@@ -211,37 +210,41 @@ export function CollectionPage() {
   const activeCategoryObj = CATEGORIES.find((c) => c.id === selectedCategory) || CATEGORIES[0];
 
   return (
-    <div className="min-h-screen bg-[#FFFFFF] text-[#121212] font-sans antialiased pb-16">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#121212] font-sans antialiased pb-20 selection:bg-[#E8DFC8]">
       {/* ══════════════════════════════════════════════════════════════ */}
-      {/* 1. TANISHQ-STYLE MOBILE & DESKTOP STICKY HEADER               */}
+      {/* 1. LUXURY STICKY HEADER (Tanishq Mobile Layout + Brand Tokens) */}
       {/* ══════════════════════════════════════════════════════════════ */}
-      <header className="sticky top-0 z-40 bg-[#FFFFFF] border-b border-zinc-200 shadow-xs">
+      <header className="sticky top-0 z-40 bg-[#fcfaf2]/95 backdrop-blur-xl border-b border-[#b8860b]/30 shadow-xs">
         {/* Top bar: Hamburger, Logo, Store/Wishlist/Cart Icons */}
-        <div className="flex items-center justify-between px-3.5 sm:px-8 py-2.5">
-          {/* Hamburger Menu Toggle (Tanishq Style) */}
+        <div className="flex items-center justify-between px-3 sm:px-8 py-2.5">
+          {/* Hamburger Menu Toggle */}
           <button
             type="button"
             onClick={() => setIsCategoryDrawerOpen(true)}
-            className="p-1.5 text-zinc-800 hover:text-[#8B2131] transition-colors rounded-md active:bg-zinc-100"
+            className="p-1.5 text-zinc-900 hover:text-[#b8860b] transition-colors rounded-lg active:bg-black/5"
             aria-label="Open Navigation Drawer"
           >
-            <Menu className="size-6 stroke-[1.8]" />
+            <Menu className="size-5.5 sm:size-6 stroke-[1.8]" />
           </button>
 
-          {/* Center Brand Logo (Tanishq 'T' / A.P.P. Jewellers) */}
-          <Link to="/" className="flex items-center gap-1.5 transition-opacity hover:opacity-85">
-            <img src={logoImg} alt="A.P.P. Jewellers" className="h-7 sm:h-9 object-contain" />
-            <span className="font-serif italic font-bold text-lg sm:text-2xl text-[#8B2131] tracking-tight">
+          {/* Center Brand Identity */}
+          <Link to="/" className="flex items-center gap-2 transition-transform hover:scale-105">
+            <img
+              src={logoImg}
+              alt="A.P.P. Jewellers Logo"
+              className="h-7 sm:h-9 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(184,134,11,0.25)]"
+            />
+            <span className="font-display text-lg sm:text-2xl font-bold tracking-widest text-[#121212] uppercase">
               A.P.P.
             </span>
           </Link>
 
           {/* Right Action Icons: Store, Wishlist, Cart */}
-          <div className="flex items-center gap-3.5 text-zinc-800">
+          <div className="flex items-center gap-3 text-zinc-900">
             <Link
               to="/appointment"
               title="Store Locator & Visit"
-              className="p-1 hover:text-[#8B2131] transition-colors"
+              className="p-1 text-zinc-800 hover:text-[#b8860b] transition-colors"
             >
               <Store className="size-5 stroke-[1.8]" />
             </Link>
@@ -250,16 +253,15 @@ export function CollectionPage() {
               type="button"
               onClick={() => {
                 if (wishlist.length > 0) {
-                  // Filter to wishlist items
                   setSearchQuery("");
                 }
               }}
               title="Wishlist"
-              className="relative p-1 hover:text-[#8B2131] transition-colors"
+              className="relative p-1 text-zinc-800 hover:text-[#b8860b] transition-colors"
             >
               <HeartIcon className="size-5 text-current" filled={wishlist.length > 0} />
               {wishlist.length > 0 && (
-                <span className="absolute -top-1 -right-1.5 flex size-4 items-center justify-center rounded-full bg-[#8B2131] text-[0.6rem] font-bold text-white">
+                <span className="absolute -top-1 -right-1.5 flex size-4 items-center justify-center rounded-full bg-[#b8860b] text-[0.6rem] font-bold text-white shadow-xs">
                   {wishlist.length}
                 </span>
               )}
@@ -269,25 +271,25 @@ export function CollectionPage() {
               type="button"
               onClick={() => setCartCount((prev) => prev + 1)}
               title="Shopping Cart"
-              className="relative p-1 hover:text-[#8B2131] transition-colors"
+              className="relative p-1 text-zinc-800 hover:text-[#b8860b] transition-colors"
             >
               <ShoppingBag className="size-5 stroke-[1.8]" />
-              <span className="absolute -top-1 -right-1.5 flex size-4 items-center justify-center rounded-full bg-[#8B2131] text-[0.6rem] font-bold text-white">
+              <span className="absolute -top-1 -right-1.5 flex size-4 items-center justify-center rounded-full bg-[#b8860b] text-[0.6rem] font-bold text-white shadow-xs">
                 {cartCount}
               </span>
             </button>
           </div>
         </div>
 
-        {/* Search Bar Input Row (Tanishq Search for engagement rings...) */}
-        <div className="px-3.5 sm:px-8 pb-3 pt-0.5">
-          <div className="relative flex items-center w-full rounded-lg border border-zinc-300 bg-[#FAF9F6] px-3 py-2 shadow-xs transition-all focus-within:border-[#8B2131] focus-within:ring-1 focus-within:ring-[#8B2131]">
-            <Search className="size-4.5 text-zinc-400 shrink-0 mr-2" />
+        {/* Search Bar Input Row */}
+        <div className="px-3 sm:px-8 pb-3 pt-0.5">
+          <div className="relative flex items-center w-full rounded-full border border-[#b8860b]/30 bg-[#FFFFFF] px-3.5 py-2 shadow-xs transition-all focus-within:border-[#b8860b] focus-within:ring-1 focus-within:ring-[#b8860b]">
+            <Search className="size-4 text-[#b8860b] shrink-0 mr-2" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search for engagement rings, gold chains..."
+              placeholder="Search for 22K gold rings, diamond necklace..."
               className="w-full bg-transparent font-sans text-xs sm:text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
             />
             {searchQuery && (
@@ -296,25 +298,25 @@ export function CollectionPage() {
                 onClick={() => setSearchQuery("")}
                 className="p-1 text-zinc-400 hover:text-zinc-700 mr-1"
               >
-                <X className="size-4" />
+                <X className="size-3.5" />
               </button>
             )}
-            <div className="flex items-center gap-2 border-l border-zinc-200 pl-2 shrink-0 text-zinc-500">
+            <div className="flex items-center gap-2 border-l border-[#b8860b]/20 pl-2 shrink-0 text-[#b8860b]">
               <button
                 type="button"
                 onClick={() => setIsCameraModalOpen(true)}
                 title="Visual Search / Upload Image"
-                className="p-1 hover:text-[#8B2131] transition-colors"
+                className="p-1 hover:text-[#8b5a00] transition-colors"
               >
-                <Camera className="size-4.5 stroke-[1.8]" />
+                <Camera className="size-4 stroke-[1.8]" />
               </button>
               <button
                 type="button"
                 onClick={handleVoiceSearch}
                 title="Voice Search"
-                className="p-1 hover:text-[#8B2131] transition-colors"
+                className="p-1 hover:text-[#8b5a00] transition-colors"
               >
-                <Mic className="size-4.5 stroke-[1.8]" />
+                <Mic className="size-4 stroke-[1.8]" />
               </button>
             </div>
           </div>
@@ -324,13 +326,13 @@ export function CollectionPage() {
       {/* ══════════════════════════════════════════════════════════════ */}
       {/* 2. COLLECTION PAGE TITLE & STATS COUNTER                      */}
       {/* ══════════════════════════════════════════════════════════════ */}
-      <section className="px-3.5 sm:px-8 pt-4 pb-2">
-        <div className="flex items-baseline gap-2">
-          <h1 className="font-serif text-2xl sm:text-4xl text-zinc-900 font-bold tracking-tight">
+      <section className="px-3.5 sm:px-8 pt-5 pb-2">
+        <div className="flex items-baseline gap-2.5">
+          <h1 className="font-display text-2xl sm:text-4xl text-[#121212] font-semibold tracking-tight">
             {searchQuery ? `Search: "${searchQuery}"` : activeCategoryObj.label}
           </h1>
-          <span className="font-sans text-xs sm:text-sm text-zinc-500 font-medium">
-            ({filteredProducts.length} results)
+          <span className="font-sans text-[0.72rem] sm:text-xs text-[#777] font-semibold tracking-widest uppercase">
+            ({filteredProducts.length} CREATIONS)
           </span>
         </div>
       </section>
@@ -338,7 +340,7 @@ export function CollectionPage() {
       {/* ══════════════════════════════════════════════════════════════ */}
       {/* 3. FILTER & SORT CONTROL BAR + Quick Filter Tags               */}
       {/* ══════════════════════════════════════════════════════════════ */}
-      <section className="px-3.5 sm:px-8 py-2 border-b border-zinc-100">
+      <section className="px-3.5 sm:px-8 py-2 border-b border-[#b8860b]/15 bg-[#FAF8F5]">
         <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
           {/* Round Filter Icon Button */}
           <button
@@ -346,12 +348,12 @@ export function CollectionPage() {
             onClick={() => setIsFilterModalOpen(true)}
             className={`flex size-9 items-center justify-center rounded-full border transition-all shrink-0 active:scale-95 ${
               selectedMetal !== "ALL"
-                ? "border-[#8B2131] bg-[#8B2131] text-white"
-                : "border-zinc-300 bg-white text-zinc-800 hover:border-zinc-400"
+                ? "border-[#b8860b] bg-[#b8860b] text-white shadow-xs"
+                : "border-[#b8860b]/30 bg-white text-zinc-900 hover:border-[#b8860b]"
             }`}
             aria-label="Filter products"
           >
-            <SlidersHorizontal className="size-4 stroke-[1.8]" />
+            <SlidersHorizontal className="size-3.5 stroke-[1.8]" />
           </button>
 
           {/* Round Sort Icon Button */}
@@ -360,19 +362,19 @@ export function CollectionPage() {
             onClick={() => setIsSortModalOpen(true)}
             className={`flex size-9 items-center justify-center rounded-full border transition-all shrink-0 active:scale-95 ${
               sortOption !== "featured"
-                ? "border-[#8B2131] bg-[#8B2131] text-white"
-                : "border-zinc-300 bg-white text-zinc-800 hover:border-zinc-400"
+                ? "border-[#b8860b] bg-[#b8860b] text-white shadow-xs"
+                : "border-[#b8860b]/30 bg-white text-zinc-900 hover:border-[#b8860b]"
             }`}
             aria-label="Sort products"
           >
-            <ArrowUpDown className="size-4 stroke-[1.8]" />
+            <ArrowUpDown className="size-3.5 stroke-[1.8]" />
           </button>
 
           {/* "+Show More" / Category Pill Tags */}
           <button
             type="button"
             onClick={() => setShowMoreCategories(!showMoreCategories)}
-            className="px-3 py-1.5 rounded-full border border-zinc-300 bg-white font-sans text-xs font-semibold text-[#8B2131] hover:border-[#8B2131] transition-colors shrink-0"
+            className="px-3.5 py-1.5 rounded-full border border-[#b8860b]/40 bg-[#f7f4ea] font-sans text-[0.68rem] font-bold tracking-wider uppercase text-[#8b5a00] hover:bg-[#b8860b] hover:text-white transition-colors shrink-0"
           >
             {showMoreCategories ? "Less" : "+Show More"}
           </button>
@@ -384,10 +386,10 @@ export function CollectionPage() {
                 key={cat.id}
                 type="button"
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`px-3.5 py-1.5 rounded-full font-sans text-xs font-medium transition-all shrink-0 ${
+                className={`px-3.5 py-1.5 rounded-full font-sans text-[0.68rem] font-bold uppercase tracking-wider transition-all shrink-0 ${
                   isSelected
-                    ? "bg-[#8B2131] text-white shadow-xs"
-                    : "bg-zinc-100 text-zinc-700 hover:bg-zinc-200"
+                    ? "bg-[#121212] text-[#FAF8F5] shadow-xs"
+                    : "bg-white border border-[#b8860b]/20 text-zinc-800 hover:bg-[#f7f4ea] hover:border-[#b8860b]/50"
                 }`}
               >
                 {cat.tagLabel}
@@ -398,17 +400,17 @@ export function CollectionPage() {
       </section>
 
       {/* ══════════════════════════════════════════════════════════════ */}
-      {/* 4. TANISHQ MOBILE PRODUCT GRID (2 Columns on Mobile, 3-4 Desktop) */}
+      {/* 4. LUXURY PRODUCT GRID (2 Columns Mobile, 3-4 Desktop)        */}
       {/* ══════════════════════════════════════════════════════════════ */}
       <main className="px-2.5 sm:px-8 pt-4">
         {filteredProducts.length === 0 ? (
           <div className="py-16 text-center space-y-4">
-            <CrownIcon className="size-12 mx-auto text-zinc-300" />
-            <h3 className="font-serif text-xl font-medium text-zinc-800">
-              No jewelry items match your search.
+            <CrownIcon className="size-12 mx-auto text-[#b8860b]/40" />
+            <h3 className="font-display text-xl font-medium text-zinc-800">
+              No creations match your current search.
             </h3>
-            <p className="font-sans text-xs text-zinc-500 max-w-sm mx-auto">
-              Try adjusting your filter criteria or search query to explore our royal Delhi inventory.
+            <p className="font-sans text-xs text-[#777] max-w-sm mx-auto leading-relaxed">
+              Try adjusting your filter criteria or search query to explore our royal Delhi atelier inventory.
             </p>
             <button
               type="button"
@@ -418,7 +420,7 @@ export function CollectionPage() {
                 setSearchQuery("");
                 setSortOption("featured");
               }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-[#8B2131] px-5 py-2 font-sans text-xs font-bold uppercase tracking-wider text-white shadow-md hover:bg-[#6e1825] transition-all"
+              className="inline-flex items-center gap-1.5 rounded-full bg-[#121212] px-6 py-2.5 font-sans text-[0.68rem] font-bold uppercase tracking-[0.18em] text-[#FAF8F5] shadow-md hover:bg-[#b8860b] hover:text-white transition-all"
             >
               <RotateCcw className="size-3.5" />
               <span>Reset Filters</span>
@@ -432,13 +434,13 @@ export function CollectionPage() {
               const badgeText = getProductBadge(product, idx);
 
               const whatsappEnquiryMsg = encodeURIComponent(
-                `Hi A.P.P. Jewellers, I am interested in inquiring about "${product.name}" (${product.purity || "22K"}, SKU: ${product.slug.toUpperCase()}). Please share the exact price, weight breakdown, and availability.`
+                `Hi A.P.P. Jewellers, I am interested in inquiring about "${product.name}" (${product.purity || "22K"}, SKU: ${product.slug.toUpperCase()}). Please share the exact price breakdown and availability.`
               );
 
               return (
                 <div
                   key={product.slug}
-                  className="group relative flex flex-col justify-between rounded-lg border border-zinc-200/80 bg-white overflow-hidden shadow-xs hover:shadow-md transition-all duration-300"
+                  className="group relative flex flex-col justify-between rounded-xs border border-[#b8860b]/20 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-[#b8860b]/60 transition-all duration-300"
                 >
                   {/* Card Top: Image Box */}
                   <div
@@ -464,16 +466,16 @@ export function CollectionPage() {
                     >
                       <HeartIcon
                         filled={isWishlisted}
-                        className={`size-4 ${
-                          isWishlisted ? "text-rose-600" : "text-zinc-600"
+                        className={`size-3.5 sm:size-4 ${
+                          isWishlisted ? "text-rose-600" : "text-[#121212]"
                         }`}
                       />
                     </button>
 
-                    {/* Stock / Urgent Tag Badge Banner (Soft Yellow/Gold across bottom of image) */}
+                    {/* Stock / Urgent Tag Badge Banner */}
                     {badgeText && (
-                      <div className="absolute inset-x-0 bottom-0 bg-[#FBF0D9]/95 border-t border-[#E6D4AA]/60 py-1 text-center backdrop-blur-xs">
-                        <span className="font-sans text-[0.58rem] sm:text-[0.65rem] font-bold uppercase tracking-wider text-[#7A5300]">
+                      <div className="absolute inset-x-0 bottom-0 bg-[#fcfaf2]/95 border-t border-[#b8860b]/30 py-1 text-center backdrop-blur-xs">
+                        <span className="font-sans text-[0.54rem] sm:text-[0.62rem] font-bold uppercase tracking-[0.14em] text-[#8b5a00]">
                           {badgeText}
                         </span>
                       </div>
@@ -481,15 +483,18 @@ export function CollectionPage() {
                   </div>
 
                   {/* Card Content: Title, Price & WHATSAPP ENQUIRY Button */}
-                  <div className="p-2.5 sm:p-4 flex flex-col flex-1 justify-between space-y-2">
-                    <div className="space-y-1">
+                  <div className="p-2.5 sm:p-4 flex flex-col flex-1 justify-between space-y-2.5 bg-white">
+                    <div className="space-y-0.5">
+                      <p className="font-sans text-[0.55rem] sm:text-[0.65rem] tracking-[0.2em] uppercase text-[#888] font-semibold truncate">
+                        {product.purity || "22K GOLD"} · {product.metal}
+                      </p>
                       <h3
                         onClick={() => setSelectedProduct(product)}
-                        className="font-sans text-xs sm:text-base font-normal text-zinc-900 line-clamp-2 leading-snug cursor-pointer group-hover:text-[#8B2131] transition-colors"
+                        className="font-display text-sm sm:text-lg font-normal text-[#121212] line-clamp-2 leading-snug cursor-pointer group-hover:text-[#b8860b] transition-colors"
                       >
                         {product.name}
                       </h3>
-                      <p className="font-serif text-sm sm:text-lg font-bold text-zinc-900">
+                      <p className="font-display text-sm sm:text-base font-bold text-[#8b5a00] pt-0.5">
                         {priceFormatted}
                       </p>
                     </div>
@@ -500,9 +505,9 @@ export function CollectionPage() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="flex items-center justify-center gap-1.5 w-full py-2 sm:py-2.5 rounded-md border border-[#8B2131] bg-white text-[#8B2131] font-sans text-[0.62rem] sm:text-xs font-bold uppercase tracking-wider transition-all hover:bg-[#8B2131] hover:text-white active:scale-95 shadow-2xs"
+                      className="flex items-center justify-center gap-1.5 w-full py-2 sm:py-2.5 rounded-full border border-[#b8860b] bg-[#fcfaf2] text-[#121212] font-sans text-[0.58rem] sm:text-[0.68rem] font-bold uppercase tracking-[0.14em] transition-all hover:bg-[#b8860b] hover:text-white active:scale-95 shadow-2xs"
                     >
-                      <WhatsAppIcon className="size-3.5 sm:size-4 text-current shrink-0" />
+                      <WhatsAppIcon className="size-3 sm:size-3.5 text-current shrink-0" />
                       <span>WHATSAPP ENQUIRY</span>
                     </a>
                   </div>
@@ -514,7 +519,7 @@ export function CollectionPage() {
       </main>
 
       {/* ══════════════════════════════════════════════════════════════ */}
-      {/* 5. TANISHQ MOBILE CATEGORY DRAWER (Image 2 Style Menu)          */}
+      {/* 5. LUXURY CATEGORY DRAWER (Matching Nav and Design Tokens)     */}
       {/* ══════════════════════════════════════════════════════════════ */}
       {isCategoryDrawerOpen && (
         <div className="fixed inset-0 z-50 flex">
@@ -525,26 +530,35 @@ export function CollectionPage() {
           />
 
           {/* Drawer container */}
-          <aside className="relative w-[82%] max-w-sm bg-white h-full shadow-2xl z-50 flex flex-col overflow-y-auto animate-slideRight">
+          <aside className="relative w-[82%] max-w-sm bg-[#fcfaf2] border-r border-[#b8860b]/40 h-full shadow-2xl z-50 flex flex-col overflow-y-auto animate-slideRight">
             {/* Header: Brand Title */}
-            <div className="p-4 bg-[#FAF7F2] border-b border-zinc-200 flex items-center justify-between">
+            <div className="p-4 bg-[#f7f4ea] border-b border-[#b8860b]/20 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <img src={logoImg} alt="A.P.P. Jewellers" className="h-6 w-auto object-contain" />
-                <span className="font-sans text-xs uppercase tracking-widest text-[#8B2131] font-bold">
-                  A.P.P. JEWELLERS
-                </span>
+                <img
+                  src={logoImg}
+                  alt="A.P.P. Jewellers"
+                  className="h-6 w-auto object-contain filter drop-shadow-[0_2px_6px_rgba(184,134,11,0.25)]"
+                />
+                <div>
+                  <span className="font-display text-sm font-bold uppercase tracking-widest text-[#121212] block">
+                    A.P.P. JEWELLERS
+                  </span>
+                  <span className="font-sans text-[0.5rem] tracking-[0.2em] text-[#8b5a00] uppercase font-semibold">
+                    Sarafa Market, Delhi
+                  </span>
+                </div>
               </div>
               <button
                 type="button"
                 onClick={() => setIsCategoryDrawerOpen(false)}
-                className="p-1.5 rounded-full text-zinc-500 hover:text-zinc-900 hover:bg-zinc-200/60 transition-all"
+                className="p-1.5 rounded-full text-zinc-600 hover:text-zinc-900 hover:bg-black/5 transition-all"
               >
                 <X className="size-5" />
               </button>
             </div>
 
-            {/* Category Navigation Items List (Image 2 Tanishq Style) */}
-            <nav className="flex-1 py-2 divide-y divide-zinc-100">
+            {/* Category Navigation Items List */}
+            <nav className="flex-1 py-2 divide-y divide-[#b8860b]/10">
               {CATEGORIES.map((cat) => {
                 const IconComp = cat.icon;
                 const isSelected = selectedCategory === cat.id;
@@ -556,37 +570,37 @@ export function CollectionPage() {
                       setSelectedCategory(cat.id);
                       setIsCategoryDrawerOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between px-5 py-3.5 text-left font-serif text-sm transition-colors ${
+                    className={`w-full flex items-center justify-between px-5 py-3.5 text-left font-display text-base transition-colors ${
                       isSelected
-                        ? "bg-[#FAF2F3] text-[#8B2131] font-bold"
-                        : "text-zinc-800 hover:bg-zinc-50 font-normal"
+                        ? "bg-[#f7f4ea] text-[#b8860b] font-bold"
+                        : "text-[#121212] hover:bg-[#FAF8F5] hover:text-[#b8860b]"
                     }`}
                   >
                     <div className="flex items-center gap-3.5">
-                      <IconComp className={`size-4.5 ${isSelected ? "text-[#8B2131]" : "text-zinc-500"}`} />
+                      <IconComp className={`size-4.5 ${isSelected ? "text-[#b8860b]" : "text-[#8b5a00]"}`} />
                       <span>{cat.label}</span>
                     </div>
-                    <ChevronRight className="size-4 text-zinc-400" />
+                    <ChevronRight className="size-4 text-[#b8860b]/50" />
                   </button>
                 );
               })}
             </nav>
 
             {/* Drawer Bottom Quick Action */}
-            <div className="p-4 border-t border-zinc-200 bg-[#FAF7F2] space-y-2">
+            <div className="p-4 border-t border-[#b8860b]/20 bg-[#f7f4ea] space-y-2.5">
               <Link
                 to="/appointment"
                 onClick={() => setIsCategoryDrawerOpen(false)}
-                className="block text-center py-2.5 rounded-md bg-[#8B2131] text-white text-xs font-bold uppercase tracking-wider shadow-sm hover:bg-[#6e1825] transition-all"
+                className="block text-center py-2.5 rounded-full bg-[#121212] text-[#FAF8F5] font-sans text-xs font-bold uppercase tracking-[0.2em] shadow-md hover:bg-[#b8860b] hover:text-white transition-all"
               >
-                Book Showroom Visit
+                Book Atelier Visit
               </Link>
               <a
                 href="tel:09015155615"
-                className="flex items-center justify-center gap-1.5 py-2 text-xs font-bold text-zinc-700 hover:text-[#8B2131]"
+                className="flex items-center justify-center gap-1.5 py-1.5 font-sans text-xs font-bold text-zinc-800 hover:text-[#b8860b] tracking-wider uppercase"
               >
-                <PhoneIcon className="size-3.5" />
-                <span>Call Atelier: 090151 55615</span>
+                <PhoneIcon className="size-3.5 text-[#b8860b]" />
+                <span>Call: 090151 55615</span>
               </a>
             </div>
           </aside>
@@ -602,10 +616,10 @@ export function CollectionPage() {
             className="fixed inset-0 bg-black/50 backdrop-blur-xs"
             onClick={() => setIsFilterModalOpen(false)}
           />
-          <div className="relative w-full max-w-xs sm:max-w-md bg-white h-full shadow-2xl z-50 flex flex-col justify-between p-5 animate-slideLeft overflow-y-auto">
+          <div className="relative w-full max-w-xs sm:max-w-md bg-[#fcfaf2] border-l border-[#b8860b]/40 h-full shadow-2xl z-50 flex flex-col justify-between p-5 animate-slideLeft overflow-y-auto">
             <div className="space-y-6">
-              <div className="flex items-center justify-between pb-3 border-b border-zinc-200">
-                <h3 className="font-serif text-lg font-bold text-zinc-900">
+              <div className="flex items-center justify-between pb-3 border-b border-[#b8860b]/20">
+                <h3 className="font-display text-xl font-bold text-[#121212]">
                   Filter Jewellery
                 </h3>
                 <button
@@ -619,8 +633,8 @@ export function CollectionPage() {
 
               {/* Metal Filter */}
               <div className="space-y-2.5">
-                <label className="font-sans text-xs uppercase tracking-wider font-bold text-zinc-600">
-                  Metal & Precious Material
+                <label className="font-sans text-[0.65rem] uppercase tracking-[0.2em] font-bold text-[#8b5a00]">
+                  Metal & Material
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   {["ALL", "GOLD", "DIAMOND", "PLATINUM", "SILVER", "GEMSTONE"].map((m) => (
@@ -628,10 +642,10 @@ export function CollectionPage() {
                       key={m}
                       type="button"
                       onClick={() => setSelectedMetal(m)}
-                      className={`py-2 px-3 rounded-md font-sans text-xs font-semibold border transition-all ${
+                      className={`py-2 px-3 rounded-full font-sans text-xs font-semibold border transition-all ${
                         selectedMetal === m
-                          ? "border-[#8B2131] bg-[#8B2131] text-white"
-                          : "border-zinc-200 text-zinc-700 hover:border-zinc-400"
+                          ? "border-[#b8860b] bg-[#b8860b] text-white shadow-xs"
+                          : "border-[#b8860b]/20 bg-white text-zinc-800 hover:border-[#b8860b]"
                       }`}
                     >
                       {m}
@@ -642,7 +656,7 @@ export function CollectionPage() {
 
               {/* Category Filter */}
               <div className="space-y-2.5">
-                <label className="font-sans text-xs uppercase tracking-wider font-bold text-zinc-600">
+                <label className="font-sans text-[0.65rem] uppercase tracking-[0.2em] font-bold text-[#8b5a00]">
                   Jewellery Category
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -651,10 +665,10 @@ export function CollectionPage() {
                       key={c.id}
                       type="button"
                       onClick={() => setSelectedCategory(c.id)}
-                      className={`py-2 px-3 rounded-md font-sans text-xs font-semibold border text-left transition-all ${
+                      className={`py-2 px-3 rounded-full font-sans text-xs font-semibold border text-left transition-all ${
                         selectedCategory === c.id
-                          ? "border-[#8B2131] bg-[#8B2131] text-white"
-                          : "border-zinc-200 text-zinc-700 hover:border-zinc-400"
+                          ? "border-[#b8860b] bg-[#b8860b] text-white shadow-xs"
+                          : "border-[#b8860b]/20 bg-white text-zinc-800 hover:border-[#b8860b]"
                       }`}
                     >
                       {c.tagLabel}
@@ -665,7 +679,7 @@ export function CollectionPage() {
             </div>
 
             {/* Bottom Actions */}
-            <div className="pt-4 border-t border-zinc-200 flex gap-2">
+            <div className="pt-4 border-t border-[#b8860b]/20 flex gap-2">
               <button
                 type="button"
                 onClick={() => {
@@ -673,16 +687,16 @@ export function CollectionPage() {
                   setSelectedMetal("ALL");
                   setIsFilterModalOpen(false);
                 }}
-                className="flex-1 py-2.5 rounded-md border border-zinc-300 text-xs font-bold uppercase text-zinc-700 hover:bg-zinc-100"
+                className="flex-1 py-2.5 rounded-full border border-zinc-300 font-sans text-xs font-bold uppercase tracking-wider text-zinc-700 hover:bg-zinc-100"
               >
-                Reset All
+                Reset
               </button>
               <button
                 type="button"
                 onClick={() => setIsFilterModalOpen(false)}
-                className="flex-1 py-2.5 rounded-md bg-[#8B2131] text-white text-xs font-bold uppercase tracking-wider shadow-sm hover:bg-[#6e1825]"
+                className="flex-1 py-2.5 rounded-full bg-[#121212] text-[#FAF8F5] font-sans text-xs font-bold uppercase tracking-wider shadow-sm hover:bg-[#b8860b] hover:text-white transition-all"
               >
-                Apply Filters
+                Apply
               </button>
             </div>
           </div>
@@ -698,9 +712,9 @@ export function CollectionPage() {
             className="fixed inset-0 bg-black/50 backdrop-blur-xs"
             onClick={() => setIsSortModalOpen(false)}
           />
-          <div className="relative w-full max-w-sm bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl z-50 p-5 space-y-4 animate-slideUp">
-            <div className="flex items-center justify-between pb-2 border-b border-zinc-200">
-              <h3 className="font-serif text-lg font-bold text-zinc-900">
+          <div className="relative w-full max-w-sm bg-[#fcfaf2] border border-[#b8860b]/30 rounded-t-2xl sm:rounded-2xl shadow-2xl z-50 p-5 space-y-4 animate-slideUp">
+            <div className="flex items-center justify-between pb-2 border-b border-[#b8860b]/20">
+              <h3 className="font-display text-xl font-bold text-[#121212]">
                 Sort Jewellery By
               </h3>
               <button
@@ -714,7 +728,7 @@ export function CollectionPage() {
 
             <div className="space-y-1">
               {[
-                { id: "featured", label: "Featured & Popular" },
+                { id: "featured", label: "Featured & Atelier Curation" },
                 { id: "price-low", label: "Price: Low to High" },
                 { id: "price-high", label: "Price: High to Low" },
                 { id: "newest", label: "Newest Arrivals" },
@@ -726,14 +740,14 @@ export function CollectionPage() {
                     setSortOption(opt.id as any);
                     setIsSortModalOpen(false);
                   }}
-                  className={`w-full flex items-center justify-between p-3 rounded-lg text-xs font-semibold transition-colors ${
+                  className={`w-full flex items-center justify-between p-3 rounded-lg font-sans text-xs font-semibold tracking-wide transition-colors ${
                     sortOption === opt.id
-                      ? "bg-[#FAF2F3] text-[#8B2131]"
-                      : "text-zinc-800 hover:bg-zinc-100"
+                      ? "bg-[#f7f4ea] text-[#8b5a00] font-bold border border-[#b8860b]/30"
+                      : "text-zinc-800 hover:bg-black/5"
                   }`}
                 >
                   <span>{opt.label}</span>
-                  {sortOption === opt.id && <Check className="size-4 text-[#8B2131]" />}
+                  {sortOption === opt.id && <Check className="size-4 text-[#b8860b]" />}
                 </button>
               ))}
             </div>
@@ -750,7 +764,7 @@ export function CollectionPage() {
             className="fixed inset-0 bg-black/60 backdrop-blur-xs"
             onClick={() => setIsVoiceModalOpen(false)}
           />
-          <div className="relative w-full max-w-sm bg-white rounded-2xl p-6 text-center space-y-4 shadow-2xl z-50 animate-fadeIn">
+          <div className="relative w-full max-w-sm bg-[#fcfaf2] border border-[#b8860b]/40 rounded-2xl p-6 text-center space-y-4 shadow-2xl z-50 animate-fadeIn">
             <button
               type="button"
               onClick={() => setIsVoiceModalOpen(false)}
@@ -758,14 +772,14 @@ export function CollectionPage() {
             >
               <X className="size-5" />
             </button>
-            <div className="flex size-16 mx-auto items-center justify-center rounded-full bg-[#8B2131]/10 text-[#8B2131] animate-pulse">
+            <div className="flex size-16 mx-auto items-center justify-center rounded-full bg-[#b8860b]/15 text-[#b8860b] animate-pulse">
               <Mic className="size-8" />
             </div>
-            <h3 className="font-serif text-lg font-bold text-zinc-900">
+            <h3 className="font-display text-2xl font-bold text-[#121212]">
               {isListening ? "Listening..." : "Voice Search"}
             </h3>
-            <p className="font-sans text-xs text-zinc-500">
-              Say something like &quot;Gold Engagement Rings&quot; or &quot;Solitaire Earrings&quot;
+            <p className="font-sans text-xs text-[#666]">
+              Say &quot;Gold Necklace&quot;, &quot;Solitaire Ring&quot; or &quot;Bridal Set&quot;
             </p>
           </div>
         </div>
@@ -780,7 +794,7 @@ export function CollectionPage() {
             className="fixed inset-0 bg-black/60 backdrop-blur-xs"
             onClick={() => setIsCameraModalOpen(false)}
           />
-          <div className="relative w-full max-w-sm bg-white rounded-2xl p-6 text-center space-y-4 shadow-2xl z-50 animate-fadeIn">
+          <div className="relative w-full max-w-sm bg-[#fcfaf2] border border-[#b8860b]/40 rounded-2xl p-6 text-center space-y-4 shadow-2xl z-50 animate-fadeIn">
             <button
               type="button"
               onClick={() => setIsCameraModalOpen(false)}
@@ -788,16 +802,16 @@ export function CollectionPage() {
             >
               <X className="size-5" />
             </button>
-            <div className="flex size-16 mx-auto items-center justify-center rounded-full bg-[#8B2131]/10 text-[#8B2131]">
+            <div className="flex size-16 mx-auto items-center justify-center rounded-full bg-[#b8860b]/15 text-[#b8860b]">
               <Camera className="size-8" />
             </div>
-            <h3 className="font-serif text-lg font-bold text-zinc-900">
-              Visual Jewelry Search
+            <h3 className="font-display text-2xl font-bold text-[#121212]">
+              Visual Jewellery Search
             </h3>
-            <p className="font-sans text-xs text-zinc-500">
-              Upload or snap a photo of any design to find matching items in our Sarafa Market archive.
+            <p className="font-sans text-xs text-[#666] leading-relaxed">
+              Upload or snap a photo of any design to match with our Sarafa Market Delhi archive.
             </p>
-            <label className="block w-full py-3 rounded-lg border-2 border-dashed border-[#8B2131]/40 bg-[#FAF7F2] text-[#8B2131] font-sans text-xs font-bold uppercase tracking-wider cursor-pointer hover:bg-[#FAF2F3] transition-colors">
+            <label className="block w-full py-3 rounded-full border border-[#b8860b] bg-[#f7f4ea] text-[#8b5a00] font-sans text-xs font-bold uppercase tracking-wider cursor-pointer hover:bg-[#b8860b] hover:text-white transition-colors">
               <span>Choose Photo / Take Picture</span>
               <input
                 type="file"
@@ -852,45 +866,45 @@ function EditorialPieceReader({
   }, []);
 
   const whatsappInquiry = encodeURIComponent(
-    `Hi A.P.P. Jewellers, I am interested in ordering/inquiring about "${product.name}" (${product.purity || "22K Gold"}, Price: ${priceFormatted}, SKU: ${product.slug.toUpperCase()}). Please share details.`
+    `Hi A.P.P. Jewellers, I am interested in inquiring about "${product.name}" (${product.purity || "22K Gold"}, Price: ${priceFormatted}, SKU: ${product.slug.toUpperCase()}). Please share details and availability.`
   );
 
   return (
-    <div className="fixed inset-0 z-[300] overflow-y-auto bg-white text-[#121212] animate-fadeIn">
+    <div className="fixed inset-0 z-[300] overflow-y-auto bg-[#FAF8F5] text-[#121212] animate-fadeIn">
       {/* Top Header */}
-      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-zinc-200 bg-white/95 px-4 py-3 backdrop-blur-md">
+      <header className="sticky top-0 z-40 flex items-center justify-between border-b border-[#b8860b]/20 bg-[#fcfaf2]/95 px-4 py-3 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <img src={logoImg} alt="A.P.P. Jewellers" className="h-6 w-auto object-contain" />
-          <span className="font-serif italic font-bold text-lg text-[#8B2131]">
+          <span className="font-display font-bold text-lg text-[#121212] tracking-wider">
             A.P.P. Atelier
           </span>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="flex items-center gap-1.5 rounded-full border border-zinc-300 px-3.5 py-1 font-sans text-xs font-bold uppercase tracking-wider text-zinc-700 hover:bg-zinc-100"
+          className="flex items-center gap-1.5 rounded-full border border-[#121212]/30 px-3.5 py-1 font-sans text-xs font-bold uppercase tracking-wider text-zinc-800 hover:bg-[#121212] hover:text-[#FAF8F5] transition-all"
         >
           <span>CLOSE</span>
-          <X className="size-4" />
+          <X className="size-3.5" />
         </button>
       </header>
 
       {/* Body Content */}
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        <div className="text-center space-y-1">
-          <p className="font-sans text-[0.65rem] uppercase tracking-widest text-[#8B2131] font-bold">
+        <div className="text-center space-y-1.5">
+          <p className="font-sans text-[0.62rem] uppercase tracking-[0.25em] text-[#8b5a00] font-bold">
             {product.purity || "22K BIS HALLMARKED"} · {product.metal}
           </p>
-          <h1 className="font-serif text-2xl sm:text-4xl font-bold text-zinc-900">
+          <h1 className="font-display text-3xl sm:text-5xl font-normal text-[#121212]">
             {product.name}
           </h1>
-          <p className="font-serif text-xl sm:text-2xl font-bold text-[#8B2131]">
+          <p className="font-display text-2xl sm:text-3xl font-bold text-[#8b5a00]">
             {priceFormatted}
           </p>
         </div>
 
         {/* Large Product Image */}
-        <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-[#FAF8F5] border border-zinc-200 shadow-sm">
+        <div className="relative aspect-square w-full overflow-hidden rounded-xs bg-[#FAF8F5] border border-[#b8860b]/20 shadow-sm">
           <img
             src={product.image}
             alt={product.name}
@@ -899,10 +913,10 @@ function EditorialPieceReader({
         </div>
 
         {/* Description Story */}
-        <p className="font-sans text-sm leading-relaxed text-zinc-700 text-center">
+        <p className="font-display text-base leading-relaxed text-[#444] text-center max-w-xl mx-auto italic">
           {product.story ||
             product.tagline ||
-            "Masterpiece handcrafted at our Sarafa Market Delhi atelier using certified gold purity and traditional setting techniques."}
+            "Masterpiece handcrafted at our Sarafa Market Delhi atelier using certified gold purity and master artisan setting techniques."}
         </p>
 
         {/* Actions: WHATSAPP ENQUIRY & Call */}
@@ -911,17 +925,17 @@ function EditorialPieceReader({
             href={`https://wa.me/919015155615?text=${whatsappInquiry}`}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg bg-[#25D366] text-white font-sans text-xs font-bold uppercase tracking-wider shadow-md hover:bg-[#1ebd59] transition-all"
+            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full bg-[#121212] text-[#FAF8F5] font-sans text-xs font-bold uppercase tracking-[0.18em] shadow-md hover:bg-[#b8860b] hover:text-white transition-all active:scale-95"
           >
-            <WhatsAppIcon className="size-4 text-white" />
+            <WhatsAppIcon className="size-4 text-current" />
             <span>WHATSAPP ENQUIRY NOW</span>
           </a>
 
           <a
             href="tel:09015155615"
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-lg border border-zinc-300 bg-white text-zinc-800 font-sans text-xs font-bold uppercase tracking-wider hover:bg-zinc-50 transition-all"
+            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-full border border-[#b8860b]/40 bg-white text-zinc-900 font-sans text-xs font-bold uppercase tracking-[0.18em] hover:bg-[#f7f4ea] transition-all active:scale-95"
           >
-            <PhoneIcon className="size-4" />
+            <PhoneIcon className="size-4 text-[#b8860b]" />
             <span>CALL ATELIER: 090151 55615</span>
           </a>
         </div>
