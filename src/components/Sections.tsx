@@ -245,7 +245,7 @@ export function Collections() {
 
       {/* Foreground Container */}
       <div className="relative z-10 mx-auto max-w-7xl">
-        <div className="mb-8 sm:mb-12">
+        <div className="mb-10 sm:mb-16">
           <Reveal>
             <SectionHead
               eyebrow="Special Gold & Diamond Collection"
@@ -257,7 +257,7 @@ export function Collections() {
 
         {/* ── 3D CURVED COVER FLOW CAROUSEL CONTAINER ── */}
         <div
-          className="relative mt-6 sm:mt-8 w-full max-w-6xl mx-auto h-[24rem] sm:h-[32rem] flex items-center justify-center select-none"
+          className="relative mt-8 sm:mt-12 w-full max-w-6xl mx-auto h-[23rem] sm:h-[29rem] md:h-[31rem] flex items-center justify-center select-none"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={handleTouchStart}
@@ -303,7 +303,7 @@ export function Collections() {
 
               if (isCenter) {
                 translateX = 0;
-                scale = 1.05;
+                scale = 1.04;
                 rotateY = 0;
                 zIndex = 30;
                 opacity = 1;
@@ -352,7 +352,7 @@ export function Collections() {
                   onClick={() => {
                     if (!isCenter) setActiveIndex(idx);
                   }}
-                  className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[70vw] max-w-[250px] sm:max-w-[310px] h-[21rem] sm:h-[29rem] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1)] ${
+                  className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[70vw] max-w-[240px] sm:max-w-[280px] md:max-w-[295px] h-[19rem] sm:h-[24rem] md:h-[26rem] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1)] ${
                     isCenter
                       ? "border-2 border-[#d4af37] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(212,175,55,0.3)] pointer-events-auto"
                       : "border border-[#d4af37]/35 shadow-[0_15px_35px_rgba(0,0,0,0.7)]"
