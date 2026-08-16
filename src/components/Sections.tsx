@@ -86,17 +86,17 @@ function SectionHead({
   copy?: string;
 }) {
   return (
-    <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-14">
-      <p className="eyebrow">{eyebrow}</p>
-      <h2 className="mt-4 sm:mt-6 font-display text-[clamp(2.1rem,4.8vw,3.8rem)] leading-[1.15] sm:leading-[1.22] text-foreground font-bold">
+    <div className="mx-auto max-w-3xl text-center mb-10 sm:mb-16">
+      <p className="eyebrow text-[#b8860b]">{eyebrow}</p>
+      <h2 className="mt-3 sm:mt-5 font-display text-[clamp(1.9rem,4.5vw,3.6rem)] leading-[1.18] sm:leading-[1.25] text-zinc-900 font-bold">
         {title}
       </h2>
       {copy ? (
-        <p className="mt-4 sm:mt-5 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground max-w-xl mx-auto">
+        <p className="mt-3 sm:mt-4 text-xs sm:text-sm font-medium leading-relaxed text-zinc-700 max-w-xl mx-auto px-4">
           {copy}
         </p>
       ) : null}
-      <div className="rule-gold mx-auto mt-6 sm:mt-8 w-32 sm:w-40" />
+      <div className="rule-gold mx-auto mt-5 sm:mt-6 w-32 sm:w-40" />
     </div>
   );
 }
@@ -245,17 +245,19 @@ export function Collections() {
 
       {/* Foreground Container */}
       <div className="relative z-10 mx-auto max-w-7xl">
-        <Reveal>
-          <SectionHead
-            eyebrow="Special Gold & Diamond Collection"
-            title="Handcrafted Jewellery for Every Celebration"
-            copy="Explore pure BIS hallmarked gold, real certified diamonds, traditional Kundan sets, and dailywear jewellery crafted at A.P.P. Jewellers."
-          />
-        </Reveal>
+        <div className="mb-8 sm:mb-12">
+          <Reveal>
+            <SectionHead
+              eyebrow="Special Gold & Diamond Collection"
+              title="Handcrafted Jewellery for Every Celebration"
+              copy="Explore pure BIS hallmarked gold, real certified diamonds, traditional Kundan sets, and dailywear jewellery crafted at A.P.P. Jewellers."
+            />
+          </Reveal>
+        </div>
 
         {/* ── 3D CURVED COVER FLOW CAROUSEL CONTAINER ── */}
         <div
-          className="relative mt-12 sm:mt-20 pt-6 sm:pt-10 w-full max-w-6xl mx-auto h-[26rem] sm:h-[35rem] flex items-center justify-center select-none"
+          className="relative mt-6 sm:mt-8 w-full max-w-6xl mx-auto h-[24rem] sm:h-[32rem] flex items-center justify-center select-none"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={handleTouchStart}
