@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Heart, ShieldCheck, ArrowRight, MessageCircle } from "lucide-react";
 import { Reveal } from "./Reveal";
+import logoImg from "@/assets/logo.png";
 
 interface ShowcaseItem {
   id: string;
@@ -205,7 +206,7 @@ export function HeritageShowcaseSection() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-2 sm:px-4 md:px-6">
 
-        {/* ── CLEAN 3-COLUMN LAYOUT: 4 Left | Center Brand (In Flow, Not Overriding) | 4 Right ── */}
+        {/* ── CLEAN 3-COLUMN LAYOUT: 4 Left | Center Official Logo | 4 Right ── */}
         <div className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-6 lg:gap-8 items-center">
           
           {/* ──── LEFT STREAM (4 ITEMS) ──── */}
@@ -222,35 +223,20 @@ export function HeritageShowcaseSection() {
             </div>
           </div>
 
-          {/* ──── CENTER BRAND IDENTITY (IN-FLOW, NEVER OVERLAYING OR COVERING CARDS) ──── */}
+          {/* ──── CENTER BRAND IDENTITY (OFFICIAL LOGO IMAGE, IN-FLOW, NEVER OVERLAYING) ──── */}
           <div className="col-span-4 md:col-span-4 lg:col-span-4 text-center py-2 sm:py-4 px-1 sm:px-3 md:px-4 flex flex-col items-center justify-center">
             <Reveal>
-              {/* Octagonal Monogram Monolith Icon (Glassmorphism) */}
-              <div className="relative mx-auto mb-2 sm:mb-4 size-14 sm:size-20 md:size-24 flex items-center justify-center group cursor-default">
-                <div 
-                  className="absolute inset-0 rounded-[16px] sm:rounded-[22px] md:rounded-[24px] border border-white/60 bg-gradient-to-b from-white/25 to-white/10 backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.18)] group-hover:scale-105 transition-transform duration-500"
-                  style={{
-                    clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                  }}
+              {/* Official Brand Logo */}
+              <div className="relative mx-auto mb-2 sm:mb-4 flex items-center justify-center">
+                <img
+                  src={logoImg}
+                  alt="A.P.P. Jewellers Official Logo"
+                  className="h-16 sm:h-28 md:h-36 lg:h-44 w-auto max-w-[140px] sm:max-w-[240px] md:max-w-xs object-contain filter drop-shadow-[0_6px_20px_rgba(0,0,0,0.3)] hover:scale-105 transition-transform duration-500 select-none"
                 />
-                <div 
-                  className="absolute inset-1 rounded-[14px] sm:rounded-[18px] md:rounded-[20px] border border-white/35 pointer-events-none"
-                  style={{
-                    clipPath: "polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)",
-                  }}
-                />
-                <span className="relative z-10 font-serif text-base sm:text-2xl md:text-3xl font-bold tracking-widest text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.25)] select-none">
-                  APP
-                </span>
               </div>
 
-              {/* Brand Title: A.P.P. JEWELLERS */}
-              <h2 className="font-serif text-sm sm:text-2xl md:text-3xl lg:text-[2.25rem] font-medium tracking-[0.2em] sm:tracking-[0.32em] text-white uppercase pl-[0.2em] sm:pl-[0.32em] drop-shadow-sm leading-tight">
-                A.P.P. JEWELLERS
-              </h2>
-
               {/* Subtitle with Hairline Rules (Sarafa Market Delhi) */}
-              <div className="flex items-center justify-center gap-1.5 sm:gap-3 my-1.5 sm:my-3">
+              <div className="flex items-center justify-center gap-1.5 sm:gap-3 my-1.5 sm:my-2.5">
                 <div className="h-[1px] w-4 sm:w-10 md:w-14 bg-gradient-to-r from-transparent to-white/70" />
                 <span className="text-[0.52rem] sm:text-[0.72rem] font-light tracking-[0.16em] sm:tracking-[0.24em] text-white/90 font-serif whitespace-nowrap uppercase">
                   Sarafa Market Delhi
@@ -264,12 +250,12 @@ export function HeritageShowcaseSection() {
               </p>
 
               {/* Atelier Note (Visible on tablet & desktop) */}
-              <p className="mt-3 sm:mt-4 text-xs md:text-sm text-white/85 font-light tracking-wide max-w-xs mx-auto leading-relaxed drop-shadow-xs hidden md:block">
+              <p className="mt-2.5 sm:mt-4 text-xs md:text-sm text-white/85 font-light tracking-wide max-w-xs mx-auto leading-relaxed drop-shadow-xs hidden md:block">
                 Handcrafted Solitaires, Diamond Haar & 22K Royal Antique Heirlooms
               </p>
 
               {/* Action Buttons */}
-              <div className="mt-3 sm:mt-6 md:mt-7 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 w-full max-w-xs mx-auto">
+              <div className="mt-3 sm:mt-5 md:mt-6 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 w-full max-w-xs mx-auto">
                 <Link
                   to="/collections"
                   className="shine-sweep w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-full bg-white text-[#4a3424] px-3 sm:px-6 py-1.5 sm:py-2.5 text-[0.58rem] sm:text-xs uppercase tracking-[0.18em] font-extrabold shadow-md hover:scale-105 active:scale-95 transition-all"
