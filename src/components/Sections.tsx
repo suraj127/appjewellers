@@ -509,16 +509,13 @@ export function SchemeTeaser() {
           {/* ──── LEFT CONTENT COLUMN ──── */}
           <div className="max-w-2xl text-left w-full">
             <Reveal>
-              {/* Lotus Royal Flourish Icon */}
-              <div className="flex items-center gap-2 mb-2">
-                <svg viewBox="0 0 40 28" fill="none" className="h-6 sm:h-7 w-auto text-[#c49324]">
-                  <path d="M20 3C20 3 24 10 24 16C24 19 22.2 21 20 21C17.8 21 16 19 16 16C16 10 20 3 20 3Z" stroke="currentColor" strokeWidth="1.6" fill="rgba(196,147,36,0.18)" />
-                  <path d="M20 21C20 21 28 20 31 15C33 11 31 7 31 7C31 7 29 13 22 17" stroke="currentColor" strokeWidth="1.6" />
-                  <path d="M20 21C20 21 12 20 9 15C7 11 9 7 9 7C9 7 11 13 18 17" stroke="currentColor" strokeWidth="1.6" />
-                  <circle cx="20" cy="24" r="1.5" fill="currentColor" />
-                  <circle cx="12" cy="18" r="1" fill="currentColor" />
-                  <circle cx="28" cy="18" r="1" fill="currentColor" />
-                </svg>
+              {/* Official A.P.P. Jewellers Brand Logo */}
+              <div className="flex items-center gap-2 mb-3">
+                <img
+                  src={logoImg}
+                  alt="A.P.P. Jewellers Brand Logo"
+                  className="h-11 sm:h-14 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(184,134,11,0.25)] select-none"
+                />
               </div>
 
               {/* Eyebrow with Filigree Diamond Accents */}
@@ -540,18 +537,18 @@ export function SchemeTeaser() {
 
               {/* Description Copy */}
               <p className="mt-3 sm:mt-4 text-xs sm:text-sm md:text-[0.95rem] text-[#4a3b2c] font-normal leading-relaxed max-w-xl">
-                Pay 8 monthly installments and enjoy up to 100% store bonus & net customer profits up to ₹42,000! Calculate your returns with our interactive scheme calculator.
+                Pay monthly installments and enjoy up to 100% store bonus & maximize your customer savings! Calculate your returns with our interactive scheme calculator.
               </p>
 
               {/* ── 4 FEATURE PILLARS IN HORIZONTAL ROW ── */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 my-6 sm:my-8">
-                {/* 1. 8 Easy Installments */}
+                {/* 1. Easy Monthly Installments */}
                 <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
                   <div className="size-11 sm:size-12 rounded-full bg-gradient-to-b from-white to-[#f4ede0] border border-[#d4af37]/45 shadow-xs flex items-center justify-center mb-2">
                     <Calendar className="size-5 text-[#b8860b]" />
                   </div>
                   <span className="text-[0.62rem] sm:text-[0.68rem] font-bold uppercase tracking-wider text-[#2d2417] leading-tight font-sans">
-                    8 EASY<br className="hidden sm:inline" /> INSTALLMENTS
+                    EASY MONTHLY<br className="hidden sm:inline" /> INSTALLMENTS
                   </span>
                 </div>
 
@@ -565,13 +562,13 @@ export function SchemeTeaser() {
                   </span>
                 </div>
 
-                {/* 3. Up to ₹42,000 Net Profits */}
+                {/* 3. Maximum Store Profits */}
                 <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
                   <div className="size-11 sm:size-12 rounded-full bg-gradient-to-b from-white to-[#f4ede0] border border-[#d4af37]/45 shadow-xs flex items-center justify-center mb-2">
                     <Coins className="size-5 text-[#b8860b]" />
                   </div>
                   <span className="text-[0.62rem] sm:text-[0.68rem] font-bold uppercase tracking-wider text-[#2d2417] leading-tight font-sans">
-                    UP TO ₹42,000<br className="hidden sm:inline" /> NET PROFITS
+                    MAXIMUM<br className="hidden sm:inline" /> NET PROFITS
                   </span>
                 </div>
 
