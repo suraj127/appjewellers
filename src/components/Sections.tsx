@@ -16,6 +16,9 @@ import {
   MapPin,
   Clock,
   ChevronRight,
+  ChevronLeft,
+  Maximize2,
+  Sparkles,
   Gem,
   Award,
   RefreshCw,
@@ -175,18 +178,68 @@ function smoothstep(edge0: number, edge1: number, x: number) {
   return t * t * (3 - 2 * t);
 }
 
+function getPieceGrossWeight(item: any): string {
+  const dimWeight = item.dimensions?.find(
+    (d: any) =>
+      typeof d[0] === "string" &&
+      (d[0].toLowerCase().includes("weight") || d[0].toLowerCase().includes("gross"))
+  );
+  if (dimWeight && dimWeight[1]) return dimWeight[1];
+  return "24.500 g";
+}
+
 export function Collections() {
   const exclusiveItems = PRODUCTS.filter((p) => p.isExclusive);
+  const items = exclusiveItems.length >= 5 ? exclusiveItems : PRODUCTS.slice(0, 8);
+
+  const [activeIndex, setActiveIndex] = useState(2);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const total = items.length;
+
+  const prev = () => {
+    setActiveIndex((curr) => (curr - 1 + total) % total);
+  };
+
+  const next = () => {
+    setActiveIndex((curr) => (curr + 1) % total);
+  };
+
+  // Auto-play every 5 seconds when not hovered
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      setActiveIndex((curr) => (curr + 1) % total);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isHovered, total]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStart === null) return;
+    const touchEnd = e.changedTouches[0].clientX;
+    const distance = touchStart - touchEnd;
+    if (distance > 40) {
+      next();
+    } else if (distance < -40) {
+      prev();
+    }
+    setTouchStart(null);
+  };
 
   return (
     <section
       id="collections"
-      className="relative px-3 sm:px-6 py-14 sm:py-32 bg-background border-y border-gold/30 shadow-sm overflow-hidden"
+      className="relative px-3 sm:px-6 py-14 sm:py-28 bg-background border-y border-gold/30 shadow-sm overflow-hidden"
     >
       {/* Ambient Glow Backdrop */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[600px] bg-gold/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[700px] bg-[#d4af37]/8 rounded-full blur-3xl pointer-events-none" />
 
-      {/* ── Foreground content (unchanged) ───────────────────────── */}
+      {/* Foreground Container */}
       <div className="relative z-10 mx-auto max-w-7xl">
         <Reveal>
           <SectionHead
@@ -196,40 +249,211 @@ export function Collections() {
           />
         </Reveal>
 
-        {/* Exclusive Items Grid - 2 cols on mobile */}
-        <div className="mt-10 sm:mt-20 grid grid-cols-2 gap-3 sm:gap-8 lg:grid-cols-4">
-          {exclusiveItems.map((item, i) => (
-            <Reveal key={item.slug} delay={i * 140}>
-              <Link
-                to="/piece/$slug"
-                params={{ slug: item.slug }}
-                className="lift shine-sweep group relative block h-[18rem] sm:h-[28rem] overflow-hidden rounded-sm border border-border/80 bg-onyx"
-              >
-                <ProductHoverImage
-                  image={item.image}
-                  hoverImage={item.hoverImage}
-                  alt={item.name}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-onyx via-onyx/30 to-transparent opacity-90 transition-opacity duration-700 group-hover:opacity-95 pointer-events-none" />
+        {/* ── 3D CURVED COVER FLOW CAROUSEL CONTAINER ── */}
+        <div
+          className="relative mt-10 sm:mt-16 w-full max-w-6xl mx-auto h-[26rem] sm:h-[35rem] flex items-center justify-center select-none"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {/* Left Arrow Nav Button */}
+          <button
+            type="button"
+            onClick={prev}
+            aria-label="Previous Creation"
+            className="absolute left-2 sm:left-6 z-40 size-10 sm:size-12 rounded-full bg-black/80 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
+          >
+            <ChevronLeft className="size-5 sm:size-6" />
+          </button>
 
-                <div className="absolute inset-x-0 bottom-0 p-3 sm:p-6 text-center">
-                  <p className="text-[0.52rem] sm:text-[0.6rem] uppercase tracking-[0.2em] sm:tracking-[0.34em] text-gold font-medium truncate">
-                    {item.category}
-                  </p>
-                  <h3 className="mt-1 font-display text-sm sm:text-2xl font-semibold text-foreground leading-tight line-clamp-1">
-                    {item.name}
-                  </h3>
-                  <p className="mt-1 text-[0.65rem] sm:text-xs text-gold font-bold uppercase tracking-wider">
-                    PRICE ON REQUEST
-                  </p>
+          {/* Right Arrow Nav Button */}
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Next Creation"
+            className="absolute right-2 sm:right-6 z-40 size-10 sm:size-12 rounded-full bg-black/80 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
+          >
+            <ChevronRight className="size-5 sm:size-6" />
+          </button>
+
+          {/* 3D Stack of Cards */}
+          <div className="relative w-full h-full flex items-center justify-center perspective-[1200px]">
+            {items.map((item, idx) => {
+              let offset = idx - activeIndex;
+              if (offset > total / 2) offset -= total;
+              if (offset < -total / 2) offset += total;
+
+              const isCenter = offset === 0;
+              const isDirectNeighbor = Math.abs(offset) === 1;
+              const isSecondNeighbor = Math.abs(offset) === 2;
+              const isVisible = Math.abs(offset) <= 2;
+
+              // Calculate 3D transformation values
+              let translateX = 0;
+              let scale = 1;
+              let rotateY = 0;
+              let zIndex = 10;
+              let opacity = 1;
+              let filter = "brightness(1)";
+
+              if (isCenter) {
+                translateX = 0;
+                scale = 1.05;
+                rotateY = 0;
+                zIndex = 30;
+                opacity = 1;
+                filter = "brightness(1)";
+              } else if (offset === 1) {
+                translateX = 62;
+                scale = 0.86;
+                rotateY = -22;
+                zIndex = 20;
+                opacity = 0.8;
+                filter = "brightness(0.85)";
+              } else if (offset === -1) {
+                translateX = -62;
+                scale = 0.86;
+                rotateY = 22;
+                zIndex = 20;
+                opacity = 0.8;
+                filter = "brightness(0.85)";
+              } else if (offset === 2) {
+                translateX = 118;
+                scale = 0.72;
+                rotateY = -32;
+                zIndex = 10;
+                opacity = 0.45;
+                filter = "brightness(0.7)";
+              } else if (offset === -2) {
+                translateX = -118;
+                scale = 0.72;
+                rotateY = 32;
+                zIndex = 10;
+                opacity = 0.45;
+                filter = "brightness(0.7)";
+              } else {
+                translateX = offset > 0 ? 160 : -160;
+                scale = 0.5;
+                rotateY = offset > 0 ? -40 : 40;
+                zIndex = 0;
+                opacity = 0;
+              }
+
+              const grossWeight = getPieceGrossWeight(item);
+
+              return (
+                <div
+                  key={item.slug}
+                  onClick={() => {
+                    if (!isCenter) setActiveIndex(idx);
+                  }}
+                  className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[76vw] max-w-[270px] sm:max-w-[340px] h-[21rem] sm:h-[30rem] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1)] ${
+                    isCenter
+                      ? "border-2 border-[#d4af37] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(212,175,55,0.3)] pointer-events-auto"
+                      : "border border-[#d4af37]/35 shadow-[0_15px_35px_rgba(0,0,0,0.7)]"
+                  }`}
+                  style={{
+                    transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
+                    zIndex,
+                    opacity: isVisible ? opacity : 0,
+                    filter,
+                    pointerEvents: isVisible ? "auto" : "none",
+                  }}
+                >
+                  {/* Background Piece Image with Smooth Alternate Angle Hover */}
+                  <ProductHoverImage
+                    image={item.image}
+                    hoverImage={item.hoverImage}
+                    alt={item.name}
+                    className="size-full object-cover"
+                  />
+
+                  {/* Gradient Vignette Shading */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-black/20 pointer-events-none" />
+
+                  {/* Top Gross Weight Badge */}
+                  <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20">
+                    <span className="rounded-full bg-black/80 backdrop-blur-md border border-[#d4af37]/60 px-2.5 sm:px-3 py-1 text-[0.52rem] sm:text-[0.62rem] text-amber-200 font-extrabold uppercase tracking-wider shadow-md">
+                      GS WT: {grossWeight}
+                    </span>
+                  </div>
+
+                  {/* Top Right Certified Hallmarked Badge */}
+                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20">
+                    <span className="rounded-full bg-[#d4af37]/20 backdrop-blur-md border border-[#d4af37]/50 px-2 py-0.5 text-[0.5rem] sm:text-[0.58rem] text-amber-100 font-bold uppercase tracking-wider">
+                      BIS 916
+                    </span>
+                  </div>
+
+                  {/* Bottom Right Expand/Inspect Direct Button */}
+                  <Link
+                    to="/piece/$slug"
+                    params={{ slug: item.slug }}
+                    aria-label={`Inspect ${item.name}`}
+                    className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4 z-20 size-8 sm:size-10 rounded-full bg-gradient-to-tr from-[#d4af37] to-[#f5d77f] text-black shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-transform"
+                    onClick={(e) => {
+                      if (!isCenter) {
+                        e.preventDefault();
+                        setActiveIndex(idx);
+                      }
+                    }}
+                  >
+                    <Maximize2 className="size-3.5 sm:size-4 stroke-[2.5]" />
+                  </Link>
+
+                  {/* Bottom Text & Pricing Overlay */}
+                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 text-left z-10 pointer-events-none pr-14">
+                    <p className="text-[0.55rem] sm:text-[0.64rem] uppercase tracking-[0.24em] text-[#d4af37] font-bold truncate">
+                      {item.category}
+                    </p>
+                    <h3 className="mt-1 font-display text-sm sm:text-2xl font-bold text-white leading-tight line-clamp-1 drop-shadow-md">
+                      {item.name}
+                    </h3>
+                    <p className="mt-1 text-[0.62rem] sm:text-xs text-amber-200 font-extrabold uppercase tracking-wider flex items-center gap-1.5">
+                      <Sparkles className="size-3 text-[#d4af37] animate-pulse" />
+                      <span>PRICE ON REQUEST</span>
+                    </p>
+
+                    {isCenter && (
+                      <div className="mt-3 pointer-events-auto">
+                        <Link
+                          to="/piece/$slug"
+                          params={{ slug: item.slug }}
+                          className="shine-sweep inline-flex items-center gap-1.5 text-[0.58rem] sm:text-[0.68rem] uppercase tracking-[0.2em] text-[#d4af37] hover:text-[#f5d77f] font-extrabold transition-colors py-1 group/btn"
+                        >
+                          <span>Discover Creation</span>
+                          <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </Link>
-            </Reveal>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── CAROUSEL PAGINATION & SLIDE INDICATORS ── */}
+        <div className="mt-6 flex items-center justify-center gap-2">
+          {items.map((it, i) => (
+            <button
+              key={it.slug}
+              type="button"
+              onClick={() => setActiveIndex(i)}
+              aria-label={`Go to slide ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                i === activeIndex
+                  ? "w-8 sm:w-10 bg-gradient-to-r from-[#d4af37] to-[#f5d77f] shadow-[0_0_10px_rgba(212,175,55,0.8)]"
+                  : "w-2 bg-zinc-400/40 hover:bg-[#d4af37]/60"
+              }`}
+            />
           ))}
         </div>
 
+        {/* ── FULL CATEGORY DIRECTORY CTA ── */}
         <Reveal delay={200}>
-          <div className="mt-16 text-center border-t border-border/60 pt-10">
+          <div className="mt-14 text-center border-t border-border/60 pt-10">
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6">
               Looking for specific categories like Chains, Jhumkas, Mangalsutra, Coins, or Rings?
             </p>
