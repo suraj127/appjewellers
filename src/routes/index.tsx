@@ -7,7 +7,6 @@ import {
   Appointment,
   Collections,
   Footer,
-  InstaReels,
   Maison,
   SchemeTeaser,
   StoreLocation,
@@ -41,7 +40,6 @@ function Index() {
         <Collections />
         <SchemeTeaser />
         <HeritageShowcaseSection />
-        <InstaReels />
         <Maison />
         <StoreLocation />
         <Appointment />
