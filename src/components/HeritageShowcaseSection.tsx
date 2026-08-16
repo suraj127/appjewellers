@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Heart, ShieldCheck, ArrowRight, MessageCircle } from "lucide-react";
+import { Heart, ShieldCheck } from "lucide-react";
 import { Reveal } from "./Reveal";
 import logoImg from "@/assets/logo.png";
 
@@ -250,30 +250,9 @@ export function HeritageShowcaseSection() {
               </p>
 
               {/* Atelier Note (Visible on tablet & desktop) */}
-              <p className="mt-2.5 sm:mt-4 text-xs md:text-sm text-white/85 font-light tracking-wide max-w-xs mx-auto leading-relaxed drop-shadow-xs hidden md:block">
+              <p className="mt-2.5 sm:mt-4 text-xs md:text-sm text-white/85 font-light tracking-wide max-w-xs mx-auto leading-relaxed drop-shadow-xs">
                 Handcrafted Solitaires, Diamond Haar & 22K Royal Antique Heirlooms
               </p>
-
-              {/* Action Buttons */}
-              <div className="mt-3 sm:mt-5 md:mt-6 flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 w-full max-w-xs mx-auto">
-                <Link
-                  to="/collections"
-                  className="shine-sweep w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-full bg-white text-[#4a3424] px-3 sm:px-6 py-1.5 sm:py-2.5 text-[0.58rem] sm:text-xs uppercase tracking-[0.18em] font-extrabold shadow-md hover:scale-105 active:scale-95 transition-all"
-                >
-                  <span>Vaults</span>
-                  <ArrowRight className="size-2.5 sm:size-3" />
-                </Link>
-
-                <a
-                  href="https://wa.me/919015155615?text=Hello%20A.P.P.%20Jewellers%2C%20I%20would%20like%20to%20enquire%20about%20the%20collections."
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-1 rounded-full border border-white/50 bg-black/20 text-white px-3 sm:px-5 py-1.5 sm:py-2.5 text-[0.58rem] sm:text-xs uppercase tracking-[0.16em] font-semibold backdrop-blur-xs hover:bg-white hover:text-[#4a3424] transition-all shadow-xs active:scale-95"
-                >
-                  <MessageCircle className="size-2.5 sm:size-3" />
-                  <span>WhatsApp</span>
-                </a>
-              </div>
             </Reveal>
           </div>
 
