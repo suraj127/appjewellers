@@ -94,6 +94,110 @@ export const CATEGORY_GROUPS = {
 
 export const PRODUCTS: Product[] = [
   {
+    "slug": "royal-diamond-haar-103",
+    "name": "Maharani Royal Solitaire Diamond Haar #103",
+    "collection": "Imperial Diamonds",
+    "category": "NECKLACE",
+    "metal": "DIAMOND",
+    "purity": "18 CARAT",
+    "eyebrow": "Piece No. 000 — Imperial Diamonds",
+    "image": "/assets/items/royal_diamond_haar_103.jpg",
+    "hoverImage": "/assets/items/royal_diamond_haar_103.jpg",
+    "priceOnRequest": true,
+    "isExclusive": true,
+    "tagline": "Handcrafted Multi-Tier Solitaire Diamond Haar with Brilliant Pear Drops.",
+    "story": "A breathtaking masterpiece featuring over 45 carats of VVS-VS certified diamonds, micro-pavé cascading rows, and an imperial pear-cut solitaire medallion centerpiece.",
+    "materials": [
+      ["Metal", "18 CARAT WHITE GOLD & PLATINUM"],
+      ["Stones", "45.80 ct VVS D-F Certified Solitaires & Brilliant Diamonds"],
+      ["Cut", "Hearts & Arrows Round, Marquise & Pear Solitaires"],
+      ["Purity", "BIS Hallmarked 18K / 750"]
+    ],
+    "craftsmanship": [
+      ["Artisan Hours", "320 Hours"],
+      ["Technique", "Micro-Prong & Illusion Cluster Setting"]
+    ],
+    "dimensions": [
+      ["Gross Weight", "112.500 g"],
+      ["Length", "Adjustable 16 - 20 inches"]
+    ],
+    "certificate": [
+      ["Grading", "GIA & IGI Diamond Authenticity Certificate"],
+      ["Assay", "BIS Hallmarked Laser Inscribed"]
+    ],
+    "atelierNotes": [
+      "Signature high-jewellery piece. Mastercrafted for bridal and royal ceremonial occasions."
+    ]
+  },
+  {
+    "slug": "antique-temple-earrings-104",
+    "name": "Antique Lakshmi Temple Chandbalis #104",
+    "collection": "Temple & Heritage",
+    "category": "EARRINGS",
+    "metal": "GOLD",
+    "purity": "22 CARAT",
+    "eyebrow": "Piece No. 000B — Temple & Heritage",
+    "image": "/assets/items/antique_temple_earrings.jpg",
+    "hoverImage": "/assets/items/antique_temple_earrings.jpg",
+    "priceOnRequest": true,
+    "isExclusive": true,
+    "tagline": "Traditional 22K Antique Temple Chandbalis with Emerald Bead Cascades.",
+    "story": "Intricately hand-carved Goddess Lakshmi motif framed with cabochon rubies and finished with natural Colombian emerald drop clusters.",
+    "materials": [
+      ["Metal", "22 CARAT ANTIQUE GOLD"],
+      ["Gems", "Natural Rubies & Emerald Beads"],
+      ["Purity", "BIS Hallmarked 916 22K"]
+    ],
+    "craftsmanship": [
+      ["Artisan Hours", "140 Hours"],
+      ["Technique", "Hand-Chased Nakshi & Bead Stringing"]
+    ],
+    "dimensions": [
+      ["Weight", "26.400 g"]
+    ],
+    "certificate": [
+      ["Purity", "BIS 916 Hallmark"],
+      ["Provenance", "Certified Atelier Authenticity"]
+    ],
+    "atelierNotes": [
+      "Traditional South-Indian nakshi artistry."
+    ]
+  },
+  {
+    "slug": "antique-temple-kada-105",
+    "name": "Peacock Royal Antique Filigree Kada #105",
+    "collection": "Heritage Bangles",
+    "category": "BANGLES",
+    "metal": "GOLD",
+    "purity": "22 CARAT",
+    "eyebrow": "Piece No. 000C — Heritage Bangles",
+    "image": "/assets/items/antique_temple_kada.jpg",
+    "hoverImage": "/assets/items/antique_temple_kada.jpg",
+    "priceOnRequest": true,
+    "isExclusive": true,
+    "tagline": "22K Antique Gold Filigree Kada with Peacock & Lakshmi Motifs.",
+    "story": "Sculpted in pure 22K antique gold, adorned with fine polki uncut diamonds, ruby florets, and micro-pearl trims.",
+    "materials": [
+      ["Metal", "22 CARAT ANTIQUE GOLD"],
+      ["Stones", "Uncut Polki Diamonds & Rubies"],
+      ["Purity", "BIS Hallmarked 22K 916"]
+    ],
+    "craftsmanship": [
+      ["Artisan Hours", "190 Hours"],
+      ["Technique", "Openwork Filigree & Jadau Setting"]
+    ],
+    "dimensions": [
+      ["Weight", "38.200 g"]
+    ],
+    "certificate": [
+      ["Purity", "BIS Hallmark 22 CARAT"],
+      ["Provenance", "Certified Atelier Authenticity"]
+    ],
+    "atelierNotes": [
+      "Custom screw clasp with safety lock."
+    ]
+  },
+  {
     "slug": "app-item-1-chain",
     "name": "Royal 22K Solid Gold Chain #101",
     "collection": "Chains & Neckwear",
