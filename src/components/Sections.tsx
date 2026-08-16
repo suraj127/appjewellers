@@ -257,7 +257,7 @@ export function Collections() {
 
         {/* ── 3D CURVED COVER FLOW CAROUSEL CONTAINER ── */}
         <div
-          className="relative w-full max-w-6xl mx-auto h-[21rem] sm:h-[26rem] md:h-[28rem] flex items-center justify-center select-none"
+          className="relative w-full max-w-6xl mx-auto h-[21rem] sm:h-[26rem] md:h-[28rem] flex items-start justify-center select-none"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={handleTouchStart}
@@ -352,13 +352,13 @@ export function Collections() {
                   onClick={() => {
                     if (!isCenter) setActiveIndex(idx);
                   }}
-                  className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[68vw] max-w-[230px] sm:max-w-[270px] md:max-w-[285px] h-[18rem] sm:h-[23rem] md:h-[25rem] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1)] ${
+                  className={`absolute top-2 left-1/2 w-[68vw] max-w-[230px] sm:max-w-[270px] md:max-w-[285px] h-[18rem] sm:h-[23rem] md:h-[25rem] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1)] ${
                     isCenter
                       ? "border-2 border-[#d4af37] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(212,175,55,0.3)] pointer-events-auto"
                       : "border border-[#d4af37]/35 shadow-[0_15px_35px_rgba(0,0,0,0.7)]"
                   }`}
                   style={{
-                    transform: `translate(-50%, -50%) translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
+                    transform: `translateX(-50%) translateX(${translateX}%) scale(${scale}) rotateY(${rotateY}deg)`,
                     zIndex,
                     opacity: isVisible ? opacity : 0,
                     filter,
