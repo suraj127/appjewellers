@@ -86,9 +86,9 @@ function SectionHead({
   copy?: string;
 }) {
   return (
-    <div className="mx-auto max-w-3xl text-center pb-2 sm:pb-4">
+    <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-14">
       <p className="eyebrow">{eyebrow}</p>
-      <h2 className="mt-4 sm:mt-6 font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-[1.12] sm:leading-[1.18] text-foreground font-bold">
+      <h2 className="mt-4 sm:mt-6 font-display text-[clamp(2.1rem,4.8vw,3.8rem)] leading-[1.15] sm:leading-[1.22] text-foreground font-bold">
         {title}
       </h2>
       {copy ? (
@@ -255,7 +255,7 @@ export function Collections() {
 
         {/* ── 3D CURVED COVER FLOW CAROUSEL CONTAINER ── */}
         <div
-          className="relative mt-8 sm:mt-14 w-full max-w-6xl mx-auto h-[26rem] sm:h-[34rem] flex items-center justify-center select-none"
+          className="relative mt-12 sm:mt-20 pt-6 sm:pt-10 w-full max-w-6xl mx-auto h-[26rem] sm:h-[35rem] flex items-center justify-center select-none"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={handleTouchStart}
