@@ -429,6 +429,21 @@ function EditorialCollectionsPage() {
   );
 }
 
+/* Helper to extract gross weight from product specs */
+function getPieceGrossWeight(piece: Product): string {
+  const dimWeight = piece.dimensions?.find((d) =>
+    d[0].toLowerCase().includes("weight")
+  )?.[1];
+  if (dimWeight) return dimWeight;
+
+  const matWeight = piece.materials?.find((m) =>
+    m[0].toLowerCase().includes("weight")
+  )?.[1];
+  if (matWeight) return matWeight;
+
+  return "15.92 g";
+}
+
 /* ══════════════════════════════════════════════════════════════════════ */
 /* CURTAIN PANEL COMPONENT                                              */
 /* Each panel is a sticky section that slides over the previous one     */
@@ -467,8 +482,6 @@ function CurtainPanel({
        The first panel doesn't need extra spacer height. */
     <div
       style={{
-        /* Each spacer is slightly taller than viewport so there's
-           scroll room between panels for the wipe transition */
         minHeight: panelIdx === 0 ? "auto" : "5vh",
       }}
     >
@@ -478,7 +491,7 @@ function CurtainPanel({
           backgroundColor: panel.bgColor,
           zIndex: zIndexValue,
         }}
-        className={`curtain-edge sticky top-[82px] sm:top-[105px] min-h-[calc(100vh-82px)] sm:min-h-[calc(100vh-105px)] w-full px-1.5 sm:px-10 lg:px-12 py-4 sm:py-16 will-change-transform`}
+        className={`curtain-edge sticky top-[82px] sm:top-[105px] min-h-[calc(100vh-82px)] sm:min-h-[calc(100vh-105px)] w-full px-2 sm:px-10 lg:px-12 py-5 sm:py-16 will-change-transform`}
       >
         {/* Dramatic curtain shadow at the top edge */}
         <div
@@ -491,24 +504,23 @@ function CurtainPanel({
           }}
         />
 
-        <div className={`curtain-content ${isVisible ? "revealed" : ""} mx-auto max-w-7xl space-y-3 sm:space-y-12`}>
+        <div className={`curtain-content ${isVisible ? "revealed" : ""} mx-auto max-w-7xl space-y-4 sm:space-y-12`}>
           {/* Curtain Panel Header */}
-          <div className="text-center space-y-0.5 sm:space-y-2 max-w-3xl mx-auto px-1 stagger-child stagger-1">
-            <p className="font-sans text-[0.48rem] sm:text-[0.68rem] tracking-[0.25em] sm:tracking-[0.3em] uppercase text-[#777] font-semibold">
+          <div className="text-center space-y-1 sm:space-y-2 max-w-3xl mx-auto px-1 stagger-child stagger-1">
+            <p className="font-sans text-[0.52rem] sm:text-[0.68rem] tracking-[0.25em] sm:tracking-[0.3em] uppercase text-[#8b5a00] font-bold">
               {panel.panelNum} · {panel.subtitle}
             </p>
-            <h2 className="font-display italic text-xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
+            <h2 className="font-display italic text-2xl sm:text-5xl lg:text-6xl text-[#121212] font-normal tracking-tight">
               {panel.title}
             </h2>
-            <p className="font-display text-[0.65rem] sm:text-base text-[#555] font-light leading-relaxed max-w-xl mx-auto line-clamp-1 sm:line-clamp-none">
+            <p className="font-display text-xs sm:text-base text-[#555] font-light leading-relaxed max-w-xl mx-auto line-clamp-2 sm:line-clamp-none">
               {panel.tagline}
             </p>
           </div>
 
-          {/* 3-COLUMN DESKTOP & MOBILE GRID */}
-          <div className="grid grid-cols-3 gap-1.5 sm:gap-6 lg:gap-8 items-start">
+          {/* RESPONSIVE GRID: 2 COLUMNS ON MOBILE, 3 ON TABLET/DESKTOP */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-6 lg:gap-8 items-start">
             {displayPieces.map((piece, pieceIdx) => {
-              /* On mobile use uniform aspect ratio for clean grid */
               const aspectDesktop = [
                 "sm:aspect-[3/4]",
                 "sm:aspect-square",
@@ -519,34 +531,32 @@ function CurtainPanel({
               ];
               const desktopAspect = aspectDesktop[pieceIdx % aspectDesktop.length];
               const isWishlisted = wishlist.includes(piece.slug);
-              const isMobileHovered = activeMobileHover === piece.slug;
+              const isCardActive = activeMobileHover === piece.slug;
+              const grossWeight = getPieceGrossWeight(piece);
 
               const whatsappPriceMsg = encodeURIComponent(
-                `Hi A.P.P. Jewellers, I would like to enquire about the price and details for "${piece.name}" (${piece.purity}, SKU: ${piece.slug.toUpperCase()}) from your 365 Collection.`
+                `Hi A.P.P. Jewellers, I would like to request the price and atelier details for "${piece.name}" (Gross Weight: ${grossWeight}, ${piece.purity || "22K"}, SKU: ${piece.slug.toUpperCase()}) from your 365 Collection.`
               );
 
               return (
                 <div
                   key={piece.slug}
-                  className={`stagger-child stagger-${Math.min(pieceIdx + 1, 6)} group relative flex flex-col space-y-1 sm:space-y-3 ${
-                    pieceIdx % 3 === 1 ? "sm:translate-y-4" : ""
+                  className={`stagger-child stagger-${Math.min(pieceIdx + 1, 6)} group relative flex flex-col space-y-1.5 sm:space-y-3 ${
+                    pieceIdx % 3 === 1 ? "md:translate-y-4" : ""
                   }`}
                 >
                   {/* Image Box Container */}
                   <div
-                    onClick={() => onSelectProduct(piece)}
-                    onTouchStart={() =>
-                      onMobileHover(
-                        activeMobileHover === piece.slug ? null : piece.slug
-                      )
+                    onClick={() =>
+                      onMobileHover(isCardActive ? null : piece.slug)
                     }
-                    className={`relative w-full aspect-[3/4] ${desktopAspect} overflow-hidden bg-[#EAE6DF] cursor-pointer shadow-xs transition-all duration-300 hover:shadow-2xl rounded-xs`}
+                    className={`relative w-full aspect-[3/4] ${desktopAspect} overflow-hidden bg-[#1a1a1a] cursor-pointer shadow-xs transition-all duration-300 hover:shadow-2xl rounded-xs border border-[#b8860b]/20 group-hover:border-[#b8860b]/60`}
                   >
                     <img
                       src={piece.image}
                       alt={piece.name}
                       loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
 
                     {/* Top Wishlist Heart Button */}
@@ -557,47 +567,81 @@ function CurtainPanel({
                         onToggleWishlist(piece.slug);
                       }}
                       aria-label="Wishlist piece"
-                      className="absolute top-1 sm:top-2.5 right-1 sm:right-2.5 z-10 p-1 sm:p-1.5 rounded-full bg-white/80 backdrop-blur-xs transition-transform hover:scale-110 shadow-xs"
+                      className="absolute top-2 right-2 z-30 p-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 transition-transform hover:scale-110 active:scale-95 shadow-sm"
                     >
                       <HeartIcon
                         filled={isWishlisted}
-                        className={`size-3 sm:size-3.5 ${isWishlisted ? "text-rose-500" : "text-[#121212]"}`}
+                        className={`size-3.5 sm:size-4 ${isWishlisted ? "text-rose-500 fill-rose-500" : "text-white"}`}
                       />
                     </button>
 
-                    {/* ── CARTIER HOVER POPOVER CARD ── */}
+                    {/* Gross Weight Pill on Top-Left (Always Visible for Instant Reference) */}
+                    <div className="absolute top-2 left-2 z-10 bg-black/60 backdrop-blur-md border border-[#d4af37]/40 px-2 py-0.5 rounded-full shadow-xs">
+                      <span className="font-sans text-[0.52rem] sm:text-[0.62rem] font-bold text-[#f5d77f] tracking-wider uppercase">
+                        GS: {grossWeight}
+                      </span>
+                    </div>
+
+                    {/* ── LUXURY OBSIDIAN-GOLD GLASS OVERLAY (NO SOLID WHITE INTERFACE) ── */}
                     <div
-                      className={`absolute inset-0 sm:inset-4 bg-[#FFFFFF]/95 sm:bg-[#FFFFFF] border-0 sm:border border-[#121212]/15 shadow-xl p-1.5 sm:p-6 flex flex-col justify-between items-center text-center transition-all duration-200 z-20 ${
-                        isMobileHovered
+                      className={`absolute inset-0 bg-gradient-to-t from-black/95 via-black/80 to-black/35 backdrop-blur-xs border border-[#d4af37]/40 p-3 sm:p-5 flex flex-col justify-between items-center text-center transition-all duration-300 z-20 ${
+                        isCardActive
                           ? "opacity-100 pointer-events-auto"
                           : "opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
                       }`}
                     >
-                      <div className="space-y-0.5 sm:space-y-1.5 flex-1 flex flex-col justify-center">
-                        <p className="font-sans text-[0.4rem] sm:text-[0.55rem] tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[#888] font-bold">
+                      {/* Top dismiss handle for mobile */}
+                      <div className="w-full flex items-center justify-between">
+                        <span className="font-sans text-[0.5rem] sm:text-[0.6rem] tracking-[0.2em] uppercase text-[#d4af37] font-bold">
                           {panel.panelNum}
-                        </p>
-                        <h4 className="font-display text-[0.6rem] sm:text-lg text-[#121212] uppercase tracking-wider font-normal leading-tight line-clamp-2">
+                        </span>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onMobileHover(null);
+                          }}
+                          className="text-zinc-400 hover:text-white p-0.5 rounded-full"
+                          aria-label="Close details"
+                        >
+                          ✕
+                        </button>
+                      </div>
+
+                      {/* Middle Piece Title & Specs */}
+                      <div className="space-y-1 sm:space-y-1.5 my-auto px-1">
+                        <h4 className="font-display text-sm sm:text-xl text-[#FAF8F5] uppercase tracking-wider font-normal leading-tight line-clamp-2">
                           {piece.name}
                         </h4>
-                        <p className="hidden sm:block font-display italic text-xs text-[#666] line-clamp-2 leading-relaxed">
+
+                        <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
+                          <span className="font-sans text-[0.52rem] sm:text-[0.65rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#d4af37]/20 border border-[#d4af37]/50 text-[#f5d77f]">
+                            GS WT: {grossWeight}
+                          </span>
+                          <span className="font-sans text-[0.52rem] sm:text-[0.65rem] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 border border-white/20 text-zinc-200">
+                            {piece.purity || "22K GOLD"}
+                          </span>
+                        </div>
+
+                        <p className="hidden sm:block font-display italic text-xs text-zinc-300 line-clamp-2 leading-relaxed pt-1">
                           {piece.story ||
                             piece.tagline ||
                             "Handcrafted with certified gold purity and master artisan settings."}
                         </p>
                       </div>
 
-                      {/* Action Buttons: Discover Creation + Price Enquiry */}
-                      <div className="w-full space-y-0.5 sm:space-y-1.5">
+                      {/* Luxury Action Buttons: Discover & WhatsApp Price Request */}
+                      <div className="w-full space-y-1.5 pt-2">
                         <button
                           type="button"
                           onClick={(e) => {
                             e.stopPropagation();
                             onSelectProduct(piece);
                           }}
-                          className="w-full py-1 sm:py-2 px-1 sm:px-3 rounded-full border border-[#121212] bg-[#121212] text-[#FAF8F5] font-sans text-[0.45rem] sm:text-[0.6rem] font-bold uppercase tracking-[0.1em] sm:tracking-[0.15em] transition-all hover:bg-[#D4AF37] hover:border-[#D4AF37] hover:text-[#121212] shadow-xs"
+                          className="flex items-center justify-center gap-1 w-full py-2 sm:py-2.5 px-3 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] text-black font-sans text-[0.58rem] sm:text-[0.68rem] font-bold uppercase tracking-[0.16em] transition-all hover:brightness-110 active:scale-95 shadow-md"
                         >
-                          DISCOVER
+                          <span>DISCOVER</span>
+                          <span className="text-xs">→</span>
                         </button>
 
                         <a
@@ -605,32 +649,32 @@ function CurtainPanel({
                           target="_blank"
                           rel="noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="flex items-center justify-center gap-0.5 sm:gap-1 w-full py-0.5 sm:py-1.5 px-1 sm:px-3 rounded-full border border-[#121212]/40 bg-transparent text-[#121212] font-sans text-[0.42rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.08em] sm:tracking-[0.12em] transition-all hover:bg-[#121212]/10"
+                          className="flex items-center justify-center gap-1.5 w-full py-1.5 sm:py-2 px-3 rounded-full border border-[#25D366]/80 bg-[#25D366]/20 hover:bg-[#25D366] text-white hover:text-black font-sans text-[0.55rem] sm:text-[0.65rem] font-bold uppercase tracking-[0.14em] transition-all shadow-xs active:scale-95"
                         >
-                          <WhatsAppIcon className="size-2 sm:size-3 text-[#121212]" />
-                          <span>PRICE</span>
+                          <WhatsAppIcon className="size-3 text-current shrink-0" />
+                          <span>PRICE REQUEST</span>
                         </a>
                       </div>
                     </div>
                   </div>
 
                   {/* Micro-Caption Directly Beneath Card */}
-                  <div className="space-y-0 px-0.5">
-                    <p className="font-sans text-[0.5rem] sm:text-[0.68rem] tracking-wider uppercase text-[#121212] font-medium truncate leading-tight">
+                  <div className="space-y-0.5 px-1">
+                    <p className="font-display text-xs sm:text-base tracking-wide text-[#121212] font-semibold truncate leading-tight">
                       {piece.name}
                     </p>
-                    <div className="flex items-center justify-between gap-0.5">
-                      <p className="font-sans text-[0.42rem] sm:text-[0.55rem] tracking-wider uppercase text-[#888] truncate">
-                        {piece.purity || "22K"}
-                      </p>
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-sans text-[0.52rem] sm:text-[0.62rem] tracking-wider uppercase text-[#8b5a00] font-bold truncate">
+                        GS: {grossWeight} · {piece.purity || "22K"}
+                      </span>
                       <a
                         href={`https://wa.me/919015155615?text=${whatsappPriceMsg}`}
                         target="_blank"
                         rel="noreferrer"
                         title="WhatsApp Price Enquiry"
-                        className="font-sans text-[0.42rem] sm:text-[0.58rem] tracking-wider uppercase text-[#888] hover:text-[#121212] transition-colors shrink-0"
+                        className="font-sans text-[0.52rem] sm:text-[0.62rem] tracking-wider uppercase text-[#121212] font-bold hover:text-[#b8860b] transition-colors shrink-0 underline underline-offset-2"
                       >
-                        Price →
+                        Price Request →
                       </a>
                     </div>
                   </div>
@@ -731,18 +775,27 @@ function EditorialPieceReader({
         {/* Center Article Content */}
         <article className="flex-1 px-3 py-4 sm:px-16 sm:py-6 lg:px-20 max-w-4xl mx-auto space-y-5 sm:space-y-16">
           {/* Article Header */}
-          <div className="text-center space-y-1 sm:space-y-3">
-            <p className="font-sans text-[0.48rem] sm:text-[0.65rem] tracking-[0.25em] sm:tracking-[0.35em] uppercase text-[#777] font-semibold">
+          <div className="text-center space-y-1.5 sm:space-y-3">
+            <p className="font-sans text-[0.48rem] sm:text-[0.65rem] tracking-[0.25em] sm:tracking-[0.35em] uppercase text-[#8b5a00] font-bold">
               {product.collection || "EXHIBITION ARCHIVE"} · CREATION{" "}
               {product.slug.slice(-2).toUpperCase() || "01"}
             </p>
-            <h1 className="font-display text-xl sm:text-6xl lg:text-7xl font-normal leading-tight tracking-tight text-[#121212]">
+            <h1 className="font-display text-2xl sm:text-6xl lg:text-7xl font-normal leading-tight tracking-tight text-[#121212]">
               {product.name}
             </h1>
-            <p className="font-sans text-[0.52rem] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.25em] text-[#888]">
-              {product.purity || "22K GOLD"} · {product.metal} · SKU-
-              {product.slug.slice(-4).toUpperCase()}
-            </p>
+            
+            {/* Specs & Gross Weight Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+              <span className="font-sans text-[0.55rem] sm:text-xs font-bold uppercase tracking-[0.16em] px-3 py-1 rounded-full bg-[#fcfaf2] border border-[#b8860b]/40 text-[#8b5a00] shadow-xs">
+                GS WT: {getPieceGrossWeight(product)}
+              </span>
+              <span className="font-sans text-[0.55rem] sm:text-xs font-bold uppercase tracking-[0.16em] px-3 py-1 rounded-full bg-white border border-[#121212]/15 text-[#121212] shadow-xs">
+                {product.purity || "22K BIS HALLMARKED"}
+              </span>
+              <span className="font-sans text-[0.55rem] sm:text-xs font-bold uppercase tracking-[0.16em] px-3 py-1 rounded-full bg-white border border-[#121212]/15 text-[#777] shadow-xs">
+                SKU: {product.slug.toUpperCase()}
+              </span>
+            </div>
           </div>
 
           {/* Large Hero Image */}
