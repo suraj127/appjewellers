@@ -102,17 +102,17 @@ export function Hero() {
         >
           <Link
             to="/collections"
-            className="shine-sweep group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#121212] via-[#1d1b16] to-[#121212] border-2 border-[#C49324] hover:border-[#e5be59] px-8 py-3.5 text-xs text-amber-100 font-bold uppercase tracking-[0.24em] transition-all duration-300 hover:scale-[1.03] active:scale-95 w-full sm:w-auto text-center shadow-[0_10px_30px_rgba(196,147,36,0.3)] hover:shadow-[0_12px_40px_rgba(196,147,36,0.55)]"
+            className="shine-sweep group relative inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-9 py-4 text-xs text-black font-extrabold uppercase tracking-[0.26em] transition-all duration-300 hover:scale-105 active:scale-95 w-full sm:w-auto text-center shadow-[0_10px_35px_rgba(196,147,36,0.45)] hover:shadow-[0_15px_45px_rgba(196,147,36,0.65)] hover:brightness-105"
           >
             <span>Explore Collections</span>
-            <ArrowRight className="size-4 text-[#C49324] transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className="size-4 text-black transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
 
           <a
             href="#store-info"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-[#C49324]/80 bg-[#F8F6EF]/90 backdrop-blur-md hover:bg-[#F2E9D8] px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-[#121212] font-bold transition-all duration-300 hover:scale-[1.02] active:scale-95 sm:w-auto text-center shadow-sm"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-[#b8860b]/60 bg-[#fcfaf2]/90 backdrop-blur-md hover:bg-gradient-to-r hover:from-[#121212] hover:to-[#1a1a1a] hover:text-[#FAF8F5] hover:border-[#121212] px-9 py-4 text-xs uppercase tracking-[0.24em] text-[#121212] font-bold transition-all duration-300 hover:scale-105 active:scale-95 w-full sm:w-auto text-center shadow-md"
           >
-            <MapPin className="size-3.5 text-[#C49324]" />
+            <MapPin className="size-4 text-[#b8860b] group-hover:text-amber-300" />
             <span>Visit Showroom</span>
           </a>
         </div>

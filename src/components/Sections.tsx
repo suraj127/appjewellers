@@ -235,9 +235,10 @@ export function Collections() {
             </p>
             <Link
               to="/collections"
-              className="shine-sweep inline-block rounded-sm bg-gold px-10 py-4 text-xs uppercase tracking-[0.32em] text-primary-foreground font-bold hover:opacity-90 transition-opacity shadow-xl"
+              className="shine-sweep inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-10 py-4 text-xs uppercase tracking-[0.28em] text-black font-extrabold shadow-[0_10px_35px_rgba(184,134,11,0.4)] hover:shadow-[0_14px_45px_rgba(184,134,11,0.6)] hover:scale-105 active:scale-95 transition-all"
             >
-              Browse Full Category Directory & Collections →
+              <span>Browse Full Category Directory & Collections</span>
+              <span className="text-sm">→</span>
             </Link>
           </div>
         </Reveal>
@@ -266,9 +267,10 @@ export function SchemeTeaser() {
         <div className="flex flex-col sm:flex-row gap-4 shrink-0 w-full md:w-auto z-10">
           <Link
             to="/scheme"
-            className="shine-sweep rounded-sm bg-gold px-8 py-4 text-xs uppercase tracking-[0.3em] text-primary-foreground font-bold text-center hover:opacity-90 transition-opacity shadow-xl"
+            className="shine-sweep inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-9 py-4 text-xs uppercase tracking-[0.26em] text-black font-extrabold shadow-[0_10px_35px_rgba(184,134,11,0.4)] hover:shadow-[0_14px_45px_rgba(184,134,11,0.6)] hover:scale-105 active:scale-95 transition-all text-center"
           >
-            Calculate Scheme Earnings
+            <span>Calculate Scheme Earnings</span>
+            <span className="text-xs">→</span>
           </Link>
         </div>
       </div>
@@ -347,16 +349,17 @@ export function Signature() {
                 <Link
                   to="/piece/$slug"
                   params={{ slug: "chandra-suite" }}
-                  className="shine-sweep rounded-sm bg-gold px-4 sm:px-8 py-2.5 sm:py-4 text-[0.6rem] sm:text-[0.65rem] uppercase tracking-widest text-primary-foreground font-bold"
+                  className="shine-sweep inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-black font-extrabold shadow-md hover:scale-105 active:scale-95 transition-all"
                 >
-                  Inspect Piece
+                  <span>Inspect Piece</span>
+                  <span className="text-xs">→</span>
                 </Link>
                 <Link
                   to="/appointment"
                   search={{ piece: "The Chandra Suite" }}
-                  className="text-[0.6rem] sm:text-[0.65rem] uppercase tracking-widest text-gold underline font-semibold"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#b8860b]/60 bg-[#fcfaf2] px-8 py-3.5 text-xs uppercase tracking-[0.22em] text-[#8b5a00] font-bold hover:bg-[#121212] hover:text-white hover:border-[#121212] transition-all shadow-xs active:scale-95"
                 >
-                  Enquire Privately
+                  <span>Enquire Privately</span>
                 </Link>
               </div>
             </div>
@@ -455,15 +458,16 @@ export function StoreLocation() {
                   href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
                   target="_blank"
                   rel="noreferrer"
-                  className="shine-sweep flex items-center justify-center gap-2 rounded bg-gold px-7 py-3.5 text-xs uppercase tracking-widest text-primary-foreground font-bold shadow-lg hover:opacity-95 transition-opacity"
+                  className="shine-sweep inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-black font-extrabold shadow-lg hover:scale-105 active:scale-95 transition-all"
                 >
                   <span>📍 Get Google Maps Directions</span>
                 </a>
                 <a
                   href="tel:09015155615"
-                  className="flex items-center justify-center gap-2 rounded border border-gold/60 bg-gold/10 px-6 py-3.5 text-xs uppercase tracking-widest text-gold font-semibold hover:bg-gold hover:text-primary-foreground transition-all"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#b8860b] bg-[#fcfaf2] hover:bg-[#121212] hover:text-white hover:border-[#121212] px-8 py-3.5 text-xs uppercase tracking-[0.24em] text-[#121212] font-bold transition-all shadow-xs active:scale-95"
                 >
-                  <PhoneIcon className="size-3.5" /> Call Store Desk
+                  <PhoneIcon className="size-3.5 text-[#b8860b]" />
+                  <span>Call Store Desk</span>
                 </a>
               </div>
             </div>
@@ -535,15 +539,17 @@ export function Appointment() {
           <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
               to="/appointment"
-              className="shine-sweep rounded-sm bg-gold px-8 sm:px-12 py-4 text-xs sm:text-sm uppercase tracking-[0.32em] text-primary-foreground font-bold hover:scale-105 transition-transform shadow-2xl"
+              className="shine-sweep inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-10 py-4 text-xs sm:text-sm uppercase tracking-[0.28em] text-black font-extrabold shadow-[0_12px_40px_rgba(184,134,11,0.45)] hover:scale-105 active:scale-95 transition-all"
             >
-              Book Store Visit →
+              <span>Book Store Visit</span>
+              <span className="text-sm">→</span>
             </Link>
             <a
               href="tel:09015155615"
-              className="rounded-sm border border-gold/60 px-6 sm:px-8 py-4 text-xs sm:text-sm uppercase tracking-[0.3em] text-gold font-bold hover:bg-gold hover:text-primary-foreground transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#b8860b]/60 bg-[#fcfaf2] hover:bg-[#121212] hover:text-white hover:border-[#121212] px-9 py-4 text-xs sm:text-sm uppercase tracking-[0.26em] text-[#121212] font-bold transition-all shadow-md active:scale-95"
             >
-              📞 Call Showroom Directly
+              <Phone className="size-3.5 text-[#b8860b]" />
+              <span>Call Showroom Directly</span>
             </a>
           </div>
         </Reveal>
@@ -784,9 +790,9 @@ export function Footer() {
             <div className="pt-2 flex flex-row items-center justify-center sm:justify-start gap-2 w-full max-w-md lg:max-w-xs">
               <a
                 href="tel:09015155615"
-                className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#e5be59] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-full border border-[#C49324]/50 bg-[#1e070a]/80 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black py-2.5 px-3 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#e5be59] font-extrabold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
-                <Phone className="size-3 text-[#C49324] shrink-0" />
+                <Phone className="size-3 text-current shrink-0" />
                 <span>CALL</span>
               </a>
 
@@ -794,9 +800,9 @@ export function Footer() {
                 href="https://wa.me/919015155615"
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 rounded-md border border-[#C49324]/40 bg-[#1e070a]/60 hover:bg-[#2e0b10] py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#e5be59] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-full border border-[#25D366]/60 bg-[#25D366]/15 hover:bg-[#25D366] hover:text-black py-2.5 px-3 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-emerald-300 font-extrabold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
-                <WhatsAppIcon className="size-3 text-[#C49324] shrink-0" />
+                <WhatsAppIcon className="size-3 text-current shrink-0" />
                 <span>CHAT</span>
               </a>
 
@@ -804,7 +810,7 @@ export function Footer() {
                 href="https://maps.google.com/?q=Shop+No.+D-155,+Sarafa+Market,+New+Seelampur+Phase+II,+New+Seelampur,+Seelampur,+New+Delhi,+Delhi,+110053"
                 target="_blank"
                 rel="noreferrer"
-                className="flex-1 flex items-center justify-center gap-1.5 rounded-md bg-[#f4f3ef] hover:bg-white py-2 px-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#121212] font-bold transition-all shadow-sm active:scale-95 whitespace-nowrap"
+                className="flex-1 flex items-center justify-center gap-1.5 rounded-full bg-[#FAF8F5] hover:bg-white py-2.5 px-3 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-wider text-[#121212] font-extrabold transition-all shadow-sm active:scale-95 whitespace-nowrap"
               >
                 <span className="text-rose-600 font-bold text-xs">📍</span>
                 <span>MAP</span>

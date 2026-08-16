@@ -383,9 +383,9 @@ export function Nav() {
               <Link
                 to="/appointment"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-center py-2.5 rounded-lg bg-zinc-900 text-white text-xs uppercase tracking-widest font-bold hover:bg-[#b8860b] transition-colors"
+                className="shine-sweep block text-center py-3 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] text-black text-xs uppercase tracking-[0.24em] font-extrabold shadow-lg hover:brightness-105 active:scale-95 transition-all"
               >
-                Book Private Showroom Visit
+                Book Private Showroom Visit →
               </Link>
 
               <div className="grid grid-cols-2 gap-2">
@@ -393,17 +393,17 @@ export function Nav() {
                   href="https://wa.me/919015155615"
                   target="_blank"
                   rel="noreferrer"
-                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg border border-[#C49324]/50 bg-[#1e070a]/80 hover:bg-[#2e0b10] text-[#e5be59] text-xs uppercase tracking-wider font-bold shadow active:scale-95 transition-all"
+                  className="flex items-center justify-center gap-1.5 py-2.5 rounded-full border border-[#25D366]/60 bg-[#25D366]/15 hover:bg-[#25D366] text-white hover:text-black text-xs uppercase tracking-wider font-extrabold shadow-xs active:scale-95 transition-all"
                 >
-                  <MessageCircle className="size-3.5 text-[#C49324]" />
+                  <MessageCircle className="size-3.5 text-current" />
                   <span>WhatsApp</span>
                 </a>
 
                 <a
                   href="tel:09015155615"
-                  className="shine-sweep flex items-center justify-center gap-1.5 py-2.5 rounded-lg bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] text-black text-xs uppercase tracking-wider font-extrabold shadow active:scale-95"
+                  className="shine-sweep flex items-center justify-center gap-1.5 py-2.5 rounded-full border border-[#b8860b] bg-[#fcfaf2] hover:bg-[#121212] hover:text-white text-[#121212] text-xs uppercase tracking-wider font-extrabold shadow-xs active:scale-95 transition-all"
                 >
-                  <Phone className="size-3.5 fill-black" />
+                  <Phone className="size-3.5 text-[#b8860b]" />
                   <span>090151 55615</span>
                 </a>
               </div>
