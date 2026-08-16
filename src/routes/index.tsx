@@ -10,9 +10,9 @@ import {
   InstaReels,
   Maison,
   SchemeTeaser,
-  Signature,
   StoreLocation,
 } from "@/components/Sections";
+import { HeritageShowcaseSection } from "@/components/HeritageShowcaseSection";
 
 const title = "A.P.P. Jewellers — Sarafa Market, New Seelampur, Delhi | Fine Gold & Diamonds";
 const description =
@@ -40,7 +40,7 @@ function Index() {
         <Hero />
         <Collections />
         <SchemeTeaser />
-        <Signature />
+        <HeritageShowcaseSection />
         <InstaReels />
         <Maison />
         <StoreLocation />
