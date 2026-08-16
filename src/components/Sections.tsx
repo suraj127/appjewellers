@@ -86,13 +86,17 @@ function SectionHead({
   copy?: string;
 }) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
+    <div className="mx-auto max-w-3xl text-center pb-2 sm:pb-4">
       <p className="eyebrow">{eyebrow}</p>
-      <h2 className="mt-6 font-display text-[clamp(2.1rem,5vw,3.8rem)] leading-[1.05]">{title}</h2>
+      <h2 className="mt-4 sm:mt-6 font-display text-[clamp(2rem,4.5vw,3.6rem)] leading-[1.12] sm:leading-[1.18] text-foreground font-bold">
+        {title}
+      </h2>
       {copy ? (
-        <p className="mt-6 text-sm font-light leading-relaxed text-muted-foreground">{copy}</p>
+        <p className="mt-4 sm:mt-5 text-xs sm:text-sm font-light leading-relaxed text-muted-foreground max-w-xl mx-auto">
+          {copy}
+        </p>
       ) : null}
-      <div className="rule-gold mx-auto mt-10 w-40" />
+      <div className="rule-gold mx-auto mt-6 sm:mt-8 w-32 sm:w-40" />
     </div>
   );
 }
@@ -234,7 +238,7 @@ export function Collections() {
   return (
     <section
       id="collections"
-      className="relative px-3 sm:px-6 py-14 sm:py-28 bg-background border-y border-gold/30 shadow-sm overflow-hidden"
+      className="relative px-3 sm:px-6 py-16 sm:py-28 bg-background border-y border-gold/30 shadow-sm overflow-hidden"
     >
       {/* Ambient Glow Backdrop */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-[700px] bg-[#d4af37]/8 rounded-full blur-3xl pointer-events-none" />
@@ -251,7 +255,7 @@ export function Collections() {
 
         {/* ── 3D CURVED COVER FLOW CAROUSEL CONTAINER ── */}
         <div
-          className="relative mt-10 sm:mt-16 w-full max-w-6xl mx-auto h-[26rem] sm:h-[35rem] flex items-center justify-center select-none"
+          className="relative mt-8 sm:mt-14 w-full max-w-6xl mx-auto h-[26rem] sm:h-[34rem] flex items-center justify-center select-none"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
           onTouchStart={handleTouchStart}
@@ -262,7 +266,7 @@ export function Collections() {
             type="button"
             onClick={prev}
             aria-label="Previous Creation"
-            className="absolute left-2 sm:left-6 z-40 size-10 sm:size-12 rounded-full bg-black/80 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
+            className="absolute left-1 sm:left-4 z-40 size-10 sm:size-12 rounded-full bg-black/85 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
           >
             <ChevronLeft className="size-5 sm:size-6" />
           </button>
@@ -272,7 +276,7 @@ export function Collections() {
             type="button"
             onClick={next}
             aria-label="Next Creation"
-            className="absolute right-2 sm:right-6 z-40 size-10 sm:size-12 rounded-full bg-black/80 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
+            className="absolute right-1 sm:right-4 z-40 size-10 sm:size-12 rounded-full bg-black/85 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
           >
             <ChevronRight className="size-5 sm:size-6" />
           </button>
@@ -285,11 +289,9 @@ export function Collections() {
               if (offset < -total / 2) offset += total;
 
               const isCenter = offset === 0;
-              const isDirectNeighbor = Math.abs(offset) === 1;
-              const isSecondNeighbor = Math.abs(offset) === 2;
               const isVisible = Math.abs(offset) <= 2;
 
-              // Calculate 3D transformation values
+              // Calculate 3D transformation values with proper spacing
               let translateX = 0;
               let scale = 1;
               let rotateY = 0;
@@ -305,35 +307,35 @@ export function Collections() {
                 opacity = 1;
                 filter = "brightness(1)";
               } else if (offset === 1) {
-                translateX = 62;
-                scale = 0.86;
-                rotateY = -22;
+                translateX = 82;
+                scale = 0.88;
+                rotateY = -20;
                 zIndex = 20;
-                opacity = 0.8;
+                opacity = 0.82;
                 filter = "brightness(0.85)";
               } else if (offset === -1) {
-                translateX = -62;
-                scale = 0.86;
-                rotateY = 22;
+                translateX = -82;
+                scale = 0.88;
+                rotateY = 20;
                 zIndex = 20;
-                opacity = 0.8;
+                opacity = 0.82;
                 filter = "brightness(0.85)";
               } else if (offset === 2) {
-                translateX = 118;
+                translateX = 158;
                 scale = 0.72;
-                rotateY = -32;
+                rotateY = -30;
                 zIndex = 10;
-                opacity = 0.45;
+                opacity = 0.42;
                 filter = "brightness(0.7)";
               } else if (offset === -2) {
-                translateX = -118;
+                translateX = -158;
                 scale = 0.72;
-                rotateY = 32;
+                rotateY = 30;
                 zIndex = 10;
-                opacity = 0.45;
+                opacity = 0.42;
                 filter = "brightness(0.7)";
               } else {
-                translateX = offset > 0 ? 160 : -160;
+                translateX = offset > 0 ? 200 : -200;
                 scale = 0.5;
                 rotateY = offset > 0 ? -40 : 40;
                 zIndex = 0;
@@ -348,7 +350,7 @@ export function Collections() {
                   onClick={() => {
                     if (!isCenter) setActiveIndex(idx);
                   }}
-                  className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[76vw] max-w-[270px] sm:max-w-[340px] h-[21rem] sm:h-[30rem] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1)] ${
+                  className={`absolute top-1/2 left-1/2 -translate-y-1/2 w-[70vw] max-w-[250px] sm:max-w-[310px] h-[21rem] sm:h-[29rem] rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer transition-all duration-700 ease-[cubic-bezier(0.2,0.9,0.3,1)] ${
                     isCenter
                       ? "border-2 border-[#d4af37] shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(212,175,55,0.3)] pointer-events-auto"
                       : "border border-[#d4af37]/35 shadow-[0_15px_35px_rgba(0,0,0,0.7)]"
@@ -403,24 +405,24 @@ export function Collections() {
                   </Link>
 
                   {/* Bottom Text & Pricing Overlay */}
-                  <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 text-left z-10 pointer-events-none pr-14">
-                    <p className="text-[0.55rem] sm:text-[0.64rem] uppercase tracking-[0.24em] text-[#d4af37] font-bold truncate">
+                  <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5 text-left z-10 pointer-events-none pr-12">
+                    <p className="text-[0.52rem] sm:text-[0.62rem] uppercase tracking-[0.22em] text-[#d4af37] font-bold truncate">
                       {item.category}
                     </p>
-                    <h3 className="mt-1 font-display text-sm sm:text-2xl font-bold text-white leading-tight line-clamp-1 drop-shadow-md">
+                    <h3 className="mt-0.5 font-display text-xs sm:text-lg font-bold text-white leading-snug line-clamp-1 drop-shadow-md">
                       {item.name}
                     </h3>
-                    <p className="mt-1 text-[0.62rem] sm:text-xs text-amber-200 font-extrabold uppercase tracking-wider flex items-center gap-1.5">
-                      <Sparkles className="size-3 text-[#d4af37] animate-pulse" />
+                    <p className="mt-1 text-[0.58rem] sm:text-[0.72rem] text-amber-200 font-extrabold uppercase tracking-wider flex items-center gap-1">
+                      <Sparkles className="size-2.5 sm:size-3 text-[#d4af37] animate-pulse shrink-0" />
                       <span>PRICE ON REQUEST</span>
                     </p>
 
                     {isCenter && (
-                      <div className="mt-3 pointer-events-auto">
+                      <div className="mt-2.5 pointer-events-auto">
                         <Link
                           to="/piece/$slug"
                           params={{ slug: item.slug }}
-                          className="shine-sweep inline-flex items-center gap-1.5 text-[0.58rem] sm:text-[0.68rem] uppercase tracking-[0.2em] text-[#d4af37] hover:text-[#f5d77f] font-extrabold transition-colors py-1 group/btn"
+                          className="shine-sweep inline-flex items-center gap-1.5 text-[0.58rem] sm:text-[0.66rem] uppercase tracking-[0.2em] text-[#d4af37] hover:text-[#f5d77f] font-extrabold transition-colors py-0.5 group/btn"
                         >
                           <span>Discover Creation</span>
                           <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
