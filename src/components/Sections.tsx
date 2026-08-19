@@ -215,12 +215,12 @@ export function Collections() {
     setActiveIndex((curr) => (curr + 1) % total);
   };
 
-  // Auto-play every 5 seconds when not hovered
+  // Auto-play every 3 seconds for continuous loop
   useEffect(() => {
     if (isHovered) return;
     const interval = setInterval(() => {
       setActiveIndex((curr) => (curr + 1) % total);
-    }, 5000);
+    }, 3000);
     return () => clearInterval(interval);
   }, [isHovered, total]);
 
@@ -268,25 +268,6 @@ export function Collections() {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
         >
-          {/* Left Arrow Nav Button */}
-          <button
-            type="button"
-            onClick={prev}
-            aria-label="Previous Creation"
-            className="absolute left-1 sm:left-4 z-40 size-10 sm:size-12 rounded-full bg-black/85 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
-          >
-            <ChevronLeft className="size-5 sm:size-6" />
-          </button>
-
-          {/* Right Arrow Nav Button */}
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Next Creation"
-            className="absolute right-1 sm:right-4 z-40 size-10 sm:size-12 rounded-full bg-black/85 border border-[#d4af37]/60 text-amber-100 hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.6)] flex items-center justify-center cursor-pointer active:scale-90 hover:scale-105"
-          >
-            <ChevronRight className="size-5 sm:size-6" />
-          </button>
 
           {/* 3D Stack of Cards */}
           <div className="relative w-full h-full flex items-center justify-center perspective-[1200px]">
