@@ -95,20 +95,47 @@ const POPULAR_CATEGORIES: CategoryItem[] = [
 ];
 
 function CategoryCard({ cat }: { cat: CategoryItem }) {
+  const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [videoError, setVideoError] = useState(false);
 
+  // IntersectionObserver: only load & play video when card is near the viewport
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { rootMargin: "200px" } // start loading 200px before entering view
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Play/pause video based on visibility
   useEffect(() => {
     const video = videoRef.current;
     if (!video || videoError) return;
 
-    video.muted = true;
-    video.playsInline = true;
-    const playPromise = video.play();
-    if (playPromise !== undefined) {
-      playPromise.catch(() => {});
+    if (isVisible) {
+      // Set src only when visible (lazy-load the actual bytes)
+      if (!video.src && cat.videoUrl) {
+        video.src = cat.videoUrl;
+      }
+      video.muted = true;
+      video.playsInline = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+      }
+    } else {
+      // Pause & release memory when off-screen
+      video.pause();
+      video.removeAttribute("src");
+      video.load(); // reset the video element to free buffered data
     }
-  }, [videoError]);
+  }, [isVisible, videoError, cat.videoUrl]);
 
   return (
     <Link
@@ -117,19 +144,17 @@ function CategoryCard({ cat }: { cat: CategoryItem }) {
       className="group flex flex-col items-center flex-shrink-0 cursor-pointer focus:outline-none select-none px-3 sm:px-4"
     >
       {/* Outer Circular Frame with Double-Ring Styling and Gold Glow on Hover */}
-      <div className="relative p-1 sm:p-1.5 rounded-full border-2 border-zinc-200/90 group-hover:border-[#b8860b] group-hover:shadow-[0_0_22px_rgba(184,134,11,0.3)] transition-all duration-300 bg-white">
+      <div ref={cardRef} className="relative p-1 sm:p-1.5 rounded-full border-2 border-zinc-200/90 group-hover:border-[#b8860b] group-hover:shadow-[0_0_22px_rgba(184,134,11,0.3)] transition-all duration-300 bg-white">
         {/* Inner Circle Media Container */}
         <div className="size-24 sm:size-28 md:size-32 lg:size-36 rounded-full overflow-hidden bg-zinc-950 relative shadow-inner">
           {cat.videoUrl && !videoError ? (
             <video
               ref={videoRef}
-              src={cat.videoUrl}
               poster={cat.image}
-              autoPlay
               loop
               muted
               playsInline
-              preload="metadata"
+              preload="none"
               onError={() => setVideoError(true)}
               className="w-full h-full object-cover object-center group-hover:scale-115 transition-transform duration-700 ease-out pointer-events-none"
             />
