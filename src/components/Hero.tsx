@@ -1,11 +1,12 @@
 import { useEffect, useState, useRef } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, MapPin, Sparkles, ShieldCheck, Award, Gem, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, MapPin, Sparkles, ShieldCheck, Award, Gem, ChevronLeft, ChevronRight, Phone } from "lucide-react";
 import logoImg from "@/assets/logo.png";
 
 interface HeroSlide {
   image: string;
   eyebrow: string;
+  brandTag?: string;
   titleMain: string;
   titleAccent: string;
   subtitle: string;
@@ -15,43 +16,47 @@ interface HeroSlide {
 const HERO_SLIDES: HeroSlide[] = [
   {
     image: "/assets/hero/slide1.jpg",
-    eyebrow: "SARAFA MARKET · NEW SEELAMPUR · DELHI",
-    titleMain: "Where Heritage ",
-    titleAccent: "Meets Luxury",
-    subtitle: "Discover 100% BIS Hallmarked pure gold, GIA certified solitaires, royal Kundan bridal suites, and bespoke handmade jewellery in Delhi.",
-    badge: "HAUTE JOAILLERIE",
+    eyebrow: "SARAFA MARKET · NEW SEELAMPUR · NEW DELHI",
+    brandTag: "A.P.P. JEWELLERS",
+    titleMain: "A.P.P. Jewellers — ",
+    titleAccent: "Where Heritage Meets Luxury",
+    subtitle: "Delhi's trusted destination for 100% BIS 916 Hallmarked pure gold, GIA certified solitaires, royal Kundan bridal sets, and bespoke handmade jewellery.",
+    badge: "GRAND ATELIER",
   },
   {
     image: "/assets/hero/slide2.jpg",
     eyebrow: "ROYAL WEDDING COLLECTION",
+    brandTag: "BRIDAL COUTURE",
     titleMain: "Imperial Bridal ",
     titleAccent: "Masterpieces",
-    subtitle: "Ornate Kundan chokers, uncut Polki jewels, and certified 22K hallmarked gold bridal suites designed for royal celebrations.",
-    badge: "BRIDAL ATELIER",
+    subtitle: "Ornate Kundan chokers, uncut Polki jewels, and certified 22K hallmarked gold bridal suites hand-set for once-in-a-lifetime celebrations.",
+    badge: "BRIDAL SUITES",
   },
   {
     image: "/assets/hero/slide3.jpg",
     eyebrow: "FINE DIAMOND CURATION",
+    brandTag: "CERTIFIED SOLITAIRES",
     titleMain: "Certified Solitaire ",
     titleAccent: "Brilliance",
-    subtitle: "GIA & IGI certified solitaires, precision pavé necklaces, and signature diamond jewellery cut for breathtaking light return.",
-    badge: "SOLITAIRES",
+    subtitle: "GIA & IGI certified solitaires, precision pavé necklaces, and signature diamond jewellery cut for breathtaking fire and light return.",
+    badge: "DIAMOND ARCHIVE",
   },
   {
     image: "/assets/hero/slide4.jpg",
-    eyebrow: "SACRED ARTISTRY & MEENAKARI",
+    eyebrow: "DELHI GOLDSMITH LEGACY",
+    brandTag: "HERITAGE KARIGAR",
     titleMain: "Legacy of Master ",
     titleAccent: "Karigars",
-    subtitle: "Preserving the ancient craft of hand-forged nakshi, temple gold repoussé, and heirloom Delhi craftsmanship since generations.",
-    badge: "PURE HANDCRAFT",
+    subtitle: "Preserving the sacred art of hand-forged nakshi repoussé, antique temple jewellery, and royal Delhi goldsmith traditions since generations.",
+    badge: "MASTER CRAFT",
   },
 ];
 
 const TRUST_BADGES = [
   { icon: ShieldCheck, title: "BIS 916 Hallmarked", sub: "100% Guaranteed Purity" },
-  { icon: Gem, title: "GIA & IGI Certified", sub: "Real Solitaire Diamonds" },
-  { icon: Award, title: "Lifetime Exchange", sub: "Transparent Valuation" },
-  { icon: Sparkles, title: "Custom Atelier", sub: "Bespoke Karigar Orders" },
+  { icon: Gem, title: "GIA & IGI Certified", sub: "Natural Solitaire Diamonds" },
+  { icon: Award, title: "100% Lifetime Exchange", sub: "Transparent Valuation" },
+  { icon: Sparkles, title: "Bespoke Custom Orders", sub: "Handmade by Delhi Karigars" },
 ];
 
 export function Hero() {
@@ -60,7 +65,7 @@ export function Hero() {
   const [isHovered, setIsHovered] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  // Parallax subtle tilt effect
+  // Parallax subtle tilt effect on desktop
   useEffect(() => {
     const onMove = (e: MouseEvent | PointerEvent) => {
       setTilt({
@@ -116,9 +121,9 @@ export function Hero() {
       onMouseLeave={() => setIsHovered(false)}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      className="relative flex min-h-[92vh] sm:min-h-screen flex-col justify-between overflow-hidden bg-[#0e0c0a] pt-24 sm:pt-32 pb-8 sm:pb-12 text-foreground border-b border-gold/30 select-none"
+      className="relative flex min-h-[94vh] sm:min-h-screen flex-col justify-between overflow-hidden bg-[#0a0908] pt-24 sm:pt-32 pb-8 sm:pb-12 text-foreground border-b border-gold/30 select-none"
     >
-      {/* ── BACKGROUND MULTI-SLIDE CROSS-FADE WITH SMOOTH KEN BURNS ZOOM ── */}
+      {/* ── BACKGROUND MULTI-SLIDE CROSS-FADE WITH KEN BURNS MOTION ── */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {HERO_SLIDES.map((s, idx) => {
           const isActive = idx === currentSlide;
@@ -129,7 +134,7 @@ export function Hero() {
                 isActive ? "opacity-100 scale-105" : "opacity-0 scale-100 pointer-events-none"
               }`}
               style={{
-                transform: `scale(${isActive ? 1.04 : 1}) translate3d(${tilt.x * -6}px, ${tilt.y * -6}px, 0)`,
+                transform: `scale(${isActive ? 1.05 : 1}) translate3d(${tilt.x * -6}px, ${tilt.y * -6}px, 0)`,
                 transition: "opacity 1.2s ease-in-out, transform 8s ease-out",
               }}
             >
@@ -142,44 +147,44 @@ export function Hero() {
           );
         })}
 
-        {/* ── LUXURY DUAL GRADIENT VEIL FOR 100% TEXT READABILITY ── */}
-        {/* Top-to-bottom dark gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/55 to-black/90 pointer-events-none" />
+        {/* ── HIGH-END MULTI-LAYER DARK GRADIENT VEIL FOR 100% READABILITY ── */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/85 via-black/60 to-black/92 pointer-events-none" />
 
-        {/* Warm radial center spotlight */}
+        {/* Radial warm gold halo */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-80"
+          className="absolute inset-0 pointer-events-none opacity-85"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 45%, rgba(196, 147, 36, 0.18) 0%, rgba(10, 10, 10, 0.5) 60%, rgba(0, 0, 0, 0.9) 100%)",
+              "radial-gradient(ellipse at 50% 45%, rgba(196, 147, 36, 0.22) 0%, rgba(12, 10, 8, 0.6) 55%, rgba(5, 5, 5, 0.95) 100%)",
           }}
         />
 
-        {/* Interactive gold aura */}
+        {/* Interactive Mouse Dynamic Gold Shimmer */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 opacity-40 transition-all duration-700"
+          className="pointer-events-none absolute inset-0 opacity-35 transition-all duration-700"
           style={{
-            background: `radial-gradient(600px circle at ${50 + tilt.x * 20}% ${40 + tilt.y * 20}%, rgba(212, 175, 55, 0.22), transparent 70%)`,
+            background: `radial-gradient(600px circle at ${50 + tilt.x * 20}% ${40 + tilt.y * 20}%, rgba(212, 175, 55, 0.25), transparent 70%)`,
           }}
         />
       </div>
 
-      {/* ── FOREGROUND CONTENT ── */}
+      {/* ── MAIN HERO CONTENT ── */}
       <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 text-center my-auto flex flex-col items-center">
-        {/* BRAND LOGO WITH GLOSS EFFECT */}
-        <div className="relative flex justify-center mb-4 sm:mb-6 mx-auto">
+        {/* BRAND LOGO EMBLEM */}
+        <div className="relative flex justify-center mb-3 sm:mb-5 mx-auto group">
+          <div className="absolute inset-0 rounded-full bg-[#d4af37]/20 blur-xl scale-125 pointer-events-none" />
           <img
             src={logoImg}
             alt="A.P.P. Jewellers Brand Logo"
-            className="relative z-10 h-28 sm:h-36 md:h-40 w-auto object-contain drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)] hover:scale-105 transition-transform duration-700 select-none"
+            className="relative z-10 h-28 sm:h-36 md:h-44 w-auto object-contain drop-shadow-[0_12px_35px_rgba(0,0,0,0.9)] hover:scale-105 transition-transform duration-700 select-none"
           />
         </div>
 
-        {/* EYEBROW BADGE */}
+        {/* EYEBROW BADGE WITH FILIGREE */}
         <div className="flex items-center justify-center gap-2 mb-3 sm:mb-4">
           <span className="text-[#C49324] text-xs font-display select-none hidden sm:inline">⊰⊱</span>
-          <span className="inline-flex items-center gap-2 rounded-full border border-[#C49324]/80 bg-black/60 backdrop-blur-md px-4 sm:px-6 py-1 text-[0.68rem] sm:text-xs uppercase tracking-[0.28em] text-[#f5d77f] font-display font-semibold shadow-lg">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#C49324]/80 bg-black/75 backdrop-blur-md px-4 sm:px-6 py-1.5 text-[0.68rem] sm:text-xs uppercase tracking-[0.28em] text-[#f5d77f] font-display font-semibold shadow-lg">
             <span className="size-1.5 rounded-full bg-[#d4af37] animate-ping" />
             {slide.eyebrow}
           </span>
@@ -187,7 +192,7 @@ export function Hero() {
         </div>
 
         {/* MAIN HEADLINE */}
-        <h1 className="font-display text-[clamp(2.4rem,6.5vw,5.2rem)] leading-[1.08] tracking-tight text-white drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] max-w-4xl">
+        <h1 className="font-display text-[clamp(2.3rem,6.2vw,5rem)] leading-[1.08] tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)] max-w-4xl">
           <span className="font-semibold">{slide.titleMain}</span>
           <span className="italic font-normal luxury-sparkle-text text-[#f5d77f] block sm:inline">
             {slide.titleAccent}
@@ -210,29 +215,37 @@ export function Hero() {
           </Link>
 
           <a
-            href="#store-info"
-            className="inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-[#b8860b]/70 bg-black/60 backdrop-blur-md hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black hover:border-transparent px-9 py-4 text-xs uppercase tracking-[0.24em] text-amber-100 font-bold transition-all duration-300 hover:scale-105 active:scale-95 w-full sm:w-auto text-center shadow-lg"
+            href="tel:09015155615"
+            className="inline-flex items-center justify-center gap-2.5 rounded-full border-2 border-[#b8860b]/70 bg-black/60 backdrop-blur-md hover:bg-gradient-to-r hover:from-[#d4af37] hover:to-[#aa771c] hover:text-black hover:border-transparent px-8 py-4 text-xs uppercase tracking-[0.24em] text-amber-100 font-bold transition-all duration-300 hover:scale-105 active:scale-95 w-full sm:w-auto text-center shadow-lg"
           >
-            <MapPin className="size-4 text-[#d4af37] group-hover:text-black" />
-            <span>Visit Showroom</span>
+            <Phone className="size-4 text-[#d4af37] group-hover:text-black" />
+            <span>Call Showroom</span>
+          </a>
+
+          <a
+            href="#store-info"
+            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-black/40 backdrop-blur-md hover:bg-white/10 hover:border-gold/50 px-6 py-4 text-xs uppercase tracking-[0.22em] text-zinc-300 font-medium transition-all duration-300 hover:scale-105 active:scale-95 w-full sm:w-auto text-center"
+          >
+            <MapPin className="size-3.5 text-[#d4af37]" />
+            <span>Store Location</span>
           </a>
         </div>
       </div>
 
-      {/* ── BOTTOM NAVIGATION CONTROLS & TRUST BADGES ── */}
+      {/* ── BOTTOM SLIDE SWITCHER & TRUST BADGES ── */}
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 mt-6 sm:mt-10">
         {/* SLIDE PROGRESS SELECTORS */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6">
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mb-5 sm:mb-6">
           <button
             type="button"
             onClick={prevSlide}
             aria-label="Previous slide"
-            className="size-8 rounded-full bg-black/60 border border-gold/40 text-amber-100 hover:text-gold hover:border-gold transition-all flex items-center justify-center cursor-pointer"
+            className="size-8 rounded-full bg-black/60 border border-gold/40 text-amber-100 hover:text-gold hover:border-gold transition-all flex items-center justify-center cursor-pointer active:scale-90"
           >
             <ChevronLeft className="size-4" />
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto max-w-full py-1 scrollbar-none">
             {HERO_SLIDES.map((s, idx) => {
               const isActive = idx === currentSlide;
               return (
@@ -241,7 +254,7 @@ export function Hero() {
                   type="button"
                   onClick={() => goToSlide(idx)}
                   aria-label={`Slide ${idx + 1}: ${s.badge}`}
-                  className={`group relative h-9 px-3 sm:px-4 rounded-full border transition-all duration-300 flex items-center gap-2 cursor-pointer ${
+                  className={`group relative h-9 px-3 sm:px-4 rounded-full border transition-all duration-300 flex items-center gap-2 cursor-pointer flex-shrink-0 ${
                     isActive
                       ? "bg-[#d4af37]/25 border-[#d4af37] text-amber-100 shadow-[0_0_15px_rgba(212,175,55,0.4)]"
                       : "bg-black/40 border-white/15 text-zinc-400 hover:border-gold/50 hover:text-zinc-200"
@@ -264,7 +277,7 @@ export function Hero() {
             type="button"
             onClick={nextSlide}
             aria-label="Next slide"
-            className="size-8 rounded-full bg-black/60 border border-gold/40 text-amber-100 hover:text-gold hover:border-gold transition-all flex items-center justify-center cursor-pointer"
+            className="size-8 rounded-full bg-black/60 border border-gold/40 text-amber-100 hover:text-gold hover:border-gold transition-all flex items-center justify-center cursor-pointer active:scale-90"
           >
             <ChevronRight className="size-4" />
           </button>
