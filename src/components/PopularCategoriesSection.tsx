@@ -16,7 +16,7 @@ const POPULAR_CATEGORIES: CategoryItem[] = [
   {
     id: "earring",
     name: "Earring",
-    image: "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&w=400&q=80",
+    image: "/assets/categories/earring.jpg",
     videoUrl: "https://cdn.pixabay.com/video/2020/04/18/36423-412217623_tiny.mp4",
     fallbackImage: "/assets/items/antique_temple_earrings.jpg",
     categoryFilter: "EARRINGS",
@@ -24,7 +24,7 @@ const POPULAR_CATEGORIES: CategoryItem[] = [
   {
     id: "bracelet",
     name: "Bracelet",
-    image: "https://images.unsplash.com/photo-1611591475838-8c10fa8c8c2c?auto=format&fit=crop&w=400&q=80",
+    image: "/assets/categories/bracelet.jpg",
     videoUrl: "https://cdn.pixabay.com/video/2022/12/12/142646-781034444_tiny.mp4",
     fallbackImage: "/assets/items/antique_temple_kada.jpg",
     categoryFilter: "BRACELETS",
@@ -32,7 +32,7 @@ const POPULAR_CATEGORIES: CategoryItem[] = [
   {
     id: "ring",
     name: "Ring",
-    image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=400&q=80",
+    image: "/assets/categories/ring.jpg",
     videoUrl: "https://cdn.pixabay.com/video/2021/08/04/83866-584777501_tiny.mp4",
     fallbackImage: "/assets/items/diamond_solitaire_ring_1785608029662.png",
     categoryFilter: "RINGS",
@@ -40,7 +40,7 @@ const POPULAR_CATEGORIES: CategoryItem[] = [
   {
     id: "diamond",
     name: "Diamond",
-    image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=400&q=80",
+    image: "/assets/categories/diamond.jpg",
     videoUrl: "https://cdn.pixabay.com/video/2020/09/25/51139-463283259_tiny.mp4",
     fallbackImage: "/assets/items/diamond_cluster_necklace_102.png",
     categoryFilter: "DIAMOND",
@@ -48,7 +48,7 @@ const POPULAR_CATEGORIES: CategoryItem[] = [
   {
     id: "anklet",
     name: "Anklet",
-    image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=400&q=80",
+    image: "/assets/categories/anklet.jpg",
     videoUrl: "https://cdn.pixabay.com/video/2023/07/28/173665-849767784_tiny.mp4",
     fallbackImage: "/assets/items/royal_gold_chain_101.png",
     categoryFilter: "ANKLETS",
@@ -56,7 +56,7 @@ const POPULAR_CATEGORIES: CategoryItem[] = [
   {
     id: "nose-pin",
     name: "Nose Pin",
-    image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=400&q=80",
+    image: "/assets/categories/nosepin.jpg",
     videoUrl: "https://cdn.pixabay.com/video/2024/02/10/200030-911802951_tiny.mp4",
     fallbackImage: "/assets/items/diamond_solitaire_ring_1785608029662.png",
     categoryFilter: "NOSE STUDS",
