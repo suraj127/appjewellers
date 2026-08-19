@@ -21,7 +21,7 @@ export function FloatingWhatsApp() {
       target="_blank"
       rel="noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group"
+      className="hidden lg:fixed lg:flex bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 group"
     >
       {/* Pulse ring */}
       <span className="absolute inset-0 rounded-full bg-[#C49324]/30 animate-ping" />

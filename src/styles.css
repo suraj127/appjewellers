@@ -414,6 +414,42 @@
   animation-play-state: paused;
 }
 
+/* ── Hero Carousel Ken Burns Effect ── */
+@keyframes kenBurnsZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.12);
+  }
+}
+
+.hero-slide-active {
+  animation: kenBurnsZoom 7s ease-out forwards;
+}
+
+/* Hero slide progress bar */
+@keyframes heroProgress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+.hero-progress-bar {
+  animation: heroProgress 5s linear forwards;
+}
+
+/* Mobile bottom nav safe area */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Add bottom padding to main content on mobile to prevent bottom nav overlap */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: 4rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::after,

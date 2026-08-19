@@ -132,6 +132,7 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 import { FloatingWhatsApp, BackToTop } from "@/components/FloatingActions";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -142,6 +143,7 @@ function RootComponent() {
       <Outlet />
       <FloatingWhatsApp />
       <BackToTop />
+      <MobileBottomNav />
       <Toaster position="bottom-center" theme="dark" />
     </QueryClientProvider>
   );

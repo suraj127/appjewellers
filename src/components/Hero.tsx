@@ -1,12 +1,57 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, MapPin } from 'lucide-react';
+import { ArrowRight, MapPin } from "lucide-react";
 import logoImg from "@/assets/logo.png";
-import heroBgImg from "@/assets/hero-bg.jpg";
+
+/* ── Slide Data ── */
+const HERO_SLIDES = [
+  {
+    image: "/assets/hero/slide1.jpg",
+    eyebrow: "Purity Guaranteed",
+    headline: "BIS Hallmarked",
+    headlineAccent: "Pure Gold",
+    sub: "Every piece carries the BIS hallmark — your guarantee of purity in every grain of gold.",
+  },
+  {
+    image: "/assets/hero/slide2.jpg",
+    eyebrow: "Brilliance Certified",
+    headline: "GIA Certified",
+    headlineAccent: "Diamonds",
+    sub: "Hand-selected solitaires and diamond jewellery, each accompanied by a GIA grading report.",
+  },
+  {
+    image: "/assets/hero/slide3.jpg",
+    eyebrow: "Bridal Elegance",
+    headline: "Kundan Bridal",
+    headlineAccent: "Collection",
+    sub: "Timeless Kundan and Polki bridal suites, handcrafted for your most cherished celebrations.",
+  },
+  {
+    image: "/assets/hero/slide4.jpg",
+    eyebrow: "Artisan Craft",
+    headline: "Bespoke Handmade",
+    headlineAccent: "Jewellery",
+    sub: "One-of-a-kind pieces designed and shaped by master karigars in our Delhi atelier.",
+  },
+];
+
+const SLIDE_DURATION = 5000; // 5 seconds per slide
 
 export function Hero() {
+  const [active, setActive] = useState(0);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
+  const nextSlide = useCallback(() => {
+    setActive((prev) => (prev + 1) % HERO_SLIDES.length);
+  }, []);
+
+  // Auto-advance slides
+  useEffect(() => {
+    const timer = setInterval(nextSlide, SLIDE_DURATION);
+    return () => clearInterval(timer);
+  }, [nextSlide, active]);
+
+  // Interactive mouse-follow gold aura (desktop only)
   useEffect(() => {
     const onMove = (e: MouseEvent | PointerEvent) => {
       setTilt({
@@ -15,90 +60,119 @@ export function Hero() {
       });
     };
     window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      window.removeEventListener("mousemove", onMove);
-    };
+    return () => window.removeEventListener("pointermove", onMove);
   }, []);
+
+  const slide = HERO_SLIDES[active];
 
   return (
     <section
       id="top"
-      className="relative flex min-h-[92vh] sm:min-h-screen items-center justify-center overflow-hidden bg-[#F8F6EF] pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 text-foreground border-b border-gold/30"
+      className="relative flex min-h-[92vh] sm:min-h-screen items-center justify-center overflow-hidden bg-[#0a0a0a] pt-24 sm:pt-36 pb-16 sm:pb-24 px-4 text-foreground border-b border-gold/30"
     >
-      {/* ── Background Luxury Image with mobile-optimized responsive framing ── */}
-      <img
-        src={heroBgImg}
-        alt="Royal Jewellery Background"
-        className="absolute inset-0 size-full object-cover object-[78%_center] sm:object-[center_35%] pointer-events-none transition-transform duration-700 ease-out select-none"
-        style={{
-          transform: `scale(1.03) translate3d(${tilt.x * -8}px, ${tilt.y * -8}px, 0)`,
-        }}
-      />
+      {/* ── Background Slides with Ken Burns ── */}
+      {HERO_SLIDES.map((s, idx) => (
+        <img
+          key={idx}
+          src={s.image}
+          alt=""
+          className={`absolute inset-0 size-full object-cover pointer-events-none select-none transition-opacity duration-1000 ease-in-out ${
+            idx === active
+              ? "opacity-100 hero-slide-active"
+              : "opacity-0"
+          }`}
+          style={{ zIndex: 1 }}
+          {...(idx === 0 ? {} : { loading: "lazy" as const })}
+        />
+      ))}
 
-      {/* ── Soft Champagne & Alabaster Center Light Overlay for Readability ── */}
+      {/* ── Dark Vignette + Center Light Overlay ── */}
       <div
         aria-hidden
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 45%, rgba(248, 246, 239, 0.86) 0%, rgba(248, 246, 239, 0.6) 50%, rgba(248, 246, 239, 0.2) 80%, rgba(248, 246, 239, 0.5) 100%)",
+            "radial-gradient(ellipse at 50% 45%, rgba(248, 246, 239, 0.82) 0%, rgba(248, 246, 239, 0.55) 45%, rgba(10, 10, 10, 0.15) 75%, rgba(10, 10, 10, 0.5) 100%)",
+          zIndex: 2,
         }}
       />
 
       {/* Interactive dynamic gold aura */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-35"
         style={{
-          background: `radial-gradient(550px circle at ${50 + tilt.x * 20}% ${40 + tilt.y * 20}%, rgba(212, 175, 55, 0.12), transparent 60%)`,
+          background: `radial-gradient(550px circle at ${50 + tilt.x * 20}% ${40 + tilt.y * 20}%, rgba(212, 175, 55, 0.15), transparent 60%)`,
           transition: "background 0.4s linear",
+          zIndex: 3,
         }}
       />
 
+      {/* ── Content ── */}
       <div className="relative z-10 mx-auto max-w-4xl px-3 sm:px-6 text-center">
         {/* BRAND LOGO */}
-        <div className="reveal relative flex justify-center mb-5 sm:mb-7 mx-auto" style={{ animationDelay: "100ms" }}>
+        <div
+          className="reveal relative flex justify-center mb-5 sm:mb-7 mx-auto"
+          style={{ animationDelay: "100ms" }}
+        >
           <img
             src={logoImg}
             alt="A.P.P. Jewellers Brand Logo"
-            className="relative z-10 h-32 sm:h-44 md:h-48 w-auto object-contain hover:scale-105 transition-transform duration-700 select-none"
+            className="relative z-10 h-28 sm:h-40 md:h-44 w-auto object-contain hover:scale-105 transition-transform duration-700 select-none"
           />
         </div>
 
-        {/* EYEBROW BADGE (Cormorant Garamond Medium with side filigree flourishes) */}
-        <div className="reveal flex items-center justify-center gap-2 mb-4" style={{ animationDelay: "200ms" }}>
-          <span className="text-[#C49324] text-xs font-display select-none hidden sm:inline">⊰⊱</span>
+        {/* LOCATION BADGE */}
+        <div
+          className="reveal flex items-center justify-center gap-2 mb-4"
+          style={{ animationDelay: "200ms" }}
+        >
+          <span className="text-[#C49324] text-xs font-display select-none hidden sm:inline">
+            ⊰⊱
+          </span>
           <span className="inline-flex items-center rounded-full border border-[#C49324]/80 bg-[#F2E9D8]/80 backdrop-blur-sm px-4 sm:px-6 py-1 text-[0.68rem] sm:text-xs uppercase tracking-[0.28em] text-[#C49324] font-display font-medium shadow-sm">
             SARAFA MARKET · NEW SEELAMPUR · DELHI
           </span>
-          <span className="text-[#C49324] text-xs font-display select-none hidden sm:inline">⊰⊱</span>
+          <span className="text-[#C49324] text-xs font-display select-none hidden sm:inline">
+            ⊰⊱
+          </span>
         </div>
 
-        {/* MAIN HEADLINE (Cormorant Garamond SemiBold + Italic Sparkling Gold) */}
-        <h1
-          className="reveal mt-3 sm:mt-5 font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[1.05] tracking-tight"
-          style={{ animationDelay: "300ms" }}
+        {/* SLIDE EYEBROW (animated per slide) */}
+        <p
+          key={`eyebrow-${active}`}
+          className="text-[#b8860b] text-[0.65rem] sm:text-xs uppercase tracking-[0.3em] font-semibold mb-2 animate-fadeIn"
         >
-          <span className="font-semibold text-[#121212]">Where Heritage </span>
+          {slide.eyebrow}
+        </p>
+
+        {/* MAIN HEADLINE (changes per slide with cross-fade) */}
+        <h1
+          key={`headline-${active}`}
+          className="reveal mt-1 sm:mt-3 font-display text-[clamp(2.2rem,6.5vw,5rem)] leading-[1.05] tracking-tight"
+          style={{ animationDelay: "0ms" }}
+        >
+          <span className="font-semibold text-[#121212]">
+            {slide.headline}{" "}
+          </span>
           <span className="italic font-normal luxury-sparkle-text text-[#C49324] block sm:inline">
-            Meets Luxury
+            {slide.headlineAccent}
           </span>
         </h1>
 
-        {/* SUB-HEAD COPY */}
+        {/* SUB-HEAD COPY (changes per slide) */}
         <p
-          className="reveal mx-auto mt-4 sm:mt-6 max-w-xl text-xs sm:text-base font-light leading-relaxed text-zinc-700 px-2 drop-shadow-sm"
-          style={{ animationDelay: "450ms" }}
+          key={`sub-${active}`}
+          className="reveal mx-auto mt-4 sm:mt-5 max-w-xl text-xs sm:text-base font-light leading-relaxed text-zinc-700 px-2 drop-shadow-sm"
+          style={{ animationDelay: "100ms" }}
         >
-          Discover 100% BIS Hallmarked pure gold, GIA certified solitaires, royal Kundan bridal suites, and bespoke handmade jewellery in Delhi.
+          {slide.sub}
         </p>
 
-        {/* LUXURY CTA BUTTONS */}
+        {/* CTA BUTTONS */}
         <div
           className="reveal mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-md sm:max-w-none mx-auto"
-          style={{ animationDelay: "600ms" }}
+          style={{ animationDelay: "300ms" }}
         >
           <Link
             to="/collections"
@@ -118,10 +192,36 @@ export function Hero() {
         </div>
       </div>
 
+      {/* ── Slide Indicator Dots + Progress ── */}
+      <div className="absolute bottom-8 left-1/2 z-20 -translate-x-1/2 flex items-center gap-3">
+        {HERO_SLIDES.map((_, idx) => (
+          <button
+            key={idx}
+            type="button"
+            onClick={() => setActive(idx)}
+            aria-label={`Go to slide ${idx + 1}`}
+            className="group relative flex items-center justify-center"
+          >
+            {/* Outer ring for active */}
+            <span
+              className={`block rounded-full transition-all duration-500 ${
+                idx === active
+                  ? "w-8 h-2 bg-[#d4af37]"
+                  : "w-2 h-2 bg-white/40 hover:bg-white/70"
+              }`}
+            />
+            {/* Progress fill inside active dot */}
+            {idx === active && (
+              <span className="absolute left-0 top-0 h-full rounded-full bg-white/60 hero-progress-bar" />
+            )}
+          </button>
+        ))}
+      </div>
+
       {/* SCROLL DOWN INDICATOR */}
-      <div className="absolute bottom-4 left-1/2 z-10 -translate-x-1/2 text-center pointer-events-none">
-        <div className="mx-auto h-8 w-px bg-gradient-to-b from-transparent via-[#C49324] to-transparent" />
-        <span className="mt-1 block text-[0.52rem] uppercase tracking-[0.35em] text-zinc-500 font-medium">
+      <div className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2 text-center pointer-events-none hidden sm:block">
+        <div className="mx-auto h-6 w-px bg-gradient-to-b from-transparent via-[#C49324] to-transparent" />
+        <span className="mt-1 block text-[0.52rem] uppercase tracking-[0.35em] text-zinc-400 font-medium">
           Scroll
         </span>
       </div>

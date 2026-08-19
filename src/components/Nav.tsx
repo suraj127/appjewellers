@@ -110,15 +110,12 @@ function SchemeIcon({ className = "size-4" }: { className?: string }) {
   );
 }
 
-const LEFT_LINKS = [
+const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Collection", href: "/collections" },
-  { label: "Monthly Scheme", href: "/scheme" },
-];
-
-const RIGHT_LINKS = [
+  { label: "Scheme", href: "/scheme" },
   { label: "Book Visit", href: "/appointment", icon: Calendar },
-  { label: "Store Info", href: "/#store-info", icon: MapPin },
+  { label: "Store", href: "/#store-info", icon: MapPin },
 ];
 
 const SUB_NAV_ITEMS = [
@@ -184,130 +181,145 @@ export function Nav() {
         visible || mobileMenuOpen ? "translate-y-0" : "-translate-y-full"
       }`}
     >
-      {/* ── FULL WIDTH MASTER CONTAINER (Transparent Luxury Background) ── */}
-      <div
-        className={`w-full transition-colors duration-500 ${
-          scrolled
-            ? "bg-[#fcfaf2]/80 backdrop-blur-md border-b border-[#b8860b]/20 shadow-xs"
-            : "bg-transparent border-b border-transparent"
-        }`}
-      >
-        {/* ── TOP TIER: Brand Logo, Main Links, Action Buttons (Full Width) ── */}
-        <div className="w-full px-3 sm:px-8 md:px-12">
-          <div className="flex items-center justify-between gap-2 sm:gap-4 py-2 sm:py-3">
-            {/* Mobile Hamburger Toggle */}
-            <div className="flex items-center lg:hidden">
-              <button
-                type="button"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-zinc-900 p-2 focus:outline-none hover:text-[#b8860b] transition-colors rounded-lg active:bg-black/5"
-                aria-label="Toggle Navigation Menu"
-              >
-                <div className="space-y-1.5 w-5 sm:w-6">
-                  <span
-                    className={`block h-0.5 bg-zinc-900 transition-all duration-300 ${
-                      mobileMenuOpen ? "rotate-45 translate-y-2 bg-[#b8860b]" : ""
-                    }`}
-                  />
-                  <span
-                    className={`block h-0.5 bg-zinc-900 transition-all duration-300 ${
-                      mobileMenuOpen ? "opacity-0" : ""
-                    }`}
-                  />
-                  <span
-                    className={`block h-0.5 bg-zinc-900 transition-all duration-300 ${
-                      mobileMenuOpen ? "-rotate-45 -translate-y-2 bg-[#b8860b]" : ""
-                    }`}
-                  />
-                </div>
-              </button>
-            </div>
+      {/* ═══════════════════════════════════════════════════════════════
+          DESKTOP: Floating Glass Pill Navbar (lg+)
+         ═══════════════════════════════════════════════════════════════ */}
+      <div className="hidden lg:block w-full px-6 pt-4">
+        <nav
+          className={`mx-auto max-w-5xl flex items-center justify-between gap-4 rounded-full px-5 py-2.5 transition-all duration-500 ${
+            scrolled
+              ? "bg-[#fcfaf2]/90 backdrop-blur-xl border border-[#b8860b]/25 shadow-[0_8px_32px_rgba(0,0,0,0.08),0_0_0_1px_rgba(184,134,11,0.1)]"
+              : "bg-white/60 backdrop-blur-lg border border-white/30 shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
+          }`}
+        >
+          {/* Logo */}
+          <a
+            href="/"
+            className="flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105"
+          >
+            <img
+              src={logoImg}
+              alt="A.P.P. Jewellers Logo"
+              className="h-9 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(184,134,11,0.2)]"
+            />
+          </a>
 
-            {/* LEFT SIDE BRAND LINKS (Desktop) */}
-            <ul className="hidden lg:flex items-center gap-7">
-              {LEFT_LINKS.map((l) => (
+          {/* Center Links */}
+          <ul className="flex items-center gap-6">
+            {NAV_LINKS.map((l) => {
+              const Icon = l.icon;
+              return (
                 <li key={l.label}>
                   <a
                     href={l.href}
-                    className="group relative text-[0.72rem] uppercase tracking-[0.24em] text-zinc-800 transition-colors duration-300 hover:text-[#b8860b] font-semibold py-1"
+                    className="group relative flex items-center gap-1.5 text-[0.7rem] uppercase tracking-[0.22em] text-zinc-800 transition-colors duration-300 hover:text-[#b8860b] font-semibold py-1"
                   >
+                    {Icon && (
+                      <Icon className="size-3.5 text-[#b8860b] group-hover:scale-110 transition-transform" />
+                    )}
                     {l.label}
-                    <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full" />
+                    <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full rounded-full" />
                   </a>
                 </li>
-              ))}
-            </ul>
+              );
+            })}
+          </ul>
 
-            {/* CENTER BRAND LOGO */}
+          {/* Call CTA */}
+          <a
+            href="tel:09015155615"
+            className="shine-sweep flex items-center gap-2 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-5 py-2 text-[0.66rem] uppercase tracking-[0.18em] text-black font-extrabold shadow-md hover:scale-105 transition-transform"
+          >
+            <Phone className="size-3.5 fill-black" />
+            <span>090151 55615</span>
+          </a>
+        </nav>
+
+        {/* ── BOTTOM TIER: Category Sub-Navigation (collections page) ── */}
+        {showSubNav && (
+          <div className="mx-auto max-w-5xl mt-2 rounded-full bg-[#fcfaf2]/85 backdrop-blur-xl border border-[#b8860b]/15 py-2 px-4 overflow-x-auto no-scrollbar touch-pan-x shadow-sm">
+            <nav className="flex items-center justify-center gap-4 sm:gap-7 md:gap-9 min-w-max mx-auto px-1">
+              {SUB_NAV_ITEMS.map((item) => {
+                const IconComponent = item.Icon;
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="group relative flex items-center gap-1.5 text-[0.65rem] sm:text-[0.72rem] font-semibold tracking-wide text-zinc-800 hover:text-[#b8860b] transition-colors py-1 cursor-pointer active:scale-95"
+                  >
+                    <IconComponent className="size-3.5 sm:size-4 text-[#b8860b] group-hover:scale-115 transition-transform duration-300 shrink-0" />
+                    <span className="whitespace-nowrap font-semibold">
+                      {item.label}
+                    </span>
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full rounded-full" />
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
+        )}
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          MOBILE: Slim Top Bar (< lg)
+         ═══════════════════════════════════════════════════════════════ */}
+      <div
+        className={`lg:hidden w-full transition-colors duration-500 ${
+          scrolled
+            ? "bg-[#fcfaf2]/90 backdrop-blur-md border-b border-[#b8860b]/20 shadow-xs"
+            : "bg-transparent border-b border-transparent"
+        }`}
+      >
+        <div className="w-full px-3 sm:px-6">
+          <div className="flex items-center justify-between py-2 sm:py-3">
+            {/* Hamburger Toggle */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-zinc-900 p-2 focus:outline-none hover:text-[#b8860b] transition-colors rounded-lg active:bg-black/5"
+              aria-label="Toggle Navigation Menu"
+            >
+              <div className="space-y-1.5 w-5 sm:w-6">
+                <span
+                  className={`block h-0.5 bg-zinc-900 transition-all duration-300 ${
+                    mobileMenuOpen ? "rotate-45 translate-y-2 bg-[#b8860b]" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 bg-zinc-900 transition-all duration-300 ${
+                    mobileMenuOpen ? "opacity-0" : ""
+                  }`}
+                />
+                <span
+                  className={`block h-0.5 bg-zinc-900 transition-all duration-300 ${
+                    mobileMenuOpen ? "-rotate-45 -translate-y-2 bg-[#b8860b]" : ""
+                  }`}
+                />
+              </div>
+            </button>
+
+            {/* Center Logo */}
             <a
               href="/"
-              className="flex items-center justify-center shrink-0 px-2 transition-transform duration-300 hover:scale-105"
+              className="flex items-center justify-center shrink-0 transition-transform duration-300 hover:scale-105"
             >
               <img
                 src={logoImg}
                 alt="A.P.P. Jewellers Logo"
-                className="h-8 sm:h-12 md:h-13 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(184,134,11,0.25)]"
+                className="h-8 sm:h-10 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(184,134,11,0.25)]"
               />
             </a>
 
-            {/* RIGHT SIDE LINKS & LUXURY CALL DESK */}
-            <div className="flex items-center gap-2 sm:gap-7">
-              <ul className="hidden lg:flex items-center gap-7">
-                {RIGHT_LINKS.map((l) => {
-                  const Icon = l.icon;
-                  return (
-                    <li key={l.label}>
-                      <a
-                        href={l.href}
-                        className="group relative flex items-center gap-1.5 text-[0.72rem] uppercase tracking-[0.24em] text-zinc-800 transition-colors duration-300 hover:text-[#b8860b] font-semibold py-1"
-                      >
-                        <Icon className="size-3.5 text-[#b8860b] group-hover:scale-110 transition-transform" />
-                        <span>{l.label}</span>
-                        <span className="absolute -bottom-0.5 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full" />
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-
-              {/* Call Desk Button */}
-              <a
-                href="tel:09015155615"
-                className="shine-sweep flex items-center gap-1.5 sm:gap-2 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-3.5 sm:px-5 py-1.5 sm:py-2 text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.18em] sm:tracking-[0.2em] text-black font-extrabold shadow-md hover:scale-105 transition-transform"
-              >
-                <Phone className="size-3 sm:size-3.5 fill-black" />
-                <span className="hidden sm:inline">090151 55615</span>
-                <span className="sm:hidden font-bold">Call</span>
-              </a>
-            </div>
+            {/* Call Button */}
+            <a
+              href="tel:09015155615"
+              className="shine-sweep flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-3.5 py-1.5 text-[0.62rem] uppercase tracking-[0.18em] text-black font-extrabold shadow-md hover:scale-105 transition-transform"
+            >
+              <Phone className="size-3 fill-black" />
+              <span className="font-bold">Call</span>
+            </a>
           </div>
         </div>
-
-        {/* ── BOTTOM TIER: Category Sub-Navigation ── */}
-        {showSubNav && (
-          <div className="w-full border-t border-[#b8860b]/20 py-2 bg-[#fcfaf2]/80 backdrop-blur-md overflow-x-auto no-scrollbar touch-pan-x">
-            <div className="w-full px-3 sm:px-8 md:px-12">
-              <nav className="flex items-center justify-start sm:justify-center gap-4 sm:gap-8 md:gap-11 min-w-max mx-auto px-1">
-                {SUB_NAV_ITEMS.map((item) => {
-                  const IconComponent = item.Icon;
-                  return (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      className="group relative flex items-center gap-1.5 text-[0.65rem] sm:text-[0.74rem] font-semibold tracking-wide text-zinc-800 hover:text-[#b8860b] transition-colors py-1 cursor-pointer active:scale-95"
-                    >
-                      <IconComponent className="size-3.5 sm:size-4 text-[#b8860b] group-hover:scale-115 transition-transform duration-300 shrink-0" />
-                      <span className="whitespace-nowrap font-semibold">
-                        {item.label}
-                      </span>
-                      <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-[#b8860b] transition-all duration-300 group-hover:w-full" />
-                    </a>
-                  );
-                })}
-              </nav>
-            </div>
-          </div>
-        )}
       </div>
 
       {/* ── LUXURY MOBILE NAVIGATION DRAWER MODAL ── */}
