@@ -1,6 +1,5 @@
 import { useRef, useState, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 export interface CategoryItem {
@@ -103,14 +102,11 @@ function CategoryCard({ cat }: { cat: CategoryItem }) {
     const video = videoRef.current;
     if (!video || videoError) return;
 
-    // Ensure muted & inline autoplay for mobile compatibility
     video.muted = true;
     video.playsInline = true;
     const playPromise = video.play();
     if (playPromise !== undefined) {
-      playPromise.catch(() => {
-        // Autoplay may be restricted on some devices until interaction
-      });
+      playPromise.catch(() => {});
     }
   }, [videoError]);
 
@@ -118,7 +114,7 @@ function CategoryCard({ cat }: { cat: CategoryItem }) {
     <Link
       to="/collections"
       search={{ category: cat.categoryFilter }}
-      className="group flex flex-col items-center flex-shrink-0 cursor-pointer focus:outline-none select-none"
+      className="group flex flex-col items-center flex-shrink-0 cursor-pointer focus:outline-none select-none px-3 sm:px-4"
     >
       {/* Outer Circular Frame with Double-Ring Styling and Gold Glow on Hover */}
       <div className="relative p-1 sm:p-1.5 rounded-full border-2 border-zinc-200/90 group-hover:border-[#b8860b] group-hover:shadow-[0_0_22px_rgba(184,134,11,0.3)] transition-all duration-300 bg-white">
@@ -165,37 +161,13 @@ function CategoryCard({ cat }: { cat: CategoryItem }) {
 }
 
 export function PopularCategoriesSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
-  const checkScroll = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-  };
-
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    checkScroll();
-    el.addEventListener("scroll", checkScroll, { passive: true });
-    window.addEventListener("resize", checkScroll);
-    return () => {
-      el.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
-    };
-  }, []);
-
-  const scroll = (direction: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const offset = direction === "left" ? -300 : 300;
-    scrollRef.current.scrollBy({ left: offset, behavior: "smooth" });
-  };
+  // Duplicate items twice to ensure endless continuous loop across all screen widths
+  const loopedCategories = [...POPULAR_CATEGORIES, ...POPULAR_CATEGORIES];
 
   return (
-    <section className="relative w-full py-12 sm:py-16 md:py-20 bg-background border-b border-gold/15 overflow-hidden">
+    <section className="relative w-full py-12 sm:py-16 md:py-20 bg-background border-b border-gold/15 overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <Reveal>
@@ -208,49 +180,45 @@ export function PopularCategoriesSection() {
             </p>
           </div>
         </Reveal>
+      </div>
 
-        {/* Carousel Container with Perfectly Aligned Arrow Navigation */}
-        <div className="relative group/slider">
-          {/* Left Arrow Button - Aligned with the center of the circular thumbnails */}
-          <button
-            type="button"
-            onClick={() => scroll("left")}
-            aria-label="Previous categories"
-            disabled={!canScrollLeft}
-            className={`absolute left-0 sm:-left-2 md:-left-4 top-[3rem] sm:top-[3.5rem] md:top-[4rem] lg:top-[4.5rem] -translate-y-1/2 z-30 p-1.5 sm:p-2 text-[#9b2226] hover:text-[#b8860b] hover:scale-125 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:scale-100 ${
-              !canScrollLeft ? "opacity-20 pointer-events-none" : "opacity-90 hover:opacity-100"
-            }`}
-          >
-            <ChevronLeft className="size-7 sm:size-9 md:size-10 stroke-[2.5]" />
-          </button>
+      {/* Seamless Infinite Auto-Scroll Loop Track */}
+      <div
+        className="relative w-full overflow-hidden"
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+      >
+        {/* Left & Right Gradient Soft Fades */}
+        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 md:w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 md:w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
-          {/* Categories Horizontal Scroll List */}
-          <div
-            ref={scrollRef}
-            className="flex items-center gap-5 sm:gap-8 md:gap-10 overflow-x-auto scrollbar-none py-3 px-6 sm:px-8 md:px-10 scroll-smooth"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {POPULAR_CATEGORIES.map((cat, idx) => (
-              <Reveal key={cat.id} delay={idx * 0.04}>
-                <CategoryCard cat={cat} />
-              </Reveal>
-            ))}
-          </div>
-
-          {/* Right Arrow Button - Aligned with the center of the circular thumbnails */}
-          <button
-            type="button"
-            onClick={() => scroll("right")}
-            aria-label="Next categories"
-            disabled={!canScrollRight}
-            className={`absolute right-0 sm:-right-2 md:-right-4 top-[3rem] sm:top-[3.5rem] md:top-[4rem] lg:top-[4.5rem] -translate-y-1/2 z-30 p-1.5 sm:p-2 text-[#9b2226] hover:text-[#b8860b] hover:scale-125 active:scale-95 transition-all duration-200 cursor-pointer disabled:opacity-20 disabled:cursor-not-allowed disabled:hover:scale-100 ${
-              !canScrollRight ? "opacity-20 pointer-events-none" : "opacity-90 hover:opacity-100"
-            }`}
-          >
-            <ChevronRight className="size-7 sm:size-9 md:size-10 stroke-[2.5]" />
-          </button>
+        <div
+          className="flex w-max py-3"
+          style={{
+            animation: `categoryInfiniteScroll 35s linear infinite`,
+            animationPlayState: isPaused ? "paused" : "running",
+            willChange: "transform",
+          }}
+        >
+          {loopedCategories.map((cat, idx) => (
+            <CategoryCard key={`${cat.id}-${idx}`} cat={cat} />
+          ))}
         </div>
       </div>
+
+      {/* Inline styles for hardware-accelerated smooth marquee */}
+      <style>{`
+        @keyframes categoryInfiniteScroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+      `}</style>
     </section>
   );
 }
