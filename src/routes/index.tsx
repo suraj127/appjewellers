@@ -12,6 +12,7 @@ import {
   StoreLocation,
 } from "@/components/Sections";
 import { HeritageShowcaseSection } from "@/components/HeritageShowcaseSection";
+import { PopularCategoriesSection } from "@/components/PopularCategoriesSection";
 
 const title = "A.P.P. Jewellers — Sarafa Market, New Seelampur, Delhi | Fine Gold & Diamonds";
 const description =
@@ -37,6 +38,7 @@ function Index() {
       <Nav />
       <main className="page-enter">
         <Hero />
+        <PopularCategoriesSection />
         <Collections />
         <SchemeTeaser />
         <HeritageShowcaseSection />
