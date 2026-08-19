@@ -170,16 +170,18 @@ export function PopularCategoriesSection() {
     <section className="relative w-full py-12 sm:py-16 md:py-20 bg-background border-b border-gold/15 overflow-hidden select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <Reveal>
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-zinc-900">
-              Popular Categories
-            </h2>
-            <p className="mt-2.5 text-sm sm:text-base text-zinc-500 font-sans max-w-xl mx-auto">
-              Explore our exquisite collection of handcrafted jewelry pieces
-            </p>
-          </div>
-        </Reveal>
+        <div className="mx-auto max-w-3xl text-center pb-2 mb-8 sm:mb-12">
+          <p className="eyebrow text-[#b8860b] text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold">
+            Curated Collections
+          </p>
+          <h2 className="mt-2 font-display text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-zinc-900">
+            Popular Categories
+          </h2>
+          <p className="mt-3 text-sm sm:text-base font-normal leading-relaxed text-zinc-600 max-w-2xl mx-auto px-4">
+            Explore our exquisite collection of handcrafted jewelry pieces
+          </p>
+          <div className="mx-auto mt-4 w-28 sm:w-36 h-[2px] bg-gradient-to-r from-transparent via-[#b8860b] to-transparent" />
+        </div>
       </div>
 
       {/* Seamless Infinite Auto-Scroll Loop Track */}
