@@ -451,7 +451,7 @@ export function Collections() {
               to="/collections"
               className="shine-sweep inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-[#d4af37] via-[#f5d77f] to-[#aa771c] px-10 py-4 text-xs uppercase tracking-[0.28em] text-black font-extrabold shadow-[0_10px_35px_rgba(184,134,11,0.4)] hover:shadow-[0_14px_45px_rgba(184,134,11,0.6)] hover:scale-105 active:scale-95 transition-all"
             >
-              <span>Browse Full Category Directory & Collections</span>
+              <span>Collections</span>
               <span className="text-sm">→</span>
             </Link>
           </div>
